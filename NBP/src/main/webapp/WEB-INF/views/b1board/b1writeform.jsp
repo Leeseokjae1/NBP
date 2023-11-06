@@ -11,7 +11,7 @@
 <br><p>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post">
+	<form action="b1write" method="post" enctype="multipart/form-data">
 		<tr>
 			<td> 작성자 </td>
 			<td> <input type="text" name="writer" size="100"> </td>
@@ -23,6 +23,10 @@
 		<tr>
 			<td> 내용 </td>
 			<td> <input type="text" name="content" size="100"> </td>
+		</tr>
+		<tr>
+			<td> 파일 업로드 </td>
+			<td> <input type="file" name="files" multiple="multiple"> </td>
 		</tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
