@@ -8,25 +8,26 @@
     <title>게시판</title>
 </head>
 <body>
-    <h1>게시판 리스트</h1>
-    <table width="500" cellpadding="0" cellspacing="0" border="1">
-        <tr>
-            <td>번호</td>
-            <td>작성자</td>
-            <td>제목</td>
-            <td>이미지</td>
-            <td>삭제</td>
-        </tr>
-        <c:forEach items="${list}" var="dto">
+    <h1>니빵이 게시판</h1>
+
+<table cellpadding="0" cellspacing="50" border="1">
+    <c:forEach items="${list}" var="dto" varStatus="loop">
+        <c:if test="${loop.index % 4 == 0}">
             <tr>
-                <td>${dto.b1_number}</td>
-                <td>${dto.writer}</td>
-                <td><a href="b1view?b1_number=${dto.b1_number}">${dto.title}</a></td>
-                <td><img src="${dto.imageURL}" alt="사진" width="100" height="100"></td>
-                <td><a href="b1delete?b1_number=${dto.b1_number}">X</a></td>
+        </c:if>
+        <td>
+            <a href="b1view?b1_number=${dto.b1_number}">
+                <img src="${dto.imageurl1}" style="width:200px; height:200px;"></a><br/>
+            ${dto.b1_number} &nbsp;&nbsp; ${dto.writer}<br />
+            ${dto.title} &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="b1delete?b1_number=${dto.b1_number}">X</a>
+        </td>
+        <c:if test="${loop.index % 4 == 3}">
             </tr>
-        </c:forEach>
-    </table>
+        </c:if>
+    </c:forEach>
+</table>
+    
     <p><a href="b1writeform">글작성</a></p>
 </body>
 </html>

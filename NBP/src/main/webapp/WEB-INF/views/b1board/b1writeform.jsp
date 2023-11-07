@@ -24,15 +24,24 @@
 			<td> 내용 </td>
 			<td> <input type="text" name="content" size="100"> </td>
 		</tr>
-		<tr>
-			<td> 파일 업로드 </td>
-			<td> <input type="file" name="files" multiple="multiple"> </td>
-		</tr>
+	    <tr>
+	        <td> 이미지 업로드 1 </td>
+	        <td> <input type="file" name="file1"> </td>
+	    </tr>
+	    <tr>
+	        <td> 이미지 업로드 2 </td>
+	        <td> <input type="file" name="file2"> </td>
+	    </tr>
+	    <tr>
+	        <td> 이미지 업로드 3 </td>
+	        <td> <input type="file" name="file3"> </td>
+	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
 				&nbsp;&nbsp; <a href="list">목록보기</a></td>
 		</tr>
 	</form>
 </table>
+
 </body>
 </html>

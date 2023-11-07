@@ -13,11 +13,15 @@
 
 내용보기 <br>
 <hr>
-작성자 : ${dto.writer} <br>
+작성자 : ${dto.writer}&nbsp;님 <br>
 제목 : ${dto.title} <br>
-내용 : ${dto.content}
+내용 : ${dto.content}<br/>
+사진 : <img src="${dto.imageurl1}" style="width:100px; height:100px;">
+<img src="${dto.imageurl2}" style="width:100px; height:100px;">
+<img src="${dto.imageurl3}" style="width:100px; height:100px;"><br />
+좋아요 : ${dto.b_like} &nbsp;&nbsp; 좋아요 : ${dto.b_dislike}
 <hr>
-
+<a href="b1modifyform?b1_number=${dto.b1_number}">수정하기</a>
 <br><p>
 <a href="list">목록보기</a>
 </body>

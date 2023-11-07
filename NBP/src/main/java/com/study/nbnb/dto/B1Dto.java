@@ -7,7 +7,9 @@ public class B1Dto {
 	private String writer;
 	private String title;
 	private String content;
-	private String imageURL;
+	private String imageurl1;
+	private String imageurl2;
+	private String imageurl3;
 	private int b_like;
 	private int b_dislike;
 	private Timestamp time;
@@ -37,11 +39,23 @@ public class B1Dto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getImageURL() {
-		return imageURL;
+	public String getImageurl1() {
+		return imageurl1;
 	}
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
+	public void setImageurl1(String imageurl1) {
+		this.imageurl1 = imageurl1;
+	}
+	public String getImageurl2() {
+		return imageurl2;
+	}
+	public void setImageurl2(String imageurl2) {
+		this.imageurl2 = imageurl2;
+	}
+	public String getImageurl3() {
+		return imageurl3;
+	}
+	public void setImageurl3(String imageurl3) {
+		this.imageurl3 = imageurl3;
 	}
 	public int getB_like() {
 		return b_like;
@@ -61,6 +75,7 @@ public class B1Dto {
 	public void setTime(Timestamp time) {
 		this.time = time;
 	}
-		
+	
+	
 
 }
