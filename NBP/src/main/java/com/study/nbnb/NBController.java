@@ -26,6 +26,12 @@ public class NBController {
 		return "main_view";
 	}
 	
+	@RequestMapping("/mypage")
+	public String mypage()
+	{
+		return "mypage_view";
+	}
+	
 	@RequestMapping("/list")
 	public String userlistpage(Model model) {
 		model.addAttribute("list", dao.listDao());
