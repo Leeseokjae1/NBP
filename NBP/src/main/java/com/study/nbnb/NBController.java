@@ -17,7 +17,13 @@ public class NBController {
 	@RequestMapping("/")
 	public String root() throws Exception{
 		//MyBatis : SimpleBBS
-		return "redirect:list";
+		return "redirect:main";
+	}
+	
+	@RequestMapping("/main")
+	public String mainview()
+	{
+		return "main_view";
 	}
 	
 	@RequestMapping("/list")
