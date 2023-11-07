@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.BuserDao">
+	<select id="listDao" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser order by id desc
+	</select>
+	
+	<select id="loginDao" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser where ID = #{param1} and PASSWORD = #{param2}
+	</select>
+	
+	<insert id="writeDao">
+		insert into buser values 
+		(buser_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},0,#{param8},0,NULL,0)
+	</insert>
+	
+	<delete id="deleteDao">
+		delete from buser where id = #{param1}
+	</delete>
+</mapper>

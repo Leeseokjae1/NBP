@@ -1,10 +1,15 @@
 package com.study.nbnb;
+
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.study.nbnb.dao.B1Dao;
+import com.study.nbnb.dao.BuserDao;
+import com.study.nbnb.dto.BuserDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -12,43 +17,47 @@ import jakarta.servlet.http.HttpServletRequest;
 public class NBController {
 
 	@Autowired
-	B1Dao dao;
+	BuserDao buserDao;
 	
 	@RequestMapping("/")
-	public String root() throws Exception{
-		//MyBatis : SimpleBBS
-		return "redirect:list";
+	   public @ResponseBody String root() throws Exception {
+	      return "test 사용하기";
 	}
 	
-	@RequestMapping("/list")
-	public String userlistpage(Model model) {
-		model.addAttribute("list", dao.listDao());
-		return "/b1board/b1list";
+	@RequestMapping("/joinView")
+	public String joinView() {
+		return "/login/join_view";
 	}
 	
-	@RequestMapping("/b1view")
-	public String view(HttpServletRequest request, Model model) {
-		String sId = request.getParameter("id");
-		model.addAttribute("dto", dao.viewDao(sId));
-		return "/b1board/b1view";
+	@RequestMapping("/userJoin")
+	public String userJoin(HttpServletRequest request) {
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		int BBANG = Integer.parseInt(request.getParameter("BBANG"));
+		buserDao.writeDao(request.getParameter("NAME"),
+						 request.getParameter("ID"),
+						 request.getParameter("PASSWORD"),
+						 request.getParameter("ADDRESS"),
+						 request.getParameter("EMAIL"),
+						 PHONENUMBER,
+						 request.getParameter("NICKNAME"),
+						 BBANG);
+		return "redirect:loginView";
 	}
 	
-	@RequestMapping("/b1writeform")
-	public String writeForm() {
-		return "/b1board/b1writeform";
+	@RequestMapping("/loginView")
+	public String loginView(HttpServletRequest request) {
+		return "/login/login_view";
 	}
 	
-	@RequestMapping("/b1write")
-	public String write(HttpServletRequest request, Model model) {
-		dao.writeDao(request.getParameter("writer"),
-					 request.getParameter("title"),
-					 request.getParameter("content"));
-		return "redirect:list";
-	}
-	
-	@RequestMapping("/b1delete")
-	public String delete(HttpServletRequest request, Model model) {
-		dao.deleteDao(request.getParameter("id"));
-		return "redirect:list";
+	@RequestMapping("/loginCheck")
+	public String loginCheck(HttpServletRequest request) {
+
+		List<BuserDto> users = buserDao.loginDao(request.getParameter("ID"), request.getParameter("PASSWORD"));
+	    // 결과 세트의 크기를 확인합니다.
+	    if (users.size() == 0) {
+	    	// 검색 결과가 없습니다.
+	    	return "redirect:loginView?result=1";
+	    }
+		return "redirect:/";
 	}
 }
