@@ -3,7 +3,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.B1Dao;
+import com.study.nbnb.dto.B1Dto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -81,7 +83,7 @@ public class NBController {
 
 	private String uploadFile(MultipartFile file) throws IOException {
 	    if (!file.isEmpty()) {
-	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+	        String fileName = file.getOriginalFilename();
 	        String filePath = Paths.get(uploadDirectory, fileName).toString();
 	        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 	        return "/uploads/" + fileName;
@@ -99,54 +101,42 @@ public class NBController {
 	@RequestMapping("/b1modify")
 	public String modify(
 	        @RequestParam("b1_number") String b1_number,
-	        @RequestParam("writer") String writer,
-	        @RequestParam("title") String title,
-	        @RequestParam("content") String content,
-	        @RequestParam(value = "imageurl1", required = false) String imageurl1,
-	        @RequestParam(value = "imageurl2", required = false) String imageurl2,
-	        @RequestParam(value = "imageurl3", required = false) String imageurl3,
-	        @RequestParam(value = "file1", required = false) MultipartFile file1,
-	        @RequestParam(value = "file2", required = false) MultipartFile file2,
-	        @RequestParam(value = "file3", required = false) MultipartFile file3,
-	        Model model) {
-	    try {
-	        // 이미지 URL 배열
-	        String[] imageUrls = new String[3];
-	        imageUrls[0] = imageurl1;
-	        imageUrls[1] = imageurl2;
-	        imageUrls[2] = imageurl3;
+	        @RequestParam("file1") MultipartFile file1,
+	        @RequestParam("file2") MultipartFile file2,
+	        @RequestParam("file3") MultipartFile file3,
+	        HttpServletRequest request, Model model) {
+	        try {
+	            String writer = request.getParameter("writer");
+	            String title = request.getParameter("title");
+	            String content = request.getParameter("content");
 
-	        // 파일1 처리
-	        if (!file1.isEmpty()) {
-	            String fileName1 = UUID.randomUUID().toString() + "_" + file1.getOriginalFilename();
-	            String filePath1 = Paths.get(uploadDirectory, fileName1).toString();
-	            Files.copy(file1.getInputStream(), Paths.get(filePath1), StandardCopyOption.REPLACE_EXISTING);
-	            imageUrls[0] = "/uploads/" + fileName1;
+	            // b1_number를 기반으로 기존 레코드를 가져옵니다.
+	            B1Dto existingDTO = dao.viewDao(b1_number);
+
+	            // 각 파일 입력에 새 파일이 제공되었는지 확인합니다.
+	            String imageURL1 = file1.isEmpty() ? existingDTO.getImageurl1() : uploadFile(file1);
+	            String imageURL2 = file2.isEmpty() ? existingDTO.getImageurl2() : uploadFile(file2);
+	            String imageURL3 = file3.isEmpty() ? existingDTO.getImageurl3() : uploadFile(file3);
+
+	            // Map을 사용하여 파라미터를 만들고 dao.modifyDao에 전달합니다.
+	            Map<String, String> parameters = new HashMap<>();
+	            parameters.put("writer", writer);
+	            parameters.put("title", title);
+	            parameters.put("content", content);
+	            parameters.put("imageurl1", imageURL1);
+	            parameters.put("imageurl2", imageURL2);
+	            parameters.put("imageurl3", imageURL3);
+	            parameters.put("b1_number", b1_number);
+
+	            // 데이터 저장소(데이터베이스)에서 레코드를 업데이트합니다.
+	            dao.modifyDao(parameters);
+
+	            return "redirect:list";
+	        } catch (Exception e) {
+	            // 예외 처리
+	            e.printStackTrace();
+	            return "redirect:list";
 	        }
-
-	        // 파일2 처리
-	        if (!file2.isEmpty()) {
-	            String fileName2 = UUID.randomUUID().toString() + "_" + file2.getOriginalFilename();
-	            String filePath2 = Paths.get(uploadDirectory, fileName2).toString();
-	            Files.copy(file2.getInputStream(), Paths.get(filePath2), StandardCopyOption.REPLACE_EXISTING);
-	            imageUrls[1] = "/uploads/" + fileName2;
-	        }
-
-	        // 파일3 처리
-	        if (!file3.isEmpty()) {
-	            String fileName3 = UUID.randomUUID().toString() + "_" + file3.getOriginalFilename();
-	            String filePath3 = Paths.get(uploadDirectory, fileName3).toString();
-	            Files.copy(file3.getInputStream(), Paths.get(filePath3), StandardCopyOption.REPLACE_EXISTING);
-	            imageUrls[2] = "/uploads/" + fileName3;
-	        }
-
-	        dao.modifyDao(b1_number, writer, title, content, imageUrls[0], imageUrls[1], imageUrls[2]);
-
-	        return "redirect:list";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return "redirect:list";
 	}
 	
 	@RequestMapping("/b1delete")
