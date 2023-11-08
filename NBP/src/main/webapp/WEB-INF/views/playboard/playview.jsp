@@ -1,3 +1,4 @@
+<%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
@@ -12,10 +13,11 @@
 내용보기 <br>
 <hr>
 제목 : ${playview.title} <br>
-작성자 : ${playview.writer} &nbsp &nbsp 
-<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">👍:${playview.b_like}</a> &nbsp 
+작성자 : ${playview.writer} &nbsp; &nbsp; 
+<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">👍:${playview.b_like}</a> &nbsp; 
 <a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">👎:${playview.b_dislike}</a><br>
 내용 : ${playview.content}<br>
+사진 : <img src="${playview.imageurl}" style="width:100px; height:100px;">
 
 <hr>
 

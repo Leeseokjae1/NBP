@@ -8,13 +8,19 @@ public class PlayDto {
 	private String writer;
 	private String title;
 	private String content;
-//	private String photo;
+	private String imageurl;
 	private int b_like;
 	private int b_dislike;
 	private Timestamp time;
 	
 	
 	
+	public String getImageurl() {
+		return imageurl;
+	}
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
+	}
 	public int getF_number() {
 		return f_number;
 	}

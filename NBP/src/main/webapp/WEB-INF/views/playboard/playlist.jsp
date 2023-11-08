@@ -24,7 +24,7 @@
 		<td>${play.writer}</td>
 		
 		<td><a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a></td>
-		<td>👍🏻👎</td>
+		<td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
 		<td><a href="playdelete?f_number=${play.f_number}">X</td>
 	</tr>
 	</c:forEach>

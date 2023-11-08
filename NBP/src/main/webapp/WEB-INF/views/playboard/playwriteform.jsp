@@ -11,7 +11,7 @@
 <br><p>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action='playwrite' method="post">
+	<form action='playwrite' method="post" enctype="multipart/form-data">
 		<tr>
 			<td> 작성자 </td>
 			<td> <input type="text" name="writer" size="100"> </td>
@@ -24,6 +24,10 @@
 			<td> 내용 </td>
 			<td> <input type="text" name="content" size="100"> </td>
 		</tr>
+		  <tr>
+	        <td> 이미지 업로드</td>
+	        <td> <input type="file" name="file"> </td>
+	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
 				&nbsp;&nbsp; <a href="playlist">목록보기</a></td>

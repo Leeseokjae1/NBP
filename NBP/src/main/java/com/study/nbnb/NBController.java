@@ -1,18 +1,27 @@
 
 package com.study.nbnb;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.CommentDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dto.LikeDto;
+import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,7 +36,11 @@ public class NBController {
 	CommentDao cmtdao;
 	@Autowired
 	LikeDao likedao;
-
+	
+    @Value("${upload.directory}")
+    private String uploadDirectory;
+    
+    
 	@RequestMapping("/")
 	public String root() throws Exception {
 		return "redirect:playlist";
@@ -105,11 +118,32 @@ public class NBController {
 	}
 
 	@RequestMapping("/playwrite")
-	public String playWrite(HttpServletRequest request, Model model) {
-		playdao.writeDao(request.getParameter("writer"), request.getParameter("title"),
-				request.getParameter("content"));
-
+	public String playWrite( @RequestParam("file") MultipartFile file,
+			HttpServletRequest request, Model model) {
+		try {
+			String writer = request.getParameter("writer");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			String imageURL = uploadFile(file);
+			playdao.writeDao(writer, title, content, imageURL);
+			
+			return "redirect:playlist";
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:playlist";
+	}
+	
+	private String uploadFile(MultipartFile file) throws IOException {
+	    if (!file.isEmpty()) {
+	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+	        String filePath = Paths.get(uploadDirectory, fileName).toString();
+	        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+	        return "/uploads/" + fileName;
+	    }
+	    return null;
 	}
 
 	@RequestMapping("/playmodifyview")
@@ -120,11 +154,28 @@ public class NBController {
 	}
 
 	@RequestMapping("/playmodify")
-	public String playModify(HttpServletRequest request, Model model) {
-		int f_number = Integer.parseInt(request.getParameter("f_number"));
-		model.addAttribute("playmodify", playdao.modifyDao(request.getParameter("writer"),
-				request.getParameter("title"), request.getParameter("content"), f_number));
-		return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+	public String playModify(@RequestParam("file") MultipartFile file,HttpServletRequest request, Model model) {
+		
+		try {
+			
+			String writer = request.getParameter("writer");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			int f_number = Integer.parseInt(request.getParameter("f_number"));
+			
+			PlayDto existingDTO = playdao.viewDao(f_number); 
+			String imageURL = file.isEmpty() ? existingDTO.getImageurl() : uploadFile(file);
+		
+
+			playdao.modifyDao(writer, title,content,imageURL,f_number);
+			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+		}
+	
 	}
 
 	@RequestMapping("/playdelete")
