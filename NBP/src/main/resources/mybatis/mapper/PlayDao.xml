@@ -25,9 +25,17 @@
 	<update id ="likelyDao">
 		update playboard set b_like=b_like+1 where f_number = #{param4}	
 	</update>
+	
+	<update id ="dislikelyDao">
+		update playboard set b_dislike=b_dislike+1 where f_number = #{param4}	
+	</update>
 
 	<update id ="likeDropDao">
 		update playboard set b_like=b_like-1 where f_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update playboard set b_dislike=b_dislike-1 where f_number = #{param4}	
 	</update>
 	
 	<delete id="deleteDao">

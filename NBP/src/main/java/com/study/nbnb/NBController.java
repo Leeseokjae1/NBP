@@ -1,5 +1,6 @@
 
 package com.study.nbnb;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,145 +27,154 @@ public class NBController {
 	CommentDao cmtdao;
 	@Autowired
 	LikeDao likedao;
-	
+
 	@RequestMapping("/")
-    public String root() throws Exception {
-       return "redirect:playlist";
- }
-	
+	public String root() throws Exception {
+		return "redirect:playlist";
+	}
+
 	@RequestMapping("/list")
 	public String userlistpage(Model model) {
 		model.addAttribute("list", dao.listDao());
 		return "/b1board/b1list";
 	}
-	
+
 	@RequestMapping("/b1view")
 	public String view(HttpServletRequest request, Model model) {
 		String sId = request.getParameter("id");
 		model.addAttribute("dto", dao.viewDao(sId));
 		return "/b1board/b1view";
 	}
-	
+
 	@RequestMapping("/b1writeform")
 	public String writeForm() {
 		return "/b1board/b1writeform";
 	}
-	
+
 	@RequestMapping("/b1write")
 	public String write(HttpServletRequest request, Model model) {
-		dao.writeDao(request.getParameter("writer"),
-					 request.getParameter("title"),
-					 request.getParameter("content"));
+		dao.writeDao(request.getParameter("writer"), request.getParameter("title"), request.getParameter("content"));
 		return "redirect:list";
 	}
-	
+
 	@RequestMapping("/b1delete")
 	public String delete(HttpServletRequest request, Model model) {
 		dao.deleteDao(request.getParameter("id"));
 		return "redirect:list";
 	}
-	
+
 	@RequestMapping("/playlist")
-	public String playlistpage(Model model) {
+	public String playListPage(Model model) {
 		model.addAttribute("playlist", playdao.plistDao());
 		return "/playboard/playlist";
 	}
-	
+
 	@RequestMapping("/playview")
-	public String playview(HttpServletRequest request, Model model) {
+	public String playView(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		model.addAttribute("playview", playdao.viewDao(f_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, f_number));
 		return "/playboard/playview";
 	}
-	
+
 	@RequestMapping("/replywrite")
-	public String playcmtstore(HttpServletRequest request, Model model) {
-		
+	public String playCmtStore(HttpServletRequest request, Model model) {
+
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
 
-		cmtdao.writeDao(check_b,
-				 m_number,
-				 request.getParameter("nickname"),				
-				 request.getParameter("cmt"),				 
-				 t_number);
+		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), request.getParameter("cmt"), t_number);
 
-	return "redirect:playview?f_number="+request.getParameter("t_number")+"&check_b=3";
+		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
 	}
-	
+
 	@RequestMapping("/replydelete")
-	public String replydelete(HttpServletRequest request, Model model) {
+	public String replyDelete(HttpServletRequest request, Model model) {
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
-		int c_number =Integer.parseInt(request.getParameter("c_number"));
+		int c_number = Integer.parseInt(request.getParameter("c_number"));
 		cmtdao.deleteDao(c_number);
-		return "redirect:playview?f_number="+request.getParameter("t_number")+"&check_b=3";
-		
-	}	
-	
+		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
+
+	}
 
 	@RequestMapping("/playwriteform")
-	public String playwriteForm() {
+	public String playWriteForm() {
 		return "/playboard/playwriteform";
 	}
-	
+
 	@RequestMapping("/playwrite")
-	public String playwrite(HttpServletRequest request, Model model) {
-		playdao.writeDao(request.getParameter("writer"),
-					 request.getParameter("title"),
-					 request.getParameter("content"));
-	
+	public String playWrite(HttpServletRequest request, Model model) {
+		playdao.writeDao(request.getParameter("writer"), request.getParameter("title"),
+				request.getParameter("content"));
+
 		return "redirect:playlist";
 	}
-	 
-	
+
 	@RequestMapping("/playmodifyview")
-	public String playmodifyview(HttpServletRequest request, Model model) {
+	public String playModifyView(HttpServletRequest request, Model model) {
 		int pId = Integer.parseInt(request.getParameter("f_number"));
 		model.addAttribute("playmodify", playdao.viewDao(pId));
 		return "/playboard/playmodify";
 	}
-	
-	
+
 	@RequestMapping("/playmodify")
-	public String playmodify(HttpServletRequest request, Model model) {
+	public String playModify(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		model.addAttribute("playmodify", playdao.modifyDao(request.getParameter("writer"),
-														 request.getParameter("title"),
-														 request.getParameter("content"),
-														 f_number));
-		return "redirect:playview?f_number="+request.getParameter("f_number")+"&check_b=3";
+				request.getParameter("title"), request.getParameter("content"), f_number));
+		return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
 	}
-	
+
 	@RequestMapping("/playdelete")
-	public String playdelete(HttpServletRequest request, Model model) {
-		int f_number =Integer.parseInt(request.getParameter("f_number"));
+	public String playDelete(HttpServletRequest request, Model model) {
+		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		playdao.deleteDao(f_number);
 		return "redirect:playlist";
-	}	
-	
-	@RequestMapping("/playlike")
-	public String playlike(HttpServletRequest request, Model model) {
-		int check_b =Integer.parseInt(request.getParameter("check_b"));
-		int t_number =Integer.parseInt(request.getParameter("t_number"));
-		int m_number =Integer.parseInt(request.getParameter("m_number"));
-		int l_or_dl = Integer.parseInt(request.getParameter("l_or_dl"));
+	}
 
-		List<LikeDto> list =likedao.listDao(check_b, t_number, m_number); 
-		
-		if(list.size() == 0) {
-			likedao.clickDao(check_b, t_number, m_number, l_or_dl); 
-			playdao.likelyDao(t_number);
-			
-		}else {
-			likedao.deleteDao(check_b, t_number, m_number); 
-			playdao.likeDropDao(t_number);
+	@RequestMapping("/playlike")
+	public String playLike(HttpServletRequest request, Model model) {
+		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		int t_number = Integer.parseInt(request.getParameter("t_number"));
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		int l_or_dl = Integer.parseInt(request.getParameter("l_or_dl"));
+		List<LikeDto> list = likedao.listDao(check_b, t_number, m_number);
+		List<LikeDto> list2 = likedao.listDao2(check_b, t_number, m_number, l_or_dl);
+
+		if (list.size() == 0) {
+
+			if (l_or_dl == 1) {
+				likedao.likeClickDao(check_b, t_number, m_number, l_or_dl);
+				playdao.likelyDao(t_number);
+			} else if (l_or_dl == -1) {
+				likedao.likeClickDao(check_b, t_number, m_number, l_or_dl);
+				playdao.dislikelyDao(t_number);
+			}
+		} else {
+			if (list2.size() == 0) {
+				likedao.deleteDao(check_b, t_number, m_number);
+				playdao.dislikeDropDao(t_number);
+				if (l_or_dl == 1) {
+					likedao.likeClickDao(check_b, t_number, m_number, l_or_dl);
+					playdao.likelyDao(t_number);
+				
+				} 
+			}else
+			{
+				likedao.deleteDao(check_b, t_number, m_number);
+				playdao.likeDropDao(t_number);
+				if(l_or_dl ==-1) {
+					likedao.likeClickDao(check_b, t_number, m_number, l_or_dl);
+					playdao.dislikelyDao(t_number);
+				}
+			}
 		}
-			
-		return "redirect:playview?f_number="+request.getParameter("t_number")+"&check_b=3";
-		
+	
+		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
 	}
 	
+
 }
+	

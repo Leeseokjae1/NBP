@@ -5,14 +5,21 @@
 	
 <mapper namespace="com.study.nbnb.dao.LikeDao">
 
-	<insert id="clickDao">
+	<insert id="likeClickDao">
 		insert into liketable (check_b, t_number, m_number, l_or_dl)
 		values (#{param1},#{param2},#{param3}, #{param4})
 	</insert>
+	
+
 
 	<select id="listDao" resultType="com.study.nbnb.dto.LikeDto">
-		select * from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3} 
+		select * from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3}
 	</select>
+	
+	<select id="listDao2" resultType="com.study.nbnb.dto.LikeDto">
+		select * from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3} and l_or_dl=1
+	</select>
+	
 	
 	<delete id="deleteDao">
 		delete from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3}

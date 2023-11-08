@@ -15,4 +15,6 @@ public interface PlayDao {
 	public int modifyDao(String writer, String title, String content,int f_number);
 	public int likelyDao(int f_number);
 	public int likeDropDao(int f_number);
+	public int dislikelyDao(int f_number);
+	public int dislikeDropDao(int f_number);
 }

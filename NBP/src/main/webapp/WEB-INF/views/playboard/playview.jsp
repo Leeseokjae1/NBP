@@ -14,7 +14,7 @@
 제목 : ${playview.title} <br>
 작성자 : ${playview.writer} &nbsp &nbsp 
 <a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">👍:${playview.b_like}</a> &nbsp 
-<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">싫어요:👎🏻</a><br>
+<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">👎:${playview.b_dislike}</a><br>
 내용 : ${playview.content}<br>
 
 <hr>
