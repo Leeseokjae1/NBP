@@ -9,24 +9,27 @@
 </head>
 <body>
 
-Count : ${count} <br>
+
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	 <tr>
+	<tr>
 		<td>번호</td>
 		<td>작성자</td>
 		<td>제목</td>
+		<td>좋아요 / 싫어요</td>
 		<td>삭제</td>
 	</tr>
-	<c:forEach items="${list}" var="dto">
+	<c:forEach items="${playlist}" var="play">
 	<tr>
-		<td>${dto.id}</td>
-		<td>${dto.writer}</td>
-		<td><a href="b1view?id=${dto.id}">${dto.title}</a></td>
-		<td><a href="b1delete?id=${dto.id}">X</a></td>
+		<td>${play.f_number}</td>
+		<td>${play.writer}</td>
+		
+		<td><a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a></td>
+		<td>👍🏻👎</td>
+		<td><a href="playdelete?f_number=${play.f_number}">X</td>
 	</tr>
 	</c:forEach>
 </table>
 
-<p><a href="b1writeform">글작성</a></p>
+<p><a href="playwriteform">글작성</a></p>
 </body>
 </html>
