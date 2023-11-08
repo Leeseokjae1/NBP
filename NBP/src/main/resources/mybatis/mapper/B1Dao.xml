@@ -35,8 +35,20 @@
 		delete from b1board where b1_number = #{param1}
 	</delete>
 	
-	<select id="likeDao" resultType="com.study.nbnb.dto.B1Dto">
-		select * from b1board where b1_number = #{0}
-	</select>
+	<update id ="likelyDao">
+		update b1board set b_like=b_like+1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikelyDao">
+		update b1board set b_dislike=b_dislike+1 where b1_number = #{param4}	
+	</update>
+
+	<update id ="likeDropDao">
+		update b1board set b_like=b_like-1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update b1board set b_dislike=b_dislike-1 where b1_number = #{param4}	
+	</update>
 
 </mapper>
