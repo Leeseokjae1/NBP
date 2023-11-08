@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,11 @@ public class NBController {
 		return "redirect:list";
 	}
 	
+	@RequestMapping("/test")
+	public String test(){
+		return "test";
+	}
+	
 	@RequestMapping("/main")
 	public String mainview(){
 		return "main_view";
@@ -45,6 +51,7 @@ public class NBController {
 		return "/b1board/b1list";
 	}
 	
+
 	@RequestMapping("/b1view")
 	public String view(HttpServletRequest request, Model model) {
 		String b1_number = request.getParameter("b1_number");
@@ -83,7 +90,7 @@ public class NBController {
 
 	private String uploadFile(MultipartFile file) throws IOException {
 	    if (!file.isEmpty()) {
-	        String fileName = file.getOriginalFilename();
+	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 	        String filePath = Paths.get(uploadDirectory, fileName).toString();
 	        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 	        return "/uploads/" + fileName;
@@ -110,15 +117,12 @@ public class NBController {
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
-	            // b1_number를 기반으로 기존 레코드를 가져옵니다.
 	            B1Dto existingDTO = dao.viewDao(b1_number);
 
-	            // 각 파일 입력에 새 파일이 제공되었는지 확인합니다.
 	            String imageURL1 = file1.isEmpty() ? existingDTO.getImageurl1() : uploadFile(file1);
 	            String imageURL2 = file2.isEmpty() ? existingDTO.getImageurl2() : uploadFile(file2);
 	            String imageURL3 = file3.isEmpty() ? existingDTO.getImageurl3() : uploadFile(file3);
 
-	            // Map을 사용하여 파라미터를 만들고 dao.modifyDao에 전달합니다.
 	            Map<String, String> parameters = new HashMap<>();
 	            parameters.put("writer", writer);
 	            parameters.put("title", title);
@@ -128,12 +132,10 @@ public class NBController {
 	            parameters.put("imageurl3", imageURL3);
 	            parameters.put("b1_number", b1_number);
 
-	            // 데이터 저장소(데이터베이스)에서 레코드를 업데이트합니다.
 	            dao.modifyDao(parameters);
 
 	            return "redirect:list";
 	        } catch (Exception e) {
-	            // 예외 처리
 	            e.printStackTrace();
 	            return "redirect:list";
 	        }
@@ -144,4 +146,11 @@ public class NBController {
 		dao.deleteDao(request.getParameter("b1_number"));
 		return "redirect:list";
 	}
+	
+	@RequestMapping("/like")
+	public String like(HttpServletRequest request, Model model) {
+		dao.deleteDao(request.getParameter("b1_number"));
+		return "redirect:list";
+	}
+	
 }

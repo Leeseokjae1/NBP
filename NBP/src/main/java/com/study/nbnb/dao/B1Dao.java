@@ -19,6 +19,7 @@ public interface B1Dao {
 	
 	public B1Dto modifymoveDao(@Param("b1_number") String b1_number);
 	public int deleteDao(String b1_number);
+	public int likeDao();
 }
 
 

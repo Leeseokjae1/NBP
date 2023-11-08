@@ -34,4 +34,9 @@
 	<delete id="deleteDao">
 		delete from b1board where b1_number = #{param1}
 	</delete>
+	
+	<select id="likeDao" resultType="com.study.nbnb.dto.B1Dto">
+		select * from b1board where b1_number = #{0}
+	</select>
+
 </mapper>
