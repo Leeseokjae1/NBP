@@ -117,6 +117,11 @@
 			$('#phone3').focus();
 			return;
 		}
+		if (a == check) {
+			alert("이메일 인증은 필수사항입니다.");
+			$('#EMAIL').focus();
+			return;
+		}
 		var form = document.join_form;
 	    
 	    form.submit();
@@ -134,6 +139,48 @@
 	
 	function recaptchaCallback() {
 	    document.getElementById('capok').removeAttribute('disabled');
+	}
+	
+	
+	var a = "";
+	var check = " ";
+	function email_check() {
+		document.getElementById("check_id").value = "재전송";
+		alert('인증번호가 발송되었습니다');
+		form_submit();
+	}
+	function form_submit() {
+		var email = document.getElementById("EMAIL").value;
+		console.log("email:", email);
+		$.ajax({
+		    type: "POST",
+		    contentType: "application/json",
+		    url: "/api/emailCheck",
+		    data: JSON.stringify({"mail": email}), // 보낼 데이터
+		    dataType: 'json',
+		    success: function (response) {
+		        console.log("Success:", response);
+		        a = response.authCode;
+		    },
+		    error: function (error) {
+		        console.error("Error:", error);
+		    }
+		});
+	}
+	
+	function check2() {
+		check = document.getElementById("e_check").value;
+		if(a == check){
+			document.getElementById("EMAIL").disabled=true;
+			document.getElementById("check_id").disabled=true;
+			
+			document.getElementById("e_check").disabled=true;
+			document.getElementById("e_check2").disabled=true;
+			alert('인증되었습니다 ');
+			
+		}else{
+			alert('인증번호가 잘못 입력되었습니다. 다시 입력해주세요');
+		}
 	}
 	
 </script>
@@ -304,8 +351,8 @@ label {
                     <div class="col-lg-12 login-form">
                         <form id="join_form" name="join_form" action="userJoin" method="post">
                         	<div class="form-group">
-                                <input type="radio" name="BBANG" value="1" checked="checked">내빵이
-								<input type="radio" name="BBANG" value="2">니빵이
+                                <input type="radio" name="BBANG" value="1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+								<input type="radio" name="BBANG" value="2"><span style="color:#fff">&nbsp;<label class="form-control-label">니빵이</label>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">아이디</label>
@@ -344,7 +391,13 @@ label {
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">이메일</label>
-                                <input type="text" id="EMAIL" name="EMAIL" class="form-control">
+                                <input type="text" style="background-color: #1A2226;" id="EMAIL" name="EMAIL" class="form-control">
+                                <input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()">
+                            </div>
+                             <div class="form-group">
+                                <label class="form-control-label">인증번호</label>
+                                <input type="text" style="background-color: #1A2226;" id="e_check" name="e_check" class="form-control">
+                                <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">주소</label>

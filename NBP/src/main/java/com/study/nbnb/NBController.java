@@ -1,6 +1,5 @@
 package com.study.nbnb;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +59,11 @@ public class NBController {
 	    }
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/mailView")
+	public String mailView() {
+		return "/login/mail";
+	}
+
 }
+
