@@ -65,7 +65,7 @@
 <br><p>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post" enctype="multipart/form-data">
+	<form action="b2write" method="post" enctype="multipart/form-data">
 		<tr>
 			<td> 작성자 </td>
 			<td> <input type="text" name="writer" size="100"> </td>
@@ -92,7 +92,7 @@
 	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="list">목록보기</a></td>
+				&nbsp;&nbsp; <a href="b2list">목록보기</a></td>
 		</tr>
 	</form>
 </table>

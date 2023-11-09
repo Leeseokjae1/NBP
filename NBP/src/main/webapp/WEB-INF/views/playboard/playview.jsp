@@ -1,3 +1,4 @@
+<%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
@@ -7,7 +8,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    * {
+ 
+   * {
        padding:0;
        margin:0;
     }
@@ -62,40 +64,57 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-<br><p>
+
+내용보기 <br>
+<hr>
+제목 : ${playview.title} <br>
+작성자 : ${playview.writer} &nbsp; &nbsp; 
+<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">👍:${playview.b_like}</a> &nbsp; 
+<a href= "../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">👎:${playview.b_dislike}</a><br>
+내용 : ${playview.content}<br>
+사진 : <img src="${playview.imageurl}" style="width:100px; height:100px;">
+
+<hr>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post" enctype="multipart/form-data">
-		<tr>
-			<td> 작성자 </td>
-			<td> <input type="text" name="writer" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 제목 </td>
-			<td> <input type="text" name="title" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 내용 </td>
-			<td> <input type="text" name="content" size="100"> </td>
-		</tr>
-	    <tr>
-	        <td> 이미지 업로드 1 </td>
-	        <td> <input type="file" name="file1"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 2 </td>
-	        <td> <input type="file" name="file2"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 3 </td>
-	        <td> <input type="file" name="file3"> </td>
-	    </tr>
-		<tr>
-			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="list">목록보기</a></td>
-		</tr>
-	</form>
+	<tr>
+	
+		<td>작성자 </td>
+		<td>내용 : </td>
+		<td>삭제</td>
+	</tr>
+	<c:forEach items="${commentview}" var="comment">
+	<tr>
+		<td>${comment.nickname}</td>		
+		<td>${comment.cmt}</td>
+		<td><a href ="replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}">X</td>
+	
+	</tr>
+	</c:forEach>
 </table>
+
+	<form method = "post" action="replywrite">
+	<p>
+		<label>댓글 작성자</label> <input type="text" name ="nickname">
+	</p>
+	<p>
+		<textarea rows="5" cols="50" name="cmt"></textarea>
+	</p>
+	<p>
+		<input type="hidden" name="check_b" value=3>
+		<input type="hidden" name="m_number" value=1>
+		<input type="hidden" name="t_number" value="${playview.f_number}">
+		<button type = "submit"> 댓글 작성</button>
+	</p>
+	
+	</form>
+	
+	<br><p>
+<a href="playlist">목록보기</a>
+<a href="playmodifyview?f_number=${playview.f_number}">수정</a>
+<a href="playdelete?f_number=${playview.f_number}">삭제</a>
+	
+
 
 </body>
 </html>

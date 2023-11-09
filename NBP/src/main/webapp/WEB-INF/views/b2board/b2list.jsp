@@ -80,23 +80,23 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-    <h1>니빵이 게시판</h1>
+    <h1>내빵이 게시판</h1>
     <div class="container">
         <div class="row">
             <c:forEach items="${list}" var="dto">
                 <div class="col-md-3 image">
-                    <a href="b1view?b1_number=${dto.b1_number}&check_b=1">
+                    <a href="b2view?b2_number=${dto.b2_number}&check_b=2">
                         <img src="${dto.imageurl1}">
                     </a>
                     <br>
-                    ${dto.b1_number} &nbsp;&nbsp; ${dto.writer}<br>
-                    ${dto.title} &nbsp;&nbsp;
-                    따 : ${dto.b_like} 언따 : ${dto.b_dislike}
+                    ${dto.b2_number} &nbsp;&nbsp; ${dto.writer}<br>
+                    ${dto.title} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="b2delete?b2_number=${dto.b2_number}">X</a>
                 </div>
             </c:forEach>
         </div>
     </div>
-    <p><a href="b1writeform">글작성</a></p>
+    <p><a href="b2writeform">글작성</a></p>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

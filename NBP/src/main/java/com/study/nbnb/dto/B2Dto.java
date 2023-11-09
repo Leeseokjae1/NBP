@@ -2,8 +2,8 @@ package com.study.nbnb.dto;
 
 import java.sql.Timestamp;
 
-public class B1Dto {
-	private int b1_number;
+public class B2Dto {
+	private int b2_number;
 	private String writer;
 	private String title;
 	private String content;
@@ -15,11 +15,11 @@ public class B1Dto {
 	private Timestamp time;
 	
 	
-	public int getB1_number() {
-		return b1_number;
+	public int getB2_number() {
+		return b2_number;
 	}
-	public void setB1_number(int b1_number) {
-		this.b1_number = b1_number;
+	public void setB2_number(int b2_number) {
+		this.b2_number = b2_number;
 	}
 	public String getWriter() {
 		return writer;
