@@ -32,6 +32,17 @@ public class NBController {
 	public String userJoin(HttpServletRequest request) {
 		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
 		int BBANG = Integer.parseInt(request.getParameter("BBANG"));
+		System.out.println(
+				request.getParameter("NAME")+
+				 request.getParameter("ID")+
+				 request.getParameter("PASSWORD")+
+				 request.getParameter("ADDRESS")+
+				 request.getParameter("EMAIL")+
+				 PHONENUMBER+
+				 request.getParameter("NICKNAME")+
+				 BBANG
+				
+				);
 		buserDao.writeDao(request.getParameter("NAME"),
 						 request.getParameter("ID"),
 						 request.getParameter("PASSWORD"),

@@ -52,6 +52,9 @@
 	}
 
 	function form_check() {
+		var a = "";
+		var check = " ";
+		
 		if ($('#ID').val().length == 0) {
 			alert("아이디는 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
 			$('#ID').focus();
@@ -92,9 +95,9 @@
 			$('#NAME').focus();
 			return;
 		}
-		if ($('#EMAIL').val().length == 0) {
+		if ($('#EMAIL_check').val().length == 0) {
 			alert("이메일은 필수사항입니다.");
-			$('#EMAIL').focus();
+			$('#EMAIL_check').focus();
 			return;
 		}
 		if ($('#NICKNAME').val().length == 0) {
@@ -132,7 +135,7 @@
 		new daum.Postcode({
 			oncomplete : function(data) {
 				var addr = data.address;
-				document.getElementById("address").value = addr;
+				document.getElementById("ADDRESS").value = addr;
 			}
 		}).open();
 	}
@@ -142,16 +145,16 @@
 	}
 	
 	
-	var a = "";
-	var check = " ";
+	
 	function email_check() {
 		document.getElementById("check_id").value = "재전송";
 		alert('인증번호가 발송되었습니다');
 		form_submit();
 	}
+	
 	function form_submit() {
-		var email = document.getElementById("EMAIL").value;
-		console.log("email:", email);
+		var email = document.getElementById("EMAIL_check").value;
+		document.getElementById("EMAIL").value = email;
 		$.ajax({
 		    type: "POST",
 		    contentType: "application/json",
@@ -171,7 +174,7 @@
 	function check2() {
 		check = document.getElementById("e_check").value;
 		if(a == check){
-			document.getElementById("EMAIL").disabled=true;
+			document.getElementById("EMAIL_check").disabled=true;
 			document.getElementById("check_id").disabled=true;
 			
 			document.getElementById("e_check").disabled=true;
@@ -391,8 +394,9 @@ label {
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">이메일</label>
-                                <input type="text" style="background-color: #1A2226;" id="EMAIL" name="EMAIL" class="form-control">
+                                <input type="text" style="background-color: #1A2226;" id="EMAIL_check" name="EMAIL_check" class="form-control">
                                 <input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()">
+                                <input type="hidden" id="EMAIL" name="EMAIL"> 
                             </div>
                              <div class="form-group">
                                 <label class="form-control-label">인증번호</label>
