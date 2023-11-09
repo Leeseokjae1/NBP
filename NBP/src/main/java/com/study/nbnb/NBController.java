@@ -24,6 +24,7 @@ import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
 import com.study.nbnb.dto.LikeDto;
+import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -50,9 +51,10 @@ public class NBController {
 		return "redirect:main";
 	}
 	
-	@RequestMapping("/test")
-	public String test(){
-		return "test";
+	
+	@RequestMapping("/mypage")
+	public String mypageview(){
+		return "/mypage/mypage_view";
 	}
 	
 	@RequestMapping("/main")
@@ -453,10 +455,21 @@ public class NBController {
 	}
 
 	@RequestMapping("/playwrite")
-	public String playWrite(HttpServletRequest request, Model model) {
-		playdao.writeDao(request.getParameter("writer"), request.getParameter("title"),
-				request.getParameter("content"));
-
+	public String playWrite( @RequestParam("file") MultipartFile file,
+			HttpServletRequest request, Model model) {
+		try {
+			String writer = request.getParameter("writer");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			String imageURL = uploadFile(file);
+			playdao.writeDao(writer, title, content, imageURL);
+			
+			return "redirect:playlist";
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return "redirect:playlist";
 	}
 
@@ -468,11 +481,28 @@ public class NBController {
 	}
 
 	@RequestMapping("/playmodify")
-	public String playModify(HttpServletRequest request, Model model) {
-		int f_number = Integer.parseInt(request.getParameter("f_number"));
-		model.addAttribute("playmodify", playdao.modifyDao(request.getParameter("writer"),
-				request.getParameter("title"), request.getParameter("content"), f_number));
-		return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+	public String playModify(@RequestParam("file") MultipartFile file,HttpServletRequest request, Model model) {
+		
+		try {
+			
+			String writer = request.getParameter("writer");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			int f_number = Integer.parseInt(request.getParameter("f_number"));
+			
+			PlayDto existingDTO = playdao.viewDao(f_number); 
+			String imageURL = file.isEmpty() ? existingDTO.getImageurl() : uploadFile(file);
+		
+
+			playdao.modifyDao(writer, title,content,imageURL,f_number);
+			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+			
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
+		}
+	
 	}
 
 	@RequestMapping("/playdelete")

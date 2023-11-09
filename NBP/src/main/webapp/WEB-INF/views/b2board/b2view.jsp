@@ -14,9 +14,62 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 <title>Insert title here</title>
+<style>
+    * {
+       padding:0;
+       margin:0;
+    }
+   ul,ol {
+      list-style:none
+   }
+   a {
+      text-decoration:none;color:#000;font-size:15px;
+   }
+   nav {
+      width:80%;overflow:hidden;height:80px;margin:10px auto;
+   }
+   div img.absolute { 
+        position: absolute;
+        left: 50px;
+        top: 500px;
+      }
+   #nav2>a {
+      display: block; 
+      float: left;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 80px;
+      padding: 0 30px;
+   }
+   #nav2>ul {
+      float: right;
+   }
+   #nav2>ul li {
+      float: left;
+      padding: 0 30px;
+      line-height: 80px;
+   }
+   #nav2>img .absolute { 
+        position: absolute;
+      left: 50px;
+      }
+</style>
 </head>
 <body>
-
+   <nav id="nav2">
+       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+       <ul>
+         <li><a href="/main">HOME</a></li>
+         <li><a href="/list">니빵이</a></li>
+         <li><a href="/b2list">내빵이</a></li>
+         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/playlist">놀이빵</a></li>
+         <li><a href="#">로그인</a></li>
+         <li><a href="/mypage">MYPAGE</a></li>
+         <li><a href="#">로그아웃</a></li>
+       </ul>
+    </nav>
 
 내용보기 <br>
 <hr>

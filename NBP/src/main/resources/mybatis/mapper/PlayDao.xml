@@ -13,13 +13,13 @@
 		select * from playboard where f_number = #{0}
 	</select>
 	
-   <insert id="writeDao">
-      insert into playboard (f_number, writer, title, content,b_like, b_dislike )
-      values (playboard_seq.nextval, #{param1},#{param2},#{param3}, 0 ,0)
-   </insert>
+	<insert id="writeDao">
+		insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike )
+		values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0)
+	</insert>
 	
 	<update id ="modifyDao">
-		update playboard set writer =#{param1}, title=#{param2}, content=#{param3}  where f_number = #{param4}	
+		update playboard set writer =#{param1}, title=#{param2}, content=#{param3},imageurl=#{param4} where f_number = #{param5}	
 	</update>
 	
 	<update id ="likelyDao">
