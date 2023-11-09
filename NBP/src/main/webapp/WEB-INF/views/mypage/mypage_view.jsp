@@ -122,12 +122,12 @@
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+        <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="#">니빵이</a></li>
-         <li><a href="#">내빵이</a></li>
+         <li><a href="/list">니빵이</a></li>
+         <li><a href="/b2list">내빵이</a></li>
          <li><a href="#">랭킹빵</a></li>
-         <li><a href="#">놀이빵</a></li>
+         <li><a href="/playlist">놀이빵</a></li>
          <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="#">로그아웃</a></li>

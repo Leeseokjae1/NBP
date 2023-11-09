@@ -114,7 +114,7 @@
          <li><a href="/playlist">놀이빵</a></li>
          <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/map">로그아웃</a></li>
        </ul>
     </nav>
     <div class="content">
