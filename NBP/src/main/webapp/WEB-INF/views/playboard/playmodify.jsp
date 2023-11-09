@@ -6,6 +6,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+ 
+   * {
+       padding:0;
+       margin:0;
+    }
+   ul,ol {
+      list-style:none
+   }
+   a {
+      text-decoration:none;color:#000;font-size:15px;
+   }
+   nav {
+      width:80%;overflow:hidden;height:80px;margin:10px auto;
+   }
+   div img.absolute { 
+        position: absolute;
+        left: 50px;
+        top: 500px;
+      }
+   #nav2>a {
+      display: block; 
+      float: left;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 80px;
+      padding: 0 30px;
+   }
+   #nav2>ul {
+      float: right;
+   }
+   #nav2>ul li {
+      float: left;
+      padding: 0 30px;
+      line-height: 80px;
+   }
+   #nav2>img .absolute { 
+        position: absolute;
+      left: 50px;
+      }
+</style>
 </head>
 <script>
 
@@ -20,6 +61,20 @@ function submit_ajax(){
 </script>
 
 <body>
+   <nav id="nav2">
+       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+       <ul>
+         <li><a href="/main">HOME</a></li>
+         <li><a href="/b1page?page=1">니빵이</a></li>
+         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="#">로그인</a></li>
+         <li><a href="/mypage">MYPAGE</a></li>
+         <li><a href="#">로그아웃</a></li>
+       </ul>
+    </nav>
 	<table width="500" cellpadding="0" cellspacing="0" border="1">
 		<form action="playmodify" id="playmodify" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="f_number" id="f_number"

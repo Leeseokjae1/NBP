@@ -1,8 +1,5 @@
 package com.study.nbnb.dto;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 public class LikeDto {
 	private int b_number;
 	private int t_number;

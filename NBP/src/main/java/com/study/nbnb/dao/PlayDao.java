@@ -17,4 +17,7 @@ public interface PlayDao {
 	public int likeDropDao(int f_number);
 	public int dislikelyDao(int f_number);
 	public int dislikeDropDao(int f_number);
+	public List<PlayDto> listCountDao();
+	public List<PlayDto> pageDao(int page, int pageSize);	
+	public int selectDao();
 }

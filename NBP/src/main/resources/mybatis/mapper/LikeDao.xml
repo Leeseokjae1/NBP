@@ -10,7 +10,7 @@
 		values (#{param1},#{param2},#{param3}, #{param4})
 	</insert>
 	
-
+	
 
 	<select id="listDao" resultType="com.study.nbnb.dto.LikeDto">
 		select * from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3}

@@ -69,7 +69,7 @@
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-        <ul>
+     <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
@@ -80,18 +80,18 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-    <h1>니빵이 게시판</h1>
+    <h1>내빵이 게시판</h1>
     <div class="container">
         <div class="row">
             <c:forEach items="${list}" var="dto">
                 <div class="col-md-3 image">
-                    <a href="b1view?b1_number=${dto.b1_number}&check_b=1">
+                    <a href="b2view?b2_number=${dto.b2_number}&check_b=2">
                         <img src="${dto.imageurl1}">
                     </a>
                     <br>
-                    ${dto.b1_number} &nbsp;&nbsp; 작성자 : ${dto.writer}<br>
-                    제목 : ${dto.title} &nbsp;&nbsp;
-                    따 : ${dto.b_like} 언따 : ${dto.b_dislike}
+                    ${dto.b2_number} &nbsp;&nbsp; 작성자 : ${dto.writer}<br>
+                    제목 : ${dto.title} &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="b2delete?b2_number=${dto.b2_number}">X</a>
                 </div>
             </c:forEach>
         </div>
@@ -101,8 +101,8 @@
 <ul class="pagination" style="display: flex; list-style-type: none;">
     
     <c:if test="${page > 1}">  
-   		<a class="page-link" href="/b1page?page=1">처음</a> &nbsp;
-        <a class="page-link" href="/b1page?page=${page - 1}">이전</a>&nbsp;
+   		<a class="page-link" href="/b2page?page=1">처음</a> &nbsp;
+        <a class="page-link" href="/b2page?page=${page - 1}">이전</a>&nbsp;
     </c:if>
 
     <c:forEach var="i" begin="1" end="${totalPage}">
@@ -111,19 +111,18 @@
                 <span class="page-link">${i}</span>&nbsp;
             </c:when>
             <c:otherwise>
-                <a class="page-link" href="/b1page?page=${i}">${i}</a>&nbsp;
+                <a class="page-link" href="/b2page?page=${i}">${i}</a>&nbsp;
             </c:otherwise>
         </c:choose>
     </c:forEach>
 
     <c:if test="${page < totalPage}">
-        <a class="page-link" href="/b1page?page=${page + 1}">다음</a>&nbsp;
-        <a class="page-link" href="/b1page?page=${totalPage}">마지막</a>&nbsp;
+        <a class="page-link" href="/b2page?page=${page + 1}">다음</a>&nbsp;
+        <a class="page-link" href="/b2page?page=${totalPage}">마지막</a>&nbsp;
     </c:if>
 </ul>
     
-    
-    <p><a href="b1writeform">글작성</a></p>
+    <p><a href="b2writeform">글작성</a></p>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

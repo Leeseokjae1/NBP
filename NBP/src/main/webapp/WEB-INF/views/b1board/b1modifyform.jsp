@@ -4,26 +4,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-    <style>
-
-        .image {
-            text-align: center;
-        }
-
-        .image img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-            * {
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	
+<title>Insert title here</title>
+<style>
+    * {
        padding:0;
        margin:0;
     }
@@ -61,15 +53,13 @@
         position: absolute;
       left: 50px;
       }
-    </style>
-
-    <title>게시판</title>
+</style>
 </head>
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-        <ul>
+       <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
@@ -79,55 +69,54 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="#">로그아웃</a></li>
        </ul>
+       </ul>
     </nav>
-    <h1>니빵이 게시판</h1>
-    <div class="container">
-        <div class="row">
-            <c:forEach items="${list}" var="dto">
-                <div class="col-md-3 image">
-                    <a href="b1view?b1_number=${dto.b1_number}&check_b=1">
-                        <img src="${dto.imageurl1}">
-                    </a>
-                    <br>
-                    ${dto.b1_number} &nbsp;&nbsp; 작성자 : ${dto.writer}<br>
-                    제목 : ${dto.title} &nbsp;&nbsp;
-                    따 : ${dto.b_like} 언따 : ${dto.b_dislike}
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-    
-    
-<ul class="pagination" style="display: flex; list-style-type: none;">
-    
-    <c:if test="${page > 1}">  
-   		<a class="page-link" href="/b1page?page=1">처음</a> &nbsp;
-        <a class="page-link" href="/b1page?page=${page - 1}">이전</a>&nbsp;
-    </c:if>
+<br><p>
+<div>
+<table width="500" cellpadding="0" cellspacing="0" border="1">
+    <form action="b1modify" method="post" enctype="multipart/form-data">
+        <tr>
+            <td> 작성자 </td>
+            <td> <input type="text" name="writer" size="100" value="${dto.writer}"> </td>
+        </tr>
+        <tr>
+            <td> 제목 </td>
+            <td> <input type="text" name="title" size="100" value="${dto.title}"> </td>
+        </tr>
+        <tr>
+            <td> 내용 </td>
+            <td> <textarea name="content" rows="5" cols="100">${dto.content}</textarea> </td>
+        </tr>
+        <tr>
+            <td> 사진 업로드</td>
+            <td> <input type="file" name="file1"><br /></td>
+        </tr>
+        <tr>
+            <td> 사진 업로드</td>
+            <td> <input type="file" name="file2"><br /></td>
+        </tr>
+        <tr>
+            <td> 사진 업로드</td>
+            <td> <input type="file" name="file3" ><br /></td>
+        </tr>
+        <tr>
+            <td colspan="2"> 
+                <input type="hidden" name="b1_number" value="${dto.b1_number}">
+                <input type="submit" value="수정">
+                &nbsp;&nbsp; <a href = b1view?b1_number=${b1modify.b1_number}&check_b=1">취소</a>
+            </td>
+        </tr>
+    </form>
+</table>
+</div>
 
-    <c:forEach var="i" begin="1" end="${totalPage}">
-        <c:choose>
-            <c:when test="${i eq page}">	
-                <span class="page-link">${i}</span>&nbsp;
-            </c:when>
-            <c:otherwise>
-                <a class="page-link" href="/b1page?page=${i}">${i}</a>&nbsp;
-            </c:otherwise>
-        </c:choose>
-    </c:forEach>
 
-    <c:if test="${page < totalPage}">
-        <a class="page-link" href="/b1page?page=${page + 1}">다음</a>&nbsp;
-        <a class="page-link" href="/b1page?page=${totalPage}">마지막</a>&nbsp;
-    </c:if>
-</ul>
-    
-    
-    <p><a href="b1writeform">글작성</a></p>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
 </body>
 </html>

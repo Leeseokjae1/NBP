@@ -2,29 +2,24 @@ package com.study.nbnb.dto;
 
 import java.sql.Timestamp;
 
-public class PlayDto {
-	private int f_number;
+public class B2Dto {
+	private int b2_number;
 	private String writer;
 	private String title;
 	private String content;
-	private String imageurl;
+	private String imageurl1;
+	private String imageurl2;
+	private String imageurl3;
 	private int b_like;
 	private int b_dislike;
 	private Timestamp time;
 	
 	
-	
-	public String getImageurl() {
-		return imageurl;
+	public int getB2_number() {
+		return b2_number;
 	}
-	public void setImageurl(String imageurl) {
-		this.imageurl = imageurl;
-	}
-	public int getF_number() {
-		return f_number;
-	}
-	public void setF_number(int f_number) {
-		this.f_number = f_number;
+	public void setB2_number(int b2_number) {
+		this.b2_number = b2_number;
 	}
 	public String getWriter() {
 		return writer;
@@ -44,12 +39,24 @@ public class PlayDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-//	public String getPhoto() {
-//		return photo;
-//	}
-//	public void setPhoto(String photo) {
-//		this.photo = photo;
-//	}
+	public String getImageurl1() {
+		return imageurl1;
+	}
+	public void setImageurl1(String imageurl1) {
+		this.imageurl1 = imageurl1;
+	}
+	public String getImageurl2() {
+		return imageurl2;
+	}
+	public void setImageurl2(String imageurl2) {
+		this.imageurl2 = imageurl2;
+	}
+	public String getImageurl3() {
+		return imageurl3;
+	}
+	public void setImageurl3(String imageurl3) {
+		this.imageurl3 = imageurl3;
+	}
 	public int getB_like() {
 		return b_like;
 	}
@@ -68,4 +75,7 @@ public class PlayDto {
 	public void setTime(Timestamp time) {
 		this.time = time;
 	}
+	
+	
+
 }
