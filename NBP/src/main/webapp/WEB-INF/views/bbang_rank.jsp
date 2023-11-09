@@ -112,65 +112,12 @@
          <li><a href="/b2list">내빵이</a></li>
          <li><a href="#">랭킹빵</a></li>
          <li><a href="/playlist">놀이빵</a></li>
-          <% if(session.getAttribute("member") == null){ %>
-         <li><a href="/loginView">로그인</a></li>
- 		<%} else { %><li><%out.print(session.getAttribute("nickname")); %> 님</li>
+         <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="#">로그아웃</a></li>
-         <%} %>
        </ul>
     </nav>
-    <div class="content">
-       <div class="left-content"style="display: flex; align-items: center;">
-           <img src="/img/hhhhh.png" style="max-width: 100%; height: auto; margin: 0 auto;">
-           <div class="search-container">
-             <form action="/search" method = "GET">
-                <input type= "search" name = "search Value">
-               <button type="submit">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-               </button>
-            </form>
-         </div>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-      </div>
-      <div class="right-content" >
-         <div class="slideshow-container">
-             <div class="mySlides">
-                 <img src="/img/iiiii.png" style="width:70vw; height:88vh;   float: right;">
-               </div>
-               <div class="mySlides">
-                   <img src="/img/jjjjj.png" style="width:70vw; height:88vh;   float: right;">
-               </div>
-               <div class="mySlides">
-                   <img src="/img/kkkkk.png" style="width:70vw; height:88vh;   float: right;">
-                </div>
-                <div class="mySlides">
-                   <img src="/img/lllll.png" style="width:70vw; height:88vh;   float: right;">
-                </div>
-         </div>
-      </div>
-   </div>
-        
-   <script>
-      var slideIndex = 0;
-      showSlides();
 
-      function showSlides() {
-          var i;
-          var slides = document.getElementsByClassName("mySlides");
-          for (i = 0; i < slides.length; i++) 
-          {
-              slides[i].style.display = "none";
-          }
-          slideIndex++;
-          if (slideIndex > slides.length) 
-          {
-              slideIndex = 1;
-          }
-          slides[slideIndex - 1].style.display = "block";
-          setTimeout(showSlides, 3000); 
-      }
-   </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

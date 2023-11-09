@@ -18,15 +18,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
+import com.study.nbnb.dao.BuserDao;
 import com.study.nbnb.dao.CommentDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
+import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class NBController {
@@ -41,7 +44,9 @@ public class NBController {
 	CommentDao cmtdao;
 	@Autowired
 	LikeDao likedao;
-	
+	@Autowired
+	BuserDao buserDao;
+
     @Value("${upload.directory}")
     private String uploadDirectory;
 	
@@ -57,9 +62,19 @@ public class NBController {
 		return "/mypage/mypage_view";
 	}
 	
+	@RequestMapping("/bbangrank")
+	public String bbangRankview(){
+		return "bbang_rank";
+	}
+	
 	@RequestMapping("/main")
 	public String mainview(){
 		return "main_view";
+	}
+	
+	@RequestMapping("/mpchat")
+	public String myPageChatview(){
+		return "/mypage/mypage_talk";
 	}
 	
 	@RequestMapping("/list")
@@ -67,6 +82,55 @@ public class NBController {
 		model.addAttribute("list", b1dao.listDao());
 		return "/b1board/b1list";
 	}
+	
+	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
+	@RequestMapping("/joinView")
+	public String joinView() {
+		return "/login/join_view";
+	}
+	
+	@RequestMapping("/userJoin")
+	public String userJoin(HttpServletRequest request) {
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		int BBANG = Integer.parseInt(request.getParameter("BBANG"));
+		buserDao.writeDao(request.getParameter("NAME"),
+						 request.getParameter("ID"),
+						 request.getParameter("PASSWORD"),
+						 request.getParameter("ADDRESS"),
+						 request.getParameter("EMAIL"),
+						 PHONENUMBER,
+						 request.getParameter("NICKNAME"),
+						 BBANG);
+		return "redirect:loginView";
+	}
+	
+	@RequestMapping("/loginView")
+	public String loginView(HttpServletRequest request) {
+		return "/login/login_view";
+	}
+	
+	@RequestMapping("/loginCheck")
+	public String loginCheck(HttpServletRequest request) {
+
+		List<BuserDto> users = buserDao.loginDao(request.getParameter("ID"), request.getParameter("PASSWORD"));
+	    // 결과 세트의 크기를 확인합니다.
+	    if (users.size() == 0) {
+	    	// 검색 결과가 없습니다.
+	    	return "redirect:loginView?result=1";
+	    }
+	    
+	    HttpSession session = request.getSession();
+	    session.setAttribute("member", "yes");
+	    session.setAttribute("nickname", "예비닉넴");
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/mailView")
+	public String mailView() {
+		return "/login/mail";
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
 	@RequestMapping("/b1view")
