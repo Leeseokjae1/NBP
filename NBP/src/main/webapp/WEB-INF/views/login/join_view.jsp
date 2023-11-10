@@ -14,7 +14,6 @@
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b38572f5de0a09cbaa96703ebb627d1&libraries=services"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 <script>
 	window.onload = function () {
 	    google.accounts.id.initialize({
@@ -179,7 +178,7 @@
 			
 			document.getElementById("e_check").disabled=true;
 			document.getElementById("e_check2").disabled=true;
-			alert('인증되었습니다 ');
+			alert('인증되었습니다');
 			
 		}else{
 			alert('인증번호가 잘못 입력되었습니다. 다시 입력해주세요');
@@ -354,8 +353,8 @@ label {
                     <div class="col-lg-12 login-form">
                         <form id="join_form" name="join_form" action="userJoin" method="post">
                         	<div class="form-group">
-                                <input type="radio" name="BBANG" value="1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-								<input type="radio" name="BBANG" value="2"><span style="color:#fff">&nbsp;<label class="form-control-label">니빵이</label>
+                                <input type="radio" name="BBANG" value="Role_1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+								<input type="radio" name="BBANG" value="Role_2"><span style="color:#fff">&nbsp;<label class="form-control-label">니빵이</label>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">아이디</label>
@@ -420,7 +419,7 @@ label {
 								</div>
 								<div class="col-lg-6 login-btm login-button">
                                     <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()" disabled>
-                                    <input type="button" class="btn btn-outline-primary" value="로그인" onclick="javascript:window.location='login_view.do'" >
+                                    <input type="button" class="btn btn-outline-primary" value="로그인" onclick="javascript:window.location='loginView'" >
                                 </div>
 								
 							</div>

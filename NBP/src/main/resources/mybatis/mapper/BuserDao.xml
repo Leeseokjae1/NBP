@@ -14,7 +14,7 @@
 	
 	<insert id="writeDao">
 		insert into buser values 
-		(buser_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},0,#{param8},0,NULL,0)
+		(buser_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},0,#{param8},0,NULL)
 	</insert>
 	
 	<delete id="deleteDao">
