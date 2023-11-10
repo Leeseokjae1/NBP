@@ -102,7 +102,6 @@
 
 </head>
 <body>
-
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
@@ -110,46 +109,14 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/list">니빵이</a></li>
          <li><a href="/b2list">내빵이</a></li>
-         <li><a href="/map">지도</a></li>
-         <li><a href="/test">랭킹빵</a></li>
+         <li><a href="#">랭킹빵</a></li>
          <li><a href="/playlist">놀이빵</a></li>
          <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/map">로그아웃</a></li>
        </ul>
     </nav>
-    <div class="content">
-       <div class="left-content"style="display: flex; align-items: center;">
-           <img src="/img/hhhhh.png" style="max-width: 100%; height: auto; margin: 0 auto;">
-           <div class="search-container">
-             <form action="/search" method = "GET">
-                <input type= "search" name = "search Value">
-               <button type="submit">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-               </button>
-            </form>
-         </div>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
-      </div>
-      <div class="right-content" >
-         <div class="slideshow-container">
-             <div class="mySlides">
-                 <img src="/img/iiiii.png" style="width:70vw; height:88vh;   float: right;">
-               </div>
-               <div class="mySlides">
-                   <img src="/img/jjjjj.png" style="width:70vw; height:88vh;   float: right;">
-               </div>
-               <div class="mySlides">
-                   <img src="/img/kkkkk.png" style="width:70vw; height:88vh;   float: right;">
-                </div>
-                <div class="mySlides">
-                   <img src="/img/lllll.png" style="width:70vw; height:88vh;   float: right;">
-                </div>
-         </div>
-      </div>
-   </div>
-        
-   <script>
+  <script>
       var slideIndex = 0;
       showSlides();
 

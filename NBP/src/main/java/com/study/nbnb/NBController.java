@@ -67,6 +67,11 @@ public class NBController {
 		return "map_view";
 	}
 	
+	@RequestMapping("/test")
+	public String testview(){
+		return "test";
+	}
+	
 	@RequestMapping("/list")
 	public String userlistpage(Model model) {
 		model.addAttribute("list", b1dao.listDao());
