@@ -224,18 +224,6 @@
 
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
-      // 주소-좌표간 변환 서비스 객체 생성
-      var geocoder = new kakao.maps.services.Geocoder();
-      
-	  // 주소 정보에 해당하는 좌표값을 요청
-      var callback = function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-              console.log(result);
-          }
-      };
-
-      geocoder.addressSearch('해남군 송지면', callback);
-      
       var coffeePositions = [
            { title: '일하는내빵이', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' },
            { title: '이가는내빵이', latlng: new kakao.maps.LatLng(37.499427948430814, 127.02794423197847), link: 'http://localhost:8081/main' },

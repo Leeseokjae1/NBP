@@ -6,6 +6,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+ <script>
+        function search_check() {
+            if ($('#Searchdata').val().length == 0) {
+                alert("검색어를 입력해주세요.");
+                $('#Searchdata').focus();
+                return;
+            }
+            if ($('#Searchfield').val() == "pTitle") {
+                document.Searchform.action = " <script>
+                    function search_check() {
+                    if ($('#Searchdata').val().length == 0) {
+                        alert("검색어를 입력해주세요.");
+                        $('#Searchdata').focus();
+                        return;
+                    }
+                    if ($('#Searchfield').val() == "pTitle") {
+                        document.Searchform.action = "/playboard/playlist";
+                    }
+                    if ($('#Searchfield').val() == "pContent") {
+                        document.Searchform.action = "/playboard/playlist";
+                    }
+                    if ($('#Searchfield').val() == "pWriter") {
+                        document.Searchform.action = "/playboard/playlist";
+                    }
+                    document.Searchform.submit();
+                }
+            </script>";
+            }
+            if ($('#Searchfield').val() == "bContent") {
+                document.Searchform.action = "/webproject/free_list.do";
+            }
+            if ($('#Searchfield').val() == "bName") {
+                document.Searchform.action = "/webproject/free_list.do";
+            }
+            document.Searchform.submit();
+        }
+    </script>
 <style>
  
    * {

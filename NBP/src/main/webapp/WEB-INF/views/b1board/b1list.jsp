@@ -11,7 +11,25 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
+	 <script>
+        function search_check() {
+            if ($('#Searchdata').val().length == 0) {
+                alert("검색어를 입력해주세요.");
+                $('#Searchdata').focus();
+                return;
+            }
+            if ($('#Searchfield').val() == "b1Title") {
+                document.Searchform.action = "/b1board/b1list";
+            }
+            if ($('#Searchfield').val() == "b1Content") {
+                document.Searchform.action = "/b1board/b1list";
+            }
+            if ($('#Searchfield').val() == "b1Writer") {
+                document.Searchform.action = "/b1board/b1list";
+            }
+            document.Searchform.submit();
+        }
+    </script>
     <style>
 
         .image {
