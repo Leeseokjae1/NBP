@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +25,10 @@ import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
-import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class NBController {
@@ -80,56 +79,45 @@ public class NBController {
 	@RequestMapping("/list")
 	public String userlistpage(Model model) {
 		model.addAttribute("list", b1dao.listDao());
-		return "/b1board/b1list";
+		return "b1board/b1list";
 	}
 	
 	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
 	@RequestMapping("/joinView")
 	public String joinView() {
-		return "/login/join_view";
+		return "login/join_view";
 	}
 	
 	@RequestMapping("/userJoin")
 	public String userJoin(HttpServletRequest request) {
 		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
-		int BBANG = Integer.parseInt(request.getParameter("BBANG"));
+		
+		
+		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+		String password = encoded.substring(8);
+		
 		buserDao.writeDao(request.getParameter("NAME"),
 						 request.getParameter("ID"),
-						 request.getParameter("PASSWORD"),
+						 password,
 						 request.getParameter("ADDRESS"),
 						 request.getParameter("EMAIL"),
 						 PHONENUMBER,
 						 request.getParameter("NICKNAME"),
-						 BBANG);
+						 request.getParameter("BBANG"));
 		return "redirect:loginView";
 	}
 	
 	@RequestMapping("/loginView")
-	public String loginView(HttpServletRequest request) {
-		return "/login/login_view";
-	}
-	
-	@RequestMapping("/loginCheck")
-	public String loginCheck(HttpServletRequest request) {
-
-		List<BuserDto> users = buserDao.loginDao(request.getParameter("ID"), request.getParameter("PASSWORD"));
-	    // 결과 세트의 크기를 확인합니다.
-	    if (users.size() == 0) {
-	    	// 검색 결과가 없습니다.
-	    	return "redirect:loginView?result=1";
-	    }
-	    
-	    HttpSession session = request.getSession();
-	    session.setAttribute("member", "yes");
-	    session.setAttribute("nickname", "예비닉넴");
-		return "redirect:/";
+	public String loginView() {
+		return "login/login_view";
 	}
 	
 	@RequestMapping("/mailView")
 	public String mailView() {
-		return "/login/mail";
+		return "login/mail";
 	}
 	
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 

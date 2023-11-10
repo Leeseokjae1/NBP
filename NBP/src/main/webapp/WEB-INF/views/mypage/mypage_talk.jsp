@@ -182,6 +182,17 @@
         </div>
   	</div>
   	
+<!-- 채팅방 목록을 위한 부트스트랩 패널 -->
+<div class="panel panel-default">
+    <div class="panel-heading">채팅방 목록</div>
+    <div class="panel-body">
+        <ul id="chatRoomList" class="list-group">
+            <!-- 채팅방 목록이 여기에 표시됩니다 -->
+        </ul>
+    </div>
+</div>
+
+<!-- 채팅방 -->
 <div id="chat"></div>
 <input type="text" id="message" placeholder="메시지를 입력하세요...">
 <button onclick="sendMessage()">전송</button>
@@ -215,9 +226,9 @@
 
         chatRoomId = new Date().getTime().toString();
         var xhr = new XMLHttpRequest();
-			xhr.open("POST", "RoomSave", true);
+			xhr.open("POST", "SaveChatRoomId", true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.send(chatRoomId);
+			xhr.send("chatRoomId=" + chatRoomId);
 			
 			xhr.onreadystatechange = function () {
 			    if (xhr.readyState === 4 && xhr.status === 200) {

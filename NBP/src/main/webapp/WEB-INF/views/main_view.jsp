@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 <html>
 <head>
    <title>Hello, world!</title>
@@ -12,7 +14,7 @@
 
 <style>
    .test1 {
-   
+         
     }
     .carousel-inner > .carousel-item > img {
       /* width: 640px;
@@ -112,12 +114,10 @@
          <li><a href="/b2list">내빵이</a></li>
          <li><a href="#">랭킹빵</a></li>
          <li><a href="/playlist">놀이빵</a></li>
-          <% if(session.getAttribute("member") == null){ %>
          <li><a href="/loginView">로그인</a></li>
- 		<%} else { %><li><%out.print(session.getAttribute("nickname")); %> 님</li>
+ 		<li>Guest님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
-         <%} %>
+         <li><a href="/logout">로그아웃</a></li>
        </ul>
     </nav>
     <div class="content">

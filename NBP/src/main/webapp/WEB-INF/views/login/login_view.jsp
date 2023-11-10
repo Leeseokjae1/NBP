@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	int result = 1;
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
-	if(request.getParameter("result")!=null){
-		result = 0;
-	}
-%>
 
 <!DOCTYPE html>
 <html>
@@ -16,18 +11,8 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"crossorigin="anonymous">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
 
 <script>
-
-	$(document).ready(function() {
-		var result = document.getElementById("result").value;
-		
-		if(result == 0){
-	    	alert("아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.");
-		}
-	  });
-	  
 	window.onload = function () {
 	    google.accounts.id.initialize({
 	        client_id: "615818042922-22l9icaqq7gb6tvomvu6p5474t0ffbqu.apps.googleusercontent.com",
@@ -41,15 +26,15 @@
 	}
 
 	function form_check() {
-		if ($('#ID').val().length == 0) {
+		if ($('#id').val().length == 0) {
 			alert("아이디를 작성하세요");
-			$('#login_id').focus();
+			$('#id').focus();
 			return;
 		}
 
-		if ($('#PASSWORD').val().length == 0) {
+		if ($('#password').val().length == 0) {
 			alert("비밀번호를 작성하세요");
-			$('#login_pw').focus();
+			$('#password').focus();
 			return;
 		}
 
@@ -57,9 +42,7 @@
 	    form.submit();
 	}
 
-	function recaptchaCallback() {
-		document.getElementById('capok').removeAttribute('disabled');
-	}
+	
 </script>
 
 <style>
@@ -193,7 +176,6 @@ label {
 </style>
 </head>
 <body>
-	<input type="text" id = "result" value="<%= result%>">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-3 col-md-2"></div>
@@ -202,14 +184,23 @@ label {
 
 				<div class="col-lg-12 login-form">
 					<div class="col-lg-12 login-form">
-						<form id="login_form" name="login_form" action="loginCheck" method="post">
+						<c:url value="j_spring_security_check" var="loginUrl"/>
+						<form id="login_form" name="login_form" action="${loginUrl}" method="post">
+							<div class="form-group">
+								<c:if test="${param.error!=null}">
+									<p style="color:#FFF">
+										Login Error! <br/>
+										${error_message}
+									</p>
+								</c:if>
+							</div>
 							<div class="form-group">
 								<label class="form-control-label">ID</label> 
-								<input type="text" class="form-control" id="ID" name="ID" value="<%if (session.getAttribute("id") != null) out.println(session.getAttribute("id"));%>">
+								<input type="text" class="form-control" id="id" name="id" value="${username}">
 							</div>
 							<div class="form-group">
 								<label class="form-control-label">PASSWORD</label> 
-								<input type="password" class="form-control" id="PASSWORD" name="PASSWORD">
+								<input type="password" class="form-control" id="password" name="password">
 							</div>
 							<div class="col-lg-12" style="margin-bottom:40px;">
 							<div class="g-recaptcha" id="gcap" data-sitekey="6LeXk5gnAAAAAJeHIAAbgifA4BtinsAOpitvUKra" data-callback="recaptchaCallback"></div>
@@ -221,8 +212,8 @@ label {
 									</div>
 								</div>
 								<div class="col-lg-6 login-btm login-button">
-									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" disabled/>
-									<input type="button" class="btn btn-outline-primary" value="회원가입" onclick="javascript:window.location='/joinView'" />
+									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />
+									<input type="button" class="btn btn-outline-primary" value="회원가입" onclick="javascript:window.location='joinView'" />
 								</div>
 							</div>
 						</form>

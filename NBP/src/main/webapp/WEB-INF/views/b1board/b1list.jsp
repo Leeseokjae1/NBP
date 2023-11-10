@@ -81,6 +81,7 @@
        </ul>
     </nav>
     <h1>니빵이 게시판</h1>
+    <input type="button"  class="btn btn-primary" onclick="" style="text-align:center;" value="지도로 보기"></button>
     <div class="container">
         <div class="row">
             <c:forEach items="${list}" var="dto">
