@@ -56,9 +56,6 @@
 </style>
 </head>
 
-<img id="image1" style="width:100px; height:100px;">
-<img id="image2" style="width:100px; height:100px;">
-<img id="image3" style="width:100px; height:100px;"><br />
 
 <script>
   // JavaScript로 이미지 소스가 null인 경우 이미지를 감추기

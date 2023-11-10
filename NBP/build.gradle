@@ -43,10 +43,6 @@ dependencies {
 	implementation 'com.github.pagehelper:pagehelper:5.2.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
-    //security
-    implementation 'org.springframework.security:spring-security-taglibs'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

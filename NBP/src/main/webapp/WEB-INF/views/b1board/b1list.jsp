@@ -86,7 +86,7 @@
         <div class="row">
             <c:forEach items="${list}" var="dto">
                 <div class="col-md-3 image">
-                    <a href="b1view?b1_number=${dto.b1_number}&check_b=1">
+                    <a href="/b1view?b1_number=${dto.b1_number}&check_b=1">
                         <img src="${dto.imageurl1}">
                     </a>
                     <br>

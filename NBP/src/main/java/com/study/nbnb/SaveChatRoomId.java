@@ -2,8 +2,6 @@ package com.study.nbnb;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.study.nbnb.dao.ChatRoomDao;
 
 import jakarta.servlet.ServletException;
