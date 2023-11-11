@@ -70,6 +70,16 @@ public class NBController {
 		model.addAttribute("list", b1dao.listDao());
 		return "/b1board/b1list";
 	}
+/////////////////////////////////shop//////////////////////////////////////
+	
+	@RequestMapping("/mypage_shop")
+	public String mypageshopview() {
+		return "/mypage/mypage_shop";
+	}
+	
+	
+//////////////////////////////////b1 board////////////////////////////////// 
+
 
 	@RequestMapping("/b1view")
 	public String view(HttpServletRequest request, Model model) {
