@@ -18,6 +18,11 @@
 		values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0, sysdate)
 	</insert>
 	
+	<insert id="writeDao2">
+		insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike,time )
+		values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, sysdate)
+	</insert>
+	
 	<select id="selectDao">
 		select max(f_number) from playboard
 	</select>

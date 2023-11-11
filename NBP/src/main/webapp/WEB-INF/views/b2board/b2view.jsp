@@ -110,7 +110,7 @@
 		<textarea rows="5" cols="50" name="cmt"></textarea>
 	</p>
 	<p>
-		<input type="hidden" name="check_b" value=1>
+		<input type="hidden" name="check_b" value=2>
 		<input type="hidden" name="m_number" value=1>
 		<input type="hidden" name="t_number" value="${dto.b2_number}">
 		<button type = "submit"> 댓글 작성</button>

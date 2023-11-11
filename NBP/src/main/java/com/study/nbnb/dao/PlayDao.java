@@ -11,6 +11,7 @@ public interface PlayDao {
 	public List<PlayDto> plistDao();
 	public PlayDto viewDao(int f_number);
 	public int writeDao(String writer, String title, String content, String imageurl);
+	public void writeDao2(String writer, String title, String content);
 	public int deleteDao(int f_number);
 	public int modifyDao(String writer, String title, String content,String imageURL,int f_number);
 	public int likelyDao(int f_number);
@@ -20,4 +21,5 @@ public interface PlayDao {
 	public List<PlayDto> listCountDao();
 	public List<PlayDto> pageDao(int page, int pageSize);	
 	public int selectDao();
+	
 }

@@ -92,6 +92,7 @@
                     ${dto.b2_number} &nbsp;&nbsp; 작성자 : ${dto.writer}<br>
                     제목 : ${dto.title} &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="b2delete?b2_number=${dto.b2_number}">X</a>
+                     따 : ${dto.b_like} 언따 : ${dto.b_dislike}
                 </div>
             </c:forEach>
         </div>
