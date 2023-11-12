@@ -56,31 +56,6 @@
 </style>
 </head>
 
-
-<script>
-  // JavaScript로 이미지 소스가 null인 경우 이미지를 감추기
-  const image1 = document.getElementById('image1');
-  const image2 = document.getElementById('image2');
-  const image3 = document.getElementById('image3');
-
-  if (${dto.imageurl1}) {
-    image1.src = `${dto.imageurl1}`;
-  } else {
-    image1.style.display = 'none';
-  }
-
-  if (${dto.imageurl2}) {
-    image2.src = `${dto.imageurl2}`;
-  } else {
-    image2.style.display = 'none';
-  }
-
-  if (${dto.imageurl3}) {
-    image3.src = `${dto.imageurl3}`;
-  } else {
-    image3.style.display = 'none';
-  }
-</script>
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
@@ -145,8 +120,9 @@
 	</form>
 
 <a href="b1modifyform?b1_number=${dto.b1_number}" class="btn btn-primary">수정하기</a>
+<a href="b1delete?b1_number=${dto.b1_number}">삭제</a>
 <br><p>
-<a href="list">목록보기</a>
+<a href="b1page?page=1">목록보기</a>
 
 
     <!-- Optional JavaScript -->

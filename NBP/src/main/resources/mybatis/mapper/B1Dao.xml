@@ -22,8 +22,11 @@
 	    values (b1board_seq.nextval, #{param1}, #{param2}, #{param3},
 	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
 	</insert>
-
 	
+		<select id="selectDao">
+		select max(b1_number) from b1board
+	</select>
+
 	<update id="modifyDao" parameterType="map">
 	    update b1board
 	    set writer=#{writer}, title=#{title}, content=#{content}, imageurl1=#{imageurl1},
@@ -51,4 +54,24 @@
 		update b1board set b_dislike=b_dislike-1 where b1_number = #{param4}	
 	</update>
 
+	<select id ="listCountDao">
+		 select * from b1board
+	</select>
+	
+	<select id="pageDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board order by b1_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+	    ]]>
+	</select>
+	
+	
+	<select id ="titleCountDao" resultType="int" parameterType="String">
+		 select * from b1board where title LIKE #{keyword}
+	</select>
+	
+	<select id="titlesearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
 </mapper>

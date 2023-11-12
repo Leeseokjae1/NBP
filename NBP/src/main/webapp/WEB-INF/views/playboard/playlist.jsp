@@ -84,6 +84,29 @@
 	</tr>
 	</c:forEach>
 </table>
+<ul class="pagination" style="display: flex; list-style-type: none;">
+    
+    <c:if test="${page > 1}">  
+   		<a class="page-link" href="/playpage?page=1">처음</a> &nbsp;
+        <a class="page-link" href="/playpage?page=${page - 1}">이전</a>&nbsp;
+    </c:if>
+
+    <c:forEach var="i" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${i eq page}">	
+                <span class="page-link">${i}</span>&nbsp;
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="/playpage?page=${i}">${i}</a>&nbsp;
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <c:if test="${page < totalPage}">
+        <a class="page-link" href="/playpage?page=${page + 1}">다음</a>&nbsp;
+        <a class="page-link" href="/playpage?page=${totalPage}">마지막</a>&nbsp;
+    </c:if>
+</ul>
 
 <p><a href="playwriteform">글작성</a></p>
 </body>

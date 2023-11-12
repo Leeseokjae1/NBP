@@ -85,7 +85,7 @@
 	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="playlist">목록보기</a></td>
+				&nbsp;&nbsp; <a href="/playpage?page=1">목록보기</a></td>
 		</tr>
 	</form>
 </table>

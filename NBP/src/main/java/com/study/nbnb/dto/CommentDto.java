@@ -11,6 +11,7 @@ public class CommentDto {
 	private Timestamp c_date;
 	private String cmt;
 	private int t_number;
+	
 	public int getT_number() {
 		return t_number;
 	}

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +30,7 @@ import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Controller
 public class NBController {
@@ -86,7 +89,16 @@ public class NBController {
 		return "b1board/b1list";
 	}
 	
+/////////////////////////////////shop//////////////////////////////////////
+	
+@RequestMapping("/mypage_shop")
+public String mypageshopview() {
+return "/mypage/mypage_shop";
+}
+
+	
 	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -107,8 +119,12 @@ public class NBController {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
-
-		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), request.getParameter("cmt"), t_number);
+		String cmt=request.getParameter("cmt");
+		if (cmt == null || cmt.isEmpty()) {
+			return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+			
+		}
+		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
 
 		return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
@@ -132,23 +148,48 @@ public class NBController {
 	    @RequestParam("file1") MultipartFile file1,
 	    @RequestParam("file2") MultipartFile file2,
 	    @RequestParam("file3") MultipartFile file3,
-	    HttpServletRequest request, Model model) {
-	    try {
-	        String writer = request.getParameter("writer");
-	        String title = request.getParameter("title");
-	        String content = request.getParameter("content");
+	    HttpServletRequest request, Model model,
+	    @Valid @ModelAttribute("b1Board") B1Dto b1Board, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			// validation 실패
+			System.out.println("validation에 실패했습니다.");
+			return "b1board/b1writeform";
+		}
+		try {
+			String writer = b1Board.getWriter();
+			String title = b1Board.getTitle();
+			String content = b1Board.getContent();
 
-	        String imageURL1 = uploadFile(file1);
-	        String imageURL2 = uploadFile(file2);
-	        String imageURL3 = uploadFile(file3);
+			String imageURL1 = "";
+			if (file1 != null && !file1.isEmpty()) {
+				imageURL1 = uploadFile(file1);
+			}else {
+				imageURL1="http://localhost:8082/img/yb.png";
+			}
 
-	        b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			String imageURL2 = "";
+			if (file2 != null && !file2.isEmpty()) {
+				imageURL2 = uploadFile(file2);
+			}else {
+				imageURL2="http://localhost:8082/img/yb.png";
+			}
 
-	        return "redirect:list";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return "redirect:list";
+			String imageURL3 = "";
+			if (file3 != null && !file3.isEmpty()) {
+				imageURL3 = uploadFile(file3);
+			}else {
+				imageURL3="http://localhost:8082/img/yb.png";
+			}
+
+			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+		
+			int b1_number = b1dao.selectDao();
+			return "redirect:b1view?b1_number=" + b1_number + "&check_b=1";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:b1page?page=1";
 	}
 
 	private String uploadFile(MultipartFile file) throws IOException {
@@ -199,17 +240,17 @@ public class NBController {
 
 	            b1dao.modifyDao(parameters);
 
-	            return "redirect:list";
+	            return "redirect:b1page?b1_number=" + request.getParameter("b1_number") + "&check_b=1";
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            return "redirect:list";
+	            return "redirect:b1page?b1_number=" + request.getParameter("b1_number") + "&check_b=1";
 	        }
 	}
 	
 	@RequestMapping("/b1delete")
 	public String delete(HttpServletRequest request, Model model) {
 		b1dao.deleteDao(request.getParameter("b1_number"));
-		return "redirect:list";
+		return "redirect:b1page?page=1";
 	}
 	
 	@RequestMapping("/b1like")
@@ -252,6 +293,39 @@ public class NBController {
 	
 		return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
+	
+	@RequestMapping("/b1page")
+	public String b1listpage(HttpServletRequest request, Model model) {
+
+		int total = b1dao.listCountDao().size();
+		int pageSize = 8;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
+		List<B1Dto> list = b1dao.pageDao(page, pageSize);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		list = b1dao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+
+		return "/b1board/b1list";
+	}
 
 	
 	//////////////////////////////b2 board///////////////////////////////////////////////////////////
@@ -279,16 +353,14 @@ public class NBController {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
-
-		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), request.getParameter("cmt"), t_number);
-
+		System.out.println(check_b);
+		String cmt=request.getParameter("cmt");
+		if (cmt == null || cmt.isEmpty()) {
+			return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
+		}
+		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
 		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
 	}
-
-
-	
-	
-	
 	
 	@RequestMapping("/b2replydelete")
 	public String b2Delete(HttpServletRequest request, Model model) {
@@ -305,27 +377,52 @@ public class NBController {
 	}
 	
 	@RequestMapping("/b2write")
-	public String b2write(
-	    @RequestParam("file1") MultipartFile file1,
-	    @RequestParam("file2") MultipartFile file2,
-	    @RequestParam("file3") MultipartFile file3,
-	    HttpServletRequest request, Model model) {
-	    try {
-	        String writer = request.getParameter("writer");
-	        String title = request.getParameter("title");
-	        String content = request.getParameter("content");
+	public String b2write(@RequestParam("file1") MultipartFile file1,
+						@RequestParam("file2") MultipartFile file2,
+						@RequestParam("file3") MultipartFile file3,
+						HttpServletRequest request, Model model,
+						@Valid @ModelAttribute("b2Board") B2Dto b2Board, 
+						BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			// validation 실패
+			System.out.println("validation에 실패했습니다.");
+			return "b2board/b2writeform";
+		}
+		try {
+			String writer = request.getParameter("writer");
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
 
-	        String imageURL1 = b2uploadFile(file1);
-	        String imageURL2 = b2uploadFile(file2);
-	        String imageURL3 = b2uploadFile(file3);
+			String imageURL1 = "";
+			if (file1 != null && !file1.isEmpty()) {
+				imageURL1 = uploadFile(file1);
+			}else {
+				imageURL1="http://localhost:8082/img/nb.png";
+			}
 
-	        b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			String imageURL2 = "";
+			if (file2 != null && !file2.isEmpty()) {
+				imageURL2 = uploadFile(file2);
+			}else {
+				imageURL2="http://localhost:8082/img/nb.png";
+			}
 
-	        return "redirect:b2list";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return "redirect:b2list";
+			String imageURL3 = "";
+			if (file3 != null && !file3.isEmpty()) {
+				imageURL3 = uploadFile(file3);
+			}else {
+				imageURL3="http://localhost:8082/img/nb.png";
+			}
+
+
+			b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			int b2_number = b2dao.selectDao();
+			
+			return "redirect:b2view?b2_number=" + b2_number + "&check_b=2";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:b2page?page=1";
 	}
 
 	private String b2uploadFile(MultipartFile file) throws IOException {
@@ -378,12 +475,12 @@ public class NBController {
 
 	            b2dao.modifyDao(parameters);
 
-	            return "redirect:b2list";
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return "redirect:b2list";
-	        }
-	}
+				return "redirect:b2page?b2_number=" + request.getParameter("b2_number") + "&check_b=2";
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "redirect:b2page?b2_number=" + request.getParameter("b2_number") + "&check_b=2";
+			}
+		}
 	
 	@RequestMapping("/b2delete")
 	public String b2delete(HttpServletRequest request, Model model) {
@@ -432,6 +529,38 @@ public class NBController {
 		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
 	}
 	
+	@RequestMapping("/b2page")
+	public String b2listpage(HttpServletRequest request, Model model) {
+
+		int total = b2dao.listCountDao().size();
+		int pageSize = 16;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
+		List<B2Dto> list = b2dao.pageDao(page, pageSize);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		list = b2dao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+
+		return "/b2board/b2list";
+	}
+	
 	//////////////////////////////////play board ///////////////////////////////////////////////////////
 	
 	
@@ -456,9 +585,15 @@ public class NBController {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
-
-		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), request.getParameter("cmt"), t_number);
-
+		String cmt = request.getParameter("cmt");
+		System.out.println(cmt);
+			if (cmt == null || cmt.isEmpty()) {
+				return "redirect:playview?f_number=" + t_number + "&check_b=3";
+			
+			}
+		
+		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
+		
 		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
 	}
 
@@ -477,22 +612,37 @@ public class NBController {
 	}
 
 	@RequestMapping("/playwrite")
-	public String playWrite( @RequestParam("file") MultipartFile file,
-			HttpServletRequest request, Model model) {
+	public String playWrite(@RequestParam("file") MultipartFile file,
+							HttpServletRequest request, Model model,
+							@Valid @ModelAttribute("playBoard") PlayDto playBoard, BindingResult bindingResult) 
+		{
+		if (bindingResult.hasErrors()) {
+			// validation 실패
+			System.out.println("validation에 실패했습니다.");
+			return "b1board/b1writeform";
+		}
 		try {
-			String writer = request.getParameter("writer");
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
-			
-			String imageURL = uploadFile(file);
+			String writer = playBoard.getWriter();
+			String title = playBoard.getTitle();
+			String content = playBoard.getContent();
+
+			String imageURL = "";
+			if (file != null && !file.isEmpty()) {
+				imageURL = uploadFile(file);
+			}else {
+				imageURL="http://localhost:8082/images/111.png";
+			}
+
 			playdao.writeDao(writer, title, content, imageURL);
+
+			int f_number = playdao.selectDao();
 			
-			return "redirect:playlist";
-			
-		}catch(Exception e) {
+			return "redirect:playview?f_number=" + f_number + "&check_b=3";
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:playlist";
+		return "redirect:playpage?page=1";
 	}
 
 	@RequestMapping("/playmodifyview")
@@ -531,7 +681,7 @@ public class NBController {
 	public String playDelete(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		playdao.deleteDao(f_number);
-		return "redirect:playlist";
+		return "redirect:playpage?page=1";
 	}
 
 	@RequestMapping("/playlike")
@@ -575,4 +725,75 @@ public class NBController {
 		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
 	}
 	
+	@RequestMapping("/playpage")
+	public String playlistpage(HttpServletRequest request, Model model) {
+
+		int total = playdao.listCountDao().size();
+		int pageSize = 16;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+	
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
+		List<PlayDto> list = playdao.pageDao(page, pageSize);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		list = playdao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		model.addAttribute("playlist", playdao.plistDao());
+
+		return "/playboard/playlist";
+	}
+	
+	/////////////////////////search////////////////////////////////////////
+
+	@RequestMapping("/b1title")
+	public String b1titlepage(HttpServletRequest request, Model model) {
+
+		String kw1 = request.getParameter("Searchdata");
+		String kw = "%" +  kw1 + "%";
+		System.out.println(kw);
+		int total = b1dao.titleCountDao(kw).size();
+		int pageSize = 8;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
+		List<B1Dto> list = b1dao.titlesearchDao(kw, page, pageSize);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		list = b1dao.titlesearchDao(kw, nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+
+		return "/b1board/b1list";
+	}
 }

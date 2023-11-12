@@ -25,6 +25,11 @@ public interface B2Dao {
 	public int likeDropDao(int b2_number);
 	public int dislikelyDao(int b2_number);
 	public int dislikeDropDao(int b2_number);
+	
+	public List<B2Dto> listCountDao();
+	public List<B2Dto> pageDao(int page, int pageSize);	
+	public int selectDao();
 }
+
 
 

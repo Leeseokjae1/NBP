@@ -157,7 +157,7 @@
 	         </div>
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
+		            <a href="/mypage_shop"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
 		            <span class="icon-name">채팅권</span>
 		        </div>    
 	         </div>
