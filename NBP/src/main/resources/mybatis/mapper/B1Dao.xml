@@ -64,14 +64,16 @@
 	    ]]>
 	</select>
 	
+  	<select id="SearchDao" resultType="com.study.nbnb.dto.B1Dto">
+        select * from b1board
+        where title like #{keyword} OR content like #{keyword} OR writer like #{keyword}
+        order by b1_number DESC
+        limit #{start}, #{pageSize}
+    </select>
+
+    <select id="SearchCountDao" resultType="B1Dto">
+        select count(*) from b1board
+        where title like #{keyword} OR content like #{keyword} OR writer like #{keyword}
+    </select>
 	
-	<select id ="titleCountDao" resultType="int" parameterType="String">
-		 select * from b1board where title LIKE #{keyword}
-	</select>
-	
-	<select id="titlesearchDao"  resultType="com.study.nbnb.dto.B1Dto">
-	    <![CDATA[
-	    select * from ( select rownum num, A.* from ( select * from b1board where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
-	    ]]>
-	</select>
 </mapper>

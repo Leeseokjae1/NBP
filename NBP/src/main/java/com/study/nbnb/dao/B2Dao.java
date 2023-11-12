@@ -29,7 +29,10 @@ public interface B2Dao {
 	public List<B2Dto> listCountDao();
 	public List<B2Dto> pageDao(int page, int pageSize);	
 	public int selectDao();
+	
+	public List<B2Dto> SearchDao(@Param("keyword") String keyword,
+             					 @Param("start") int start,
+             					 @Param("pageSize") int pageSize);
+
+	public List<B2Dto> SearchCountDao(@Param("keyword") String keyword);
 }
-
-
-

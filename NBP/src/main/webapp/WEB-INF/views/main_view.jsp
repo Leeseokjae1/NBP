@@ -57,10 +57,10 @@ pageEncoding="UTF-8"%>
          document.Searchform.action = "/b1title";
       }
       if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1board/b1list";       
+         document.Searchform.action = "/b1Content";       
       }
       if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1board/b1list";        
+         document.Searchform.action = "/b1Writer";        
       }
       if($('#Searchfield').val() == "b2Title") {
          document.Searchform.action = "/b2board/b2list";

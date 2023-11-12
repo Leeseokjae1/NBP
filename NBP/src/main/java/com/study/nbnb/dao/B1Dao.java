@@ -29,9 +29,11 @@ public interface B1Dao {
 	public List<B1Dto> pageDao(int page, int pageSize);	
 	public int selectDao();
 	
-	public List<B1Dto> titleCountDao(@Param("keyword") String keyword);
-	public List<B1Dto> titlesearchDao(@Param("title") String keyword,
-									  @Param("page") int page,@Param("pagesize") int pageSize);
+	 public List<B1Dto> SearchDao(@Param("keyword") String keyword, 
+			 					  @Param("start") int start, 
+			 					  @Param("pageSize") int pageSize);
+
+	 public List<B1Dto> SearchCountDao(@Param("keyword") String keyword);
 }
 
 
