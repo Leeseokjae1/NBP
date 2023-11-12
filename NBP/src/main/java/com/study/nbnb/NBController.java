@@ -533,7 +533,7 @@ return "/mypage/mypage_shop";
 	public String b2listpage(HttpServletRequest request, Model model) {
 
 		int total = b2dao.listCountDao().size();
-		int pageSize = 16;
+		int pageSize = 8;
 
 		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
 		int totalPage = total / pageSize;
@@ -729,7 +729,7 @@ return "/mypage/mypage_shop";
 	public String playlistpage(HttpServletRequest request, Model model) {
 
 		int total = playdao.listCountDao().size();
-		int pageSize = 16;
+		int pageSize = 8;
 
 		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
 		int totalPage = total / pageSize;

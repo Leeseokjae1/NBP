@@ -70,45 +70,45 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-<br><p>
-<div>
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-    <form action="b2modify" method="post" enctype="multipart/form-data">
-        <tr>
-            <td> 작성자 </td>
-            <td> <input type="text" name="writer" size="100" value="${dto.writer}"> </td>
-        </tr>
-        <tr>
-            <td> 제목 </td>
-            <td> <input type="text" name="title" size="100" value="${dto.title}"> </td>
-        </tr>
-        <tr>
-            <td> 내용 </td>
-            <td> <textarea name="content" rows="5" cols="100">${dto.content}</textarea> </td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file1"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file2"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file3" ><br /></td>
-        </tr>
-        <tr>
-            <td colspan="2"> 
-                <input type="hidden" name="b2_number" value="${dto.b2_number}">
-                <input type="submit" value="수정">
-                &nbsp;&nbsp; <a href = b2view?b2_number=${b2modify.b2_number}&check_b=2">취소</a>
-                &nbsp;&nbsp; <a href="b2list">목록보기</a>
-            </td>
-        </tr>
-    </form>
-</table>
-</div>
+ <br>
+    <div class="container mt-5">
+        <form action="b2modify" method="post" enctype="multipart/form-data">
+            <table class="table table-bordered">
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td> 
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title" class="form-control" value="${dto.title}"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea name="content" rows="5" cols="100" class="form-control">${dto.content}</textarea></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file1" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file2" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file3" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" name="b2_number" value="${dto.b2_number}">
+                        <input type="submit" value="수정" class="btn btn-primary">
+                        <a href="b2view?b2_number=${dto.b2_number}&check_b=2" class="btn btn-secondary">취소</a>
+                        <a href="b2page?page=1" class="btn btn-primary">목록보기</a> 
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
 
 

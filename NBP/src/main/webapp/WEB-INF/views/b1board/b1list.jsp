@@ -117,9 +117,10 @@
                 <li class="page-item"><a class="page-link" href="/b1page?page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
+        <p class="text-right mt-2"><a href="b1writeform" class="btn btn-primary">글작성</a></p>
     </nav>
 
-    <p class="text-center mt-3"><a href="b1writeform" class="btn btn-primary">글작성</a></p>
+    
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
