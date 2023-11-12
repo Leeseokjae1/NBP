@@ -102,6 +102,7 @@
             <td colspan="2"> 
                 <input type="hidden" name="b2_number" value="${dto.b2_number}">
                 <input type="submit" value="수정">
+                &nbsp;&nbsp; <a href = b2view?b2_number=${b2modify.b2_number}&check_b=2">취소</a>
                 &nbsp;&nbsp; <a href="b2list">목록보기</a>
             </td>
         </tr>

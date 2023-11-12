@@ -224,6 +224,8 @@
 
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
+ 
+      
       var coffeePositions = [
            { title: '일하는내빵이', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' },
            { title: '이가는내빵이', latlng: new kakao.maps.LatLng(37.499427948430814, 127.02794423197847), link: 'http://localhost:8081/main' },

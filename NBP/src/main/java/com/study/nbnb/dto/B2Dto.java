@@ -2,13 +2,26 @@ package com.study.nbnb.dto;
 
 import java.sql.Timestamp;
 
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class B2Dto {
 	private int b2_number;
 	private String writer;
+	@NotNull(message="title is null.")
+	@NotEmpty(message="제목을 쓰세요.")
 	private String title;
+	
+	@NotNull(message="title is null.")
+	@NotEmpty(message="내용을 쓰세요.")
 	private String content;
+	
+	@Nullable
 	private String imageurl1;
+	@Nullable
 	private String imageurl2;
+	@Nullable
 	private String imageurl3;
 	private int b_like;
 	private int b_dislike;

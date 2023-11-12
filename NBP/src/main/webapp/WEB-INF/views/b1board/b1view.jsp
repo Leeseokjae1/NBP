@@ -55,6 +55,7 @@
       }
 </style>
 </head>
+
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
@@ -119,8 +120,9 @@
 	</form>
 
 <a href="b1modifyform?b1_number=${dto.b1_number}" class="btn btn-primary">수정하기</a>
+<a href="b1delete?b1_number=${dto.b1_number}">삭제</a>
 <br><p>
-<a href="list">목록보기</a>
+<a href="b1page?page=1">목록보기</a>
 
 
     <!-- Optional JavaScript -->

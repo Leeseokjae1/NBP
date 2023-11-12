@@ -24,6 +24,14 @@ public interface B1Dao {
 	public int likeDropDao(int b1_number);
 	public int dislikelyDao(int b1_number);
 	public int dislikeDropDao(int b1_number);
+	
+	public List<B1Dto> listCountDao();
+	public List<B1Dto> pageDao(int page, int pageSize);	
+	public int selectDao();
+	
+	public List<B1Dto> titleCountDao(@Param("keyword") String keyword);
+	public List<B1Dto> titlesearchDao(@Param("title") String keyword,
+									  @Param("page") int page,@Param("pagesize") int pageSize);
 }
 
 

@@ -22,7 +22,10 @@
 	    values (b2board_seq.nextval, #{param1}, #{param2}, #{param3},
 	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
 	</insert>
-
+	
+		<select id="selectDao">
+		select max(b2_number) from b2board
+	</select>
 	
 	<update id="modifyDao" parameterType="map">
 	    update b2board
@@ -51,4 +54,13 @@
 		update b2board set b_dislike=b_dislike-1 where b2_number = #{param4}	
 	</update>
 
+	<select id ="listCountDao">
+		 select * from b2board
+	</select>
+	
+	<select id="pageDao"  resultType="com.study.nbnb.dto.B2Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b2board order by b2_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+	    ]]>
+	</select>
 </mapper>

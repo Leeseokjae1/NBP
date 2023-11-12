@@ -11,25 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script>
-        function search_check() {
-            if ($('#Searchdata').val().length == 0) {
-                alert("검색어를 입력해주세요.");
-                $('#Searchdata').focus();
-                return;
-            }
-            if ($('#Searchfield').val() == "b2Title") {
-                document.Searchform.action = "/b2board/b2list";
-            }
-            if ($('#Searchfield').val() == "b2Content") {
-                document.Searchform.action = "/b2board/b2list";
-            }
-            if ($('#Searchfield').val() == "b2Writer") {
-                document.Searchform.action = "/b2board/b2list";
-            }
-            document.Searchform.submit();
-        }
-    </script>
+
     <style>
 
         .image {
@@ -114,6 +96,29 @@
             </c:forEach>
         </div>
     </div>
+<ul class="pagination" style="display: flex; list-style-type: none;">
+    
+    <c:if test="${page > 1}">  
+   		<a class="page-link" href="/b2page?page=1">처음</a> &nbsp;
+        <a class="page-link" href="/b2page?page=${page - 1}">이전</a>&nbsp;
+    </c:if>
+
+    <c:forEach var="i" begin="1" end="${totalPage}">
+        <c:choose>
+            <c:when test="${i eq page}">	
+                <span class="page-link">${i}</span>&nbsp;
+            </c:when>
+            <c:otherwise>
+                <a class="page-link" href="/b2page?page=${i}">${i}</a>&nbsp;
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+
+    <c:if test="${page < totalPage}">
+        <a class="page-link" href="/b2page?page=${page + 1}">다음</a>&nbsp;
+        <a class="page-link" href="/b2page?page=${totalPage}">마지막</a>&nbsp;
+    </c:if>
+</ul>
     <p><a href="b2writeform">글작성</a></p>
 
     <!-- Optional JavaScript -->

@@ -169,7 +169,30 @@
 	         </div>
         </div>
   	</div>
-</script>
+
+	<div>
+
+		<tr>
+			<td>보유한 채팅권</td>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td>{보유개수}</td>
+			<td>구매내역</td>
+		</tr>
+		<hr />
+	</div>
+	
+	<div id = "contain1">
+		<p>
+			채팅권 1개 :  <input type="button" value="1000원"> <br />
+			채팅권 5개 : <input type="button" value="5000원">  <br />
+			채팅권 10개 : <input type="button" value="10,000원">  <br />
+			채팅권 20개 : <input type="button" value="20,000원">  <br />
+			채팅권 30개 : <input type="button" value="30,000원">  <br />
+			채팅권 50개 : <input type="button" value="50,000원">  <br />
+			채팅권 100개 : <input type="button" value="100,000원">  <br />
+	</div>	
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
