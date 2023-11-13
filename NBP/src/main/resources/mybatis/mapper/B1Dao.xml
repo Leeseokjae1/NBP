@@ -6,19 +6,49 @@
 <mapper namespace="com.study.nbnb.dao.B1Dao">
 
 	<select id="listDao" resultType="com.study.nbnb.dto.B1Dto">
-		select * from b1dao order by id desc
+		select * from b1board order by b1_number desc
 	</select>
 	
 	<select id="viewDao" resultType="com.study.nbnb.dto.B1Dto">
-		select * from b1dao where id = #{0}
+		select * from b1board where b1_number = #{0}
+	</select>
+	
+	<select id="modifymoveDao" resultType="com.study.nbnb.dto.B1Dto">
+		select * from b1board where b1_number = #{0}
 	</select>
 	
 	<insert id="writeDao">
-		insert into b1dao (id, writer, title, content)
-		values (b1dao_seq.nextval, #{param1},#{param2},#{param3})
+	    insert into b1board (b1_number, writer, title, content, imageurl1, imageurl2, imageurl3, b_like, b_dislike, time)
+	    values (b1board_seq.nextval, #{param1}, #{param2}, #{param3},
+	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
 	</insert>
+
+	
+	<update id="modifyDao" parameterType="map">
+	    update b1board
+	    set writer=#{writer}, title=#{title}, content=#{content}, imageurl1=#{imageurl1},
+	    imageurl2=#{imageurl2}, imageurl3=#{imageurl3}
+	    where b1_number=#{b1_number}
+	</update>
 	
 	<delete id="deleteDao">
-		delete from b1dao where id = #{param1}
+		delete from b1board where b1_number = #{param1}
 	</delete>
+	
+	<update id ="likelyDao">
+		update b1board set b_like=b_like+1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikelyDao">
+		update b1board set b_dislike=b_dislike+1 where b1_number = #{param4}	
+	</update>
+
+	<update id ="likeDropDao">
+		update b1board set b_like=b_like-1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update b1board set b_dislike=b_dislike-1 where b1_number = #{param4}	
+	</update>
+
 </mapper>

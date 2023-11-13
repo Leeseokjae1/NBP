@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style>
-    * {
+ 
+   * {
        padding:0;
        margin:0;
     }
@@ -47,6 +48,18 @@
       }
 </style>
 </head>
+<script>
+
+function form_check(){
+	
+	submit_ajax();
+}
+function submit_ajax(){
+   	document.getElementById("playmodify").submit();
+}
+
+</script>
+
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
@@ -62,40 +75,41 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-<br><p>
+	<table width="500" cellpadding="0" cellspacing="0" border="1">
+		<form action="playmodify" id="playmodify" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="f_number" id="f_number"
+				value="${playmodify.f_number}"> <input type="hidden"
+				name="writer" id="writer" value="${playmodify.writer}">
+			<tr>
+				<td>번호</td>
+				<td>${playmodify.f_number}</td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td>${playmodify.writer}</td>
+			</tr>
+			<tr>
+				<td>제목</td>
+				<td><input type="text" name="title" value="${playmodify.title}"></td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td><textarea rows="10" name="content">${playmodify.content}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>사진 업로드</td>
+				<td><input type="file" name="file"><br /></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="button" value="수정"
+					onclick="form_check()">&nbsp;&nbsp; <a
+					href="playview?f_number=${playmodify.f_number}&check_b=3">취소</a>&nbsp;&nbsp;
 
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post" enctype="multipart/form-data">
-		<tr>
-			<td> 작성자 </td>
-			<td> <input type="text" name="writer" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 제목 </td>
-			<td> <input type="text" name="title" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 내용 </td>
-			<td> <input type="text" name="content" size="100"> </td>
-		</tr>
-	    <tr>
-	        <td> 이미지 업로드 1 </td>
-	        <td> <input type="file" name="file1"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 2 </td>
-	        <td> <input type="file" name="file2"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 3 </td>
-	        <td> <input type="file" name="file3"> </td>
-	    </tr>
-		<tr>
-			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="list">목록보기</a></td>
-		</tr>
-	</form>
-</table>
+				</td>
+			</tr>
+		</form>
+	</table>
 
 </body>
 </html>

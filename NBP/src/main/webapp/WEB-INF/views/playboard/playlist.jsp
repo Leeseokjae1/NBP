@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    * {
+ 
+   * {
        padding:0;
        margin:0;
     }
@@ -62,40 +63,28 @@
          <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
-<br><p>
+
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post" enctype="multipart/form-data">
-		<tr>
-			<td> 작성자 </td>
-			<td> <input type="text" name="writer" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 제목 </td>
-			<td> <input type="text" name="title" size="100"> </td>
-		</tr>
-		<tr>
-			<td> 내용 </td>
-			<td> <input type="text" name="content" size="100"> </td>
-		</tr>
-	    <tr>
-	        <td> 이미지 업로드 1 </td>
-	        <td> <input type="file" name="file1"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 2 </td>
-	        <td> <input type="file" name="file2"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 3 </td>
-	        <td> <input type="file" name="file3"> </td>
-	    </tr>
-		<tr>
-			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="list">목록보기</a></td>
-		</tr>
-	</form>
+	<tr>
+		<td>번호</td>
+		<td>작성자</td>
+		<td>제목</td>
+		<td>좋아요 / 싫어요</td>
+		<td>삭제</td>
+	</tr>
+	<c:forEach items="${playlist}" var="play">
+	<tr>
+		<td>${play.f_number}</td>
+		<td>${play.writer}</td>
+		
+		<td><a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a></td>
+		<td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
+		<td><a href="playdelete?f_number=${play.f_number}">X</td>
+	</tr>
+	</c:forEach>
 </table>
 
+<p><a href="playwriteform">글작성</a></p>
 </body>
 </html>

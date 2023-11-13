@@ -55,11 +55,6 @@
       }
 </style>
 </head>
-
-<img id="image1" style="width:100px; height:100px;">
-<img id="image2" style="width:100px; height:100px;">
-<img id="image3" style="width:100px; height:100px;"><br />
-
 <script>
   // JavaScript로 이미지 소스가 null인 경우 이미지를 감추기
   const image1 = document.getElementById('image1');
@@ -109,8 +104,8 @@
 <img src="${dto.imageurl2}" style="width:100px; height:100px;">
 <img src="${dto.imageurl3}" style="width:100px; height:100px;"><br />
 좋아요 : ${dto.b_like} &nbsp;&nbsp; 싫어요 : ${dto.b_dislike} <br />
-<a href= "../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=1">따봉<img src="/images/111.png" style="width:70px; height:70px;"></a>&nbsp;
-<a href= "../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=-1">언따봉<img src="/images/222.png" style="width:70px; height:70px;"></a>
+<a href= "../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=1">따봉<img src="/images/111.png" style="width:70px; height:70px;"></a>&nbsp;
+<a href= "../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=-1">언따봉<img src="/images/222.png" style="width:70px; height:70px;"></a>
 <hr>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
@@ -124,14 +119,14 @@
 	<tr>
 		<td>${comment.nickname}</td>		
 		<td>${comment.cmt}</td>
-		<td><a href ="b1replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}">X</td>
+		<td><a href ="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}">X</td>
 		
 	
 	</tr>
 	</c:forEach>
 </table>
 
-	<form method = "post" action="b1replywrite">
+	<form method = "post" action="b2replywrite">
 	<p>
 		<label>댓글 작성자</label> <input type="text" name ="nickname">
 	</p>
@@ -141,15 +136,15 @@
 	<p>
 		<input type="hidden" name="check_b" value=1>
 		<input type="hidden" name="m_number" value=1>
-		<input type="hidden" name="t_number" value="${dto.b1_number}">
+		<input type="hidden" name="t_number" value="${dto.b2_number}">
 		<button type = "submit"> 댓글 작성</button>
 	</p>
 	
 	</form>
 
-<a href="b1modifyform?b1_number=${dto.b1_number}" class="btn btn-primary">수정하기</a>
+<a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary">수정하기</a>
 <br><p>
-<a href="list">목록보기</a>
+<a href="b2list">목록보기</a>
 
 
     <!-- Optional JavaScript -->

@@ -7,9 +7,12 @@
 	<select id="listDao" resultType="com.study.nbnb.dto.BuserDto">
 		select * from buser order by id desc
 	</select>
+	<select id="selectDao" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser where id=#{param1}
+	</select>
 	
 	<select id="loginDao" resultType="com.study.nbnb.dto.BuserDto">
-		select * from buser where ID = #{param1} and PASSWORD = #{param2}
+		select * from buser where ID = #{param1}
 	</select>
 	
 	<insert id="writeDao">

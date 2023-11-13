@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Configuration
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler{
@@ -25,6 +26,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	{
 		
 		String loginid = request.getParameter("id");
+		
 		
 		String errormsg = "";
 		
@@ -39,6 +41,10 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		} else if(exception instanceof CredentialsExpiredException) {
 			errormsg = "비밀번호 유효기간이 만료 되었습니다. 관리자에게 문의하세요.";
 		} 
+		
+		HttpSession session = request.getSession();
+        session.setAttribute("username", loginid);
+        
 		
 		request.setAttribute("username", loginid);
 		request.setAttribute("error_message", errormsg);

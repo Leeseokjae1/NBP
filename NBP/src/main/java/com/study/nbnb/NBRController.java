@@ -22,7 +22,7 @@ public class NBRController {
 
 	@PostMapping("emailCheck")
     public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody Map<String, Object> requestData) throws MessagingException, UnsupportedEncodingException  {
-    	String mail = String.valueOf(requestData.get("mail"));
+		String mail = String.valueOf(requestData.get("mail"));
     	String authCode = emailService.sendEmail(mail);
     	Map<String, Object> result = new HashMap<>();
     	result.put("authCode", authCode);

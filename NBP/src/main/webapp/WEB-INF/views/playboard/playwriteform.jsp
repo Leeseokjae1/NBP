@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-    * {
+ 
+   * {
        padding:0;
        margin:0;
     }
@@ -65,7 +66,7 @@
 <br><p>
 
 <table width="500" cellpadding="0" cellspacing="0" border="1">
-	<form action="b1write" method="post" enctype="multipart/form-data">
+	<form action='playwrite' method="post" enctype="multipart/form-data">
 		<tr>
 			<td> 작성자 </td>
 			<td> <input type="text" name="writer" size="100"> </td>
@@ -78,24 +79,15 @@
 			<td> 내용 </td>
 			<td> <input type="text" name="content" size="100"> </td>
 		</tr>
-	    <tr>
-	        <td> 이미지 업로드 1 </td>
-	        <td> <input type="file" name="file1"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 2 </td>
-	        <td> <input type="file" name="file2"> </td>
-	    </tr>
-	    <tr>
-	        <td> 이미지 업로드 3 </td>
-	        <td> <input type="file" name="file3"> </td>
+		  <tr>
+	        <td> 이미지 업로드</td>
+	        <td> <input type="file" name="file"> </td>
 	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력">
-				&nbsp;&nbsp; <a href="list">목록보기</a></td>
+				&nbsp;&nbsp; <a href="playlist">목록보기</a></td>
 		</tr>
 	</form>
 </table>
-
 </body>
 </html>
