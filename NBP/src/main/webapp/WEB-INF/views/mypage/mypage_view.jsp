@@ -1,5 +1,10 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%
+BuserDto login = (BuserDto)session.getAttribute("login");
+int M_NUMBER = login.getM_NUMBER();
+%>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -10,109 +15,112 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-<style>
-   .test1 {
-   
-    }
-    .carousel-inner > .carousel-item > img {
-      /* width: 640px;
-      height: 720px; */
-    }
-    * {
-       padding:0;
-       margin:0;
-    }
-   ul,ol {
-      list-style:none
-   }
-   a {
-      text-decoration:none;color:#000;font-size:15px;
-   }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
-   div img.absolute { 
-        position: absolute;
-        left: 50px;
-        top: 500px;
-      }
-   #nav2>a {
-      display: block; 
-      float: left;
-      font-size: 20px;
-      font-weight: 900;
-      line-height: 80px;
-      padding: 0 30px;
-   }
-   #nav2>ul {
-      float: right;
-   }
-   #nav2>ul li {
-      float: left;
-      padding: 0 30px;
-      line-height: 80px;
-   }
-   #nav2>img .absolute { 
-      position: absolute;
-      left: 50px;
-    }
-    #topbox{
-    	padding: 40px 300px 40px 300px;
-    	display: flex;
-  		align-items: center;
-    }
-    #iconbox{
-    	padding: 0px 0px 0px 100px;
-    	height: 150px;
-    	display: flex;
-  		justify-content: space-between;
-    }
-    
-    #icon{
-    	margin: 20px 50px 20px 50px;
-    	font-size:  110px;
-    }
-    .icons{
-    	margin: 0px 50px 0px 50px;
-    	width:120px; height:125px;
-    	float: left;
-    	text-align:center;
-    	flex-direction: column;
- 		align-items: center;
-    }
-	  .icon-wrapper {
+	<script>
+		console.log("Username:", <%= M_NUMBER%>);
+	</script>
+	<style>
+	   .test1 {
+	   
+	    }
+	    .carousel-inner > .carousel-item > img {
+	      /* width: 640px;
+	      height: 720px; */
+	    }
+	    * {
+	       padding:0;
+	       margin:0;
+	    }
+	   ul,ol {
+	      list-style:none
+	   }
+	   a {
+	      text-decoration:none;color:#000;font-size:15px;
+	   }
+	   nav {
+	      width:80%;overflow:hidden;height:80px;margin:10px auto;
+	   }
+	   div img.absolute { 
+	        position: absolute;
+	        left: 50px;
+	        top: 500px;
+	      }
+	   #nav2>a {
+	      display: block; 
+	      float: left;
+	      font-size: 20px;
+	      font-weight: 900;
+	      line-height: 80px;
+	      padding: 0 30px;
+	   }
+	   #nav2>ul {
+	      float: right;
+	   }
+	   #nav2>ul li {
+	      float: left;
+	      padding: 0 30px;
+	      line-height: 80px;
+	   }
+	   #nav2>img .absolute { 
+	      position: absolute;
+	      left: 50px;
+	    }
+	    #topbox{
+	    	padding: 40px 300px 40px 300px;
+	    	display: flex;
+	  		align-items: center;
+	    }
+	    #iconbox{
+	    	padding: 0px 0px 0px 100px;
+	    	height: 150px;
+	    	display: flex;
+	  		justify-content: space-between;
+	    }
+	    
+	    #icon{
+	    	margin: 20px 50px 20px 50px;
+	    	font-size:  110px;
+	    }
+	    .icons{
+	    	margin: 0px 50px 0px 50px;
+	    	width:120px; height:125px;
+	    	float: left;
+	    	text-align:center;
+	    	flex-direction: column;
+	 		align-items: center;
+	    }
+		  .icon-wrapper {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		}
+	    .box {
+		    width: 150px;
+		    height: 150px; 
+		    border-radius: 30%;
+		    overflow: hidden;
+		}
+		.profile {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
+		.user-nickname {
+	    font-size: 15px; 
+	    color: #ffffff; 
+	    text-align: left;
+	
+		}
+		#probox {
+	  display: flex;
+	  flex-direction: column; 
+	  align-items: center;
+	  text-align: center; 
+	}
+	.user-info {
 	  display: flex;
 	  flex-direction: column;
-	  align-items: center;
+	  justify-content: center;
 	}
-    .box {
-	    width: 150px;
-	    height: 150px; 
-	    border-radius: 30%;
-	    overflow: hidden;
-	}
-	.profile {
-	    width: 100%;
-	    height: 100%;
-	    object-fit: cover;
-	}
-	.user-nickname {
-    font-size: 15px; 
-    color: #ffffff; 
-    text-align: left;
-
-	}
-	#probox {
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
-  text-align: center; 
-}
-.user-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 
 </style>  
 
@@ -139,7 +147,7 @@
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 15px; color: #fff;">배고픈빵빵이 페이지</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
@@ -163,7 +171,7 @@
 	         </div>
 	         <div class="icons">
 	        	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+		            <a href="/1/profile?m_number=<%=M_NUMBER%>"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
 		            <span class="icon-name">회원정보수정</span>
 		        </div>
 	         </div>

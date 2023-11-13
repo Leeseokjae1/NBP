@@ -59,9 +59,9 @@ public class NBController {
 	}
 	
 	
-	@RequestMapping("/mypage")
+	@RequestMapping("1/mypage")
 	public String mypageview(){
-		return "/mypage/mypage_view";
+		return "mypage/mypage_view";
 	}
 	
 	@RequestMapping("/bbangrank")
@@ -86,6 +86,11 @@ public class NBController {
 	}
 	
 	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
+	@RequestMapping("/1/sLogin_popup")
+	public String sLogin_popup() {
+		return "login/search_login";
+	}
+	
 	@RequestMapping("/joinView")
 	public String joinView() {
 		return "login/join_view";
@@ -124,6 +129,51 @@ public class NBController {
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
+	////////////////////////////////////mypage////////////////////////////////////////////////////////////
+	@RequestMapping("/1/profile")
+	public String profile(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "mypage/mypage_profile";
+	}
+	
+	@RequestMapping("/1/profile/modify")
+	public String profile_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String pw1 = request.getParameter("PASSWORD");
+		String pw2 = request.getParameter("pw2");
+
+		if (pw1.equals(pw2)) {
+			buserDao.updateUser2(
+					request.getParameter("ID"), 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}else {
+			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
+			String password = encoded.substring(8);
+			buserDao.updateUser(
+					request.getParameter("ID"), 
+					password, 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}
+		return "redirect:/";
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	@RequestMapping("/b1view")
 	public String view(HttpServletRequest request, Model model) {
 		int b1_number = Integer.parseInt(request.getParameter("b1_number"));
@@ -131,7 +181,6 @@ public class NBController {
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
 		return "/b1board/b1view";
-		
 	}
 	
 	@RequestMapping("/b1replywrite")

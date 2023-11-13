@@ -354,7 +354,7 @@ label {
                         <form id="join_form" name="join_form" action="userJoin" method="post">
                         	<div class="form-group">
                                 <input type="radio" name="BBANG" value="Role_1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-								<input type="radio" name="BBANG" value="Role_2"><span style="color:#fff">&nbsp;<label class="form-control-label">니빵이</label>
+								<input type="radio" name="BBANG" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">아이디</label>

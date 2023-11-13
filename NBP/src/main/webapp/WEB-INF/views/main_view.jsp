@@ -3,10 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%
-BuserDto login = (BuserDto)session.getAttribute("login");
-String id = login.getID();
-%>
+
 <html>
 <head>
    <title>Hello, world!</title>
@@ -16,9 +13,7 @@ String id = login.getID();
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script>
-		console.log("Username:", <%= id%>);
-	</script>
+
 <style>
    .test1 {
          
@@ -123,7 +118,7 @@ String id = login.getID();
          <li><a href="/1/playlist">놀이빵</a></li>
          <li><a href="/loginView">로그인</a></li>
  		<li>Guest님</li>
-         <li><a href="/mypage">MYPAGE</a></li>
+         <li><a href="/1/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
        </ul>
     </nav>

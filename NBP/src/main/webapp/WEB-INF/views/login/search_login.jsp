@@ -13,39 +13,45 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
-	window.onload = function () {
-	    google.accounts.id.initialize({
-	        client_id: "615818042922-22l9icaqq7gb6tvomvu6p5474t0ffbqu.apps.googleusercontent.com",
-	        callback: handleCredentialResponse
-	    });
-	    google.accounts.id.renderButton(
-	        document.getElementById("buttonDiv"),
-	        { theme: "outline", text: "signin", width: 250 },
-	    );
-	 //google.accounts.id.prompt();
+
+function email_check() {
+	document.getElementById("check_id").value = "재전송";
+	alert('인증번호가 발송되었습니다');
+	form_submit();
+}
+
+function form_submit() {
+	var email = document.getElementById("EMAIL_check").value;
+	var a = "";
+	document.getElementById("EMAIL").value = email;
+	$.ajax({
+	    type: "POST",
+	    contentType: "application/json",
+	    url: "/api/emailCheck",
+	    data: JSON.stringify({"mail": email}), // 보낼 데이터
+	    dataType: 'json',
+	    success: function (response) {
+	        console.log("Success:", response);
+	        a = response.authCode;
+	    },
+	    error: function (error) {
+	        console.error("Error:", error);
+	    }
+	});
+}
+
+function check2() {
+	check = document.getElementById("e_check").value;
+	if(a == check){
+		
+		
+		alert('인증되었습니다');
+		
+	}else{
+		alert('인증번호가 잘못 입력되었습니다. 다시 입력해주세요');
 	}
+}
 
-	function form_check() {
-		if ($('#id').val().length == 0) {
-			alert("아이디를 작성하세요");
-			$('#id').focus();
-			return;
-		}
-
-		if ($('#password').val().length == 0) {
-			alert("비밀번호를 작성하세요");
-			$('#password').focus();
-			return;
-		}
-
-		var form = document.login_form;
-	    form.submit();
-	}
-	
-    function openPopup() {
-        window.open("/1/sLogin_popup", "Popup", "width=500,height=500");
-    }
-	
 </script>
 
 <style>
@@ -183,48 +189,25 @@ label {
 		<div class="row">
 			<div class="col-lg-3 col-md-2"></div>
 			<div class="col-lg-6 col-md-8 login-box">
-				<div class="col-lg-12 login-title">Login</div>
-
+				<div class="col-lg-12 login-title">ID/PW Search</div>
 				<div class="col-lg-12 login-form">
 					<div class="col-lg-12 login-form">
-						<c:url value="j_spring_security_check" var="loginUrl"/>
 						<form id="login_form" name="login_form" action="${loginUrl}" method="post">
 							<div class="form-group">
-								<c:if test="${param.error!=null}">
-									<p style="color:#FFF">
-										Login Error! <br/>
-										${error_message}
-									</p>
-								</c:if>
+								<label class="form-control-label">이메일</label>
+								<input type="text" id="EMAIL" name="EMAIL" class="form-control">
+								<input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()"> 
 							</div>
+							
 							<div class="form-group">
-								<label class="form-control-label">ID</label> 
-								<input type="text" class="form-control" id="id" name="id" value="${username}">
-							</div>
-							<div class="form-group">
-								<label class="form-control-label">PASSWORD</label> 
-								<input type="password" class="form-control" id="password" name="password">
-							</div>
-							<div class="col-lg-12" style="margin-bottom:40px;">
-							<div class="g-recaptcha" id="gcap" data-sitekey="6LeXk5gnAAAAAJeHIAAbgifA4BtinsAOpitvUKra" data-callback="recaptchaCallback"></div>
-							</div>
-							<div class="col-lg-12 loginbttm">
-								<div class="col-lg-6 login-btm login-text">
-									<div id="login">
-									    <div id="buttonDiv"></div> 
-									</div>
-								</div>
-								<div class="col-lg-6 login-btm login-button">
-									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />
-									<input type="button" class="btn btn-outline-primary" value="회원가입" onclick="javascript:window.location='joinView'" />
-									<input type="button" class="btn btn-outline-primary" value="ID/PW 찾기" onclick="openPopup()" />
-								</div>
-							</div>
+                                <label class="form-control-label">인증번호</label>
+                                <input type="text" style="background-color: #1A2226;" id="e_check" name="e_check" class="form-control">
+                                <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
+                            </div>
+                            
 						</form>
 					</div>
 				</div>
-				
-				<div class="col-lg-3 col-md-2"></div>
 			</div>
 		</div>
 	</div>
