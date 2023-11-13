@@ -64,15 +64,33 @@
 	    ]]>
 	</select>
 	
-	<select id="SearchDao" resultType="com.study.nbnb.dto.B2Dto">
-        select * from b2board
-        where title like #{keyword} OR content like #{keyword} OR writer like #{keyword}
-        order by b2_number DESC
-        limit #{start}, #{pageSize}
-    </select>
-
-    <select id="SearchCountDao" resultType="com.study.nbnb.dto.B2Dto">
-        select count(*) from b2board
-        where title like #{keyword} OR content like #{keyword} OR writer like #{keyword}
-    </select>
+	<select id ="titleCountDao" resultType="int" parameterType="String">
+       select * from b2board where title LIKE #{keyword}
+   </select>
+   
+   <select id="titlesearchDao"  resultType="com.study.nbnb.dto.B2Dto">
+       <![CDATA[
+       select * from ( select rownum num, A.* from ( select * from b2board where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+       ]]>
+   </select>
+   
+   <select id ="writerCountDao" resultType="int" parameterType="String">
+       select * from b2board where writer LIKE #{keyword}
+   </select>
+   
+   <select id="writersearchDao"  resultType="com.study.nbnb.dto.B2Dto">
+       <![CDATA[
+       select * from ( select rownum num, A.* from ( select * from b2board where writer LIKE #{writer} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+       ]]>
+   </select>
+   
+   <select id ="contentCountDao" resultType="int" parameterType="String">
+       select * from b2board where content LIKE #{keyword}
+   </select>
+   
+   <select id="contentsearchDao"  resultType="com.study.nbnb.dto.B2Dto">
+       <![CDATA[
+       select * from ( select rownum num, A.* from ( select * from b2board where content LIKE #{content} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+       ]]>
+   </select>
 </mapper>

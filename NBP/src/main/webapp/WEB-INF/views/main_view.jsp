@@ -11,8 +11,8 @@ pageEncoding="UTF-8"%>
    <!-- Required meta tags -->
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
    <script src="http://code.jquery.com/jquery.js"></script>
    <script>
    function changeSearchOptions() {
@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
             <option id="Writer" value="b2Writer">작성자</option>
             `;
             break;
-         case "Playboard":
+         case "playboard":
             searchField.innerHTML = `
             <option id="Title" value="pTitle">제목</option>
             <option id="Content" value="pContent">내용</option>
@@ -43,45 +43,59 @@ pageEncoding="UTF-8"%>
             `;
             break;
          default:
+             searchField.innerHTML += `
+             <option id="Default" value="Default">기본 옵션</option>
+             `;
+             break;
          break;
       }
    }
    function search_check() {
-      if($('#Searchdata').val().length == 0) {
+      var searchField = document.getElementById("Searchfield");
+      var searchdata = document.getElementById("Searchdata").value;
+
+      if (searchdata.length === 0) {
          alert("검색어를 입력해주세요.");
-         $('#Searchdata').focus();
+         document.getElementById("Searchdata").focus();
          return;
       }
-      
-      if($('#Searchfield').val() == "b1Title") {
-         document.Searchform.action = "/b1title";
-      }
-      if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1Content";       
-      }
-      if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1Writer";        
-      }
-      if($('#Searchfield').val() == "b2Title") {
-         document.Searchform.action = "/b2board/b2list";
-      }
-      if($('#Searchfield').val() == "b2Content") {
-         document.Searchform.action = "/b2board/b2list";       
-      }
-      if($('#Searchfield').val() == "b2Writer") {
-         document.Searchform.action = "/b2board/b2list";        
-      }
-      if($('#Searchfield').val() == "pTitle") {
-         document.Searchform.action = "/playboard/playlist";
-      }
-      if($('#Searchfield').val() == "pContent") {
-         document.Searchform.action = "/playboard/playlist";       
-      }
-      if($('#Searchfield').val() == "pWriter") {
-         document.Searchform.action = "/playboard/playlist";        
+ 	
+      // 선택된 검색 조건에 따라 액션 설정
+      switch (searchField.value) {
+         case "b1Title":
+            document.Searchform.action = "/b1title";
+            break;
+         case "b1Content":
+            document.Searchform.action = "/b1content";
+            break;
+         case "b1Writer":
+            document.Searchform.action = "/b1writer";
+            break;
+         case "b2Title":
+            document.Searchform.action = "/b2title";
+            break;
+         case "b2Content":
+            document.Searchform.action = "/b2content";
+            break;
+         case "b2Writer":
+            document.Searchform.action = "/b2writer";
+            break;
+         case "pTitle":
+            document.Searchform.action = "/playtitle";
+            break;
+         case "pContent":
+            document.Searchform.action = "/playcontent";
+            break;
+         case "pWriter":
+            document.Searchform.action = "/playwriter";
+            break;
+         default:
+            // 기본 처리 또는 다른 처리
+            break;
       }
       document.Searchform.submit();
-   }  
+   }
+   changeSearchOptions();
    </script>
    <style>
       .test1 {
@@ -198,11 +212,9 @@ pageEncoding="UTF-8"%>
                                 <option value="playboard">놀이빵게시판</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                         <div class="col-md-6">
                             <select id="Searchfield" name="Searchfield" class="form-select">
-                                <option id="Title" value="b1Title">제목</option>
-                                <option id="Content" value="b1Content">내용</option>
-                                <option id="Writer" value="bWriter">작성자</option>
+                                
                             </select>
                         </div>
                      </div>
@@ -216,7 +228,7 @@ pageEncoding="UTF-8"%>
                </div>
                 </form>
          </div>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"/>
+         
       </div>
       <div class="right-content" >
          <div class="slideshow-container">
@@ -255,7 +267,7 @@ pageEncoding="UTF-8"%>
    </script>
     <!-- Optional JavaScript -->
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
