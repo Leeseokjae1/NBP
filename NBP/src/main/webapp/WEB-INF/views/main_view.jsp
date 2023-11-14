@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <% 
    session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
+   session.removeAttribute("Searchfield");
 %>
 <html>
 <head>
@@ -57,10 +57,10 @@ pageEncoding="UTF-8"%>
          document.Searchform.action = "/b1title";
       }
       if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1board/b1list";       
+         document.Searchform.action = "/b1content";       
       }
       if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1board/b1list";        
+         document.Searchform.action = "/b1writer";        
       }
       if($('#Searchfield').val() == "b2Title") {
          document.Searchform.action = "/b2board/b2list";
@@ -179,9 +179,13 @@ pageEncoding="UTF-8"%>
          <li><a href="/b2page?page=1">내빵이</a></li>
          <li><a href="#">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
        </ul>
       
    </nav>
@@ -202,7 +206,7 @@ pageEncoding="UTF-8"%>
                             <select id="Searchfield" name="Searchfield" class="form-select">
                                 <option id="Title" value="b1Title">제목</option>
                                 <option id="Content" value="b1Content">내용</option>
-                                <option id="Writer" value="bWriter">작성자</option>
+                                <option id="Writer" value="b1Writer">작성자</option>
                             </select>
                         </div>
                      </div>

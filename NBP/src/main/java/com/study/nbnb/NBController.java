@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,15 +22,20 @@ import org.springframework.web.multipart.MultipartFile;
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
 import com.study.nbnb.dao.BuserDao;
+import com.study.nbnb.dao.ChatRoomDao;
 import com.study.nbnb.dao.CommentDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
+import com.study.nbnb.dao.SearchDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
+import com.study.nbnb.dto.BuserDto;
+import com.study.nbnb.dto.ChatRoomDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -47,6 +53,10 @@ public class NBController {
 	LikeDao likedao;
 	@Autowired
 	BuserDao buserDao;
+	@Autowired
+	SearchDao searchDao;
+	@Autowired
+	ChatRoomDao crdao;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -60,7 +70,7 @@ public class NBController {
 	
 	@RequestMapping("/mypage")
 	public String mypageview(){
-		return "/mypage/mypage_view";
+		return "mypage/mypage_view";
 	}
 	
 	@RequestMapping("/bbangrank")
@@ -74,8 +84,18 @@ public class NBController {
 	}
 	
 	@RequestMapping("/mpchat")
-	public String myPageChatview(){
-		return "/mypage/mypage_talk";
+	public String myPageChatview(HttpServletRequest request, Model model){
+		HttpSession session = request.getSession();
+		BuserDto a = (BuserDto)session.getAttribute("login");
+		List<ChatRoomDto> cr = crdao.listroomDao(a.getM_NUMBER());
+		model.addAttribute("chat", cr);
+		
+		return "mypage/mypage_talk";
+	}
+	
+	@RequestMapping("/realtime")
+	public String startChat(HttpServletRequest request, Model model){		
+		return "mypage/realtime";
 	}
 	
 	@RequestMapping("/mapview")
@@ -93,14 +113,47 @@ public class NBController {
 	
 @RequestMapping("/mypage_shop")
 public String mypageshopview() {
-return "/mypage/mypage_shop";
+return "mypage/mypage_shop";
 }
 
 	
-	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
+////////////////////////////////////LogIn////////////////////////////////////////////////////////////
+	@RequestMapping("/joinView")
+	public String joinView() {
+		return "login/join_view";
+	}
+	
+	@RequestMapping("/userJoin")
+	public String userJoin(HttpServletRequest request) {
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		
+		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+		String password = encoded.substring(8);
+		
+		buserDao.writeDao(request.getParameter("NAME"),
+						 request.getParameter("ID"),
+						 password,
+						 request.getParameter("ADDRESS"),
+						 request.getParameter("EMAIL"),
+						 PHONENUMBER,
+						 request.getParameter("NICKNAME"),
+						 request.getParameter("BBANG"));
+		return "redirect:loginView";
+	}
+	
+	@RequestMapping("/loginView")
+	public String loginView() {
+		return "login/login_view";
+	}
+	
+	@RequestMapping("/mailView")
+	public String mailView() {
+		return "login/mail";
+	}
 
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
 	@RequestMapping("/b1view")
@@ -109,7 +162,7 @@ return "/mypage/mypage_shop";
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
-		return "/b1board/b1view";
+		return "b1board/b1view";
 		
 	}
 	
@@ -140,7 +193,7 @@ return "/mypage/mypage_shop";
 	
 	@RequestMapping("/b1writeform")
 	public String writeForm() {
-		return "/b1board/b1writeform";
+		return "b1board/b1writeform";
 	}
 	
 	@RequestMapping("/b1write")
@@ -207,7 +260,7 @@ return "/mypage/mypage_shop";
 		//String b1_number = request.getParameter("b1_number");
 		
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
-		return "/b1board/b1modifyform";
+		return "b1board/b1modifyform";
 	}
 	
 	@RequestMapping("/b1modify")
@@ -300,19 +353,15 @@ return "/mypage/mypage_shop";
 		int total = b1dao.listCountDao().size();
 		int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
 		int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
 		if (total % pageSize > 0) {
 			totalPage++;
 		}
 
-		// 5. 현재 페이지 번호를 가져옵니다.
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
 		List<B1Dto> list = b1dao.pageDao(page, pageSize);
 
 		int nStart = (page - 1) * pageSize + 1;
@@ -324,7 +373,7 @@ return "/mypage/mypage_shop";
 		model.addAttribute("page", page);
 		
 
-		return "/b1board/b1list";
+		return "b1board/b1list";
 	}
 
 	
@@ -333,7 +382,7 @@ return "/mypage/mypage_shop";
 	@RequestMapping("/b2list")
 	public String b2list(Model model) {
 		model.addAttribute("list", b2dao.listDao());
-		return "/b2board/b2list";
+		return "b2board/b2list";
 	}
 	
 
@@ -343,7 +392,7 @@ return "/mypage/mypage_shop";
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		model.addAttribute("dto", b2dao.viewDao(b2_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b2_number));
-		return "/b2board/b2view";
+		return "b2board/b2view";
 		
 	}
 	
@@ -373,7 +422,7 @@ return "/mypage/mypage_shop";
 	
 	@RequestMapping("/b2writeform")
 	public String b2writeForm() {
-		return "/b2board/b2writeform";
+		return "b2board/b2writeform";
 	}
 	
 	@RequestMapping("/b2write")
@@ -442,7 +491,7 @@ return "/mypage/mypage_shop";
 		//String b1_number = request.getParameter("b1_number");
 		
 		model.addAttribute("dto", b2dao.viewDao(b2_number));
-		return "/b2board/b2modifyform";
+		return "b2board/b2modifyform";
 	}
 	
 	@RequestMapping("/b2modify")
@@ -558,7 +607,7 @@ return "/mypage/mypage_shop";
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
 
-		return "/b2board/b2list";
+		return "b2board/b2list";
 	}
 	
 	//////////////////////////////////play board ///////////////////////////////////////////////////////
@@ -567,7 +616,7 @@ return "/mypage/mypage_shop";
 	@RequestMapping("/playlist")
 	public String playListPage(Model model) {
 		model.addAttribute("playlist", playdao.plistDao());
-		return "/playboard/playlist";
+		return "playboard/playlist";
 	}
 
 	@RequestMapping("/playview")
@@ -576,7 +625,7 @@ return "/mypage/mypage_shop";
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		model.addAttribute("playview", playdao.viewDao(f_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, f_number));
-		return "/playboard/playview";
+		return "playboard/playview";
 	}
 
 	@RequestMapping("/replywrite")
@@ -608,7 +657,7 @@ return "/mypage/mypage_shop";
 
 	@RequestMapping("/playwriteform")
 	public String playWriteForm() {
-		return "/playboard/playwriteform";
+		return "playboard/playwriteform";
 	}
 
 	@RequestMapping("/playwrite")
@@ -756,7 +805,7 @@ return "/mypage/mypage_shop";
 		model.addAttribute("page", page);
 		model.addAttribute("playlist", playdao.plistDao());
 
-		return "/playboard/playlist";
+		return "playboard/playlist";
 	}
 	
 	/////////////////////////search////////////////////////////////////////
@@ -782,18 +831,83 @@ return "/mypage/mypage_shop";
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
-		List<B1Dto> list = b1dao.titlesearchDao(kw, page, pageSize);
-
 		int nStart = (page - 1) * pageSize + 1;
 		int nEnd = (page - 1) * pageSize + pageSize;
 
-		list = b1dao.titlesearchDao(kw, nEnd, nStart);
+		List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
 		
 
-		return "/b1board/b1list";
+		return "b1board/b1list";
 	}
+	
+	@RequestMapping("/b1writer")
+	public String b1writerpage(HttpServletRequest request, Model model) {
+
+		String kw1 = request.getParameter("Searchdata");
+		String kw = "%" +  kw1 + "%";
+		System.out.println(kw);
+		int total = b1dao.writerCountDao(kw).size();
+		int pageSize = 8;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+
+		return "b1board/b1list";
+	}
+	
+	@RequestMapping("/b1content")
+	public String b1contentpage(HttpServletRequest request, Model model) {
+
+		String kw1 = request.getParameter("Searchdata");
+		String kw = "%" +  kw1 + "%";
+		System.out.println(kw);
+		int total = b1dao.contentCountDao(kw).size();
+		int pageSize = 8;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+		}
+
+		// 5. 현재 페이지 번호를 가져옵니다.
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+
+		List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+
+		return "b1board/b1list";
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////
 }

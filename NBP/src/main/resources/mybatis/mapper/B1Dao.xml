@@ -69,9 +69,29 @@
 		 select * from b1board where title LIKE #{keyword}
 	</select>
 	
-	<select id="titlesearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	<select id ="titlesearchDao"  resultType="com.study.nbnb.dto.B1Dto">
 	    <![CDATA[
 	    select * from ( select rownum num, A.* from ( select * from b1board where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
+	
+	<select id ="writerCountDao" resultType="int" parameterType="String">
+		 select * from b1board where writer LIKE #{keyword}
+	</select>
+	
+	<select id ="writersearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where writer LIKE #{writer} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
+	
+	<select id ="contentCountDao" resultType="int" parameterType="String">
+		 select * from b1board where content LIKE #{keyword}
+	</select>
+	
+	<select id ="contentsearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where content LIKE #{content} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
 	    ]]>
 	</select>
 </mapper>

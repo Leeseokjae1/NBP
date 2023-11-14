@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
-<%@ page import="com.study.nbnb.dto.ChatRoomDto" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%
+ <%
  BuserDto a = (BuserDto)session.getAttribute("login");
-
  String nickname = a.getNICKNAME();
  int m_number = a.getM_NUMBER();
  %>
@@ -188,40 +185,38 @@
 	         </div>
         </div>
   	</div>
-
-
-	<h3>채팅권 갯수 : 0${a.TICKET}개</h3>
-	    <div class="container mt-5">
-	    <c:forEach items="${chat}" var="info">
-            <table class="table table-bordered">
-                <tr>
-                    <td>방 번호</td>
-                    <td><input type="text" id="roomName" name="roomName" size="10" value="${info.roomid}"></td>
-                </tr>
-                <tr>
-                    <td>이름</td>
-                    <td><input type="text" id="userName" name="userName" size="10" value="<%=nickname%>"></td>
-                    <td>
-                    <button id="enterBtn">Enter Room</button>
-                    </td>
-                </tr>
-            </table>
-             </c:forEach>
+  	
+  	<div class="container">
+    <div class="row">
+        
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">채팅방 목록</div>
+                <div class="panel-body">
+                    <ul id="chatRoomList" class="list-group">
+                        <!-- 여기에 채팅방 목록이 동적으로 추가됩니다 -->
+                        <li class="list-group-item" onclick="showChat('ChatRoom1')">Chat Room 1</li>
+                        <li class="list-group-item" onclick="showChat('ChatRoom2')">Chat Room 2</li>
+                    </ul>
+                </div>
+            </div>
+        </div>  
+       
+        <div class="col-md-8">
+            <div id="chat"></div>
+            <input type="text" id="message" placeholder="메시지를 입력하세요...">
+            <button onclick="sendMessage()">전송</button>
+        </div>
     </div>
+</div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
 
-   <div id="chatArea" >
-      <div id="chatMessageArea" ></div>
-      <input type="text" id="message" placeholder="입력하세요...">
-      <button id="sendBtn">Send</button>
-   </div>
-
-<script type="module">
-
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-  import { getDatabase, ref, onChildAdded, update, orderByChild , limitToLast, set, child, push } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js';
-
-  const firebaseConfig = {
+<!-- Firebase 구성 및 초기화 -->
+<script>
+const firebaseConfig = {
     apiKey: "AIzaSyDj-FadmTsfnEWAIU4B2V0rplr4bym5Oec",
     authDomain: "nbproject-3ea90.firebaseapp.com",
     databaseURL: "https://nbproject-3ea90-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -229,76 +224,61 @@
     storageBucket: "nbproject-3ea90.appspot.com",
     messagingSenderId: "661952931653",
     appId: "1:661952931653:web:8dd8e21b011050bfb9802c"
-  };
+};
 
-    const app = initializeApp(firebaseConfig);
-	const database = getDatabase(app);
+const app = firebase.initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-     var roomName;
-     var userName;
-      
-      var chatMessages = [];
-      function connect() {
-          roomName = $("#roomName").val();
-          userName = $("#userName").val();
-		  
+var db;
+var chat;
+var message;
+var chatRoomId;
 
-       var dbRef = ref(database, 'chat/' + roomName);
+window.onload = function () {
+    db = getDatabase(app);
+    chat = document.getElementById('chat');
+    message = document.getElementById('message');
 
-       onChildAdded(dbRef, (data) => {
-           var name = data.val().nickname;
-           var msg = data.val().chat_message;
-      
-         console.log("[1]" + name + ":" + msg);
-         appendMessage(name + ":" + msg);
+    // 채팅방 ID를 현재 시간의 타임스탬프로 설정 (랜덤 대신 사용)
+    chatRoomId = new Date().getTime().toString();
+    const chatRef = ref(database, 'chats/' + chatRoomId);
 
-         if (name !== userName) {
-            markMessageAsRead(roomName, data.key);
-         }
-       });
-   }
+    // 채팅 메시지가 업데이트될 때마다 이벤트 수신
+    onValue(chatRef, (snapshot) => {
+        var messages = snapshot.val();
+        chat.innerHTML = '';
 
-function markMessageAsRead(roomName, messageKey) {
-    var messageRef = ref(database, 'chat/' + roomName + '/' + messageKey);
-    update(messageRef, {
-        chat_read_or_not: true,
+        for (var msg in messages) {
+            var chatMessage = messages[msg];
+            var p = document.createElement('p');
+
+            p.textContent = chatMessage.name + ": " + chatMessage.message;
+            chat.appendChild(p);
+        }
+
+        chat.scrollTop = chat.scrollHeight;
     });
 }
 
-function writeNewPost(roomName, name, msg) {
-    var postData = {
-      chat_room: roomName,
-        nickname: name,
-        chat_message: msg,
-      chat_at: new Date().getTime()
-    };
+// 메시지 전송 함수
+function sendMessage() {
+    const chatRef = ref(database, 'chats/' + chatRoomId);
+    var messageInput = document.getElementById('message');
+    var messageValue = messageInput.value;
 
+    // 채팅방에 새로운 메시지 추가
+    push(chatRef, {
+        name: nickname,
+        m_number: m_number,
+        message: messageValue,
+        RoomId: chatRoomId,
+        timestamp: serverTimestamp()  // 서버 시간 사용
+    });
 
-    var newPostKey = push(child(ref(database), 'chat/' + roomName)).key;
-    var newRef = ref(database, 'chat/' + roomName + '/' + newPostKey);
-
-    set(newRef, postData);
+    messageInput.value = '';
 }
-
-function send() {
-    var msg = $("#message").val();
-    writeNewPost(roomName, userName, msg);
-}
-
-function appendMessage(msg) {
-    $("#chatMessageArea").append(msg + "<br>");
-    var chatAreaHeight = $('#chatArea').height();
-    var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
-    $('#chatArea').scrollTop(maxScroll);
-}
-
-$(document).ready(function () {
-    $('#sendBtn').click(function () { send(); });
-    $('#enterBtn').click(function () { 
-		$("#chatMessageArea").html("");
-		connect(); });
-});
 </script>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
