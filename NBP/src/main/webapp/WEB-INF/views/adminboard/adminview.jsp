@@ -10,7 +10,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <style>
 
         .image {
@@ -33,7 +34,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -61,13 +62,12 @@
       left: 50px;
    }
    .empty-space {
-    margin-top: 10px; 
-    background-color:#FFC1B5;
+    margin-top: 10px;
+    background-color: #FFC1B5;
     height: 30px;
-    left: 200px;
-    overflow:hidden;
-    text-align: center;
-	}
+    margin-left: 200px; 
+    margin-right: 200px;
+}
 	
 	.admintabs {
 	    position: fixed;
@@ -126,78 +126,101 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminview">랭킹빵이었던관리자빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="#">로그아웃</a></li>
          <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/adminview">관리빵 페이지</a></li>
          <% } %>			
        </ul>
     </nav>
+     <div class="empty-space"></div>
   <div class="admintabs">
             <a href="#" class="tabname">회원관리</a>
-            <a href="/adminbd" class="admintab">회원조회</a>
-            <a href="#" class="admintab">회원정지</a>
-            <a href="#" class="admintab">회원정지해제</a>
-            <a href="#" class="tabname">게시글관리</a>
-            <a href="#" class="admintab">게시글조회</a>
-            <a href="#" class="admintab">게시글삭제</a>
+            <a href="#" class="admintab">  회원조회</a>
+            <a href="#" class="admintab">  회원정지</a>
+            <a href="#" class="admintab">  회원정지해제</a>
+            <a href="/adminbd" class="admintab">게시글관리</a>
+            <a href="#" class="admintab">  게시글조회</a>
+            <a href="#" class="admintab">  게시글삭제</a>
             <a href="#" class="tabname">결제관리</a>
-            <a href="#" class="admintab">결제조회</a>
+            <a href="#" class="admintab">  결제조회</a>
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>
-     <div class="empty-space"></div>
+    
      <div class="content">
-	    <h2>B1 Board</h2>
-	    <table border="1">
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>게시판</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성자</th>
+            <th>좋아요</th>
+            <th>싫어요</th>
+            <th>작성일</th>
+            <th>삭제</th>
+        </tr>
+        <c:forEach items="${allBoards}" var="post">
+            <tr>
+			    <td>
+			            ${post.NO}
+			    </td>
+			    <td>${post.BOARDNAME}</td>
+			    <td>${post.TITLE}</td>
+			    <td>
+			        <div class="content-preview" onclick="toggleDetails('Details${post.NO}')">
+			            ${post.CONTENT.substring(0, post.CONTENT.length() > 15 ? 15 : post.CONTENT.length())}${post.CONTENT.length() > 15 ? '...' : ''}
+			        </div>
+			    </td>
+			    <td>${post.WRITER}</td>
+			    <td>${post.GOOD}</td>
+			    <td>${post.BAD}</td>
+			    <td>${post.TIME}</td>
+			    <td class="no-click">
+			       <a href="/bddelete?boardname=${post.BOARDNAME}&boardno=${post.NO}">삭제</a>
+				</td>
+			</tr>
 	        <tr>
-	            <th>ID</th>
-	            <th>Title</th>
-	            <th>Content</th>
-	            <th>Writer</th>
-	            <th>Action</th>
-	        </tr>
-	        <tr th:each="post : ${b1Posts}">
-	            <td th:text="${post.b1_number}"></td>
-	            <td th:text="${post.title}"></td>
-	            <td th:text="${post.content}"></td>
-	            <td th:text="${post.writer}"></td>
-	            <td>
-	                <form th:action="@{/admin/delete}" method="post">
-	                    <input type="hidden" name="b1_number" th:value="${post.b1_number}"/>
-	                    <button type="submit">Delete</button>
-	                </form>
+	            <td colspan="8"style=" background-color:#e3dde1">
+	                <div id="Details${post.NO}" style="display: none; background-color:#e3dde1">
+	                    <p>${post.CONTENT}</p>
+	                    <span class="arrow" style="cursor: pointer;"></span>
+	                </div>
 	            </td>
+	            
 	        </tr>
-	    </table>
+	    </c:forEach>
+	</table>
+	<script>
+	    document.querySelectorAll('.content table tr').forEach(row => {
+	    	row.addEventListener('click', event => {
+	            if (event.target.closest('.no-click')) {
+	                // 삭제 버튼이 있는 셀을 클릭한 경우 이벤트를 무시합니다.
+	                return;
+	            }
+
+	            const detailsId = row.nextElementSibling.querySelector('div').id;
+	            toggleDetails(detailsId);
+	        });
+	    });
 	
-	    <div th:each="post : ${b1Posts}" th:id="'b1Details' + ${post.b1_number}" style="display: none;">
-	        <h3 th:text="${post.title}"></h3>
-	        <p th:text="${post.content}"></p>
-	        <p th:text="'Writer: ' + ${post.writer}"></p>
-	        <!-- 추가 정보들을 표시 -->
-	        <button type="button" onclick="toggleDetails('b1Details${post.b1_number}')">Close</button>
-	    </div>
+	    function toggleDetails(detailsId) {
+	        const details = document.getElementById(detailsId);
+	        const arrow = details.querySelector('.arrow');
 	
-	    <!-- 다른 테이블에 대한 내용도 추가 -->
-	
-	      <script>
-        document.querySelectorAll('.content table tr').forEach(row => {
-            row.addEventListener('click', () => {
-                const detailsId = 'b1Details' + row.children[0].textContent;
-                const details = document.getElementById(detailsId);
-                
-                if (details.style.display === 'none') {
-                    details.style.display = 'block';
-                } else {
-                    details.style.display = 'none';
-                }
-            });
-        });
-    </script>
+	        if (details.style.display === 'none' || details.style.display === '') {
+	            details.style.display = 'block';
+	        } else {
+	            details.style.display = 'none';
+	        }
+	    }
+	   
+	    
+	</script>
 	    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

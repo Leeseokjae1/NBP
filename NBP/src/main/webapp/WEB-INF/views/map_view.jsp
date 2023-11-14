@@ -94,11 +94,8 @@
       }
 
       nav {
-         width: 80%;
-         overflow: hidden;
-         height: 80px;
-         margin: 10px auto;
-      }
+      width:1720px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+   }
 
       div img.absolute {
          position: absolute;

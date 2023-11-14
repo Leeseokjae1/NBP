@@ -1072,22 +1072,69 @@ return "/mypage/mypage_shop";
    
    @GetMapping("/adminbd")
    public String adAllBoards(Model model) {
-	   System.out.println(addao.adAllBoards());
        model.addAttribute("allBoards", addao.adAllBoards());
        return "adminboard/adminbd";
-   }  
+   }
    
-//    @GetMapping("/adminbd")
-//    public String adB1post(Model model) {
-//        List<B1Dto> b1Posts = b1dao.adB1post();
-//        model.addAttribute("b1Posts", b1Posts);
-//        return "adminboard/adminbd";
-//    }
-//    
-	@RequestMapping("/b1addelete")
-	public String deletead(HttpServletRequest request, Model model) {
-		b1dao.deleteDao(request.getParameter("b1_number"));
-		return "adminboard/adminbd";
-	}
+   @RequestMapping("/bddelete")
+   public String deletead(HttpServletRequest request, Model model) {
+      String bn = (String)request.getParameter("boardname");
+      String no = (String)request.getParameter("boardno");
+      String wb = "";
+      System.out.println(bn + " : " + no);
+      if(bn.equals("playboard")) {
+         addao.ADdelete(bn,wb = "f_number", no);
+      } else if(bn.equals("b1board")) {
+         addao.ADdelete(bn, wb = "b1_number", no);
+      } else if(bn.equals("b2board")) {
+         addao.ADdelete(bn, wb = "b2_number", no);
+      }
+   
+      return "redirect:adminbd";
+   }
+//   @DeleteMapping("/delete/{boardname}/{no}")
+//   public ResponseEntity<String> deleteBoard(@PathVariable String boardname, @PathVariable int no) {
+//       boardService.deleteBoard(boardname, no);
+//       return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+//   }
+//   @RequestMapping("/addelete")
+//	public ResponseEntity<?> addelete(HttpServletRequest request, Model model) {
+//		b1dao.deleteDao(request.getParameter("b1_number"));
+//		return "redirect:b1page?page=1";
+//	}
+//   @DeleteMapping("/deletePost/{boardname}/{no}")
+//   public ResponseEntity<?> deletePost(@PathVariable String boardname, @PathVariable int no) {
+//	   System.out.println("deletePost called with boardname: " + boardname + ", no: " + no);
+//   
+//	   System.out.println("16212782671627");
+//       Map<String, Object> params = new HashMap<>();
+//       params.put("boardname", boardname);
+//       params.put("no", no);
+//       addao.deletePost(params);
+//       return ResponseEntity.ok().build();
+//   }
+//   @PostMapping("/{boardname}/delete")
+//   public String deletePost(@PathVariable String boardname, int no,
+//		   HttpServletRequest request, Model model) {
+//	   String a = request.getParameter("BOARDNAME");
+//	   int b = Integer.parseInt(request.getParameter("NO"));
+//	   addao.addeleteB1(a, b);
+//       return "redirect:/adminbd";
+//   }
+//   @PostMapping("/{boardname}/delete")
+//   public String deletePost(@PathVariable String boardname, @RequestParam int no) {
+//       addao.deletePost(boardname, no);
+//       return "redirect:/adminbd";
+//   }
+//	@RequestMapping("/b1addelete")
+//	public String deletead(HttpServletRequest request, Model model) {
+//		b1dao.deleteDao(request.getParameter("b1_number"));
+//		return "adminboard/adminbd";
+//	}
+//	 @RequestMapping(value = "/admin/delete/{b1_number}", method = RequestMethod.GET)
+//	    public String deleteB1Post(@PathVariable int b1_number) {
+//	        b1dao.addeleteB1(b1_number);
+//	        return "redirect:/admin";
+//	    }
 
 }

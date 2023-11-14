@@ -45,11 +45,7 @@
 		order by time desc
 	</select>
 	
-    <delete id="addeleteB1">
-        DELETE FROM b1board WHERE b1_number = #{b1_number}
+	<delete id="ADdelete">
+        DELETE FROM ${param1} WHERE ${param2} = #{param3}
     </delete>
-    
-    <select id="adB1Detail" resultType="com.study.nbnb.dto.B1Dto">
-        SELECT * FROM b1board WHERE b1_number = #{b1_number}
-    </select>
 </mapper>
