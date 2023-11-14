@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.study.nbnb.dao.AdDao">
+
+	<select id="adAllBoards" resultType="java.util.Map">
+	     SELECT 
+		    b1_number AS no,
+		    'b1board' AS boardname,
+		    title,
+		    content,
+		    writer,
+		    b_like AS good,
+		    b_dislike AS bad,
+		    time
+		FROM b1board
+		
+		UNION ALL
+		
+		SELECT 
+		    b2_number AS no,
+		    'b2board' AS boardname,
+		    title,
+		    content,
+		    writer,
+		    b_like AS good,
+		    b_dislike AS bad,
+		    time
+		FROM b2board
+		
+		UNION ALL
+		
+		SELECT 
+		    f_number AS no,
+		    'playboard' AS boardname,
+		    title,
+		    content,
+		    writer,
+		    b_like AS good,
+		    b_dislike AS bad,
+		    time
+		FROM playboard
+		order by time desc
+	</select>
+	
+    <delete id="addeleteB1">
+        DELETE FROM b1board WHERE b1_number = #{b1_number}
+    </delete>
+    
+    <select id="adB1Detail" resultType="com.study.nbnb.dto.B1Dto">
+        SELECT * FROM b1board WHERE b1_number = #{b1_number}
+    </select>
+</mapper>

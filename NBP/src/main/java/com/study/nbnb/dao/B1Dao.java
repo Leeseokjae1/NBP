@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.SqlSession;
 
 import com.study.nbnb.dto.B1Dto;
 
@@ -49,6 +50,12 @@ public interface B1Dao {
              @Param("pageSize") int pageSize);
 
    public int searchCountDao(@Param("keyword") String keyword);
+   
+ 
+	List<B1Dto> adB1post();
+	void addeleteB1(int b1_number);
+	B1Dto adB1Detail(int b1_number);
+   
 }
 
 

@@ -94,4 +94,16 @@
        select * from ( select rownum num, A.* from ( select * from b1board where content LIKE #{content} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
        ]]>
    </select>
+   
+   <select id="adB1post" resultType="com.study.nbnb.dto.B1Dto">
+        SELECT * FROM b1board
+    </select>
+
+    <delete id="addeleteB1">
+        DELETE FROM b1board WHERE b1_number = #{b1_number}
+    </delete>
+    
+    <select id="adB1Detail" resultType="com.study.nbnb.dto.B1Dto">
+        SELECT * FROM b1board WHERE b1_number = #{b1_number}
+    </select>
 </mapper>

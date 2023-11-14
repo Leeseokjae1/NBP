@@ -13,11 +13,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.study.nbnb.dao.AdDao;
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
 import com.study.nbnb.dao.BuserDao;
@@ -47,6 +49,8 @@ public class NBController {
 	LikeDao likedao;
 	@Autowired
 	BuserDao buserDao;
+	@Autowired
+	AdDao addao;
 	
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -61,6 +65,11 @@ public class NBController {
 	@RequestMapping("/mypage")
 	public String mypageview(){
 		return "/mypage/mypage_view";
+	}
+	
+	@RequestMapping("/adminview")
+	public String adminview(){
+		return "/adminboard/adminview";
 	}
 	
 	@RequestMapping("/bbangrank")
@@ -326,7 +335,7 @@ return "/mypage/mypage_shop";
 
 		return "/b1board/b1list";
 	}
-
+	
 	
 	//////////////////////////////b2 board///////////////////////////////////////////////////////////
 	
@@ -1059,4 +1068,26 @@ return "/mypage/mypage_shop";
 
 	      return "/playboard/playlist";
 	   }
+	   /////////////////////////////////////////////////////////////////////
+   
+   @GetMapping("/adminbd")
+   public String adAllBoards(Model model) {
+	   System.out.println(addao.adAllBoards());
+       model.addAttribute("allBoards", addao.adAllBoards());
+       return "adminboard/adminbd";
+   }  
+   
+//    @GetMapping("/adminbd")
+//    public String adB1post(Model model) {
+//        List<B1Dto> b1Posts = b1dao.adB1post();
+//        model.addAttribute("b1Posts", b1Posts);
+//        return "adminboard/adminbd";
+//    }
+//    
+	@RequestMapping("/b1addelete")
+	public String deletead(HttpServletRequest request, Model model) {
+		b1dao.deleteDao(request.getParameter("b1_number"));
+		return "adminboard/adminbd";
+	}
+
 }
