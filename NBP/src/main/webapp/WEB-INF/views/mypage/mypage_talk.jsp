@@ -211,7 +211,7 @@
 
 
    <div id="chatArea" >
-      <div id="chatMessageArea" ></div>
+      <div id="chatMessageArea"></div>
       <input type="text" id="message" placeholder="입력하세요...">
       <button id="sendBtn">Send</button>
    </div>

@@ -14,11 +14,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.study.nbnb.dao.AdDao;
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
 import com.study.nbnb.dao.BuserDao;
@@ -57,6 +59,8 @@ public class NBController {
 	SearchDao searchDao;
 	@Autowired
 	ChatRoomDao crdao;
+	@Autowired
+	AdDao addao;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -910,4 +914,36 @@ return "mypage/mypage_shop";
 	}
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
+
+	   
+	@GetMapping("/adminbd")
+	public String adAllBoards(HttpServletRequest request, Model model) {
+	    model.addAttribute("allBoards", addao.adAllBoards());
+	    return "adminboard/adminbd";
+	}  
+	
+	// @GetMapping("/adminbd")
+	// public String adB1post(Model model) {
+	//     List<B1Dto> b1Posts = b1dao.adB1post();
+	//     model.addAttribute("b1Posts", b1Posts);
+	//     return "adminboard/adminbd";
+	// }
+	// 
+	@RequestMapping("/bddelete")
+	public String deletead(HttpServletRequest request, Model model) {
+		String bn = (String)request.getParameter("boardname");
+		String no = (String)request.getParameter("boardno");
+		String wb = "";
+		System.out.println(bn + " : " + no);
+		if(bn.equals("playboard")) {
+			addao.adDelete(bn,wb = "f_number", no);
+		} else if(bn.equals("b1board")) {
+			addao.adDelete(bn, wb = "b1_number", no);
+		} else if(bn.equals("b2board")) {
+			addao.adDelete(bn, wb = "b2_number", no);
+		}
+	
+		return "redirect:adminbd";
+	}
+
 }

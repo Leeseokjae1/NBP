@@ -177,7 +177,7 @@ pageEncoding="UTF-8"%>
                   <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
