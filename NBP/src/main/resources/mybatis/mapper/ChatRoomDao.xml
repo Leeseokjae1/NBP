@@ -12,7 +12,7 @@
 	</insert>
 	
 	<select id="listroomDao" resultType="com.study.nbnb.dto.ChatRoomDto">
-		select * from chatroom where m_number=#{param1}
+		select * from chatroom where m_number=#{m_number} or another =#{m_number}
 	</select>
 	
 	<delete id="exitroomDao">
