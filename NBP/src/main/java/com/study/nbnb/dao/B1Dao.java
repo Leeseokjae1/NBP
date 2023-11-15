@@ -10,6 +10,7 @@ import com.study.nbnb.dto.B1Dto;
 
 @Mapper
 public interface B1Dao {
+	
 	public List<B1Dto> listDao();
 	public B1Dto viewDao(int b1_number);
 	public int writeDao(String writer, String title, String content,
@@ -32,24 +33,25 @@ public interface B1Dao {
 	public List<B1Dto> titleCountDao(@Param("keyword") String keyword);
 	
 	public List<B1Dto> titlesearchDao(@Param("title") String keyword,
-									  @Param("page") int page,@Param("pagesize") int pageSize);
+									  @Param("page") int page,
+									  @Param("pagesize") int pageSize);
 	
 	public List<B1Dto> writerCountDao(@Param("keyword") String keyword);
 	
 	public List<B1Dto> writersearchDao(@Param("writer") String keyword,
-									  @Param("page") int page,@Param("pagesize") int pageSize);
+									   @Param("page") int page,
+									   @Param("pagesize") int pageSize);
 	
 	public List<B1Dto> contentCountDao(@Param("keyword") String keyword);
 	
 	public List<B1Dto> contentsearchDao(@Param("content") String keyword,
-									  @Param("page") int page,@Param("pagesize") int pageSize);	
+									    @Param("page") int page,
+									    @Param("pagesize") int pageSize);	
 	
 	public List<B1Dto> SearchDao(@Param("keyword") String keyword, 
-             @Param("start") int start, 
-             @Param("pageSize") int pageSize);
+					             @Param("start") int start, 
+					             @Param("pageSize") int pageSize);
 
 	public int searchCountDao(@Param("keyword") String keyword);
+	
 }
-
-
-

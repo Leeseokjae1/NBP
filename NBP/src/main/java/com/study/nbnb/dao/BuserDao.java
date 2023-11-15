@@ -8,6 +8,7 @@ import com.study.nbnb.dto.BuserDto;
 
 @Mapper
 public interface BuserDao {
+	
 	public List<BuserDto> listDao();
 	public BuserDto loginDao(String id);
 	public int writeDao(String NAME,String ID,String PASSWORD,String ADDRESS,String EMAIL,String PHONENUMBER,String NICKNAME,String BBANG);

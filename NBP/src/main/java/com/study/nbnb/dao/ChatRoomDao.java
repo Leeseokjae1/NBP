@@ -8,6 +8,7 @@ import com.study.nbnb.dto.ChatRoomDto;
 
 @Mapper
 public interface ChatRoomDao {
+	
 	public int createChatRoomDao();
 	public List<ChatRoomDto> listroomDao(int m_number);
 	public int exitroomDao(int roomid);
