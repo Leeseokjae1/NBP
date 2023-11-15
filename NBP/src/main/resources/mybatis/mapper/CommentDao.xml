@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.CommentDao">
+
+	<select id="listDao" resultType="com.study.nbnb.dto.CommentDto">
+		select * from commenttable order by c_number desc
+	</select>
+	
+	<select id="viewDao" resultType="com.study.nbnb.dto.CommentDto">
+		select * from commenttable where t_number = #{param2} and check_b=#{param1}
+	</select>
+	
+	<insert id="writeDao">
+		insert into commenttable
+		values (#{param1} ,playboard_seq.nextval, #{param2},#{param3}, sysdate, #{param4}, #{param5})
+	</insert>
+	
+	<update id ="modifyDao">
+		update commenttable set writer =#{param1}, title=#{param2}, content=#{param3}  where f_number = #{param4}	
+	</update>
+	
+	<delete id="deleteDao">
+		delete from commenttable where c_number = #{param1}
+	</delete>
+	
+	
+</mapper>

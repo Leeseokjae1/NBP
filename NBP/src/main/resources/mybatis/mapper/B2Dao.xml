@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.B2Dao">
+
+	<select id="listDao" resultType="com.study.nbnb.dto.B2Dto">
+		select * from b2board order by b2_number desc
+	</select>
+	
+	<select id="viewDao" resultType="com.study.nbnb.dto.B2Dto">
+		select * from b2board where b2_number = #{0}
+	</select>
+	
+	<select id="modifymoveDao" resultType="com.study.nbnb.dto.B2Dto">
+		select * from b2board where b2_number = #{0}
+	</select>
+	
+	<insert id="writeDao">
+	    insert into b2board (b2_number, writer, title, content, imageurl1, imageurl2, imageurl3, b_like, b_dislike, time)
+	    values (b2board_seq.nextval, #{param1}, #{param2}, #{param3},
+	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
+	</insert>
+	
+		<select id="selectDao">
+		select max(b2_number) from b2board
+	</select>
+	
+	<update id="modifyDao" parameterType="map">
+	    update b2board
+	    set writer=#{writer}, title=#{title}, content=#{content}, imageurl1=#{imageurl1},
+	    imageurl2=#{imageurl2}, imageurl3=#{imageurl3}
+	    where b2_number=#{b2_number}
+	</update>
+	
+	<delete id="deleteDao">
+		delete from b2board where b2_number = #{param1}
+	</delete>
+	
+	<update id ="likelyDao">
+		update b2board set b_like=b_like+1 where b2_number = #{param4}	
+	</update>
+	
+	<update id ="dislikelyDao">
+		update b2board set b_dislike=b_dislike+1 where b2_number = #{param4}	
+	</update>
+
+	<update id ="likeDropDao">
+		update b2board set b_like=b_like-1 where b2_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update b2board set b_dislike=b_dislike-1 where b2_number = #{param4}	
+	</update>
+
+	<select id ="listCountDao">
+		 select * from b2board
+	</select>
+	
+	<select id="pageDao"  resultType="com.study.nbnb.dto.B2Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b2board order by b2_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+	    ]]>
+	</select>
+</mapper>

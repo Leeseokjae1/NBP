@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.PlayDao">
+
+	<select id="plistDao" resultType="com.study.nbnb.dto.PlayDto">
+		select * from playboard order by f_number desc
+	</select>
+	
+	<select id="viewDao" resultType="com.study.nbnb.dto.PlayDto">
+		select * from playboard where f_number = #{0}
+	</select>
+	
+	<insert id="writeDao">
+		insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike )
+		values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0)
+	</insert>
+	
+	<insert id="writeDao2">
+		insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike,time )
+		values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, sysdate)
+	</insert>
+	
+	<select id="selectDao">
+		select max(f_number) from playboard
+	</select>
+	
+	<update id ="modifyDao">
+		update playboard set writer =#{param1}, title=#{param2}, content=#{param3},imageurl=#{param4} where f_number = #{param5}	
+	</update>
+	
+	<update id ="likelyDao">
+		update playboard set b_like=b_like+1 where f_number = #{param4}	
+	</update>
+	
+	<update id ="dislikelyDao">
+		update playboard set b_dislike=b_dislike+1 where f_number = #{param4}	
+	</update>
+
+	<update id ="likeDropDao">
+		update playboard set b_like=b_like-1 where f_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update playboard set b_dislike=b_dislike-1 where f_number = #{param4}	
+	</update>
+	
+	<delete id="deleteDao">
+		delete from playboard where f_number = #{param1}
+	</delete>
+	
+	<select id ="listCountDao">
+		 select * from playboard
+	</select>
+	
+	<select id="pageDao"  resultType="com.study.nbnb.dto.PlayDto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from playboard order by f_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+	    ]]>
+	</select>
+	
+</mapper>
