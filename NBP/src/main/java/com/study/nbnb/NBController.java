@@ -121,7 +121,55 @@ public class NBController {
 	return "mypage/mypage_shop";
 	}
 
+////////////////////////////////////////MYPAGE////////////////////////////////////////
+	
+	@RequestMapping("/profile")
+		public String profile(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "mypage/mypage_profile";
+	}
+	
+	@RequestMapping("/profile/modify")
+	public String profile_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String pw1 = request.getParameter("PASSWORD");
+		String pw2 = request.getParameter("pw2");
+		
+		if (pw1.equals(pw2)) {
+			buserDao.updateUser2(
+					request.getParameter("ID"), 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}else {
+			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
+			String password = encoded.substring(8);
+			buserDao.updateUser(
+					request.getParameter("ID"), 
+					password, 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}
+		return "redirect:/";
+	}
+	
 ////////////////////////////////////////LOGIN////////////////////////////////////////	
+	
+	@RequestMapping("/sLogin_popup")
+	public String sLogin_popup() {
+		return "login/search_login";
+	}	
 	
 	@RequestMapping("/joinView")
 	public String joinView() {
