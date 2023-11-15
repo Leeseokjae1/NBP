@@ -1,7 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
- <%
- String nickname = (String)session.getAttribute("nickname");
+	pageEncoding="UTF-8"%>
+<% 
+   session.removeAttribute("Searchdata");
+   session.removeAttribute("Searchfield");   
+%>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%@ page import="com.study.nbnb.dto.ChatRoomDto" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+
+ String nickname = a.getNICKNAME();
+ int m_number = a.getM_NUMBER();
  %>
 <html>
 <head>
@@ -11,8 +21,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<script src="http://code.jquery.com/jquery.js"></script>
+	
 
 <style>
    .test1 {
@@ -32,9 +43,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
+ nav {
+	 width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+ }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -138,11 +149,15 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
          <% } %>
@@ -184,88 +199,116 @@
 	         </div>
         </div>
   	</div>
-  	
-<!-- 채팅방 목록을 위한 부트스트랩 패널 -->
-<div class="panel panel-default">
-    <div class="panel-heading">채팅방 목록</div>
-    <div class="panel-body">
-        <ul id="chatRoomList" class="list-group">
-            <!-- 채팅방 목록이 여기에 표시됩니다 -->
-        </ul>
+
+
+	<h3>채팅권 갯수 : 0${a.TICKET}개</h3>
+	    <div class="container mt-5">
+	    <c:forEach items="${chat}" var="info">
+            <table class="table table-bordered">
+                <tr>
+                    <td>방 번호</td>
+                    <td><input type="text" id="roomName" name="roomName" size="10" value="${info.roomid}"></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td><input type="text" id="userName" name="userName" size="10" value="<%=nickname%>"></td>
+                    <td>
+                    <button id="enterBtn">Enter Room</button>
+                    </td>
+                </tr>
+            </table>
+             </c:forEach>
     </div>
-</div>
 
-<!-- 채팅방 -->
-<div id="chat"></div>
-<input type="text" id="message" placeholder="메시지를 입력하세요...">
-<button onclick="sendMessage()">전송</button>
 
-<!-- Firebase JavaScript SDK 불러오기 -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDj-FadmTsfnEWAIU4B2V0rplr4bym5Oec",
-        authDomain: "nbproject-3ea90.firebaseapp.com",
-        databaseURL: "https://nbproject-3ea90-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "nbproject-3ea90",
-        storageBucket: "nbproject-3ea90.appspot.com",
-        messagingSenderId: "661952931653",
-        appId: "1:661952931653:web:8dd8e21b011050bfb9802c"
+   <div id="chatArea" >
+      <div id="chatMessageArea"></div>
+      <input type="text" id="message" placeholder="입력하세요...">
+      <button id="sendBtn">Send</button>
+   </div>
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getDatabase, ref, onChildAdded, update, orderByChild , limitToLast, set, child, push } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDj-FadmTsfnEWAIU4B2V0rplr4bym5Oec",
+    authDomain: "nbproject-3ea90.firebaseapp.com",
+    databaseURL: "https://nbproject-3ea90-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "nbproject-3ea90",
+    storageBucket: "nbproject-3ea90.appspot.com",
+    messagingSenderId: "661952931653",
+    appId: "1:661952931653:web:8dd8e21b011050bfb9802c"
+  };
+
+    const app = initializeApp(firebaseConfig);
+	const database = getDatabase(app);
+
+     var roomName;
+     var userName;
+      
+      var chatMessages = [];
+      function connect() {
+          roomName = $("#roomName").val();
+          userName = $("#userName").val();
+		  
+
+       var dbRef = ref(database, 'chat/' + roomName);
+
+       onChildAdded(dbRef, (data) => {
+           var name = data.val().nickname;
+           var msg = data.val().chat_message;
+      
+         console.log("[1]" + name + ":" + msg);
+         appendMessage(name + ":" + msg);
+
+         if (name !== userName) {
+            markMessageAsRead(roomName, data.key);
+         }
+       });
+   }
+
+function markMessageAsRead(roomName, messageKey) {
+    var messageRef = ref(database, 'chat/' + roomName + '/' + messageKey);
+    update(messageRef, {
+        chat_read_or_not: true,
+    });
+}
+
+function writeNewPost(roomName, name, msg) {
+    var postData = {
+      chat_room: roomName,
+        nickname: name,
+        chat_message: msg,
+      chat_at: new Date().getTime()
     };
 
-    firebase.initializeApp(firebaseConfig);
 
-    var db;
-    var chat;
-    var message;
-    var chatRoomId;
+    var newPostKey = push(child(ref(database), 'chat/' + roomName)).key;
+    var newRef = ref(database, 'chat/' + roomName + '/' + newPostKey);
 
-    window.onload = function() {
-        db = firebase.database();
-        chat = document.getElementById('chat');
-        message = document.getElementById('message');
-        
+    set(newRef, postData);
+}
 
-        chatRoomId = new Date().getTime().toString();
-        var xhr = new XMLHttpRequest();
-			xhr.open("POST", "SaveChatRoomId", true);
-			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.send("chatRoomId=" + chatRoomId);
-			
-			xhr.onreadystatechange = function () {
-			    if (xhr.readyState === 4 && xhr.status === 200) {
-			        console.log(xhr.responseText);
-			    }
-			};
+function send() {
+    var msg = $("#message").val();
+    writeNewPost(roomName, userName, msg);
+}
 
-        db.ref('chats/' + chatRoomId).on('value', function(snapshot) {
-            var messages = snapshot.val();
-            chat.innerHTML = '';
+function appendMessage(msg) {
+    $("#chatMessageArea").append(msg + "<br>");
+    var chatAreaHeight = $('#chatArea').height();
+    var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
+    $('#chatArea').scrollTop(maxScroll);
+}
 
-            for (var msg in messages) {
-                var chatMessage = messages[msg];
-                var p = document.createElement('p');
-
-                p.textContent = chatMessage.userId + ": " + chatMessage.message;
-                chat.appendChild(p);
-            }
-
-            chat.scrollTop = chat.scrollHeight;
-        });
-    }
-
-    function sendMessage() {
-        var userId = "<% if(session.getAttribute("nickname") != null){ out.print(nickname);} else { %> "Guest <% } %>";
-
-        db.ref('chats/' + chatRoomId).push().set({
-            'userId': userId,
-            'message': message.value,
-            'timestamp': firebase.database.ServerValue.TIMESTAMP
-        });
-
-        message.value = '';
-    }
+$(document).ready(function () {
+    $('#sendBtn').click(function () { send(); });
+    $('#enterBtn').click(function () { 
+		$("#chatMessageArea").html("");
+		connect(); });
+});
 </script>
 
     <!-- Optional JavaScript -->

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<% 
+   session.removeAttribute("Searchdata");
+   session.removeAttribute("Searchfield");   
+%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -108,14 +112,6 @@
     .subtab:hover {
         background-color: #eee;
     }
-    .content {
-        margin-left: 200px;
-        padding: 20px;
-        position: absolute;
-        top: 150px; /* 상단 여백 조절 */
-        left: 20%; /* 왼쪽 여백 조절 */
-        width: 60%;
-   }
     </style>
 </head>
 <body>
@@ -126,14 +122,18 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminview">랭킹빵이었던관리자빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="/adminview">관리빵 페이지</a></li>
-         <% } %>			
+         <li><a href="#">관리빵 페이지</a></li>
+         <% } %>
        </ul>
     </nav>
      <div class="empty-space"></div>
@@ -150,78 +150,7 @@
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>
-    
-     <div class="content">
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>게시판</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>작성자</th>
-            <th>좋아요</th>
-            <th>싫어요</th>
-            <th>작성일</th>
-            <th>삭제</th>
-        </tr>
-        <c:forEach items="${allBoards}" var="post">
-            <tr>
-			    <td>
-			            ${post.NO}
-			    </td>
-			    <td>${post.BOARDNAME}</td>
-			    <td>${post.TITLE}</td>
-			    <td>
-			        <div class="content-preview" onclick="toggleDetails('Details${post.NO}')">
-			            ${post.CONTENT.substring(0, post.CONTENT.length() > 15 ? 15 : post.CONTENT.length())}${post.CONTENT.length() > 15 ? '...' : ''}
-			        </div>
-			    </td>
-			    <td>${post.WRITER}</td>
-			    <td>${post.GOOD}</td>
-			    <td>${post.BAD}</td>
-			    <td>${post.TIME}</td>
-			    <td class="no-click">
-			       <a href="/bddelete?boardname=${post.BOARDNAME}&boardno=${post.NO}">삭제</a>
-				</td>
-			</tr>
-	        <tr>
-	            <td colspan="8"style=" background-color:#e3dde1">
-	                <div id="Details${post.NO}" style="display: none; background-color:#e3dde1">
-	                    <p>${post.CONTENT}</p>
-	                    <span class="arrow" style="cursor: pointer;"></span>
-	                </div>
-	            </td>
-	            
-	        </tr>
-	    </c:forEach>
-	</table>
-	<script>
-	    document.querySelectorAll('.content table tr').forEach(row => {
-	    	row.addEventListener('click', event => {
-	            if (event.target.closest('.no-click')) {
-	                // 삭제 버튼이 있는 셀을 클릭한 경우 이벤트를 무시합니다.
-	                return;
-	            }
-
-	            const detailsId = row.nextElementSibling.querySelector('div').id;
-	            toggleDetails(detailsId);
-	        });
-	    });
-	
-	    function toggleDetails(detailsId) {
-	        const details = document.getElementById(detailsId);
-	        const arrow = details.querySelector('.arrow');
-	
-	        if (details.style.display === 'none' || details.style.display === '') {
-	            details.style.display = 'block';
-	        } else {
-	            details.style.display = 'none';
-	        }
-	    }
-	   
-	    
-	</script>
-	    </div>
+	</div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

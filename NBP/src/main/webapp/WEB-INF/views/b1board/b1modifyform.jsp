@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<% 
+   session.removeAttribute("Searchdata");
+   session.removeAttribute("Searchfield");   
+%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -25,9 +29,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
+ nav {
+	 width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+ }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -63,55 +67,59 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
          <% } %>
        </ul>
     </nav>
-<br><p>
-<div>
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-    <form action="b1modify" method="post" enctype="multipart/form-data">
-        <tr>
-            <td> 작성자 </td>
-            <td> <input type="text" name="writer" size="100" value="${dto.writer}"> </td>
-        </tr>
-        <tr>
-            <td> 제목 </td>
-            <td> <input type="text" name="title" size="100" value="${dto.title}"> </td>
-        </tr>
-        <tr>
-            <td> 내용 </td>
-            <td> <textarea name="content" rows="5" cols="100">${dto.content}</textarea> </td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file1"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file2"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file3" ><br /></td>
-        </tr>
-        <tr>
-            <td colspan="2"> 
-                <input type="hidden" name="b1_number" value="${dto.b1_number}">
-                <input type="submit" value="수정">
-                &nbsp;&nbsp; <a href = b1view?b1_number=${b1modify.b1_number}&check_b=1">취소</a>
-                &nbsp;&nbsp; <a href="list">목록보기</a>
-            </td>
-        </tr>
-    </form>
-</table>
-</div>
+<br>
+    <div class="container mt-5">
+        <form action="b1modify" method="post" enctype="multipart/form-data">
+            <table class="table table-bordered">
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title" class="form-control" value="${dto.title}"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea name="content" rows="5" cols="100" class="form-control">${dto.content}</textarea></td>
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file1" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file2" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file3" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" name="b1_number" value="${dto.b1_number}">
+                        <input type="submit" value="수정" class="btn btn-primary">
+                        <a href="list" class="btn btn-primary">목록보기</a>
+                        <a href="b1view?b1_number=${b1modify.b1_number}&check_b=1" class="btn btn-secondary">취소</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
 
 

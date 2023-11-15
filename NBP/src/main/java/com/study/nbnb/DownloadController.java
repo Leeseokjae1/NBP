@@ -20,13 +20,13 @@ public class DownloadController {
     @GetMapping("/uploads/{fileName}")
     public void downloadImage(@PathVariable String fileName, HttpServletResponse response) {
         try {
-            Path imagePath = Paths.get(uploadDirectory, fileName);
-            if (Files.exists(imagePath)) {
-                response.setContentType("image/jpeg"); // 이미지 유형에 따라 변경
-                response.addHeader("Content-Disposition", "inline; filename=" + fileName);
-                Files.copy(imagePath, response.getOutputStream());
-                response.getOutputStream().flush();
-            }
+	            Path imagePath = Paths.get(uploadDirectory, fileName);
+	            if (Files.exists(imagePath)) {
+	                response.setContentType("image/jpeg"); // 이미지 유형에 따라 변경
+	                response.addHeader("Content-Disposition", "inline; filename=" + fileName);
+	                Files.copy(imagePath, response.getOutputStream());
+	                response.getOutputStream().flush();
+	            }
         } catch (IOException e) {
             e.printStackTrace();
         }

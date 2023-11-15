@@ -51,8 +51,8 @@
 		delete from playboard where f_number = #{param1}
 	</delete>
 	
-	<select id ="listCountDao">
-	 	select * from playboard
+		<select id ="listCountDao">
+		 select * from playboard
 	</select>
 	
 	<select id="pageDao"  resultType="com.study.nbnb.dto.PlayDto">
@@ -60,7 +60,6 @@
 	    select * from ( select rownum num, A.* from ( select * from playboard order by f_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
 	    ]]>
 	</select>
-	
 	<select id ="titleCountDao" resultType="int" parameterType="String">
        select * from playboard where title LIKE #{keyword}
    </select>

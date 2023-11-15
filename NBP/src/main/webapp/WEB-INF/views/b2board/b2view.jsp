@@ -1,6 +1,10 @@
 <%@page import="ch.qos.logback.core.recovery.ResilientSyslogOutputStream"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<% 
+   session.removeAttribute("Searchdata");
+   session.removeAttribute("Searchfield");   
+%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -25,9 +29,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
+ nav {
+	 width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+ }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -64,68 +68,113 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
          <% } %>
        </ul>
     </nav>
 
-내용보기 <br>
-<hr>
-작성자 : ${dto.writer}&nbsp;님 <br>
-제목 : ${dto.title} <br>
-내용 : ${dto.content}<br/>
-사진 : <img src="${dto.imageurl1}" style="width:100px; height:100px;">
-<img src="${dto.imageurl2}" style="width:100px; height:100px;">
-<img src="${dto.imageurl3}" style="width:100px; height:100px;"><br />
-좋아요 : ${dto.b_like} &nbsp;&nbsp; 싫어요 : ${dto.b_dislike} <br />
-<a href= "../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=1">따봉<img src="/images/111.png" style="width:70px; height:70px;"></a>&nbsp;
-<a href= "../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=-1">언따봉<img src="/images/222.png" style="width:70px; height:70px;"></a>
-<hr>
+   <div class="container mt-5">
+        <h1 class="mb-4">내용보기</h1>
+        <hr>
 
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-	<tr>
-	
-		<td>작성자 </td>
-		<td>내용 : </td>
-		<td>삭제</td>
-	</tr>
-	<c:forEach items="${commentview}" var="comment">
-	<tr>
-		<td>${comment.nickname}</td>		
-		<td>${comment.cmt}</td>
-		<td><a href ="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}">X</td>
+        <div class="mb-3 text-center"> 
+		    <strong style="font-size: 1.5em;">작성자:  ${dto.writer}&nbsp;님  </strong>
+		</div>
 		
-	
-	</tr>
-	</c:forEach>
-</table>
+		<div class="mb-3 text-center">
+		    <strong style="font-size: 1.5em;">제목: ${dto.title} </strong>
+		</div>
+		
+		<div class="container mt-5">
+		    <div class="row justify-content-center">
+		        <div class="col-md-12 mb-3 text-center border p-4">
+		            <div class="mb-3">
+		                <strong style="font-size: 1.5em;">내용: ${dto.content} </strong>
+		            </div>
+		
+		            <div class="row justify-content-center">
+		                <div class="col-md-4 mb-3 text-center">
+		                    <img src="${dto.imageurl1}" style="width:80%; max-height:300px; height:auto;">
+		                </div>
+		
+		                <div class="col-md-4 mb-3 text-center">
+		                    <img src="${dto.imageurl2}" style="width:80%; max-height:300px; height:auto;">
+		                </div>
+		
+		                <div class="col-md-4 mb-3 text-center">
+		                    <img src="${dto.imageurl3}" style="width:80%; max-height:300px; height:auto;">
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 
-	<form method = "post" action="b2replywrite">
-	<p>
-		<label>댓글 작성자</label> <input type="text" name ="nickname">
-	</p>
-	<p>
-		<textarea rows="5" cols="50" name="cmt"></textarea>
-	</p>
-	<p>
-		<input type="hidden" name="check_b" value=1>
-		<input type="hidden" name="m_number" value=1>
-		<input type="hidden" name="t_number" value="${dto.b2_number}">
-		<button type = "submit"> 댓글 작성</button>
-	</p>
-	
-	</form>
 
-<a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary">수정하기</a>
-<a href="b2delete?b2_number=${dto.b2_number}">삭제</a>
-<br><p>
-<a href="b2page?page=1">목록보기</a>
+        <div class="mb-3">
+            <strong>좋아요:</strong> ${dto.b_like} &nbsp;&nbsp; <strong>싫어요:</strong> ${dto.b_dislike}
+        </div>
+
+        <div class="mb-3">
+            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=1" class="btn btn-primary">
+                따봉 <img src="/images/111.png" style="width:70px; height:70px;">
+            </a>
+
+            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=-1" class="btn btn-primary">
+                언따봉 <img src="/images/222.png" style="width:70px; height:70px;">
+            </a>
+        </div>
+
+
+<hr>
+
+<table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>작성자</th>
+                    <th>내용</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${commentview}" var="comment">
+                    <tr>
+                        <td>${comment.nickname}</td>
+                        <td>${comment.cmt}</td>
+                        <td><a href="b1replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-danger">X</a></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+
+		 <form method="post" action="b1replywrite" class="mb-3">
+		    <p>
+		        <label>댓글 작성자</label>
+		        <input type="text" name="nickname">
+		    </p>
+		    <p>
+		        <textarea rows="5" cols="50" name="cmt"></textarea>
+		    </p>
+		    <p>
+		        <input type="hidden" name="check_b" value="1">
+		        <input type="hidden" name="m_number" value="1">
+		        <input type="hidden" name="t_number" value="${dto.b2_number}">
+		        <button type="submit" class="btn btn-primary">댓글 작성</button>
+		        <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary">수정하기</a>
+		        <a href="b2page?page=1" class="btn btn-primary">목록보기</a>
+		        <a href="b2delete?b2_number=${dto.b2_number}" class="btn btn-danger">삭제</a>
+		    </p>
+		</form>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

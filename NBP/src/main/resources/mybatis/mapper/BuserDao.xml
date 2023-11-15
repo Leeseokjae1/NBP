@@ -4,6 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.study.nbnb.dao.BuserDao">
+
 	<select id="listDao" resultType="com.study.nbnb.dto.BuserDto">
 		select * from buser order by id desc
 	</select>
@@ -12,8 +13,20 @@
 	</select>
 	
 	<select id="loginDao" resultType="com.study.nbnb.dto.BuserDto">
-		select * from buser where ID = #{param1} and PASSWORD = #{param2}
+		select * from buser where ID = #{param1}
 	</select>
+	
+	<select id="selectUser" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser where m_number=#{param1}
+	</select>
+	
+	<update id="updateUser" >
+		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7} where m_number = #{param8}
+	</update>
+	
+	<update id="updateUser2" >
+		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6} where m_number = #{param7}
+	</update>	
 	
 	<insert id="writeDao">
 		insert into buser values 
@@ -23,4 +36,5 @@
 	<delete id="deleteDao">
 		delete from buser where id = #{param1}
 	</delete>
+	
 </mapper>
