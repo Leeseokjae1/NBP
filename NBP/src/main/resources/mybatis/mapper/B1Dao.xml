@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.B1Dao">
+
+	<select id="listDao" resultType="com.study.nbnb.dto.B1Dto">
+		select * from b1board order by b1_number desc
+	</select>
+	
+	<select id="viewDao" resultType="com.study.nbnb.dto.B1Dto">
+		select * from b1board where b1_number = #{0}
+	</select>
+	
+	<select id="modifymoveDao" resultType="com.study.nbnb.dto.B1Dto">
+		select * from b1board where b1_number = #{0}
+	</select>
+	
+	<insert id="writeDao">
+	    insert into b1board (b1_number, writer, title, content, imageurl1, imageurl2, imageurl3, b_like, b_dislike, time)
+	    values (b1board_seq.nextval, #{param1}, #{param2}, #{param3},
+	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
+	</insert>
+	
+		<select id="selectDao">
+		select max(b1_number) from b1board
+	</select>
+
+	<update id="modifyDao" parameterType="map">
+	    update b1board
+	    set writer=#{writer}, title=#{title}, content=#{content}, imageurl1=#{imageurl1},
+	    imageurl2=#{imageurl2}, imageurl3=#{imageurl3}
+	    where b1_number=#{b1_number}
+	</update>
+	
+	<delete id="deleteDao">
+		delete from b1board where b1_number = #{param1}
+	</delete>
+	
+	<update id ="likelyDao">
+		update b1board set b_like=b_like+1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikelyDao">
+		update b1board set b_dislike=b_dislike+1 where b1_number = #{param4}	
+	</update>
+
+	<update id ="likeDropDao">
+		update b1board set b_like=b_like-1 where b1_number = #{param4}	
+	</update>
+	
+	<update id ="dislikeDropDao">
+		update b1board set b_dislike=b_dislike-1 where b1_number = #{param4}	
+	</update>
+
+	<select id ="listCountDao">
+		 select * from b1board
+	</select>
+	
+	<select id="pageDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board order by b1_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+	    ]]>
+	</select>
+	
+	
+	<select id ="titleCountDao" resultType="int" parameterType="String">
+		 select * from b1board where title LIKE #{keyword}
+	</select>
+	
+	<select id ="titlesearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
+	
+	<select id ="writerCountDao" resultType="int" parameterType="String">
+		 select * from b1board where writer LIKE #{keyword}
+	</select>
+	
+	<select id ="writersearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where writer LIKE #{writer} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
+	
+	<select id ="contentCountDao" resultType="int" parameterType="String">
+		 select * from b1board where content LIKE #{keyword}
+	</select>
+	
+	<select id ="contentsearchDao"  resultType="com.study.nbnb.dto.B1Dto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from b1board where content LIKE #{content} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
+	    ]]>
+	</select>
+</mapper>
