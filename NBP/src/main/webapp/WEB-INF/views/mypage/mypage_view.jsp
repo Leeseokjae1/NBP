@@ -151,7 +151,7 @@
 	         </div>
 	         <div class="icons">
 	       		<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
 		            <span class="icon-name">1:1대화</span>
 		        </div>
 	         </div>

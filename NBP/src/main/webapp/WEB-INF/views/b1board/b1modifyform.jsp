@@ -61,54 +61,54 @@
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
        <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/list">니빵이</a></li>
+         <li><a href="/b2list">내빵이</a></li>
          <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/playlist">놀이빵</a></li>
          <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="#">로그아웃</a></li>
        </ul>
-       </ul>
     </nav>
-<br><p>
-<div>
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-    <form action="b1modify" method="post" enctype="multipart/form-data">
-        <tr>
-            <td> 작성자 </td>
-            <td> <input type="text" name="writer" size="100" value="${dto.writer}"> </td>
-        </tr>
-        <tr>
-            <td> 제목 </td>
-            <td> <input type="text" name="title" size="100" value="${dto.title}"> </td>
-        </tr>
-        <tr>
-            <td> 내용 </td>
-            <td> <textarea name="content" rows="5" cols="100">${dto.content}</textarea> </td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file1"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file2"><br /></td>
-        </tr>
-        <tr>
-            <td> 사진 업로드</td>
-            <td> <input type="file" name="file3" ><br /></td>
-        </tr>
-        <tr>
-            <td colspan="2"> 
-                <input type="hidden" name="b1_number" value="${dto.b1_number}">
-                <input type="submit" value="수정">
-                &nbsp;&nbsp; <a href = b1view?b1_number=${b1modify.b1_number}&check_b=1">취소</a>
-            </td>
-        </tr>
-    </form>
-</table>
-</div>
+<br>
+    <div class="container mt-5">
+        <form action="b1modify" method="post" enctype="multipart/form-data">
+            <table class="table table-bordered">
+                <tr>
+                    <td>작성자</td>
+                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td><input type="text" name="title" class="form-control" value="${dto.title}"></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <td><textarea name="content" rows="5" cols="100" class="form-control">${dto.content}</textarea></td>
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file1" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file2" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td>사진 업로드</td>
+                    <td><input type="file" name="file3" class="form-control-file"><br></td> 
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="hidden" name="b1_number" value="${dto.b1_number}">
+                        <input type="submit" value="수정" class="btn btn-primary">
+                        <a href="list" class="btn btn-primary">목록보기</a>
+                        <a href="b1view?b1_number=${b1modify.b1_number}&check_b=1" class="btn btn-secondary">취소</a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
 
 

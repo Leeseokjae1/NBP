@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
 public class B2Dto {
 	private int b2_number;
 	private String writer;
-	
 	@NotNull(message="title is null.")
 	@NotEmpty(message="제목을 쓰세요.")
 	private String title;

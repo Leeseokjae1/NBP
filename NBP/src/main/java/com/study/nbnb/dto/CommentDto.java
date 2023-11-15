@@ -2,9 +2,6 @@ package com.study.nbnb.dto;
 
 import java.sql.Timestamp;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
 public class CommentDto {
 
 	private int check_b;
@@ -12,10 +9,9 @@ public class CommentDto {
 	private int m_number;
 	private String nickname;
 	private Timestamp c_date;
-
 	private String cmt;
-	
 	private int t_number;
+	
 	public int getT_number() {
 		return t_number;
 	}

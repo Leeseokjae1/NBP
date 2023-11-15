@@ -6,12 +6,9 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-
-
 public class B1Dto {
 	private int b1_number;
 	private String writer;
-	
 	@NotNull(message="title is null.")
 	@NotEmpty(message="제목을 쓰세요.")
 	private String title;
@@ -19,7 +16,6 @@ public class B1Dto {
 	@NotNull(message="content is null.")
 	@NotEmpty(message="내용을 쓰세요.")
 	private String content;
-	
 	
 	@Nullable
 	private String imageurl1;
