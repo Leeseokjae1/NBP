@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<% 
-   session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
-%>
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -14,8 +10,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <style>
 
         .image {
@@ -141,10 +136,11 @@
          <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
          <% } %>
        </ul>
     </nav>
-     <div class="empty-space"></div>
+  <div class="empty-space"></div>
   <div class="admintabs">
             <a href="#" class="tabname">회원관리</a>
             <a href="#" class="admintab">  회원조회</a>

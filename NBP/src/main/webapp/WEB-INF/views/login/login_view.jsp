@@ -41,10 +41,7 @@
 		var form = document.login_form;
 	    form.submit();
 	}
-	
-    function openPopup() {
-        window.open("/1/sLogin_popup", "Popup", "width=500,height=500");
-    }
+
 	
 </script>
 
@@ -217,7 +214,6 @@ label {
 								<div class="col-lg-6 login-btm login-button">
 									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />
 									<input type="button" class="btn btn-outline-primary" value="회원가입" onclick="javascript:window.location='joinView'" />
-									<input type="button" class="btn btn-outline-primary" value="ID/PW 찾기" onclick="openPopup()" />
 								</div>
 							</div>
 						</form>

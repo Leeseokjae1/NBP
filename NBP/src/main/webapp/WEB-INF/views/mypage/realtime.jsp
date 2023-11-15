@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<% 
-   session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
-%>
-
+   pageEncoding="UTF-8"%>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
  <%
  BuserDto a = (BuserDto)session.getAttribute("login");
@@ -41,9 +36,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
- nav {
-	 width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
- }
+   nav {
+      width:80%;overflow:hidden;height:80px;margin:10px auto;
+   }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -147,18 +142,11 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="#">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
-         <li><a href="/loginView">로그인</a></li>
-         <%}else { %>
-         <li>${login.NICKNAME} 님</li>
+         <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <% } %>
+         <li><a href="#">로그아웃</a></li>
        </ul>
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">

@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<% 
-   session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
-%>
+   pageEncoding="UTF-8"%>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
 <%@ page import="com.study.nbnb.dto.ChatRoomDto" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%
  BuserDto a = (BuserDto)session.getAttribute("login");
-
+ ChatRoomDto crdto = (ChatRoomDto)session.getAttribute("chat");
+ 
  String nickname = a.getNICKNAME();
  int m_number = a.getM_NUMBER();
  %>
@@ -22,7 +19,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	
 
 <style>
@@ -43,9 +40,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
- nav {
-	 width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
- }
+   nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+   }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -160,6 +157,7 @@
          <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
          <% } %>
        </ul>
    </nav>
@@ -200,31 +198,25 @@
         </div>
   	</div>
 
-
-	<h3>채팅권 갯수 : 0${a.TICKET}개</h3>
 	    <div class="container mt-5">
-	    <c:forEach items="${chat}" var="info">
-            <table class="table table-bordered">
-                <tr>
-                    <td>방 번호</td>
-                    <td><input type="text" id="roomName" name="roomName" size="10" value="${info.roomid}"></td>
-                </tr>
-                <tr>
-                    <td>이름</td>
-                    <td><input type="text" id="userName" name="userName" size="10" value="<%=nickname%>"></td>
-                    <td>
-                    <button id="enterBtn">Enter Room</button>
-                    </td>
-                </tr>
-            </table>
-             </c:forEach>
+		<c:forEach items="${chat}" var="info" varStatus="num">
+		    <div class="chat-container">
+		        <div>
+		            <label for="roomName">방 번호 : ${info.roomid}</label>
+		            <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
+		            <label for="userName">대화인원 : ${info.m_number}, ${info.another}</label>
+		            <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
+		            <button class="enterBtn btn btn-primary" data-roomName="${info.roomid}" data-userName="<%=nickname%>">Enter Room</button>
+		        </div>
+		    </div>
+		</c:forEach>
     </div>
 
 
    <div id="chatArea" >
       <div id="chatMessageArea"></div>
       <input type="text" id="message" placeholder="입력하세요...">
-      <button id="sendBtn">Send</button>
+      <button id="sendBtn" class="btn btn-secondary">Send</button>
    </div>
 
 <script type="module">
@@ -249,32 +241,25 @@
      var userName;
       
       var chatMessages = [];
-      function connect() {
+
+      function connect(roomName, userName) {
           roomName = $("#roomName").val();
           userName = $("#userName").val();
 		  
 
        var dbRef = ref(database, 'chat/' + roomName);
 
-       onChildAdded(dbRef, (data) => {
-           var name = data.val().nickname;
-           var msg = data.val().chat_message;
-      
-         console.log("[1]" + name + ":" + msg);
-         appendMessage(name + ":" + msg);
+      onChildAdded(dbRef, (data) => {
+   		 var name = data.val().nickname;
+   		 var msg = data.val().chat_message;
 
-         if (name !== userName) {
-            markMessageAsRead(roomName, data.key);
-         }
-       });
+   		 console.log("[1]" + name + ":" + msg);
+   		 appendMessage(name + ":" + msg);
+		});
+
+
    }
 
-function markMessageAsRead(roomName, messageKey) {
-    var messageRef = ref(database, 'chat/' + roomName + '/' + messageKey);
-    update(messageRef, {
-        chat_read_or_not: true,
-    });
-}
 
 function writeNewPost(roomName, name, msg) {
     var postData = {
@@ -304,12 +289,20 @@ function appendMessage(msg) {
 }
 
 $(document).ready(function () {
-    $('#sendBtn').click(function () { send(); });
-    $('#enterBtn').click(function () { 
-		$("#chatMessageArea").html("");
-		connect(); });
+    $('#sendBtn').click(function () { send();
+	});
+
+    $('.enterBtn').click(function () {
+        var roomName = $(this).data('roomName');
+        var userName = $(this).data('userName');
+
+        $("#chatMessageArea").html("");
+        connect(roomName, userName);
+	});
+
 });
 </script>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

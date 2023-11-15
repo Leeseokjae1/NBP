@@ -1,9 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<% 
-   session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -99,8 +94,11 @@ pageEncoding="UTF-8"%>
       }
 
       nav {
-	      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
-	  }
+         width: 80%;
+         overflow: hidden;
+         height: 80px;
+         margin: 10px auto;
+      }
 
       div img.absolute {
          position: absolute;
@@ -189,21 +187,14 @@ pageEncoding="UTF-8"%>
       <img src="/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
       <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
-         <li><a href="/loginView">로그인</a></li>
-         <%}else { %>
-         <li>${login.NICKNAME} 님</li>
+         <li><a href="/list">니빵이</a></li>
+         <li><a href="/b2list">내빵이</a></li>
+         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/playlist">놀이빵</a></li>
+         <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <% } %>
-       </ul>
+         <li><a href="/map">로그아웃</a></li>
+      </ul>
    </nav>
    <div id="mapwrap">
       <!-- 지도가 표시될 div -->

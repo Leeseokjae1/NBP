@@ -60,33 +60,5 @@
 	    select * from ( select rownum num, A.* from ( select * from playboard order by f_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
 	    ]]>
 	</select>
-	<select id ="titleCountDao" resultType="int" parameterType="String">
-       select * from playboard where title LIKE #{keyword}
-   </select>
-   
-   <select id="titlesearchDao"  resultType="com.study.nbnb.dto.PlayDto">
-       <![CDATA[
-       select * from ( select rownum num, A.* from ( select * from playboard where title LIKE #{title} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
-       ]]>
-   </select>
-   
-   <select id ="writerCountDao" resultType="int" parameterType="String">
-       select * from playboard where writer LIKE #{keyword}
-   </select>
-   
-   <select id="writersearchDao"  resultType="com.study.nbnb.dto.PlayDto">
-       <![CDATA[
-       select * from ( select rownum num, A.* from ( select * from playboard where writer LIKE #{writer} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
-       ]]>
-   </select>
-   
-   <select id ="contentCountDao" resultType="int" parameterType="String">
-       select * from playboard where content LIKE #{keyword}
-   </select>
-   
-   <select id="contentsearchDao"  resultType="com.study.nbnb.dto.PlayDto">
-       <![CDATA[
-       select * from ( select rownum num, A.* from ( select * from playboard where content LIKE #{content} ) A where rownum <= #{page} ) B where B.num >= #{pagesize}
-       ]]>
-   </select>
+	
 </mapper>

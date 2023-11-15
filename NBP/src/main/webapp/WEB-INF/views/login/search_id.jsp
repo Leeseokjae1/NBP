@@ -19,11 +19,11 @@ function email_check() {
 	alert('인증번호가 발송되었습니다');
 	form_submit();
 }
-
+var a = "";
+var email=""
 function form_submit() {
-	var email = document.getElementById("EMAIL_check").value;
-	var a = "";
-	document.getElementById("EMAIL").value = email;
+	email = document.getElementById("EMAIL").value;
+	a = "";
 	$.ajax({
 	    type: "POST",
 	    contentType: "application/json",
@@ -41,11 +41,26 @@ function form_submit() {
 }
 
 function check2() {
-	check = document.getElementById("e_check").value;
+	var check = document.getElementById("e_check").value;
+	console.log("a:",a == check);
 	if(a == check){
 		
-		
-		alert('인증되었습니다');
+		$.ajax({
+		    type: "POST",
+		    contentType: "application/json",
+		    url: "/api/emailId",
+		    data: JSON.stringify({"mailToId": email}), // 보낼 데이터
+		    dataType: 'json',
+		    success: function (response) {
+		        console.log("Success:", response);
+		        alert('인증되었습니다');
+		      	document.getElementById("getId").innerText = "ID: "+response.authCode.id;
+		        
+		    },
+		    error: function (error) {
+		    	alert('인증에 실패하였습니다. 다시 시도해주세요.');
+		    }
+		});		
 		
 	}else{
 		alert('인증번호가 잘못 입력되었습니다. 다시 입력해주세요');
@@ -182,6 +197,9 @@ label {
 .loginbttm {
     padding: 0px;
 }
+.yws {
+    padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -189,23 +207,30 @@ label {
 		<div class="row">
 			<div class="col-lg-3 col-md-2"></div>
 			<div class="col-lg-6 col-md-8 login-box">
-				<div class="col-lg-12 login-title">ID/PW Search</div>
+				<div class="col-lg-12 login-title">ID Search</div>
 				<div class="col-lg-12 login-form">
 					<div class="col-lg-12 login-form">
-						<form id="login_form" name="login_form" action="${loginUrl}" method="post">
-							<div class="form-group">
-								<label class="form-control-label">이메일</label>
-								<input type="text" id="EMAIL" name="EMAIL" class="form-control">
-								<input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()"> 
-							</div>
-							
-							<div class="form-group">
-                                <label class="form-control-label">인증번호</label>
-                                <input type="text" style="background-color: #1A2226;" id="e_check" name="e_check" class="form-control">
-                                <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
-                            </div>
-                            
-						</form>
+						<div class="form-group">
+							<label class="form-control-label">이메일</label>
+							<input type="text" id="EMAIL" name="EMAIL" class="form-control">
+							<input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()"> 
+						</div>
+						
+						<div class="form-group">
+                               <label class="form-control-label">인증번호</label>
+                               <input type="text" style="background-color: #1A2226;" id="e_check" name="e_check" class="form-control">
+                               <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" id="getId"></label>
+                        </div>
+					</div>
+					<div class="col-lg-12">
+					
+						<a href="../loginView"><label class="form-control-label yws" >로그인</label></a> &nbsp;
+						<a href="../joinView"><label class="form-control-label yws">회원가입</label></a> &nbsp;
+						<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
+
 					</div>
 				</div>
 			</div>

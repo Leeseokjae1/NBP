@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<% 
-   session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
-%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -71,6 +67,7 @@ pageEncoding="UTF-8"%>
          <%} %>
          <% if (session.getAttribute("Admin") != null) { %>
          <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
          <% } %>
        </ul>
     </nav>
