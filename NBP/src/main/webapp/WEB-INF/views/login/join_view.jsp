@@ -336,7 +336,9 @@ label {
     border-radius: 10px;
 }
 
-
+.yws {
+    padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -419,14 +421,15 @@ label {
 								</div>
 								<div class="col-lg-6 login-btm login-button">
                                     <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()" disabled>
-                                    <input type="button" class="btn btn-outline-primary" value="로그인" onclick="javascript:window.location='loginView'" >
                                 </div>
 								
 							</div>
 
-                            
-
-                            
+                            <div class="col-lg-12 loginbttm" style="text-align: center;">
+								<a href="../loginView"><label class="form-control-label yws" >로그인</label></a> &nbsp;
+								<a href="../search_id"><label class="form-control-label yws">아이디 찾기</label></a> &nbsp;
+								<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
+							</div>
                         </form>
                     </div>
                 </div>

@@ -37,5 +37,13 @@
 		delete from buser where id = #{param1}
 	</delete>
 	
+	<select id="emailDao" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser where email = #{param1}
+	</select>
+	
+	<update id="emailPwDao" >
+		update buser set password = #{param2} where email = #{param1}
+	</update>
+	
 	
 </mapper>

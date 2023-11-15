@@ -19,9 +19,6 @@ int M_NUMBER = login.getM_NUMBER();
 		console.log("Username:", <%= M_NUMBER%>);
 	</script>
 	<style>
-	   .test1 {
-	   
-	    }
 	    .carousel-inner > .carousel-item > img {
 	      /* width: 640px;
 	      height: 720px; */

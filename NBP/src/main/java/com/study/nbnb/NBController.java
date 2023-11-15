@@ -125,7 +125,14 @@ public class NBController {
 		return "login/mail";
 	}
 	
-
+	@RequestMapping("/search_id")
+	public String search_id() {
+		return "login/search_id";
+	}
+	@RequestMapping("/search_pw")
+	public String search_pw() {
+		return "login/search_pw";
+	}
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
