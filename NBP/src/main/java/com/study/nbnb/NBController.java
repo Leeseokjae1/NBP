@@ -27,6 +27,7 @@ import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
+import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
@@ -86,9 +87,41 @@ public class NBController {
 	}
 	
 	////////////////////////////////////LogIn////////////////////////////////////////////////////////////
-	@RequestMapping("/1/sLogin_popup")
+	@RequestMapping("/admin")
 	public String sLogin_popup() {
-		return "login/search_login";
+		return "adminboard/adminbd";
+	}
+	@RequestMapping("/admin/member")
+	public String admin_member(HttpServletRequest request, Model model) {
+		
+		
+		
+		  int total = buserDao.listDao().size();
+	      int pageSize = 10;
+
+	      int totalPage = total / pageSize;
+
+	      if (total % pageSize > 0) {
+	         totalPage++;
+	      }
+	      
+	      String sPage = request.getParameter("page");
+	      int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	      int nStart = (page - 1) * pageSize + 1;
+	      int nEnd = (page - 1) * pageSize + pageSize;
+	     
+	      List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
+	      
+	      System.out.println(nStart);
+	      System.out.println(nEnd);
+	      System.out.println(a.size());
+	      
+	      model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
+	      model.addAttribute("totalPage", totalPage);
+	      model.addAttribute("page", page);
+
+		return "adminboard/adminmember";
 	}
 	
 	@RequestMapping("/joinView")
@@ -100,10 +133,9 @@ public class NBController {
 	public String userJoin(HttpServletRequest request) {
 		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
 		
-		
 		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
 		String password = encoded.substring(8);
-		String bbang = "Role_"+request.getParameter("BBANG");
+		String bbang = "ROLE_"+request.getParameter("BBANG");
 		buserDao.writeDao(request.getParameter("NAME"),
 						 request.getParameter("ID"),
 						 password,
@@ -716,5 +748,9 @@ public class NBController {
 
 	      return "playboard/playlist";
 	   }
+	   
+	   
+	   
+	   
 	   
 }
