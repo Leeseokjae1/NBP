@@ -2,6 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%@ page import="com.study.nbnb.dto.PlayDto" %>
+<%
+PlayDto view = (PlayDto)session.getAttribute("b1dto");
+int mn = view.getM_number();
+int m_number = 0;
+if(session.getAttribute("login") != null){
+BuserDto member = (BuserDto)session.getAttribute("login");
+m_number = member.getM_NUMBER();
+String writer = member.getNICKNAME();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,28 +93,53 @@
 <div class="container mt-5">
     <h4>내용보기</h4>
     <hr>
-    <div>
-        <p><strong>제목 :</strong> ${playview.title}</p>
-        <p><strong>작성자 :</strong> ${playview.writer} &nbsp; &nbsp;
-           
-        <p><strong>내용 :</strong> ${playview.content}</p>
-        <p><strong>사진 :</strong> <img src="${playview.imageurl}" style="width:100px; height:100px;"></p>
-    </div>
+    
+    <div class="mb-3 text-left"> 
+		    <strong style="font-size: 1.5em;">작성자&nbsp;: ${playview.writer}&nbsp;님  </strong>
+		</div>
+		<hr style="border: 1px solid;">
+		<div class="mb-3 text-left">
+		    <strong style="font-size: 1.5em;">제목&nbsp;: ${playview.title} </strong>
+		</div>
+		<div class="container mt-5">
+		    <div class="row justify-content-center" style="border: 2px solid;">
+		        <div class="col-md-12 mb-3 text-left">
+		            <div class="mb-3">
+		            <br/>
+		                <strong style="font-size: 1.5em;">내용&nbsp;: ${playview.content} </strong>
+		            </div>
+		
+		            <div class="row justify-content-center">
+		                <div class="col-md-4 mb-3 text-center">
+		                    <img src="${playview.imageurl1}" style="width:80%; max-height:300px; height:auto;">
+		                </div>
+
+		            </div>
+		        </div>
+		    </div>
+		</div>
     
     <div class="mb-3">
             <strong>좋아요:</strong> ${playview.b_like} &nbsp;&nbsp; <strong>싫어요:</strong> ${playview.b_dislike}
     </div>
-    
+    <%if(session.getAttribute("login") != null){ %>
      <div class="mb-3">
-         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">
+         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=1">
              <img src="/images/like.png" style="width:70px; height:70px;">
          </a>
 
-         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">
+         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=-1">
              <img src="/images/dislike.png" style="width:70px; height:70px;">
          </a>
       </div>
-    
+      <%}else{ %>
+                <div class="mb-3">
+                <img src="/images/like.png" style="width:70px; height:70px;">
+
+                <img src="/images/dislike.png" style="width:70px; height:70px;">
+        </div>
+        
+        <%} %>
     <hr>
     <table class="table table-bordered">
         <thead>

@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%
+int m_number = 0;
+if(session.getAttribute("login") != null){
+BuserDto member = (BuserDto)session.getAttribute("login");
+m_number = member.getM_NUMBER();
+String writer = member.getNICKNAME();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -140,7 +149,9 @@
     </ul>
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+    <%if(session.getAttribute("login") != null){ %>
         <a href="playwriteform" class="btn btn-primary">글작성</a>
+        <%} %>
     </div>
 </div>
 

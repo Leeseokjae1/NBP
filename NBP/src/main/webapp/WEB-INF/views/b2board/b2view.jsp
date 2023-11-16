@@ -2,6 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%@ page import="com.study.nbnb.dto.B2Dto" %>
+<%
+B2Dto view = (B2Dto)session.getAttribute("b2dto");
+int mn = view.getM_number();
+int m_number = 0;
+if(session.getAttribute("login") != null){
+BuserDto member = (BuserDto)session.getAttribute("login");
+m_number = member.getM_NUMBER();
+String writer = member.getNICKNAME();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,20 +93,19 @@
     </nav>
 
    <div class="container mt-5">
-        <h1 class="mb-4">내용보기</h1>
-        <hr>
+        <h1 class="mb-4 text-center">내용보기</h1>
+        <hr style="border: 1px solid;">
 
         <div class="mb-3 text-left"> 
 		    <strong style="font-size: 1.5em;">작성자&nbsp;:  ${dto.writer}&nbsp;님  </strong>
 		</div>
-		
+		<hr style="border: 1px solid;">
 		<div class="mb-3 text-left">
 		    <strong style="font-size: 1.5em;">제목&nbsp;: ${dto.title} </strong>
 		</div>
-		
 		<div class="container mt-5">
-		    <div class="row justify-content-center">
-		        <div class="col-md-12 mb-3 text-left border p-4">
+		    <div class="row justify-content-center" style="border: 2px solid;">
+		        <div class="col-md-12 mb-3 text-left">
 		            <div class="mb-3">
 		                <strong style="font-size: 1.5em;">내용&nbsp;: ${dto.content} </strong>
 		            </div>
@@ -120,19 +131,36 @@
         <div class="mb-3">
             <strong>좋아요:</strong> ${dto.b_like} &nbsp;&nbsp; <strong>싫어요:</strong> ${dto.b_dislike}
         </div>
-
+		<%if(session.getAttribute("login") != null){ %>
         <div class="mb-3">
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=1">
+            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
                 <img src="/images/like.png" style="width:70px; height:70px;">
             </a>
 
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=1&l_or_dl=-1">
+            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
                 <img src="/images/dislike.png" style="width:70px; height:70px;">
             </a>
         </div>
+		<%}else{ %>
+                <div class="mb-3">
+                <img src="/images/like.png" style="width:70px; height:70px;">
 
-
-<hr>
+                <img src="/images/dislike.png" style="width:70px; height:70px;">
+        </div>
+        
+        <%} %>
+   		<%if(m_number == mn){ %>
+		<div class="mb-3 text-right">
+		    <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary ml-auto">수정하기</a>
+		    <a href="b2page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="b2delete?b2_number=${dto.b2_number}" class="btn btn-danger ml-2">삭제</a>
+		</div>
+		<%}else{ %>
+		<div class="mb-3 text-right">
+		    <a href="b1page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		</div>
+		<%} %>
+		<hr>
 
 <table class="table table-bordered">
             <thead>
@@ -156,7 +184,7 @@
 		 <form method="post" action="b1replywrite" class="mb-3">
 		    <p>
 		        <label>댓글 작성자</label>
-		        <input type="text" name="nickname">
+		        <input type="text" name="nickname" value="${dto.writer}">
 		    </p>
 		    <p>
 		        <textarea rows="5" cols="50" name="cmt"></textarea>
@@ -166,9 +194,6 @@
 		        <input type="hidden" name="m_number" value="1">
 		        <input type="hidden" name="t_number" value="${dto.b2_number}">
 		        <button type="submit" class="btn btn-primary">댓글 작성</button>
-		        <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary">수정하기</a>
-		        <a href="b2page?page=1" class="btn btn-primary">목록보기</a>
-		        <a href="b2delete?b2_number=${dto.b2_number}" class="btn btn-danger">삭제</a>
 		    </p>
 		</form>
     </div>

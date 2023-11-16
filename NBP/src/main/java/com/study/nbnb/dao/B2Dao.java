@@ -14,7 +14,7 @@ public interface B2Dao {
 	public List<B2Dto> listDao();
 	public B2Dto viewDao(int b2_number);
 	public int writeDao(String writer, String title, String content,
-			String imageurl1, String imageurl2, String imageurl3);	
+			String imageurl1, String imageurl2, String imageurl3, int m_number);	
 	
 	public void modifyDao(Map<String, String> parameters);
 	

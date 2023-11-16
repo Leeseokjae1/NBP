@@ -84,7 +84,7 @@
             <table class="table table-bordered">
                 <tr>
                     <td>작성자</td>
-                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td>
+                    <td>${dto.writer}</td>
                 </tr>
                 <tr>
                     <td>제목</td>

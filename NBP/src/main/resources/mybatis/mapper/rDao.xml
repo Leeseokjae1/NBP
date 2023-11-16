@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.study.nbnb.dao.RDao">
+    <select id="getRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT b1.b1_number AS b1Number,
+            b1.writer,
+            b1.title,
+            b1.b_like - b1.b_dislike AS score,
+            b1.imageurl1,
+            b1.imageurl2,
+            b1.imageurl3,
+            ROW_NUMBER() OVER (ORDER BY (b1.b_like - b1.b_dislike) DESC) AS rank
+        FROM b1board b1
+        ORDER BY (b1.b_like - b1.b_dislike) DESC
+    </select>
+</mapper>
