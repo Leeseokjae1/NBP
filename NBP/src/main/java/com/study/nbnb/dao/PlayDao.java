@@ -3,6 +3,8 @@ package com.study.nbnb.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.study.nbnb.dto.PlayDto;
 
 
@@ -21,5 +23,31 @@ public interface PlayDao {
 	public List<PlayDto> listCountDao();
 	public List<PlayDto> pageDao(int page, int pageSize);	
 	public int selectDao();
+	
+	public List<PlayDto> titleCountDao(@Param("keyword") String keyword);
+    
+    public List<PlayDto> titlesearchDao(@Param("title") String keyword,
+                                      @Param("page") int page,
+                                      @Param("pagesize") int pageSize);
+   
+    public List<PlayDto> writerCountDao(@Param("keyword") String keyword);
+   
+    public List<PlayDto> writersearchDao(@Param("writer") String keyword,
+                                @Param("page") int page,
+                                @Param("pagesize") int pageSize);
+   
+    public List<PlayDto> contentCountDao(@Param("keyword") String keyword);
+   
+    public List<PlayDto> contentsearchDao(@Param("content") String keyword,
+                                        @Param("page") int page,
+                                        @Param("pagesize") int pageSize);   
+   
+    public List<PlayDto> SearchDao(@Param("keyword") String keyword, 
+                             @Param("start") int start, 
+                             @Param("pageSize") int pageSize);
+
+    public int searchCountDao(@Param("keyword") String keyword);
+	
+	
 	
 }
