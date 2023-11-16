@@ -13,18 +13,6 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
-	window.onload = function () {
-	    google.accounts.id.initialize({
-	        client_id: "615818042922-22l9icaqq7gb6tvomvu6p5474t0ffbqu.apps.googleusercontent.com",
-	        callback: handleCredentialResponse
-	    });
-	    google.accounts.id.renderButton(
-	        document.getElementById("buttonDiv"),
-	        { theme: "outline", text: "signin", width: 250 },
-	    );
-	 //google.accounts.id.prompt();
-	}
-
 	function form_check() {
 		if ($('#id').val().length == 0) {
 			alert("아이디를 작성하세요");
@@ -211,9 +199,7 @@ label {
 							</div>
 							<div class="col-lg-12 loginbutton">
 								<div class="col-lg-6 login-btm login-text">
-								<div id="login">
-								   소셜로그인
-								</div>
+									<a href="/oauth2/authorization/google">Google Login</a>
 								</div>
 								<div class="col-lg-6 login-btm login-button">
 									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />

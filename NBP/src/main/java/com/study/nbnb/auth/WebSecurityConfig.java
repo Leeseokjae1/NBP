@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.study.nbnb.oauth2.CustomOAuth2UserService;
+
 import jakarta.servlet.DispatcherType;
 
 @Configuration
@@ -21,6 +23,8 @@ public class WebSecurityConfig {
 	public AuthenticationFailureHandler authenticationFailureHandler;
 	@Autowired
 	public AuthenticationSuccessHandler authenticationSuccessHandler;
+	@Autowired
+	public CustomOAuth2UserService customOAuth2UserService;
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -55,6 +59,16 @@ public class WebSecurityConfig {
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/")
 			.permitAll());
+		
+		http.headers((headers) -> headers
+				.frameOptions(frameOptions -> frameOptions.disable())
+		);
+		
+		http.oauth2Login((oauth) -> oauth
+				.userInfoEndpoint(endPoint -> endPoint
+						.userService(customOAuth2UserService)
+				)
+		);
 		
 		return http.build();
 	}

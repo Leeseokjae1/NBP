@@ -103,7 +103,7 @@ public class NBController {
 		
 		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
 		String password = encoded.substring(8);
-		
+		String bbang = "Role_"+request.getParameter("BBANG");
 		buserDao.writeDao(request.getParameter("NAME"),
 						 request.getParameter("ID"),
 						 password,
@@ -111,7 +111,7 @@ public class NBController {
 						 request.getParameter("EMAIL"),
 						 PHONENUMBER,
 						 request.getParameter("NICKNAME"),
-						 request.getParameter("BBANG"));
+						 bbang);
 		return "redirect:loginView";
 	}
 	

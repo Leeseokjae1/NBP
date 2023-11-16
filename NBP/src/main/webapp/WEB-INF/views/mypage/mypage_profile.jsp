@@ -10,7 +10,7 @@ String password = login.getPASSWORD();
 
 <html>
 <head>
-   <title>Hello, world!</title>
+   <title>회원정보수정</title>
      <meta charset="UTF-8">
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,6 +31,17 @@ String password = login.getPASSWORD();
 				el.options[i].selected = true;
 			}
 		}  
+		
+		const bbang = document.getElementById("test").value;
+		var radio1 = document.getElementById("Role_1");
+		var radio2 = document.getElementById("Role_2");
+		
+		if (bbang === "Role_2") {
+			radio2.checked = true;
+		} else {
+			radio1.checked = true;
+		}
+		
 	})
 	
 	function execDaumPostcode() {
@@ -275,6 +286,11 @@ String password = login.getPASSWORD();
 	  		<form id="modify" name="modify" action="/1/profile/modify" method="post">
 	  			<input type="hidden" id="m_number" name="m_number" value="<%= M_NUMBER %>">
 	  			<input type="hidden" id="pw2" name="pw2" value="<%= password %>">
+	  			<input type="hidden" id="test" name="test" value="${user.BBANG}">
+				<div class="form-group">
+					<input type="radio" name="BBANG" id ="Role_1" value="Role_1">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+					<input type="radio" name="BBANG" id ="Role_2" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
+				</div>
 				<div class="form-group">
 					<label class="form-control-label">아이디</label>
 					<input type="text" id="ID" name="ID" class="form-control" value="${user.ID}">
