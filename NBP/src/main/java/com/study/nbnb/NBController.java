@@ -123,24 +123,21 @@ public class NBController {
 	@RequestMapping("/rpage")
     public String showb1Ranking(HttpServletRequest request, Model model) {
         List<RankDto> b1rankingList = rdao.getb1Ranking();
+        List<RankDto> b2rankingList = rdao.getb2Ranking();
+        List<RankDto> plrankingList = rdao.getplRanking();
+        List<RankDto> userb1RankingList = rdao.getb1UserRanking();
+        List<RankDto> userb2RankingList = rdao.getb2UserRanking();
+        List<RankDto> userplRankingList = rdao.getplUserRanking();
         List<RankDto> userRankingList = rdao.getUserRanking();
         model.addAttribute("b1rankingList", b1rankingList);
+        model.addAttribute("b2rankingList", b2rankingList);
+        model.addAttribute("plrankingList", plrankingList);
+        model.addAttribute("userb1RankingList", userb1RankingList);
+        model.addAttribute("userb2RankingList", userb2RankingList);
         model.addAttribute("userRankingList", userRankingList);
         return "bbang_rank";
     }
 	
-//	@RequestMapping("/rpage/b2")
-//    public String showb2Ranking(HttpServletRequest request, Model model) {
-//        List<RankDto> b2rankingList = rdao.getb2Ranking();
-//        model.addAttribute("b2rankingList", b2rankingList);
-//        return "bbang_rank";
-//    }
-//	@RequestMapping("/rpage/pl")
-//    public String showplRanking(HttpServletRequest request, Model model) {
-//        List<RankDto> plrankingList = rdao.getplRanking();
-//        model.addAttribute("plrankingList", plrankingList);
-//        return "bbang_rank";
-//    }
 	
 /////////////////////////////////shop//////////////////////////////////////
 	

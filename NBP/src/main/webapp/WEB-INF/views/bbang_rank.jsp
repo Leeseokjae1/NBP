@@ -163,10 +163,16 @@
        </ul>
     </nav>
       <div class="container">
-        <div class="ranking-types">
-            <button class="ranking-button" onclick="showRanking(1)">니빵이 게시판 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(2)">니빵이 랭킹</button>
+         <div class="ranking-types">
+            <button class="ranking-button" onclick="showRanking(1)">니빵글 좋아요 랭킹 </button>
+            <button class="ranking-button" onclick="showRanking(2)">내빵글 게시글 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(3)">놀빵글 게시글 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(4)">니빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(5)">내빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(6)">놀빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(7)">전체 좋아요 랭킹</button>
         </div>
+
 
         <div class="ranking-container">
             <table class="ranking-table page1">
@@ -184,7 +190,77 @@
                     </tbody>
                 </c:forEach>
             </table>
-            <table class="ranking-table page2">           
+              <table class="ranking-table page2">
+                <c:forEach items="${b2rankingList}" var="b2rank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${b2rank.rank}</td>
+                                <td style="height: 100px;">${b2rank.title}</td>
+                                <td style="height: 100px;"><img src="${b2rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">${b2rank.writer}</td>
+                                <td style="height: 100px;">${b2rank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page3">
+                <c:forEach items="${plrankingList}" var="plrank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${plrank.rank}</td>
+                                <td style="height: 100px;">${plrank.title}</td>
+                                <td style="height: 100px;"><img src="${plrank.imageurl}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">${plrank.writer}</td>
+                                <td style="height: 100px;">${plrank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            
+            <table class="ranking-table page4">           
+                 <c:forEach items="${userb1RankingList}" var="b1userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}</td>
+                              <td style="height: 100px;">${b1userRank.writer}</td>
+                              <td style="height: 100px;">${b1userRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page5">           
+                 <c:forEach items="${userb2RankingList}" var="b2userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}</td>
+                              <td style="height: 100px;">${b2userRank.writer}</td>
+                              <td style="height: 100px;">${b2userRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page6">           
+                 <c:forEach items="${userplRankingList}" var="pluserRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}</td>
+                              <td style="height: 100px;">${pluserRank.writer}</td>
+                              <td style="height: 100px;">${pluserRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+			<table class="ranking-table page7">           
                  <c:forEach items="${userRankingList}" var="userRank" varStatus="loop">
                     <tbody>
                         <tr style="height: 10px;"></tr>
@@ -197,7 +273,6 @@
                     </tbody>
                 </c:forEach>
             </table>
-
         </div>
     </div>
 

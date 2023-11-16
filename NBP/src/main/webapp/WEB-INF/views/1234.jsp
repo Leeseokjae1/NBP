@@ -24,6 +24,7 @@ String writer = member.getNICKNAME();
 
 <title>Insert title here</title>
  <style>
+ .test{}
        body {
            background-color: #f8f9fa;
        }
