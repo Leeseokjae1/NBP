@@ -13,7 +13,7 @@ public interface B1Dao {
 	public List<B1Dto> listDao();
 	public B1Dto viewDao(int b1_number);
 	public int writeDao(String writer, String title, String content,
-			String imageurl1, String imageurl2, String imageurl3);	
+			String imageurl1, String imageurl2, String imageurl3, int m_number);	
 	
 	public void modifyDao(Map<String, String> parameters);
 	

@@ -81,7 +81,9 @@
             <table class="table table-bordered"> 
                 <tr>
                     <td>작성자</td>
-                    <td><input type="text" name="writer" class="form-control" size="100"></td>
+                    <td>${member.NICKNAME}</td>
+                    <input type="hidden" name="writer" value="${member.NICKNAME}">
+         			<input type="hidden" name="m_number" value="${member.m_NUMBER}">
                 </tr>
                 <tr>
                     <td>제목</td>

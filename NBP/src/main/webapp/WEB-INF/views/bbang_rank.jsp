@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -7,7 +8,7 @@
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 <style>
@@ -28,8 +29,8 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-nav {
-      width:1720px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+   nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -75,7 +76,6 @@ nav {
             position: absolute;
             bottom: 10px;
             left: 50%;
-            transform: translateX(-50%);
              display: flex;
             background: rgba(255, 255, 255, 0.7);
             padding: 10px;
@@ -98,6 +98,42 @@ nav {
     .right-content {
         flex: 1;
     }
+      body {
+           background-color: #f8f9fa;
+       }
+       .ranking-container {
+           margin: 20px;
+       }
+         .ranking-item {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 50px; /* 떨어져 있는 정도를 조절합니다. */
+            padding: 50px; /* 박스 높이를 2배로 늘리기 위해 수정합니다. */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+       .ranking-item h3 {
+           color: #007bff;
+       }
+       .like-button {
+           background-color: #007bff;
+           color: #fff;
+           margin-top: 10px;
+       }
+       .like-count {
+           color: #007bff;
+           margin-left: 5px;
+       }
+       .ranking-button {
+          background-color: #007bff;  /* 버튼 배경색을 파란색으로 변경 */
+          color: #fff;  /* 버튼 텍스트 색상을 흰색으로 변경 */
+          padding: 10px;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;  /* 버튼 모서리를 둥글게 만듭니다 */
+          margin-right: 10px;  /* 버튼 사이에 간격을 추가합니다 */
+      }
+
 </style>  
 
 </head>
@@ -106,17 +142,82 @@ nav {
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+        <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/b1page?page=1">니빵이</a></li>
+         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/map">지도</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
        </ul>
     </nav>
+      <div class="container">
+        <div class="ranking-types">
+            <button class="ranking-button" onclick="showRanking(1)">니빵이 게시판 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(2)">니빵이 랭킹</button>
+        </div>
+
+        <div class="ranking-container">
+            <table class="ranking-table page1">
+                <c:forEach items="${b1rankingList}" var="b1rank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${b1rank.rank}</td>
+                                <td style="height: 100px;">${b1rank.title}</td>
+                                <td style="height: 100px;"><img src="${b1rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">${b1rank.writer}</td>
+                                <td style="height: 100px;">${b1rank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page2">           
+                 <c:forEach items="${userRankingList}" var="userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}</td>
+                              <td style="height: 100px;">${userRank.writer}</td>
+                              <td style="height: 100px;">${userRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+
+        </div>
+    </div>
+
+    <script>
+        function showRanking(page) {
+            // 숨겨진 테이블 숨기기
+            document.querySelectorAll('.ranking-table').forEach(table => {
+                table.style.display = 'none';
+            });
+
+            // 선택한 페이지에 해당하는 테이블 보이기
+            document.querySelector('.page' + page).style.display = 'table';
+
+            // 버튼 스타일 변경
+            document.querySelectorAll('.ranking-button').forEach(button => {
+                button.style.backgroundColor = '';
+            });
+           //document.querySelector('.page' + page).style;
+        }
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -28,6 +28,7 @@ import com.study.nbnb.dao.ChatRoomDao;
 import com.study.nbnb.dao.CommentDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
+import com.study.nbnb.dao.RDao;
 import com.study.nbnb.dao.SearchDao;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
@@ -35,6 +36,7 @@ import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.ChatRoomDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
+import com.study.nbnb.dto.RankDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -61,6 +63,8 @@ public class NBController {
 	ChatRoomDao crdao;
 	@Autowired
 	AdDao addao;
+	@Autowired
+	RDao rdao;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -71,13 +75,21 @@ public class NBController {
 		return "redirect:main";
 	}
 	
+	@RequestMapping("/1234")
+	public String test1111(){
+		return "1234";
+	}
+	
 	
 	@RequestMapping("/mypage")
-	public String mypageview(){
+	public String mypageview(HttpServletRequest request, Model model){
+		HttpSession session = request.getSession();
+		BuserDto bdto = (BuserDto)session.getAttribute("login");
+		model.addAttribute("login", bdto);
 		return "mypage/mypage_view";
 	}
 	
-	@RequestMapping("/bbangrank")
+	@RequestMapping("/rpage/1")
 	public String bbangRankview(){
 		return "bbang_rank";
 	}
@@ -108,18 +120,34 @@ public class NBController {
 		return "map_view";
 	}
 	
-	@RequestMapping("/list")
-	public String userlistpage(Model model) {
-		model.addAttribute("list", b1dao.listDao());
-		return "b1board/b1list";
-	}
+	@RequestMapping("/rpage")
+    public String showb1Ranking(HttpServletRequest request, Model model) {
+        List<RankDto> b1rankingList = rdao.getb1Ranking();
+        List<RankDto> userRankingList = rdao.getUserRanking();
+        model.addAttribute("b1rankingList", b1rankingList);
+        model.addAttribute("userRankingList", userRankingList);
+        return "bbang_rank";
+    }
+	
+//	@RequestMapping("/rpage/b2")
+//    public String showb2Ranking(HttpServletRequest request, Model model) {
+//        List<RankDto> b2rankingList = rdao.getb2Ranking();
+//        model.addAttribute("b2rankingList", b2rankingList);
+//        return "bbang_rank";
+//    }
+//	@RequestMapping("/rpage/pl")
+//    public String showplRanking(HttpServletRequest request, Model model) {
+//        List<RankDto> plrankingList = rdao.getplRanking();
+//        model.addAttribute("plrankingList", plrankingList);
+//        return "bbang_rank";
+//    }
 	
 /////////////////////////////////shop//////////////////////////////////////
 	
-@RequestMapping("/mypage_shop")
-public String mypageshopview() {
-return "mypage/mypage_shop";
-}
+	@RequestMapping("/mypage_shop")
+	public String mypageshopview() {
+	return "mypage/mypage_shop";
+	}
 
 	
 ////////////////////////////////////LogIn////////////////////////////////////////////////////////////
@@ -178,7 +206,10 @@ public String search_pw() {
 	public String view(HttpServletRequest request, Model model) {
 		int b1_number = Integer.parseInt(request.getParameter("b1_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("b1dto", b1dao.viewDao(b1_number));
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
+		
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
 		return "b1board/b1view";
 		
@@ -210,7 +241,9 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/b1writeform")
-	public String writeForm() {
+	public String writeForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "b1board/b1writeform";
 	}
 	
@@ -219,8 +252,10 @@ public String search_pw() {
 	    @RequestParam("file1") MultipartFile file1,
 	    @RequestParam("file2") MultipartFile file2,
 	    @RequestParam("file3") MultipartFile file3,
+	    @RequestParam("m_number") int m_number,
 	    HttpServletRequest request, Model model,
 	    @Valid @ModelAttribute("b1Board") B1Dto b1Board, BindingResult bindingResult) {
+		
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
@@ -252,7 +287,7 @@ public String search_pw() {
 				imageURL3="http://localhost:8082/img/yb.png";
 			}
 
-			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
 		
 			int b1_number = b1dao.selectDao();
 			return "redirect:b1view?b1_number=" + b1_number + "&check_b=1";
@@ -289,7 +324,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -301,7 +335,6 @@ public String search_pw() {
 	            String b1_number1 = Integer.toString(b1_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -408,6 +441,8 @@ public String search_pw() {
 	public String b2view(HttpServletRequest request, Model model) {
 		int b2_number = Integer.parseInt(request.getParameter("b2_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("b2dto", b2dao.viewDao(b2_number));
 		model.addAttribute("dto", b2dao.viewDao(b2_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b2_number));
 		return "b2board/b2view";
@@ -439,7 +474,9 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/b2writeform")
-	public String b2writeForm() {
+	public String b2writeForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "b2board/b2writeform";
 	}
 	
@@ -447,6 +484,7 @@ public String search_pw() {
 	public String b2write(@RequestParam("file1") MultipartFile file1,
 						@RequestParam("file2") MultipartFile file2,
 						@RequestParam("file3") MultipartFile file3,
+						@RequestParam("m_number") int m_number,
 						HttpServletRequest request, Model model,
 						@Valid @ModelAttribute("b2Board") B2Dto b2Board, 
 						BindingResult bindingResult) {
@@ -482,7 +520,7 @@ public String search_pw() {
 			}
 
 
-			b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
 			int b2_number = b2dao.selectDao();
 			
 			return "redirect:b2view?b2_number=" + b2_number + "&check_b=2";
@@ -520,7 +558,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -532,7 +569,6 @@ public String search_pw() {
 	            String b2_number1 = Integer.toString(b2_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -636,11 +672,16 @@ public String search_pw() {
 		model.addAttribute("playlist", playdao.plistDao());
 		return "playboard/playlist";
 	}
+	
+	
+
 
 	@RequestMapping("/playview")
 	public String playView(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("playdto", playdao.viewDao(f_number));
 		model.addAttribute("playview", playdao.viewDao(f_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, f_number));
 		return "playboard/playview";
@@ -674,15 +715,19 @@ public String search_pw() {
 	}
 
 	@RequestMapping("/playwriteform")
-	public String playWriteForm() {
+	public String playWriteForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "playboard/playwriteform";
 	}
 
 	@RequestMapping("/playwrite")
 	public String playWrite(@RequestParam("file") MultipartFile file,
+							@RequestParam("m_number") int m_number,
 							HttpServletRequest request, Model model,
 							@Valid @ModelAttribute("playBoard") PlayDto playBoard, BindingResult bindingResult) 
 		{
+		System.out.println(m_number);
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
@@ -700,7 +745,7 @@ public String search_pw() {
 				imageURL="http://localhost:8082/images/111.png";
 			}
 
-			playdao.writeDao(writer, title, content, imageURL);
+			playdao.writeDao(writer, title, content, imageURL, m_number);
 
 			int f_number = playdao.selectDao();
 			
@@ -716,7 +761,7 @@ public String search_pw() {
 	public String playModifyView(HttpServletRequest request, Model model) {
 		int pId = Integer.parseInt(request.getParameter("f_number"));
 		model.addAttribute("playmodify", playdao.viewDao(pId));
-		return "/playboard/playmodify";
+		return "playboard/playmodify";
 	}
 
 	@RequestMapping("/playmodify")
@@ -724,7 +769,6 @@ public String search_pw() {
 		
 		try {
 			
-			String writer = request.getParameter("writer");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			int f_number = Integer.parseInt(request.getParameter("f_number"));
@@ -733,7 +777,7 @@ public String search_pw() {
 			String imageURL = file.isEmpty() ? existingDTO.getImageurl() : uploadFile(file);
 		
 
-			playdao.modifyDao(writer, title,content,imageURL,f_number);
+			playdao.modifyDao(title,content,imageURL,f_number);
 			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
 			
 			
