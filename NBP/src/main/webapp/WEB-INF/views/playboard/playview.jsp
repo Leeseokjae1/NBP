@@ -5,7 +5,7 @@
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
 <%@ page import="com.study.nbnb.dto.PlayDto" %>
 <%
-PlayDto view = (PlayDto)session.getAttribute("b1dto");
+PlayDto view = (PlayDto)session.getAttribute("playdto");
 int mn = view.getM_number();
 int m_number = 0;
 if(session.getAttribute("login") != null){
@@ -111,7 +111,7 @@ String writer = member.getNICKNAME();
 		
 		            <div class="row justify-content-center">
 		                <div class="col-md-4 mb-3 text-center">
-		                    <img src="${playview.imageurl1}" style="width:80%; max-height:300px; height:auto;">
+		                    <img src="${playview.imageurl}" style="width:80%; max-height:300px; height:auto;">
 		                </div>
 
 		            </div>
@@ -140,6 +140,17 @@ String writer = member.getNICKNAME();
         </div>
         
         <%} %>
+   		<%if(m_number == mn){ %>
+		<div class="mb-3 text-right">
+		    <a href="playmodifyview?f_number=${playview.f_number}" class="btn btn-primary ml-auto">수정하기</a>
+		    <a href="playpage?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="playdelete?f_number=${playview.f_number}" class="btn btn-danger ml-2">삭제</a>
+		</div>
+		<%}else{ %>
+		<div class="mb-3 text-right">
+		    <a href="playpage?page=1" class="btn btn-primary ml-2">목록보기</a>
+		</div>
+		<%} %>
     <hr>
     <table class="table table-bordered">
         <thead>
@@ -173,10 +184,7 @@ String writer = member.getNICKNAME();
         <input type="hidden" name="m_number" value=1>
         <input type="hidden" name="t_number" value="${playview.f_number}">
         <button type="submit" class="btn btn-primary">댓글 작성</button>
-        
-	    <a href="playlist" class="btn btn-secondary">목록보기</a>
-	    <a href="playmodifyview?f_number=${playview.f_number}" class="btn btn-secondary">수정</a>
-	    <a href="playdelete?f_number=${playview.f_number}" class="btn btn-danger">삭제</a>
+       
     </form>
 
 

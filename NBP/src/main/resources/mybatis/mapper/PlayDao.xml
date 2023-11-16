@@ -14,13 +14,13 @@
    </select>
    
    <insert id="writeDao">
-      insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike, time )
-      values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0, sysdate)
+      insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike, time, m_number)
+      values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0, sysdate, #{param5})
    </insert>
    
    <insert id="writeDao2">
-      insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike,time )
-      values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, sysdate)
+      insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike,time, m_number )
+      values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, sysdate, #{param4})
    </insert>
    
    <select id="selectDao">
@@ -28,7 +28,7 @@
    </select>
    
    <update id ="modifyDao">
-      update playboard set writer =#{param1}, title=#{param2}, content=#{param3},imageurl=#{param4} where f_number = #{param5}   
+      update playboard set title=#{param1}, content=#{param2},imageurl=#{param3} where f_number = #{param4}   
    </update>
    
    <update id ="likelyDao">

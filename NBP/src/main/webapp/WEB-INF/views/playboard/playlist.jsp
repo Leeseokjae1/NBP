@@ -98,20 +98,22 @@ String writer = member.getNICKNAME();
                 <th scope="col">작성자</th>
                 <th scope="col">제목</th>
                 <th scope="col">좋아요 / 싫어요</th>
-                <th scope="col">삭제</th>
+                <th scope="col">작성 날짜</th>
             </tr>
         </thead>
-        <tbody>
-            <c:forEach items="${playlist}" var="play">
-                <tr>
-                    <th scope="row">${play.f_number}</th>
-                    <td>${play.writer}</td>
-                    <td><a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a></td>
-                    <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
-                    <td><a href="playdelete?f_number=${play.f_number}">X</a></td>
-                </tr>
-            </c:forEach>
-        </tbody>
+			<tbody>
+			    <c:forEach items="${playlist}" var="play">
+			        <tr>
+			            <th scope="row">${play.f_number}</th>
+			            <td>${play.writer}</td>
+			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+			                <a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
+			            </td>
+			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
+			            <td>${play.time}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
     </table>
 
     <ul class="pagination justify-content-center">
@@ -150,7 +152,7 @@ String writer = member.getNICKNAME();
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
     <%if(session.getAttribute("login") != null){ %>
-        <a href="playwriteform" class="btn btn-primary">글작성</a>
+        <a href="playwriteform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a>
         <%} %>
     </div>
 </div>

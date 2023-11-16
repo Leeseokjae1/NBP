@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -73,6 +74,11 @@ public class NBController {
 	public String root() throws Exception{
 		//MyBatis : SimpleBBS
 		return "redirect:main";
+	}
+	
+	@RequestMapping("/1234")
+	public String test1111(){
+		return "1234";
 	}
 	
 	
@@ -304,7 +310,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -316,7 +321,6 @@ public String search_pw() {
 	            String b1_number1 = Integer.toString(b1_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -540,7 +544,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -552,7 +555,6 @@ public String search_pw() {
 	            String b2_number1 = Integer.toString(b2_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -699,15 +701,19 @@ public String search_pw() {
 	}
 
 	@RequestMapping("/playwriteform")
-	public String playWriteForm() {
+	public String playWriteForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "playboard/playwriteform";
 	}
 
 	@RequestMapping("/playwrite")
 	public String playWrite(@RequestParam("file") MultipartFile file,
+							@RequestParam("m_number") int m_number,
 							HttpServletRequest request, Model model,
 							@Valid @ModelAttribute("playBoard") PlayDto playBoard, BindingResult bindingResult) 
 		{
+		System.out.println(m_number);
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
@@ -725,7 +731,7 @@ public String search_pw() {
 				imageURL="http://localhost:8082/images/111.png";
 			}
 
-			playdao.writeDao(writer, title, content, imageURL);
+			playdao.writeDao(writer, title, content, imageURL, m_number);
 
 			int f_number = playdao.selectDao();
 			
@@ -741,7 +747,7 @@ public String search_pw() {
 	public String playModifyView(HttpServletRequest request, Model model) {
 		int pId = Integer.parseInt(request.getParameter("f_number"));
 		model.addAttribute("playmodify", playdao.viewDao(pId));
-		return "/playboard/playmodify";
+		return "playboard/playmodify";
 	}
 
 	@RequestMapping("/playmodify")
@@ -749,7 +755,6 @@ public String search_pw() {
 		
 		try {
 			
-			String writer = request.getParameter("writer");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			int f_number = Integer.parseInt(request.getParameter("f_number"));
@@ -758,7 +763,7 @@ public String search_pw() {
 			String imageURL = file.isEmpty() ? existingDTO.getImageurl() : uploadFile(file);
 		
 
-			playdao.modifyDao(writer, title,content,imageURL,f_number);
+			playdao.modifyDao(title,content,imageURL,f_number);
 			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
 			
 			
