@@ -1,3 +1,4 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.Base64"%>
@@ -12,6 +13,18 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="java.io.Reader" %>
 <%@ page import="java.net.URLEncoder" %>
+ <%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+ int m_number = a.getM_NUMBER();
+ %>
+ 
+ <!-- 팝업 스크립트 -->
+<script type="text/javascript">
+    window.addEventListener('beforeunload', function () {
+        // 팝업이 닫힐 때 부모 창의 함수 호출
+        window.opener.reloadParent();
+    });
+</script>
 
 <%
 
@@ -30,7 +43,6 @@
   String paymentKey = request.getParameter("paymentKey");
   String amount = request.getParameter("amount");
   String buy_number = request.getParameter("buy_number");
-  String m_number = request.getParameter("m_number");
   paymentKey = URLEncoder.encode(paymentKey, "UTF-8");
   
   URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
@@ -70,6 +82,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>토스페이먼츠 샘플 프로젝트</title>
+    
   </head>
   
     <body>
@@ -132,10 +145,8 @@
 			          dataType: 'json',
 			          success: function (response) {
 			              console.log("Success:", response.buy_number);
-			              if(response.success){
-			            	  window.close();
-			              }
-			          },
+			                window.close();
+			              },
 			          error: function (error) {
 			             
 			          }

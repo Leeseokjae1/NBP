@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <% 
    session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
+   session.removeAttribute("Searchfield");
 %>
 <html>
 <head>
@@ -57,10 +57,10 @@ pageEncoding="UTF-8"%>
          document.Searchform.action = "/b1title";
       }
       if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1board/b1list";       
+         document.Searchform.action = "/b1content";       
       }
       if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1board/b1list";        
+         document.Searchform.action = "/b1writer";        
       }
       if($('#Searchfield').val() == "b2Title") {
          document.Searchform.action = "/b2board/b2list";
@@ -101,9 +101,9 @@ pageEncoding="UTF-8"%>
       a {
          text-decoration:none;color:#000;font-size:15px;
       }
-      nav {
-         width:80%;overflow:hidden;height:80px;margin:10px auto;   
-      }
+nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+   }
       div img.absolute { 
          position: absolute;
          left: 50px;
@@ -173,15 +173,23 @@ pageEncoding="UTF-8"%>
    <nav id="nav2">
       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-      <ul>
+     <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("Admin") != null) { %>
+         <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <% } %>
        </ul>
       
    </nav>
@@ -202,7 +210,7 @@ pageEncoding="UTF-8"%>
                             <select id="Searchfield" name="Searchfield" class="form-select">
                                 <option id="Title" value="b1Title">제목</option>
                                 <option id="Content" value="b1Content">내용</option>
-                                <option id="Writer" value="bWriter">작성자</option>
+                                <option id="Writer" value="b1Writer">작성자</option>
                             </select>
                         </div>
                      </div>

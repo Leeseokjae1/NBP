@@ -1,5 +1,11 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+    <%
+	 BuserDto a = (BuserDto)session.getAttribute("login");
+	 int m_number = a.getM_NUMBER();
+	 int ticket = a.getTICKET();
+	%>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -7,20 +13,14 @@
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+       <script src="https://code.jquery.com/jquery.js" ></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<script src="https://js.tosspayments.com/v1/payment-widget"></script>
 
+
 <style>
-   .test1 {
-   
-   
-    }
-    .carousel-inner > .carousel-item > img {
-      /* width: 640px;
-      height: 720px; */
-    }
+
     * {
        padding:0;
        margin:0;
@@ -123,13 +123,17 @@
 }
 
 </style>  
-
    <script type="text/javascript">
-        function openPopup(a,b,c) {
-            window.open("/mypage_popup?t_count="+a+"&t_price="+b+"&m_number="+c, "Popup", "width=500,height=500");      
+        function openPopup(a,b) {
+            window.open("/mypage_popup?t_count="+a+"&t_price="+b, "Popup", "width=500,height=500");      
+        }
+        
+
+        function reloadParent() {
+            // 부모 창을 새로 고침
+            window.location.reload();
         }
     </script>
-
 </head>
 <body>
 
@@ -138,13 +142,23 @@
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
        <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+
+         <li><a href="/b1page?page=1">니빵이</a></li>
+         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("Admin") != null) { %>
+         <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <% } %>
+
        </ul>
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
@@ -183,14 +197,16 @@
 	         </div>
         </div>
   	</div>
+
   	<table style="width:80%">
 	<tr>
 	<td>보유내역</td>
-	<td row span =2><a href="shopping_list?m_number=90345678">구매내역</a></td>	
+	
+	<td row span =2><a href="shopping_list?m_number=<%=m_number %>">구매내역</a></td>	
     </tr>
  
     <tr>
-   	 <td>1개</td>
+   	 <td>${user.TICKET} 개</td>
     </tr>
     </table>
     
@@ -198,30 +214,30 @@
   <table style="width:80%">
   	<tr>
 		<td>채팅권 1개</td>
-		<td><button onclick="openPopup(1,1000,90345678)">1000원</button></td>
+		<td><button onclick="openPopup(1,1000)">1000원</button></td>
 	</tr>
 	 <tr>
 		<td>채팅권 2개</td>
-		<td><button onclick="openPopup(2,2000,90345678)"}>2000원</button></td>
+		<td><button onclick="openPopup(2,2000)"}>2000원</button></td>
 	</tr>
 	 <tr>
 		<td>채팅권 3개</td>
-		<td><button onclick="openPopup(3,3000,90345678)">3000원</button></td>
+		<td><button onclick="openPopup(3,3000)">3000원</button></td>
 	</tr>
 	 <tr>
 		<td>채팅권 5개</td>
-		<td><button onclick="openPopup(5,4000,90345678)">4000원</button></td>
+		<td><button onclick="openPopup(5,4000)">4000원</button></td>
 	</tr>
 	 <tr>
 		<td>채팅권 10개</td>
-		<td><button onclick="openPopup(10,8000,90345678)">8000원</button></td>
+		<td><button onclick="openPopup(10,8000)">8000원</button></td>
 	</tr>
    </div>
  </table>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" ></script>
 </body>
 </html>

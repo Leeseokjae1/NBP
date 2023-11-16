@@ -51,7 +51,7 @@
 		delete from playboard where f_number = #{param1}
 	</delete>
 	
-	<select id ="listCountDao">
+		<select id ="listCountDao">
 		 select * from playboard
 	</select>
 	

@@ -16,5 +16,8 @@ public interface ShopDao {
 	public ShopDto selectDao3();
 	public int deleteDao(int buy_number);
 	public List<ShopDto> listDao(int m_number);
+	public List<ShopDto> listDao2();
 	public int deleteDao(int buy_number,int m_number);
+	public int approveDao(int buy_number, int m_nuber);
+	public int refuseDao(int buy_number, int m_nuber);
 }

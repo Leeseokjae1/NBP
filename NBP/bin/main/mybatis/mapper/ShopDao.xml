@@ -7,8 +7,9 @@
 
 	<insert id="insertDao">
 		insert into buytable
-		values (buytable_seq.nextval, #{param1}, #{param2}, #{param3}, sysdate)
+		values (buytable_seq.nextval, #{param1}, #{param2}, #{param3}, sysdate, null)
 	</insert>
+	
 	
 	<select id ="selectDao" resultType="com.study.nbnb.dto.ShopDto">
 		 select * from buytable where buy_number=(select max(buy_number) from buytable where m_number=${param1})
@@ -22,14 +23,27 @@
 		select max(buy_number)+1 as buy_number from buytable
 	</select>
 		
-	<delete id="deleteDao">
-		delete from buytable where buy_number = #{param1} and m_number = ${param2}
-	</delete>
+	<update id="deleteDao">
+		update buytable set t_cancel='approve' where buy_number = #{param1} and m_number = #{param2}
+	</update>
+	
+	<update id="refuseDao">
+		update buytable set t_cancel= 'refuse' where buy_number= #{param1} and m_number=#{param2}
+	</update>
 	
 	
+	<update id="approveDao">
+		update buytable set t_cancel= 'cancel' where buy_number= #{param1} and m_number=#{param2}
+	</update>	
 	
 	<select id="listDao" resultType="com.study.nbnb.dto.ShopDto">
 		select * from buytable where m_number=#{param1} order by buy_number desc
+	</select>
+	
+	<select id="listDao2" resultType="com.study.nbnb.dto.ShopDto">
+		select * from buser
+		left outer join buytable on buser.m_number = buytable.m_number
+		order by buytable.buy_number desc
 	</select>
 	
 	

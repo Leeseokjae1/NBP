@@ -30,8 +30,26 @@ public interface B1Dao {
 	public int selectDao();
 	
 	public List<B1Dto> titleCountDao(@Param("keyword") String keyword);
+	
 	public List<B1Dto> titlesearchDao(@Param("title") String keyword,
 									  @Param("page") int page,@Param("pagesize") int pageSize);
+	
+	public List<B1Dto> writerCountDao(@Param("keyword") String keyword);
+	
+	public List<B1Dto> writersearchDao(@Param("writer") String keyword,
+									  @Param("page") int page,@Param("pagesize") int pageSize);
+	
+	public List<B1Dto> contentCountDao(@Param("keyword") String keyword);
+	
+	public List<B1Dto> contentsearchDao(@Param("content") String keyword,
+									  @Param("page") int page,@Param("pagesize") int pageSize);	
+	
+	public List<B1Dto> SearchDao(@Param("keyword") String keyword, 
+             @Param("start") int start, 
+             @Param("pageSize") int pageSize);
+
+	public int searchCountDao(@Param("keyword") String keyword);
 }
+
 
 

@@ -8,8 +8,22 @@ public class ShopDto {
 	private int t_price;
 	private int m_number;
 	private Timestamp b_date;
+	private String t_cancel;
+	private int ticket;
 	
 	
+	public int getTicket() {
+		return ticket;
+	}
+	public void setTicket(int ticket) {
+		this.ticket = ticket;
+	}
+	public String getT_cancel() {
+		return t_cancel;
+	}
+	public void setT_cancel(String t_cancel) {
+		this.t_cancel = t_cancel;
+	}
 	public int getBuy_number() {
 		return buy_number;
 	}
