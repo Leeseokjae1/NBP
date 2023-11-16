@@ -100,7 +100,7 @@
                         <div class="card-body">
                             <h5 class="card-title">${dto.title}</h5>
                             <p class="card-text">${dto.b1_number} ${dto.writer}</p>
-                            <p class="card-text">따: ${dto.b_like} 언따: ${dto.b_dislike}</p>
+                            <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
                             <a href="/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
                         </div>
                     </div>

@@ -103,8 +103,8 @@ public class NBController {
 		return "mypage/realtime";
 	}
 	
-	@RequestMapping("/mapview")
-	public String maptview(){
+	@RequestMapping("/map")
+	public String mapview(){
 		return "map_view";
 	}
 	
@@ -826,106 +826,304 @@ public String search_pw() {
 		return "playboard/playlist";
 	}
 	
-	/////////////////////////search////////////////////////////////////////
+    /////////////////////////search////////////////////////////////////////
 
-	@RequestMapping("/b1title")
-	public String b1titlepage(HttpServletRequest request, Model model) {
+    @RequestMapping("/b1title")
+    public String b1titlepage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.titleCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.titleCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
-	
-	@RequestMapping("/b1writer")
-	public String b1writerpage(HttpServletRequest request, Model model) {
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b1writer")
+    public String b1writerpage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.writerCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.writerCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
-	
-	@RequestMapping("/b1content")
-	public String b1contentpage(HttpServletRequest request, Model model) {
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b1content")
+    public String b1contentpage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.contentCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.contentCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b2title")
+    public String b2titlepage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.titleCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.titlesearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    
+    @RequestMapping("/b2writer")
+    public String b2writerpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.writerCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    
+    @RequestMapping("/b2content")
+    public String b2contentpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.contentCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    @RequestMapping("/playtitle")
+    public String playtitlepage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       int total = playdao.titleCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.titlesearchDao(kw, nEnd, nStart);
+      // System.out.println("titleSearchDao 지남" + kw + " + " + nEnd + " + " + nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+    }
+    
+    @RequestMapping("/playwriter")
+    public String playwriterpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = playdao.writerCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+    }
+    
+    @RequestMapping("/playcontent")
+    public String playcontentpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = playdao.contentCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+       }
+    
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -936,13 +1134,6 @@ public String search_pw() {
 	    return "adminboard/adminbd";
 	}  
 	
-	// @GetMapping("/adminbd")
-	// public String adB1post(Model model) {
-	//     List<B1Dto> b1Posts = b1dao.adB1post();
-	//     model.addAttribute("b1Posts", b1Posts);
-	//     return "adminboard/adminbd";
-	// }
-	// 
 	@RequestMapping("/bddelete")
 	public String deletead(HttpServletRequest request, Model model) {
 		String bn = (String)request.getParameter("boardname");

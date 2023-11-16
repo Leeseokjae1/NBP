@@ -40,8 +40,8 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+nav {
+      width:1720px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -146,19 +146,11 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="#">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
-         <li><a href="/loginView">로그인</a></li>
-         <%}else { %>
-         <li>${login.NICKNAME} 님</li>
+         <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <% } %>
+         <li><a href="#">로그아웃</a></li>
        </ul>
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
@@ -199,14 +191,14 @@
   	</div>
 
 	    <div class="container mt-5">
-		<c:forEach items="${chat}" var="info" varStatus="num">
+		<c:forEach items="${chat}" var="info">
 		    <div class="chat-container">
 		        <div>
 		            <label for="roomName">방 번호 : ${info.roomid}</label>
 		            <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
 		            <label for="userName">대화인원 : ${info.m_number}, ${info.another}</label>
 		            <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
-		            <button class="enterBtn btn btn-primary" data-roomName="${info.roomid}" data-userName="<%=nickname%>">Enter Room</button>
+		            <button id="enterBtn" class="btn btn-primary">Enter Room</button>
 		        </div>
 		    </div>
 		</c:forEach>
@@ -241,8 +233,7 @@
      var userName;
       
       var chatMessages = [];
-
-      function connect(roomName, userName) {
+      function connect() {
           roomName = $("#roomName").val();
           userName = $("#userName").val();
 		  
@@ -289,17 +280,11 @@ function appendMessage(msg) {
 }
 
 $(document).ready(function () {
-    $('#sendBtn').click(function () { send();
-	});
+    $('#sendBtn').click(function () { send(); });
+    $('#enterBtn').click(function () { 
 
-    $('.enterBtn').click(function () {
-        var roomName = $(this).data('roomName');
-        var userName = $(this).data('userName');
-
-        $("#chatMessageArea").html("");
-        connect(roomName, userName);
-	});
-
+		$("#chatMessageArea").html("");
+		connect(); });
 });
 </script>
 

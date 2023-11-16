@@ -93,19 +93,19 @@
         <h1 class="mb-4">내용보기</h1>
         <hr>
 
-        <div class="mb-3 text-center"> 
-		    <strong style="font-size: 1.5em;">작성자:  ${dto.writer}&nbsp;님  </strong>
+        <div class="mb-3 text-left"> 
+		    <strong style="font-size: 1.5em;">작성자&nbsp;: ${dto.writer}&nbsp;님  </strong>
 		</div>
 		
-		<div class="mb-3 text-center">
-		    <strong style="font-size: 1.5em;">제목: ${dto.title} </strong>
+		<div class="mb-3 text-left">
+		    <strong style="font-size: 1.5em;">제목&nbsp;: ${dto.title} </strong>
 		</div>
 		
 		<div class="container mt-5">
 		    <div class="row justify-content-center">
-		        <div class="col-md-12 mb-3 text-center border p-4">
+		        <div class="col-md-12 mb-3 text-left border p-4">
 		            <div class="mb-3">
-		                <strong style="font-size: 1.5em;">내용: ${dto.content} </strong>
+		                <strong style="font-size: 1.5em;">내용&nbsp;: ${dto.content} </strong>
 		            </div>
 		
 		            <div class="row justify-content-center">
@@ -131,12 +131,12 @@
         </div>
 
         <div class="mb-3">
-            <a href="../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=1" class="btn btn-primary">
-                따봉 <img src="/images/111.png" style="width:70px; height:70px;">
+            <a href="../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=1" >
+                <img src="/images/like.png" style="width:70px; height:70px;">
             </a>
 
-            <a href="../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=-1" class="btn btn-primary">
-                언따봉 <img src="/images/222.png" style="width:70px; height:70px;">
+            <a href="../b1like?check_b=1&t_number=${dto.b1_number}&m_number=1&l_or_dl=-1" >
+                <img src="/images/dislike.png" style="width:70px; height:70px;">
             </a>
         </div>
 
@@ -145,7 +145,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>작성자</th>
+                    <th>댓글 작성자</th>
                     <th>내용</th>
                     <th>삭제</th>
                 </tr>

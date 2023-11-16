@@ -84,13 +84,26 @@
     <div>
         <p><strong>제목 :</strong> ${playview.title}</p>
         <p><strong>작성자 :</strong> ${playview.writer} &nbsp; &nbsp;
-            <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">👍:${playview.b_like}</a> &nbsp;
-            <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">👎:${playview.b_dislike}</a></p>
+           
         <p><strong>내용 :</strong> ${playview.content}</p>
         <p><strong>사진 :</strong> <img src="${playview.imageurl}" style="width:100px; height:100px;"></p>
     </div>
-    <hr>
+    
+    <div class="mb-3">
+            <strong>좋아요:</strong> ${playview.b_like} &nbsp;&nbsp; <strong>싫어요:</strong> ${playview.b_dislike}
+    </div>
+    
+     <div class="mb-3">
+         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=1">
+             <img src="/images/like.png" style="width:70px; height:70px;">
+         </a>
 
+         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=1&l_or_dl=-1">
+             <img src="/images/dislike.png" style="width:70px; height:70px;">
+         </a>
+      </div>
+    
+    <hr>
     <table class="table table-bordered">
         <thead>
         <tr>

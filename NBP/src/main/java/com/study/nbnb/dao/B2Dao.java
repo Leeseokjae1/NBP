@@ -29,6 +29,30 @@ public interface B2Dao {
 	public List<B2Dto> listCountDao();
 	public List<B2Dto> pageDao(int page, int pageSize);	
 	public int selectDao();
+	
+	public List<B2Dto> titleCountDao(@Param("keyword") String keyword);
+    
+    public List<B2Dto> titlesearchDao(@Param("title") String keyword,
+                                    @Param("page") int page,
+                                    @Param("pagesize") int pageSize);
+   
+    public List<B2Dto> writerCountDao(@Param("keyword") String keyword);
+   
+    public List<B2Dto> writersearchDao(@Param("writer") String keyword,
+                                     @Param("page") int page,
+                                     @Param("pagesize") int pageSize);
+   
+    public List<B2Dto> contentCountDao(@Param("keyword") String keyword);
+   
+    public List<B2Dto> contentsearchDao(@Param("content") String keyword,
+                                     @Param("page") int page,
+                                     @Param("pagesize") int pageSize);   
+   
+    public List<B2Dto> SearchDao(@Param("keyword") String keyword, 
+                         @Param("start") int start, 
+                         @Param("pageSize") int pageSize);
+
+    public int searchCountDao(@Param("keyword") String keyword);
 }
 
 
