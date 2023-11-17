@@ -148,53 +148,129 @@ public class NBController {
 
 	
 ////////////////////////////////////LogIn////////////////////////////////////////////////////////////
-@RequestMapping("/sLogin_popup")
-public String sLogin_popup() {
-	return "login/search_login";
-}
-
-@RequestMapping("/joinView")
-public String joinView() {
-	return "login/join_view";
-}
-
-@RequestMapping("/userJoin")
-public String userJoin(HttpServletRequest request) {
-	String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+	@RequestMapping("/admin")
+	public String sLogin_popup() {
+		return "adminboard/adminbd";
+	}
+	@RequestMapping("/admin/member")
+	public String admin_member(HttpServletRequest request, Model model) {
 	
 	
-	String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
-	String password = encoded.substring(8);
 	
-	buserDao.writeDao(request.getParameter("NAME"),
-					 request.getParameter("ID"),
-					 password,
-					 request.getParameter("ADDRESS"),
-					 request.getParameter("EMAIL"),
-					 PHONENUMBER,
-					 request.getParameter("NICKNAME"),
-					 request.getParameter("BBANG"));
-	return "redirect:loginView";
-}
+		int total = buserDao.listDao().size();
+		int pageSize = 10;
+		
+		int totalPage = total / pageSize;
+		
+		if (total % pageSize > 0) {
+		totalPage++;
+		}
+	
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+		
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+		
+		List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
+		
+		System.out.println(nStart);
+		System.out.println(nEnd);
+		System.out.println(a.size());
+		
+		model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+		return "adminboard/adminmember";
+	}
+	
+	@RequestMapping("/joinView")
+	public String joinView() {
+		return "login/join_view";
+	}
+	
+	@RequestMapping("/userJoin")
+	public String userJoin(HttpServletRequest request) {
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+		String password = encoded.substring(8);
+		String bbang = "ROLE_"+request.getParameter("BBANG");
+		buserDao.writeDao(request.getParameter("NAME"),
+						request.getParameter("ID"),
+						password,
+						request.getParameter("ADDRESS"),
+						request.getParameter("EMAIL"),
+						PHONENUMBER,
+						request.getParameter("NICKNAME"),
+						bbang);	
+		return "redirect:loginView";
+	}
+	
+	@RequestMapping("/loginView")
+	public String loginView() {
+		return "login/login_view";
+	}
+	
+	@RequestMapping("/mailView")
+	public String mailView() {
+		return "login/mail";
+	}
+	
+	@RequestMapping("/search_id")
+	public String search_id() {
+		return "login/search_id";
+	}
+	@RequestMapping("/search_pw")
+	public String search_pw() {
+		return "login/search_pw";
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	////////////////////////////////////mypage////////////////////////////////////////////////////////////
+	@RequestMapping("/1/profile")
+	public String profile(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "mypage/mypage_profile";
+	}
+	
+	@RequestMapping("/1/profile/modify")
+	public String profile_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String pw1 = request.getParameter("PASSWORD");
+		String pw2 = request.getParameter("pw2");
+		
+		if (pw1.equals(pw2)) {
+			buserDao.updateUser2(
+					request.getParameter("ID"), 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}else {
+			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
+			String password = encoded.substring(8);
+			buserDao.updateUser(
+					request.getParameter("ID"), 
+					password, 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}
+		return "redirect:/";
+	}
 
-@RequestMapping("/loginView")
-public String loginView() {
-	return "login/login_view";
-}
-
-@RequestMapping("/mailView")
-public String mailView() {
-	return "login/mail";
-}
-
-@RequestMapping("/search_id")
-public String search_id() {
-	return "login/search_id";
-}
-@RequestMapping("/search_pw")
-public String search_pw() {
-	return "login/search_pw";
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	

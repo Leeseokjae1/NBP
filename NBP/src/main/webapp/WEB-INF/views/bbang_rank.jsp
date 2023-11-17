@@ -183,8 +183,8 @@
                               <td style="height: 100px;">${b1rank.rank}</td>
                                 <td style="height: 100px;">${b1rank.title}</td>
                                 <td style="height: 100px;"><img src="${b1rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
-                                <td style="height: 100px;">${b1rank.writer}</td>
-                                <td style="height: 100px;">${b1rank.score}</td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;${b1rank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${b1rank.score}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>
@@ -198,8 +198,8 @@
                               <td style="height: 100px;">${b2rank.rank}</td>
                                 <td style="height: 100px;">${b2rank.title}</td>
                                 <td style="height: 100px;"><img src="${b2rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
-                                <td style="height: 100px;">${b2rank.writer}</td>
-                                <td style="height: 100px;">${b2rank.score}</td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;${b2rank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${b2rank.score}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>
@@ -213,8 +213,8 @@
                               <td style="height: 100px;">${plrank.rank}</td>
                                 <td style="height: 100px;">${plrank.title}</td>
                                 <td style="height: 100px;"><img src="${plrank.imageurl}" style="width:50px; max-height:50px; height:auto;"></td>
-                                <td style="height: 100px;">${plrank.writer}</td>
-                                <td style="height: 100px;">${plrank.score}</td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;$${plrank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${plrank.score}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>
@@ -226,9 +226,9 @@
                     <tbody>
                         <tr style="height: 10px;"></tr>
                           <tr class="ranking-item">
-                              <td style="height: 100px;">${loop.index + 1}</td>
-                              <td style="height: 100px;">${b1userRank.writer}</td>
-                              <td style="height: 100px;">${b1userRank.userScore}</td>
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${b1userRank.writer}&nbsp;</td>
+                              <td style="height: 100px;">스코어&nbsp;:&nbsp;${b1userRank.userScore}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>
@@ -239,8 +239,8 @@
                     <tbody>
                         <tr style="height: 10px;"></tr>
                           <tr class="ranking-item">
-                              <td style="height: 100px;">${loop.index + 1}</td>
-                              <td style="height: 100px;">${b2userRank.writer}</td>
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${b2userRank.writer}&nbsp;</td>
                               <td style="height: 100px;">${b2userRank.userScore}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
@@ -252,22 +252,22 @@
                     <tbody>
                         <tr style="height: 10px;"></tr>
                           <tr class="ranking-item">
-                              <td style="height: 100px;">${loop.index + 1}</td>
-                              <td style="height: 100px;">${pluserRank.writer}</td>
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${pluserRank.writer}&nbsp;</td>
                               <td style="height: 100px;">${pluserRank.userScore}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>
                 </c:forEach>
             </table>
-			<table class="ranking-table page7">           
+         <table class="ranking-table page7">           
                  <c:forEach items="${userRankingList}" var="userRank" varStatus="loop">
                     <tbody>
                         <tr style="height: 10px;"></tr>
                           <tr class="ranking-item">
-                              <td style="height: 100px;">${loop.index + 1}</td>
-                              <td style="height: 100px;">${userRank.writer}</td>
-                              <td style="height: 100px;">${userRank.userScore}</td>
+                              <td style="height: 100px;">${loop.index + 1}등 </td> 
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${userRank.writer}&nbsp;</td>
+                              <!-- <td style="height: 100px;">${userRank.userScore}</td> -->
                            </tr>
                         <tr style="height: 10px;"></tr>
                     </tbody>

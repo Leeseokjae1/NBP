@@ -187,7 +187,7 @@ nav {
    <nav id="nav2">
       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-<ul>
+`		<ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
