@@ -4,7 +4,8 @@
     <%
 	 BuserDto a = (BuserDto)session.getAttribute("login");
 	 int m_number = a.getM_NUMBER();
-	 int ticket = a.getTICKET();
+	 
+	  
 	%>
 <html>
 <head>
@@ -121,6 +122,16 @@
   margin:0;
   box-sizing: border-box;
 }
+#topbox h3 {
+    font-weight: bold;
+}
+
+.table th{
+    font-weight: bold;
+}
+.btn.btn-primary {
+    font-weight: normal;
+}
 
 </style>  
    <script type="text/javascript">
@@ -197,43 +208,44 @@
 	         </div>
         </div>
   	</div>
+   <div class="container">
+   	<br /><br /><br />
+        <table class="table table-bordered">
+            <tr>
+                <th class="text-center">보유개수</td>	
+                <th rowspan="2" class="text-center align-middle">
+                <a href="shopping_list?m_number=<%=m_number %>">구매내역</a></td>
+            </tr>
+            <tr>
+                <td class="text-center">${user.TICKET} 개</td>
+            </tr>
+          </table>
+          
+          <br /><h3>결제하기</h3><br />
+          <table class="table table-hover">
+            <tr>
+                <td scope="col" class="text-center">채팅권 1개</td>
+                <td class="text-center"><button class="btn btn-outline-warning" onclick="openPopup(1,1000)">1000원</button></td>
+            </tr>
+            <tr>
+                <td scope="col" class="text-center">채팅권 2개</td>
+                <td class="text-center"><button class="btn btn-outline-warning" onclick="openPopup(2,2000)">2000원</button></td>
+            </tr>
+            <tr>
+                <td scope="col" class="text-center">채팅권 3개</td>
+                <td class="text-center"><button class="btn btn-outline-warning" onclick="openPopup(3,3000)">3000원</button></td>
+            </tr>
+            <tr>
+                <td scope="col" class="text-center">채팅권 5개</td>
+                <td class="text-center"><button class="btn btn-outline-warning" onclick="openPopup(5,4500)">4500원</button></td>
+            </tr>
+            <tr>
+                <td scope="col" class="text-center">채팅권 10개</td>
+                <td class="text-center"><button class="btn btn-outline-warning" onclick="openPopup(10,8000)">8000원</button></td>
+            </tr>
+        </table>
+    </div>
 
-  	<table style="width:80%">
-	<tr>
-	<td>보유내역</td>
-	
-	<td row span =2><a href="shopping_list?m_number=<%=m_number %>">구매내역</a></td>	
-    </tr>
- 
-    <tr>
-   	 <td>${user.TICKET} 개</td>
-    </tr>
-    </table>
-    
-  <div>
-  <table style="width:80%">
-  	<tr>
-		<td>채팅권 1개</td>
-		<td><button onclick="openPopup(1,1000)">1000원</button></td>
-	</tr>
-	 <tr>
-		<td>채팅권 2개</td>
-		<td><button onclick="openPopup(2,2000)"}>2000원</button></td>
-	</tr>
-	 <tr>
-		<td>채팅권 3개</td>
-		<td><button onclick="openPopup(3,3000)">3000원</button></td>
-	</tr>
-	 <tr>
-		<td>채팅권 5개</td>
-		<td><button onclick="openPopup(5,4000)">4000원</button></td>
-	</tr>
-	 <tr>
-		<td>채팅권 10개</td>
-		<td><button onclick="openPopup(10,8000)">8000원</button></td>
-	</tr>
-   </div>
- </table>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

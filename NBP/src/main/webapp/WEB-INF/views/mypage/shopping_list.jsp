@@ -5,6 +5,7 @@
  <%
  BuserDto a = (BuserDto)session.getAttribute("login");
  int m_number = a.getM_NUMBER();
+ 
  %>
 <!DOCTYPE html>
 <html>
@@ -109,7 +110,7 @@
 					            취소 거부
 					        </c:when>
 					        <c:otherwise>
-					                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-buy-number="${list.buy_number}" data-m-number="${list.m_number}">
+					                <button type="button"  onclick="cancelBtn(${list.buy_number})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
         취소</button>
 					        </c:otherwise>
 					    </c:choose>
@@ -167,9 +168,10 @@
                 취소하시겠습니까?
             </div>
             <div class="modal-footer">
+               <button type="button" class="btn btn-primary" onclick="confirmCancelBtn()">확인</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                <!-- 모달 내에서 버튼 클릭 시 취소 링크로 이동 -->
-                <button type="button" class="btn btn-primary" id="confirmCancelBtn">확인</button>
+             
+             
             </div>
         </div>
     </div>
@@ -177,12 +179,19 @@
 
 
 <script>
-    // 모달 내에서 확인 버튼 클릭 시 취소 링크로 이동
-    $('#confirmCancelBtn').click(function () {
-        var buyNumber = $(this).data('buy-number');
-        var mNumber = $(this).data('m-number');
-        window.location.href = "../cancelPurchase?buy_number=${list.buy_number}&m_number=${list.m_number}
-    });
+
+var buyNumber;
+
+function cancelBtn(a){
+	buyNumber=a;
+}
+ 
+ // 모달 내에서 확인 버튼 클릭 시 취소 링크로 이동
+function confirmCancelBtn() {
+  var mNumber = <%= m_number%>
+  window.location.href = "../cancelPurchase?buy_number=" + buyNumber + "&m_number=" + mNumber;
+
+}
 </script>
 
     <!-- Optional JavaScript -->

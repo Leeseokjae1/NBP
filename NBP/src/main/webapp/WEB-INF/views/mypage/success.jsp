@@ -130,7 +130,7 @@
 			    	  t_count = 2;
 			      }else if(t_price == 3000){
 			    	  t_count = 3;
-			      }else if(t_price == 4000){
+			      }else if(t_price == 4500){
 			    	  t_count = 5;
 			      }else if(t_price == 8000){
 			    	  t_count = 10;
