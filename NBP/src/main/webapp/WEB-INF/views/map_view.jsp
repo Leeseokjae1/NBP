@@ -185,16 +185,24 @@
 
    <nav id="nav2">
       <img src="/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-      <ul>
+     <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/b1page?page=1">니빵이</a></li>
+         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/map">로그아웃</a></li>
-      </ul>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
+       </ul>
    </nav>
    <div id="mapwrap">
       <!-- 지도가 표시될 div -->
@@ -224,34 +232,29 @@
 
       var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
       
- 
+      var geocoder = new kakao.maps.services.Geocoder();
       
+      geocoder.addressSearch('${Buser.adresss}', function(result, status) {
+    	  
+      }
+	      if (status === kakao.maps.services.Status.OK) {
+	
+	          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	          for(i =0 ; i<bbangnumber.length(); i++){
+	  	        if (BBANG == ROLE_1) {
+	  	        	breadPositions
+	  	        }else if(BBANG == "ROLE_2") {
+	  	        	coffeePositions
+	  	        }  
+	  	    }      
       var coffeePositions = [
-           { title: '일하는내빵이', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' },
-           { title: '이가는내빵이', latlng: new kakao.maps.LatLng(37.499427948430814, 127.02794423197847), link: 'http://localhost:8081/main' },
-           { title: '삼삼한내빵이', latlng: new kakao.maps.LatLng(37.498553760499505, 127.02882598822454), link: 'http://localhost:8081/main' },
-           { title: '사랑꾼내빵이', latlng: new kakao.maps.LatLng(37.497625593121384, 127.02935713582038), link: 'http://localhost:8081/main' },
-           { title: '오랑캐내빵이', latlng: new kakao.maps.LatLng(37.49646391248451, 127.02675574250912), link: 'http://localhost:8081/main' },
-           { title: '육중한내빵이', latlng: new kakao.maps.LatLng(37.49629291770947, 127.02587362608637), link: 'http://localhost:8081/main' },
-           { title: '칠칠한내빵이', latlng: new kakao.maps.LatLng(37.49754540521486, 127.02546694890695), link: 'http://localhost:8081/main' },
-           { title: '팔순인내빵이', latlng: new kakao.maps.LatLng(37.49640072567703, 127.02726459882308), link: 'http://localhost:8081/main' },
-           { title: '구렁내내빵이', latlng: new kakao.maps.LatLng(37.49640098874988, 127.02609983175294), link: 'http://localhost:8081/main' },
-           { title: '열심히내빵이', latlng: new kakao.maps.LatLng(37.49932849491523, 127.02935780247945), link: 'http://localhost:8081/main' },
-           { title: '영수증내빵이', latlng: new kakao.maps.LatLng(37.49996818951873, 127.02943721562295), link: 'http://localhost:8081/main' }
+    	  
+           { title: '${Buser.name}', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' }
 		
       ];
-
+	          	       
       var breadPositions = [
-           { title: '일하는니빵이', latlng: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), link: 'http://localhost:8081/main' },
-           { title: '이가는니빵이', latlng: new kakao.maps.LatLng(37.49671536281186, 127.03020491448352), link: 'http://localhost:8081/main' },
-           { title: '삼삼한니빵이', latlng: new kakao.maps.LatLng(37.496201943633714, 127.02959405469642), link: 'http://localhost:8081/main' },
-           { title: '사랑꾼니빵이', latlng: new kakao.maps.LatLng(37.49966168796031, 127.03007039430118), link: 'http://localhost:8081/main' },
-           { title: '오랑캐니빵이', latlng: new kakao.maps.LatLng(37.499463762912974, 127.0288828824399), link: 'http://localhost:8081/main' },
-           { title: '육중한니빵이', latlng: new kakao.maps.LatLng(37.49896834100913, 127.02833986892401), link: 'http://localhost:8081/main' },
-           { title: '칠칠한니빵이', latlng: new kakao.maps.LatLng(37.49893267508434, 127.02673400572665), link: 'http://localhost:8081/main' },
-           { title: '팔순인니빵이', latlng: new kakao.maps.LatLng(37.49872543597439, 127.02676785815386), link: 'http://localhost:8081/main' },
-           { title: '구렁내니빵이', latlng: new kakao.maps.LatLng(37.49813096097184, 127.02591949495914), link: 'http://localhost:8081/main' },
-           { title: '열심히니빵이', latlng: new kakao.maps.LatLng(37.497680616783086, 127.02518427952202), link: 'http://localhost:8081/main' }
+           { title: '${Buser.name}', latlng: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), link: 'http://localhost:8081/main' }
 
       ];
 

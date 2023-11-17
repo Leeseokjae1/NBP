@@ -99,7 +99,7 @@ String writer = member.getNICKNAME();
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
@@ -108,15 +108,14 @@ String writer = member.getNICKNAME();
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <% } %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
        </ul>
     </nav>
     <h1 class="text-center mt-4">니빵이 게시판</h1>
-    <input type="button" class="btn btn-primary mx-auto d-block mb-4" onclick="" value="지도로 보기">
-    
+	<a href="/map" class="btn btn-primary mx-auto d-block mb-4">지도 보기</a>    
     <div class="container">
         <div class="row">
             <c:forEach items="${list}" var="dto">

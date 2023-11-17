@@ -26,6 +26,7 @@ import com.study.nbnb.dao.B2Dao;
 import com.study.nbnb.dao.BuserDao;
 import com.study.nbnb.dao.ChatRoomDao;
 import com.study.nbnb.dao.CommentDao;
+import com.study.nbnb.dao.GoodDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dao.RDao;
@@ -34,6 +35,7 @@ import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
 import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.ChatRoomDto;
+import com.study.nbnb.dto.GoodDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 import com.study.nbnb.dto.RankDto;
@@ -65,6 +67,8 @@ public class NBController {
 	AdDao addao;
 	@Autowired
 	RDao rdao;
+	@Autowired
+	GoodDao gooddao;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -156,16 +160,16 @@ public class NBController {
 	public String admin_member(HttpServletRequest request, Model model) {
 	
 	
-	
+		
 		int total = buserDao.listDao().size();
 		int pageSize = 10;
 		
 		int totalPage = total / pageSize;
 		
 		if (total % pageSize > 0) {
-		totalPage++;
+			totalPage++;
 		}
-	
+		
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 		
@@ -174,10 +178,6 @@ public class NBController {
 		
 		List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
 		
-		System.out.println(nStart);
-		System.out.println(nEnd);
-		System.out.println(a.size());
-		
 		model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
@@ -185,11 +185,38 @@ public class NBController {
 		return "adminboard/adminmember";
 	}
 	
+	@RequestMapping("/admin/member_profile")
+	public String member_modify(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "adminboard/adminmember_profile";
+	}
+	
+	@RequestMapping("/admin/member_modify")
+	public String member_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		buserDao.updateUser3(
+				request.getParameter("ID"), 
+				request.getParameter("NAME"), 
+				request.getParameter("ADDRESS"), 
+				request.getParameter("EMAIL"), 
+				PHONENUMBER, 
+				request.getParameter("NICKNAME"), 
+				request.getParameter("BBANG"), 
+				request.getParameter("S_COMMENT"), 
+				request.getParameter("S_DATE"), 
+				m_number
+		);
+		return "redirect:/admin/member?page=1";
+	}
+	
 	@RequestMapping("/joinView")
 	public String joinView() {
 		return "login/join_view";
 	}
-	
+		
 	@RequestMapping("/userJoin")
 	public String userJoin(HttpServletRequest request) {
 		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
@@ -204,7 +231,7 @@ public class NBController {
 						request.getParameter("EMAIL"),
 						PHONENUMBER,
 						request.getParameter("NICKNAME"),
-						bbang);	
+						bbang);
 		return "redirect:loginView";
 	}
 	
@@ -226,10 +253,10 @@ public class NBController {
 	public String search_pw() {
 		return "login/search_pw";
 	}
-	///////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
-	////////////////////////////////////mypage////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////mypage////////////////////////////////////////////////////////////
 	@RequestMapping("/1/profile")
 	public String profile(HttpServletRequest request, Model model) {
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
@@ -247,14 +274,15 @@ public class NBController {
 		String pw2 = request.getParameter("pw2");
 		
 		if (pw1.equals(pw2)) {
-			buserDao.updateUser2(
-					request.getParameter("ID"), 
-					request.getParameter("NAME"), 
-					request.getParameter("ADDRESS"), 
-					request.getParameter("EMAIL"), 
-					PHONENUMBER, 
-					request.getParameter("NICKNAME"), 
-					m_number);
+		buserDao.updateUser2(
+				request.getParameter("ID"), 
+				request.getParameter("NAME"), 
+				request.getParameter("ADDRESS"), 
+				request.getParameter("EMAIL"), 
+				PHONENUMBER, 
+				request.getParameter("NICKNAME"), 
+				request.getParameter("BBANG"), 
+				m_number);
 		}else {
 			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
 			String password = encoded.substring(8);
@@ -266,11 +294,25 @@ public class NBController {
 					request.getParameter("EMAIL"), 
 					PHONENUMBER, 
 					request.getParameter("NICKNAME"), 
+					request.getParameter("BBANG"), 
 					m_number);
 		}
 		return "redirect:/";
 	}
 
+
+	    @GetMapping("/goodpost")
+	    public String getgoodpost(HttpServletRequest request, Model model) {
+	    	HttpSession session = request.getSession();
+	    	BuserDto bdto = (BuserDto)session.getAttribute("login");
+	    	int m_number = bdto.getM_NUMBER();
+	    	int t_number = m_number;
+	    	System.out.println(t_number);
+	        List<GoodDto> getgoodpost = gooddao.getgoodpost(t_number);
+	        System.out.println("여기가 넘어갔나요?");
+	        model.addAttribute("getgoodpost", getgoodpost);
+	        return "mypage/mypage_good"; 
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -343,21 +385,21 @@ public class NBController {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8082/img/yb.png";
+				imageURL1="http://localhost:8081/img/yb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8082/img/yb.png";
+				imageURL2="http://localhost:8081/img/yb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8082/img/yb.png";
+				imageURL3="http://localhost:8081/img/yb.png";
 			}
 
 			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
@@ -575,21 +617,21 @@ public class NBController {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8082/img/nb.png";
+				imageURL1="http://localhost:8081/img/nb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8082/img/nb.png";
+				imageURL2="http://localhost:8081/img/nb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8082/img/nb.png";
+				imageURL3="http://localhost:8081/img/nb.png";
 			}
 
 
@@ -815,7 +857,7 @@ public class NBController {
 			if (file != null && !file.isEmpty()) {
 				imageURL = uploadFile(file);
 			}else {
-				imageURL="http://localhost:8082/images/111.png";
+				imageURL="http://localhost:8081/images/111.png";
 			}
 
 			playdao.writeDao(writer, title, content, imageURL, m_number);
@@ -975,7 +1017,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b1board/b1list";
+       return "b1board/b1list";
     }
     
     @RequestMapping("/b1writer")
@@ -1008,7 +1050,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b1board/b1list";
+       return "b1board/b1list";
     }
     
     @RequestMapping("/b1content")
@@ -1041,7 +1083,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b1board/b1list";
+       return "b1board/b1list";
     }
     
     @RequestMapping("/b2title")
@@ -1074,7 +1116,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b2board/b2list";
+       return "b2board/b2list";
     }
     
     @RequestMapping("/b2writer")
@@ -1107,7 +1149,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b2board/b2list";
+       return "b2board/b2list";
     }
     
     @RequestMapping("/b2content")
@@ -1140,7 +1182,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/b2board/b2list";
+       return "b2board/b2list";
     }
     @RequestMapping("/playtitle")
     public String playtitlepage(HttpServletRequest request, Model model) {
@@ -1172,7 +1214,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/playboard/playlist";
+       return "playboard/playlist";
     }
     
     @RequestMapping("/playwriter")
@@ -1205,7 +1247,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/playboard/playlist";
+       return "playboard/playlist";
     }
     
     @RequestMapping("/playcontent")
@@ -1238,7 +1280,7 @@ public class NBController {
        model.addAttribute("page", page);
        
 
-       return "/playboard/playlist";
+       return "playboard/playlist";
        }
     
 	

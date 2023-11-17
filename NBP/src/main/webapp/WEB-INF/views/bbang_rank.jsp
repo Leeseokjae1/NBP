@@ -148,7 +148,6 @@
          <li><a href="/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="/map">지도</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -161,6 +160,7 @@
         <!-- <li><a href="/logout">로그아웃</a></li>
          } %>-->
        </ul>
+      
     </nav>
       <div class="container">
          <div class="ranking-types">

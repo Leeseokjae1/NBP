@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -114,6 +115,63 @@
   justify-content: center;
 }
 
+      body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .liked-posts-container {
+            width: 1520px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+   			padding: 20px; /* 내부 간격 추가 */
+        }
+
+        .liked-post-box {
+             width: calc(20% - 20px);
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .post-info {
+            margin-top: 10px;
+        }
+
+        .post-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .board-name {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .post-title {
+            font-size: 12px;
+        }
+
+        .post-content {
+            font-size: 10px;
+            color: #555;
+        }
+
+        .post-writer {
+            font-size: 10px;
+            color: #777;
+        }
+
 </style>  
 
 </head>
@@ -126,7 +184,7 @@
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
@@ -135,11 +193,12 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <% } %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
        </ul>
+      
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
 	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
@@ -147,36 +206,50 @@
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
+		            <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
 		            <span class="icon-name">좋아요 게시글</span>
 		        </div>
 	         </div>
 	         <div class="icons">
 	       		<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
 		            <span class="icon-name">1:1대화</span>
 		        </div>
 	         </div>
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
+		            <a href="/mypage_shop"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
 		            <span class="icon-name">채팅권</span>
 		        </div>    
 	         </div>
 	         <div class="icons">
 	        	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+		            <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
 		            <span class="icon-name">회원정보수정</span>
 		        </div>
 	         </div>
         </div>
   	</div>
+  	<div class="liked-posts-container">
+		
+
+            <c:forEach items="${getgoodpost}" var="post">
+                <img src="${post.image}" alt="Post Image" class="post-image">
+                <div class="post-info">
+                    <div class="board-name">${post.boardname}</div>
+                    <div class="post-title">${post.title}</div>
+                    <div class="post-content">${post.content}</div>
+                </div>
+                </c:forEach>
+  
+
+    </div>
 </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

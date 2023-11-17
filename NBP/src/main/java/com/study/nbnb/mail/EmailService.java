@@ -20,7 +20,6 @@ public class EmailService {
 
     // 인증번호 8자리 무작위 생성
     public void createCode() {
-    	System.out.println(3);
         Random random = new Random();
         StringBuffer key = new StringBuffer();
 
