@@ -16,32 +16,7 @@ public class BuserDto {
 	private String S_COMMENT;
 	private Timestamp S_DATE;
 	
-
 	
-	
-	public BuserDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	
-	public BuserDto(int m_NUMBER, String nAME, String iD, String pASSWORD, String aDDRESS, String eMAIL,
-			String pHONENUMBER, String nICKNAME, int tICKET, String bBANG, String s_COMMENT, Timestamp s_DATE) {
-		super();
-		M_NUMBER = m_NUMBER;
-		NAME = nAME;
-		ID = iD;
-		PASSWORD = pASSWORD;
-		ADDRESS = aDDRESS;
-		EMAIL = eMAIL;
-		PHONENUMBER = pHONENUMBER;
-		NICKNAME = nICKNAME;
-		TICKET = tICKET;
-		BBANG = bBANG;
-		S_COMMENT = s_COMMENT;
-		S_DATE = s_DATE;
-	}
-
 	public int getM_NUMBER() {
 		return M_NUMBER;
 	}
@@ -115,5 +90,6 @@ public class BuserDto {
 		S_DATE = s_DATE;
 	}
 	
+
 	
 }

@@ -115,7 +115,7 @@ String writer = member.getNICKNAME();
        </ul>
     </nav>
     <h1 class="text-center mt-4">니빵이 게시판</h1>
-    <input type="button" class="btn btn-primary mx-auto d-block mb-4" onclick="" value="지도로 보기">
+    <a href="/map" class="btn btn-primary mx-auto d-block mb-4">지도 보기</a>
     
     <div class="container">
         <div class="row">
@@ -127,7 +127,7 @@ String writer = member.getNICKNAME();
                             <h5 class="card-title">${dto.title}</h5>
                             <p class="card-text">작성자&nbsp;:&nbsp;${dto.writer}</p>
                             <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
-                            <a href="/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
+                            <a href="/member/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
                         </div>
                     </div>
                 </div>

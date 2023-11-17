@@ -190,26 +190,48 @@ nav {
         </div>
   	</div>
 
-	    <div class="container mt-5">
-		<c:forEach items="${chat}" var="info">
-		    <div class="chat-container">
-		        <div>
-		            <label for="roomName">방 번호 : ${info.roomid}</label>
-		            <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
-		            <label for="userName">대화인원 : ${info.m_number}, ${info.another}</label>
-		            <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
-		            <button id="enterBtn" class="btn btn-primary">Enter Room</button>
-		        </div>
-		    </div>
-		</c:forEach>
+<div class="container mt-5">
+    <!-- Chat Room Creation Form -->
+    <div class="row">
+        <div class="col-md-4">
+            <form id="createRoomForm">
+                <div class="form-group">
+                    <label for="roomNumber">채팅방 생성:</label>
+                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Number">
+                    <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
+                </div>
+                <button type="button" class="btn btn-success" id="createRoomBtn">Create Chat Room</button>
+            </form>
+        </div>
     </div>
 
+<div class="container mt-5">
+    <div class="row">
+        <!-- Room List (Left Side) -->
+        <div class="col-md-4">
+            <c:forEach items="${chat}" var="info">
+                <div class="chat-container mb-3">
+                    <div>
+                        <label for="roomName">방 번호: ${info.roomid}</label>
+                        <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
+                        <label for="userName">대화인원: ${info.m_number}, ${info.another}</label>
+                        <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
+                        <button id="enterBtn" class="btn btn-primary">Enter Room</button>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
 
-   <div id="chatArea" >
-      <div id="chatMessageArea"></div>
-      <input type="text" id="message" placeholder="입력하세요...">
-      <button id="sendBtn" class="btn btn-secondary">Send</button>
-   </div>
+        <!-- Chat Area (Right Side) -->
+        <div class="col-md-8">
+            <div id="chatArea" class="border p-3">
+                <div id="chatMessageArea"></div>
+                <input type="text" id="message" class="form-control mb-2" placeholder="입력하세요...">
+                <button id="sendBtn" class="btn btn-secondary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="module">
 
@@ -286,6 +308,8 @@ $(document).ready(function () {
 		$("#chatMessageArea").html("");
 		connect(); });
 });
+
+
 </script>
 
 

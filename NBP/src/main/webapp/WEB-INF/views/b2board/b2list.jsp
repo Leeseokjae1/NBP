@@ -81,7 +81,7 @@ String writer = member.getNICKNAME();
        <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
@@ -98,7 +98,7 @@ String writer = member.getNICKNAME();
        </ul>
     </nav>
     <h1 class="text-center mt-4">내빵이 게시판</h1>
-	<input type="button" class="btn btn-primary mx-auto d-block mb-4" onclick="" value="지도로 보기">
+	<a href="/map" class="btn btn-primary mx-auto d-block mb-4">지도 보기</a>
 	
 	<div class="container">
         <div class="row">
@@ -110,7 +110,7 @@ String writer = member.getNICKNAME();
                             <h5 class="card-title">${dto.title}</h5>
                             <p class="card-text">${dto.b2_number} ${dto.writer}</p>
                             <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
-                            <a href="/b2view?b2_number=${dto.b2_number}&check_b=2" class="btn btn-primary">자세히 보기</a>
+                            <a href="/member/b2view?b2_number=${dto.b2_number}&check_b=2" class="btn btn-primary">자세히 보기</a>
                         </div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@ String writer = member.getNICKNAME();
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>
-        <p class="text-right mt-2"><a href="b2writeform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a></p>
+        <p class="text-right mt-2"><a href="/memberb2writeform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a></p>
         <%} %>
     </nav>
 

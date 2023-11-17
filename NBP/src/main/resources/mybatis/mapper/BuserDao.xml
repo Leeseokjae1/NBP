@@ -2,31 +2,32 @@
 <!DOCTYPE mapper
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="com.study.nbnb.dao.BuserDao">
 	<select id="listDao" resultType="com.study.nbnb.dto.BuserDto">
-		select * from buser order by id desc
+		select * from buser
 	</select>
-	<select id="selectDao" resultType="com.study.nbnb.dto.BuserDto">
-		select * from buser where id=#{param1}
-	</select>
-	
 	<select id="loginDao" resultType="com.study.nbnb.dto.BuserDto">
 		select * from buser where ID = #{param1}
 	</select>
 	
+   <select id="pageDao" resultType="com.study.nbnb.dto.BuserDto">
+      <![CDATA[
+		select * from 
+		( select rownum num, A.* from
+		( select * from buser order by m_number desc ) A 
+		where rownum <= #{param1} ) B 
+		where B.num >= #{param2}    
+      ]]>
+   </select>
+   
 	<select id="selectUser" resultType="com.study.nbnb.dto.BuserDto">
 		select * from buser where m_number=#{param1}
 	</select>
 	
-	
-	<update id="updateUser" >
-		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7} where m_number = #{param8}
-	</update>
-	
-	<update id="updateUser2" >
-		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6} where m_number = #{param7}
-	</update>
+	<select id="emailDao" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser where email = #{param1}
+	</select>
 	
 	<insert id="writeDao">
 		insert into buser values 
@@ -37,9 +38,17 @@
 		delete from buser where id = #{param1}
 	</delete>
 	
-	<select id="emailDao" resultType="com.study.nbnb.dto.BuserDto">
-		select * from buser where email = #{param1}
-	</select>
+	<update id="updateUser" >
+		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7}, BBANG =  #{param8} where m_number = #{param9}
+	</update>
+	
+	<update id="updateUser2" >
+		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6}, BBANG =  #{param7} where m_number = #{param8}
+	</update>
+
+	<update id="updateUser3" >
+		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6}, BBANG =  #{param7} , S_COMMENT =  #{param8} , S_DATE =  #{param9} where m_number = #{param10}
+	</update>
 	
 	<update id="emailPwDao" >
 		update buser set password = #{param2} where email = #{param1}

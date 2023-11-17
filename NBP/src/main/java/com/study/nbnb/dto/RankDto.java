@@ -3,10 +3,11 @@ package com.study.nbnb.dto;
 import jakarta.annotation.Nullable;
 
 public class RankDto {
-   private int b1Number;
+   private int bNumber;
     private String writer;
     private String title;
     private int score;
+    private int userScore;
     
     @Nullable
    private String imageurl1;
@@ -14,15 +15,17 @@ public class RankDto {
    private String imageurl2;
    @Nullable
    private String imageurl3;
+   @Nullable
+   private String imageurl;
    
    private int rank;
 
-   public int getB1Number() {
-      return b1Number;
+   public int getBNumber() {
+      return bNumber;
    }
 
-   public void setB1Number(int b1Number) {
-      this.b1Number = b1Number;
+   public void setBNumber(int bNumber) {
+      this.bNumber = bNumber;
    }
 
    public String getWriter() {
@@ -72,6 +75,14 @@ public class RankDto {
    public void setImageurl3(String imageurl3) {
       this.imageurl3 = imageurl3;
    }
+   
+   public String getImageurl() {
+         return imageurl;
+      }
+
+      public void setImageurl(String imageurl) {
+         this.imageurl = imageurl;
+      }
 
    public int getRank() {
       return rank;
@@ -80,5 +91,12 @@ public class RankDto {
    public void setRank(int rank) {
       this.rank = rank;
    }
+      
+   public int getUserScore() {
+       return userScore;
+   }
 
+   public void setUserScore(int userScore) {
+       this.userScore = userScore;
+   }
 }

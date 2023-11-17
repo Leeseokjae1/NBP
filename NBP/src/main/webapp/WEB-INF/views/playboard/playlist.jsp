@@ -107,7 +107,7 @@ String writer = member.getNICKNAME();
 			            <th scope="row">${play.f_number}</th>
 			            <td>${play.writer}</td>
 			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-			                <a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
+			                <a href="/member/playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
 			            </td>
 			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
 			            <td>${play.time}</td>

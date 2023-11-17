@@ -100,16 +100,6 @@ public class NBController {
 		return "main_view";
 	}
 	
-	@RequestMapping("/mpchat")
-	public String myPageChatview(HttpServletRequest request, Model model){
-		HttpSession session = request.getSession();
-		BuserDto a = (BuserDto)session.getAttribute("login");
-		List<ChatRoomDto> cr = crdao.listroomDao(a.getM_NUMBER());
-		System.out.println(a.getM_NUMBER());
-		model.addAttribute("chat", cr);
-		
-		return "mypage/mypage_talk";
-	}
 	
 	@RequestMapping("/realtime")
 	public String startChat(HttpServletRequest request, Model model){		
@@ -122,9 +112,20 @@ public class NBController {
 	}
 	
 	@RequestMapping("/rpage")
-    public String showRanking(HttpServletRequest request, Model model) {
-        List<RankDto> rankingList = rdao.getRanking();
-        model.addAttribute("rankingList", rankingList);
+    public String showb1Ranking(HttpServletRequest request, Model model) {
+        List<RankDto> b1rankingList = rdao.getb1Ranking();
+        List<RankDto> b2rankingList = rdao.getb2Ranking();
+        List<RankDto> plrankingList = rdao.getplRanking();
+        List<RankDto> userb1RankingList = rdao.getb1UserRanking();
+        List<RankDto> userb2RankingList = rdao.getb2UserRanking();
+        List<RankDto> userplRankingList = rdao.getplUserRanking();
+        List<RankDto> userRankingList = rdao.getUserRanking();
+        model.addAttribute("b1rankingList", b1rankingList);
+        model.addAttribute("b2rankingList", b2rankingList);
+        model.addAttribute("plrankingList", plrankingList);
+        model.addAttribute("userb1RankingList", userb1RankingList);
+        model.addAttribute("userb2RankingList", userb2RankingList);
+        model.addAttribute("userRankingList", userRankingList);
         return "bbang_rank";
     }
 	
@@ -134,13 +135,61 @@ public class NBController {
 	public String mypageshopview() {
 	return "mypage/mypage_shop";
 	}
-
 	
+	@RequestMapping("/1/profile")
+	public String profile(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "mypage/mypage_profile";
+	}
+	
+	@RequestMapping("/1/profile/modify")
+	public String profile_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String pw1 = request.getParameter("PASSWORD");
+		String pw2 = request.getParameter("pw2");
+
+		if (pw1.equals(pw2)) {
+			buserDao.updateUser2(
+					request.getParameter("ID"), 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					request.getParameter("BBANG"), 
+					m_number);
+		}else {
+			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
+			String password = encoded.substring(8);
+			buserDao.updateUser(
+					request.getParameter("ID"), 
+					password, 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					request.getParameter("BBANG"), 
+					m_number);
+		}
+		return "redirect:/";
+	}
+
+	@RequestMapping("/mpchat")
+	public String myPageChatview(HttpServletRequest request, Model model){
+		HttpSession session = request.getSession();
+		BuserDto a = (BuserDto)session.getAttribute("login");
+		List<ChatRoomDto> cr = crdao.listroomDao(a.getM_NUMBER());
+		System.out.println(a.getM_NUMBER());
+		model.addAttribute("chat", cr);
+		
+		return "mypage/mypage_talk";
+	}
 ////////////////////////////////////LogIn////////////////////////////////////////////////////////////
-@RequestMapping("/sLogin_popup")
-public String sLogin_popup() {
-	return "login/search_login";
-}
 
 @RequestMapping("/joinView")
 public String joinView() {
@@ -151,10 +200,9 @@ public String joinView() {
 public String userJoin(HttpServletRequest request) {
 	String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
 	
-	
 	String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
 	String password = encoded.substring(8);
-	
+	String bbang = "ROLE_"+request.getParameter("BBANG");
 	buserDao.writeDao(request.getParameter("NAME"),
 					 request.getParameter("ID"),
 					 password,
@@ -162,7 +210,7 @@ public String userJoin(HttpServletRequest request) {
 					 request.getParameter("EMAIL"),
 					 PHONENUMBER,
 					 request.getParameter("NICKNAME"),
-					 request.getParameter("BBANG"));
+					 bbang);
 	return "redirect:loginView";
 }
 
@@ -188,7 +236,7 @@ public String search_pw() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
-	@RequestMapping("/b1view")
+	@RequestMapping("/member/b1view")
 	public String view(HttpServletRequest request, Model model) {
 		int b1_number = Integer.parseInt(request.getParameter("b1_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
@@ -214,7 +262,7 @@ public String search_pw() {
 		}
 		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
 
-		return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+		return "redirect:/member/b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
 
 	@RequestMapping("/b1replydelete")
@@ -256,21 +304,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8082/img/yb.png";
+				imageURL1="http://localhost:8081/img/yb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8082/img/yb.png";
+				imageURL2="http://localhost:8081/img/yb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8082/img/yb.png";
+				imageURL3="http://localhost:8081/img/yb.png";
 			}
 
 			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
@@ -416,14 +464,14 @@ public String search_pw() {
 	
 	//////////////////////////////b2 board///////////////////////////////////////////////////////////
 	
-	@RequestMapping("/b2list")
-	public String b2list(Model model) {
-		model.addAttribute("list", b2dao.listDao());
-		return "b2board/b2list";
-	}
+//	@RequestMapping("/b2list")
+//	public String b2list(Model model) {
+//		model.addAttribute("list", b2dao.listDao());
+//		return "b2board/b2list";
+//	}
 	
 
-	@RequestMapping("/b2view")
+	@RequestMapping("/member/b2view")
 	public String b2view(HttpServletRequest request, Model model) {
 		int b2_number = Integer.parseInt(request.getParameter("b2_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
@@ -435,7 +483,7 @@ public String search_pw() {
 		
 	}
 	
-	@RequestMapping("/b2replywrite")
+	@RequestMapping("/member/b2replywrite")
 	public String b2CmtStore(HttpServletRequest request, Model model) {
 
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
@@ -450,7 +498,7 @@ public String search_pw() {
 		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
 	}
 	
-	@RequestMapping("/b2replydelete")
+	@RequestMapping("/member/b2replydelete")
 	public String b2Delete(HttpServletRequest request, Model model) {
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
 		int c_number = Integer.parseInt(request.getParameter("c_number"));
@@ -466,7 +514,7 @@ public String search_pw() {
 		return "b2board/b2writeform";
 	}
 	
-	@RequestMapping("/b2write")
+	@RequestMapping("/member/b2write")
 	public String b2write(@RequestParam("file1") MultipartFile file1,
 						@RequestParam("file2") MultipartFile file2,
 						@RequestParam("file3") MultipartFile file3,
@@ -488,21 +536,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8082/img/nb.png";
+				imageURL1="http://localhost:8081/img/nb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8082/img/nb.png";
+				imageURL2="http://localhost:8081/img/nb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8082/img/nb.png";
+				imageURL3="http://localhost:8081/img/nb.png";
 			}
 
 
@@ -528,7 +576,7 @@ public String search_pw() {
 	
 
 	
-	@RequestMapping("/b2modifyform")
+	@RequestMapping("/member/b2modifyform")
 	public String b2modifyForm(int b2_number, HttpServletRequest request, Model model) {
 		//String b1_number = request.getParameter("b1_number");
 		
@@ -536,7 +584,7 @@ public String search_pw() {
 		return "b2board/b2modifyform";
 	}
 	
-	@RequestMapping("/b2modify")
+	@RequestMapping("/member/b2modify")
 	public String b2modify(
 	        @RequestParam("b2_number") int b2_number,
 	        @RequestParam("file1") MultipartFile file1,
@@ -571,13 +619,13 @@ public String search_pw() {
 			}
 		}
 	
-	@RequestMapping("/b2delete")
+	@RequestMapping("/member/b2delete")
 	public String b2delete(HttpServletRequest request, Model model) {
 		b2dao.deleteDao(request.getParameter("b2_number"));
 		return "redirect:b2list";
 	}
 	
-	@RequestMapping("/b2like")
+	@RequestMapping("/member/b2like")
 	public String b2Like(HttpServletRequest request, Model model) {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
@@ -618,7 +666,7 @@ public String search_pw() {
 		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
 	}
 	
-	@RequestMapping("/b2page")
+	@RequestMapping("/member/b2page")
 	public String b2listpage(HttpServletRequest request, Model model) {
 
 		int total = b2dao.listCountDao().size();
@@ -662,7 +710,7 @@ public String search_pw() {
 	
 
 
-	@RequestMapping("/playview")
+	@RequestMapping("/member/playview")
 	public String playView(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
@@ -728,7 +776,7 @@ public String search_pw() {
 			if (file != null && !file.isEmpty()) {
 				imageURL = uploadFile(file);
 			}else {
-				imageURL="http://localhost:8082/images/111.png";
+				imageURL="http://localhost:8081/images/111.png";
 			}
 
 			playdao.writeDao(writer, title, content, imageURL, m_number);
@@ -1179,6 +1227,70 @@ public String search_pw() {
 		}
 	
 		return "redirect:adminbd";
+	}
+	
+	@RequestMapping("/admin")
+	public String sLogin_popup() {
+		return "adminboard/adminbd";
+	}
+	@RequestMapping("/admin/member")
+	public String admin_member(HttpServletRequest request, Model model) {
+		
+		
+		
+		  int total = buserDao.listDao().size();
+	      int pageSize = 10;
+
+	      int totalPage = total / pageSize;
+
+	      if (total % pageSize > 0) {
+	         totalPage++;
+	      }
+	      
+	      String sPage = request.getParameter("page");
+	      int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	      int nStart = (page - 1) * pageSize + 1;
+	      int nEnd = (page - 1) * pageSize + pageSize;
+	     
+	      List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
+	      
+	      System.out.println(nStart);
+	      System.out.println(nEnd);
+	      System.out.println(a.size());
+	      
+	      model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
+	      model.addAttribute("totalPage", totalPage);
+	      model.addAttribute("page", page);
+
+		return "adminboard/adminmember";
+	}
+	
+	@RequestMapping("/admin/member_profile")
+	public String member_modify(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "adminboard/adminmember_profile";
+	}
+	
+	@RequestMapping("/admin/member_modify")
+	public String member_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		buserDao.updateUser3(
+			request.getParameter("ID"), 
+			request.getParameter("NAME"), 
+			request.getParameter("ADDRESS"), 
+			request.getParameter("EMAIL"), 
+			PHONENUMBER, 
+			request.getParameter("NICKNAME"), 
+			request.getParameter("BBANG"), 
+			request.getParameter("S_COMMENT"), 
+			request.getParameter("S_DATE"), 
+			m_number
+		);
+		return "redirect:/admin/member?page=1";
 	}
 
 }

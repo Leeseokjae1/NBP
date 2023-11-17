@@ -225,17 +225,14 @@ label {
                             <label class="form-control-label" id="getId"></label>
                         </div>
 					</div>
-					<div class="col-lg-12">
-					
-						<a href="../loginView"><label class="form-control-label yws" >로그인</label></a> &nbsp;
-						<a href="../joinView"><label class="form-control-label yws">회원가입</label></a> &nbsp;
-						<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
-
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
+	<div class="col-lg-12" style="text-align: center; margin: 10px auto">
+		<a href="../loginView"><label class="form-control-label yws" >로그인</label></a> &nbsp;
+		<a href="../joinView"><label class="form-control-label yws">회원가입</label></a> &nbsp;
+		<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
+	</div>
 </body>
 </html>

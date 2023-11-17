@@ -76,7 +76,6 @@
             position: absolute;
             bottom: 10px;
             left: 50%;
-            transform: translateX(-50%);
              display: flex;
             background: rgba(255, 255, 255, 0.7);
             padding: 10px;
@@ -99,64 +98,42 @@
     .right-content {
         flex: 1;
     }
-    .ranking-container {
+      body {
+           background-color: #f8f9fa;
+       }
+       .ranking-container {
            margin: 20px;
        }
-       .ranking-item {
-           background-color: #ffffff;
-           border: 1px solid #dee2e6;
-           border-radius: 5px;
-           margin-bottom: 15px;
-           padding: 15px;
-           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-       }
+         .ranking-item {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 50px; /* 떨어져 있는 정도를 조절합니다. */
+            padding: 50px; /* 박스 높이를 2배로 늘리기 위해 수정합니다. */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
        .ranking-item h3 {
-           color: #ffffcc;
+           color: #007bff;
        }
        .like-button {
-           background-color: #ffffcc;
+           background-color: #007bff;
            color: #fff;
            margin-top: 10px;
        }
        .like-count {
-           color: #ffffcc;
+           color: #007bff;
            margin-left: 5px;
        }
-        .container {
-            text-align: center;
-        }
+       .ranking-button {
+          background-color: #007bff;  /* 버튼 배경색을 파란색으로 변경 */
+          color: #fff;  /* 버튼 텍스트 색상을 흰색으로 변경 */
+          padding: 10px;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;  /* 버튼 모서리를 둥글게 만듭니다 */
+          margin-right: 10px;  /* 버튼 사이에 간격을 추가합니다 */
+      }
 
-        .ranking-types {
-            margin-bottom: 20px;
-        }
-
-        .ranking-button {
-            background-color: #5a95f5;
-            color: #fff;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .ranking-table {
-            display: none;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .ranking-table th, .ranking-table td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .page1 {
-            background-color: #ffffcc;
-        }
-
-        .page2 {
-            background-color: #ffffcc;
-        }
 </style>  
 
 </head>
@@ -185,63 +162,137 @@
          } %>-->
        </ul>
     </nav>
-     <div class="container">
-       <div class="ranking-types">
-           <button class="ranking-button" onclick="showRanking(1)">게시글 랭킹</button>
-           <button class="ranking-button" onclick="showRanking(2)">니빵이 랭킹</button>
-       </div>
-       
-       <table class="ranking-table page1">
-           <thead>
-               <tr>
-                   <th>Rank</th>
-                   <th>제목</th>
-                   <th>이미지</th>
-                   <th>작성자</th>
-                   <th>Score</th>
-               </tr>
-           </thead>
-          <c:forEach items="${rankingList}" var="rank">
-             <tbody>
-                <tr>
-                     <td>${rank.rank}</td>
-                     <td>${rank.title}</td>
-                     <td> <img src="${rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"> </td>
-                     <td>${rank.writer}</td>
-                     <td>${rank.score}</td>
-                 </tr>
-             </tbody>
-          </c:forEach>
-      </table>
-      
-       <table class="ranking-table page2">
-           <thead>
-               <tr>
-                   <th>Rank</th>
-                   <th>니빵이</th>
-                   <th>Score</th>
-               </tr>
-           </thead>
-        </table>
+      <div class="container">
+         <div class="ranking-types">
+            <button class="ranking-button" onclick="showRanking(1)">니빵글 좋아요 랭킹 </button>
+            <button class="ranking-button" onclick="showRanking(2)">내빵글 게시글 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(3)">놀빵글 게시글 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(4)">니빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(5)">내빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(6)">놀빵이 랭킹</button>
+            <button class="ranking-button" onclick="showRanking(7)">전체 좋아요 랭킹</button>
+        </div>
+
+
+        <div class="ranking-container">
+            <table class="ranking-table page1">
+                <c:forEach items="${b1rankingList}" var="b1rank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${b1rank.rank}</td>
+                                <td style="height: 100px;">${b1rank.title}</td>
+                                <td style="height: 100px;"><img src="${b1rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;${b1rank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${b1rank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+              <table class="ranking-table page2">
+                <c:forEach items="${b2rankingList}" var="b2rank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${b2rank.rank}</td>
+                                <td style="height: 100px;">${b2rank.title}</td>
+                                <td style="height: 100px;"><img src="${b2rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;${b2rank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${b2rank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page3">
+                <c:forEach items="${plrankingList}" var="plrank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${plrank.rank}</td>
+                                <td style="height: 100px;">${plrank.title}</td>
+                                <td style="height: 100px;"><img src="${plrank.imageurl}" style="width:50px; max-height:50px; height:auto;"></td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;$${plrank.writer}</td>
+                                <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${plrank.score}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            
+            <table class="ranking-table page4">           
+                 <c:forEach items="${userb1RankingList}" var="b1userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${b1userRank.writer}&nbsp;</td>
+                              <td style="height: 100px;">스코어&nbsp;:&nbsp;${b1userRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page5">           
+                 <c:forEach items="${userb2RankingList}" var="b2userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${b2userRank.writer}&nbsp;</td>
+                              <td style="height: 100px;">${b2userRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+            <table class="ranking-table page6">           
+                 <c:forEach items="${userplRankingList}" var="pluserRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}등 &nbsp;</td>
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${pluserRank.writer}&nbsp;</td>
+                              <td style="height: 100px;">${pluserRank.userScore}</td>
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+         <table class="ranking-table page7">           
+                 <c:forEach items="${userRankingList}" var="userRank" varStatus="loop">
+                    <tbody>
+                        <tr style="height: 10px;"></tr>
+                          <tr class="ranking-item">
+                              <td style="height: 100px;">${loop.index + 1}등 </td> 
+                              <td style="height: 100px;">회원닉네임&nbsp;:&nbsp;${userRank.writer}&nbsp;</td>
+                              <!-- <td style="height: 100px;">${userRank.userScore}</td> -->
+                           </tr>
+                        <tr style="height: 10px;"></tr>
+                    </tbody>
+                </c:forEach>
+            </table>
+        </div>
     </div>
-    
+
     <script>
-    function showRanking(page) {
-        // 숨겨진 테이블 숨기기
-        document.querySelectorAll('.ranking-table').forEach(table => {
-            table.style.display = 'none';
-        });
+        function showRanking(page) {
+            // 숨겨진 테이블 숨기기
+            document.querySelectorAll('.ranking-table').forEach(table => {
+                table.style.display = 'none';
+            });
 
-        // 선택한 페이지에 해당하는 테이블 보이기
-        document.querySelector('.page' + page).style.display = 'table';
+            // 선택한 페이지에 해당하는 테이블 보이기
+            document.querySelector('.page' + page).style.display = 'table';
 
-        // 버튼 스타일 변경
-        document.querySelectorAll('.ranking-button').forEach(button => {
-            button.style.backgroundColor = '';
-        });
-        document.querySelector('.page' + page).style.backgroundColor = '#ffffcc';
-    }
-</script>
+            // 버튼 스타일 변경
+            document.querySelectorAll('.ranking-button').forEach(button => {
+                button.style.backgroundColor = '';
+            });
+           //document.querySelector('.page' + page).style;
+        }
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

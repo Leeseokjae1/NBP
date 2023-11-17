@@ -166,7 +166,8 @@ String writer = member.getNICKNAME();
 		<div class="mb-3 text-right">
 		    <a href="b1modifyform?b1_number=${dto.b1_number}" class="btn btn-primary ml-auto">수정하기</a>
 		    <a href="b1page?page=1" class="btn btn-primary ml-2">목록보기</a>
-		    <a href="b1delete?b1_number=${dto.b1_number}" class="btn btn-danger ml-2">삭제</a>
+		    <a href="b1delete?b1_number=${dto.b1_number}" class="btn btn-danger ml-2"
+		     onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
