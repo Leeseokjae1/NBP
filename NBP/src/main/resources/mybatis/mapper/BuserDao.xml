@@ -39,13 +39,17 @@
 	</delete>
 	
 	<update id="updateUser" >
-		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7} where m_number = #{param8}
+		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7}, BBANG =  #{param8} where m_number = #{param9}
 	</update>
 	
 	<update id="updateUser2" >
-		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6} where m_number = #{param7}
+		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6}, BBANG =  #{param7} where m_number = #{param8}
 	</update>
 
+	<update id="updateUser3" >
+		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6}, BBANG =  #{param7} , S_COMMENT =  #{param8} , S_DATE =  #{param9} where m_number = #{param10}
+	</update>
+	
 	<update id="emailPwDao" >
 		update buser set password = #{param2} where email = #{param1}
 	</update>

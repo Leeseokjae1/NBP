@@ -41,11 +41,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		String name = attributes.getName();
 		String email = attributes.getEmail();
-		String ROLE = "ROLE_4";
+		String ROLE = "ROLE_3";
 		BuserDto user = buserDao.emailDao(email);
 		
-		if(user.getEMAIL() == null) {
-			buserDao.writeDao(name,email, "","",email," ",name,"ROLE_3");
+		if(user == null) {
+			buserDao.writeDao(name,email, "","",email," ",name,ROLE);
 			
 			user = buserDao.emailDao(email);
 		} else {

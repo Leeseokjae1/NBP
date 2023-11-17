@@ -1,6 +1,6 @@
 package com.study.nbnb.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class BuserDto {
 	private int M_NUMBER;

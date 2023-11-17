@@ -175,20 +175,21 @@
 			        <th>S_D</th>
 		        </tr>
 		        <c:forEach items="${userList}" var="list">
-		            <tr>
-					    <td>${list.m_NUMBER}</td>
-				        <td>${list.NAME}</td>
-				        <td>${list.ID}</td>
-				        <td>${list.ADDRESS}</td>
-				        <td>${list.EMAIL}</td>
-				        <td>${list.PHONENUMBER}</td>
-				        <td>${list.NICKNAME}</td>
-				        <td>${list.TICKET}</td>
-				        <td>${list.BBANG}</td>
-				        <td>${list.s_COMMENT}</td>
-				        <td>${list.s_DATE}</td>
-					</tr>
-			        
+		                <tr>
+		                
+						    <td><a href="../admin/member_profile?m_number=${list.m_NUMBER}">${list.m_NUMBER}</a></td>
+					        <td>${list.NAME}</td>
+					        <td>${list.ID}</td>
+					        <td>${list.ADDRESS}</td>
+					        <td>${list.EMAIL}</td>
+					        <td>${list.PHONENUMBER}</td>
+					        <td>${list.NICKNAME}</td>
+					        <td>${list.TICKET}</td>
+					        <td>${list.BBANG}</td>
+					        <td>${list.s_COMMENT}</td>
+					        <td>${list.s_DATE}</td>
+						
+						</tr>
 			    </c:forEach>
 			    
 			    <tr>

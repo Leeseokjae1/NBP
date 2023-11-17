@@ -108,18 +108,17 @@ int M_NUMBER = login.getM_NUMBER();
 	
 		}
 		#probox {
-	  display: flex;
-	  flex-direction: column; 
-	  align-items: center;
-	  text-align: center; 
-	}
-	.user-info {
-	  display: flex;
-	  flex-direction: column;
-	  justify-content: center;
-	}
-
-</style>  
+		  display: flex;
+		  flex-direction: column; 
+		  align-items: center;
+		  text-align: center; 
+		}
+		.user-info {
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		}
+	</style>  
 
 </head>
 <body>
@@ -156,7 +155,7 @@ int M_NUMBER = login.getM_NUMBER();
 	         </div>
 	         <div class="icons">
 	       		<div class="icon-wrapper">
-		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #fff;"></i></a><br />
 		            <span class="icon-name">1:1대화</span>
 		        </div>
 	         </div>

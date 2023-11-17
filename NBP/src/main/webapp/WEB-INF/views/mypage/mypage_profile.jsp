@@ -33,10 +33,10 @@ String password = login.getPASSWORD();
 		}  
 		
 		const bbang = document.getElementById("test").value;
-		var radio1 = document.getElementById("Role_1");
-		var radio2 = document.getElementById("Role_2");
+		var radio1 = document.getElementById("ROLE_1");
+		var radio2 = document.getElementById("ROLE_2");
 		
-		if (bbang === "Role_2") {
+		if (bbang === "ROLE_2") {
 			radio2.checked = true;
 		} else {
 			radio1.checked = true;
@@ -288,8 +288,8 @@ String password = login.getPASSWORD();
 	  			<input type="hidden" id="pw2" name="pw2" value="<%= password %>">
 	  			<input type="hidden" id="test" name="test" value="${user.BBANG}">
 				<div class="form-group">
-					<input type="radio" name="BBANG" id ="Role_1" value="Role_1">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-					<input type="radio" name="BBANG" id ="Role_2" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
+					<input type="radio" name="BBANG" id ="ROLE_1" value="Role_1">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+					<input type="radio" name="BBANG" id ="ROLE_2" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
 				</div>
 				<div class="form-group">
 					<label class="form-control-label">아이디</label>
@@ -350,7 +350,7 @@ String password = login.getPASSWORD();
   	
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" ></script>
 </body>
 </html>

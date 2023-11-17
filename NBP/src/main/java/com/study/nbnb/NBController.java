@@ -113,15 +113,38 @@ public class NBController {
 	     
 	      List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
 	      
-	      System.out.println(nStart);
-	      System.out.println(nEnd);
-	      System.out.println(a.size());
-	      
 	      model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
 	      model.addAttribute("totalPage", totalPage);
 	      model.addAttribute("page", page);
 
 		return "adminboard/adminmember";
+	}
+	
+	@RequestMapping("/admin/member_profile")
+	public String member_modify(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "adminboard/adminmember_profile";
+	}
+	
+	@RequestMapping("/admin/member_modify")
+	public String member_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		buserDao.updateUser3(
+			request.getParameter("ID"), 
+			request.getParameter("NAME"), 
+			request.getParameter("ADDRESS"), 
+			request.getParameter("EMAIL"), 
+			PHONENUMBER, 
+			request.getParameter("NICKNAME"), 
+			request.getParameter("BBANG"), 
+			request.getParameter("S_COMMENT"), 
+			request.getParameter("S_DATE"), 
+			m_number
+		);
+		return "redirect:/admin/member?page=1";
 	}
 	
 	@RequestMapping("/joinView")
@@ -193,6 +216,7 @@ public class NBController {
 					request.getParameter("EMAIL"), 
 					PHONENUMBER, 
 					request.getParameter("NICKNAME"), 
+					request.getParameter("BBANG"), 
 					m_number);
 		}else {
 			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
@@ -205,10 +229,12 @@ public class NBController {
 					request.getParameter("EMAIL"), 
 					PHONENUMBER, 
 					request.getParameter("NICKNAME"), 
+					request.getParameter("BBANG"), 
 					m_number);
 		}
 		return "redirect:/";
 	}
+	
 	
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////
