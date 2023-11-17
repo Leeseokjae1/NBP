@@ -14,21 +14,23 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <style>
 
-        .image {
-            text-align: center;
-        }
+     .image {
+        text-align: center;
+     }
 
-        .image img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-            * {
-       padding:0;
-       margin:0;
+     .image img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+     }
+   	* {
+	    padding:0;
+	    margin:0;
     }
    ul,ol {
       list-style:none
@@ -70,8 +72,8 @@
     height: 30px;
     margin-left: 200px; 
     margin-right: 200px;
-}
-	
+	}
+
 	.admintabs {
 	    position: fixed;
 	    top: 120px;
@@ -160,79 +162,85 @@
         </div>
     
      <div class="content">
-		    <table border="1">
-		        <tr>
-		            <th>no</th>
-			        <th>NAME</th>
-			        <th>ID</th>
-			        <th>ADDR</th>
-			        <th>EMAIL</th>
-			        <th>PH</th>
-			        <th>NN</th>
-			        <th>TC</th>
-			        <th>BB</th>
-			        <th>S_C</th>
-			        <th>S_D</th>
-		        </tr>
-		        <c:forEach items="${userList}" var="list">
-		                <tr>
-		                
-						    <td><a href="../admin/member_profile?m_number=${list.m_NUMBER}">${list.m_NUMBER}</a></td>
-					        <td>${list.NAME}</td>
-					        <td>${list.ID}</td>
-					        <td>${list.ADDRESS}</td>
-					        <td>${list.EMAIL}</td>
-					        <td>${list.PHONENUMBER}</td>
-					        <td>${list.NICKNAME}</td>
-					        <td>${list.TICKET}</td>
-					        <td>${list.BBANG}</td>
-					        <td>${list.s_COMMENT}</td>
-					        <td>${list.s_DATE}</td>
-						
-						</tr>
-			    </c:forEach>
-			    
-			    <tr>
-			     <ul class="pagination justify-content-center">
-			        <c:if test="${page > 1}">
-			            <li class="page-item">
-			                <a class="page-link" href="/admin/member?page=1" aria-label="처음">
-			                    <span aria-hidden="true">처음</span>
-			                </a>
-			            </li>
-			            <li class="page-item">
-			                <a class="page-link" href="/admin/member?page=${page - 1}" aria-label="이전">
-			                    <span aria-hidden="true">이전</span>
-			                </a>
-			            </li>
-			        </c:if>
-			
-			        <c:forEach var="i" begin="1" end="${totalPage}">
-			            <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-			                <a class="page-link" href="/admin/member?page=${i}">${i}</a>
-			            </li>
-			        </c:forEach>
-			
-			        <c:if test="${page < totalPage}">
-			            <li class="page-item">
-			                <a class="page-link" href="/admin/member?page=${page + 1}" aria-label="다음">
-			                    <span aria-hidden="true">다음</span>
-			                </a>
-			            </li>
-			            <li class="page-item">
-			                <a class="page-link" href="/admin/member?page=${totalPage}" aria-label="마지막">
-			                    <span aria-hidden="true">마지막</span>
-			                </a>
-			            </li>
-			        </c:if>
-			    </ul>
-			    </tr>
-			</table>
-	    </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+     
+     	<form id="search_form" name="search_form" action="member" method="post">
+	        <select id="Searchfield" name="Searchfield" class="form-select">
+	            <option id="SID" value="ID">ID</option>
+	            <option id="SEMAIL" value="EMAIL">Email</option>
+	        </select>
+	        <input type="text" id="Search" name="Search" placeholder="검색">
+	        <input type="submit" class="btn btn-primary" value="검색">
+     	</form>
+     
+	    <table border="1">
+	        <tr>
+	            <th>no</th>
+		        <th>NAME</th>
+		        <th>ID</th>
+		        <th>ADDR</th>
+		        <th>EMAIL</th>
+		        <th>PH</th>
+		        <th>NN</th>
+		        <th>TC</th>
+		        <th>BB</th>
+		        <th>S_C</th>
+		        <th>S_D</th>
+	        </tr>
+	        <c:forEach items="${userList}" var="list">
+                <tr>
+				    <td><a href="../admin/member_profile?m_number=${list.m_NUMBER}">${list.m_NUMBER}</a></td>
+			        <td>${list.NAME}</td>
+			        <td>${list.ID}</td>
+			        <td>${list.ADDRESS}</td>
+			        <td>${list.EMAIL}</td>
+			        <td>${list.PHONENUMBER}</td>
+			        <td>${list.NICKNAME}</td>
+			        <td>${list.TICKET}</td>
+			        <td>${list.BBANG}</td>
+			        <td>${list.s_COMMENT}</td>
+			        <td>${list.s_DATE}</td>
+				</tr>
+		    </c:forEach>
+		    
+		</table>
+		
+		<table>
+			<tr>
+		     <ul class="pagination justify-content-center">
+		        <c:if test="${page > 1}">
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=1" aria-label="처음">
+		                    <span aria-hidden="true">처음</span>
+		                </a>
+		            </li>
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${page - 1}" aria-label="이전">
+		                    <span aria-hidden="true">이전</span>
+		                </a>
+		            </li>
+		        </c:if>
+		
+		        <c:forEach var="i" begin="1" end="${totalPage}">
+		            <li class="page-item <c:if test='${i eq page}'>active</c:if>">
+		                <a class="page-link" href="/admin/member?page=${i}">${i}</a>
+		            </li>
+		        </c:forEach>
+		
+		        <c:if test="${page < totalPage}">
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${page + 1}" aria-label="다음">
+		                    <span aria-hidden="true">다음</span>
+		                </a>
+		            </li>
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${totalPage}" aria-label="마지막">
+		                    <span aria-hidden="true">마지막</span>
+		                </a>
+		            </li>
+		        </c:if>
+		    </ul>
+		    </tr>
+		</table>
+    </div>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package com.study.nbnb;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +14,14 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +38,7 @@ import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -93,29 +101,39 @@ public class NBController {
 	}
 	@RequestMapping("/admin/member")
 	public String admin_member(HttpServletRequest request, Model model) {
-		
-		
-		
-		  int total = buserDao.listDao().size();
-	      int pageSize = 10;
+		String field = request.getParameter("Searchfield");
+		String search = request.getParameter("Search");
+		int total=0;
+		if(field == null) {
+			total = buserDao.listDao().size();
+		} else {
+			total = buserDao.searchUser(field, search).size();
+		}
+		 
+	    int pageSize = 10;
 
-	      int totalPage = total / pageSize;
+	    int totalPage = total / pageSize;
 
-	      if (total % pageSize > 0) {
+	    if (total % pageSize > 0) {
 	         totalPage++;
-	      }
-	      
-	      String sPage = request.getParameter("page");
-	      int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-	      int nStart = (page - 1) * pageSize + 1;
-	      int nEnd = (page - 1) * pageSize + pageSize;
-	     
-	      List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
-	      
-	      model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
-	      model.addAttribute("totalPage", totalPage);
-	      model.addAttribute("page", page);
+	    }
+	    
+	    String sPage = request.getParameter("page");
+	    int page = sPage == null ? 1 : Integer.parseInt(sPage);
+	    int nStart = (page - 1) * pageSize + 1;
+	    int nEnd = (page - 1) * pageSize + pageSize;
+	    
+	    List<BuserDto> list;
+	    
+	    if(field == null) {
+	    	list = buserDao.pageDao(nEnd, nStart);
+		} else {
+			list = buserDao.pSU(field, search, nEnd, nStart);
+		}
+	    
+	    model.addAttribute("userList", list);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("page", page);
 
 		return "adminboard/adminmember";
 	}
@@ -129,24 +147,57 @@ public class NBController {
 	
 	@RequestMapping("/admin/member_modify")
 	public String member_modify(HttpServletRequest request) {
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
-		
-		buserDao.updateUser3(
-			request.getParameter("ID"), 
-			request.getParameter("NAME"), 
-			request.getParameter("ADDRESS"), 
-			request.getParameter("EMAIL"), 
-			PHONENUMBER, 
-			request.getParameter("NICKNAME"), 
-			request.getParameter("BBANG"), 
-			request.getParameter("S_COMMENT"), 
-			request.getParameter("S_DATE"), 
-			m_number
-		);
+		try {
+			int m_number = Integer.parseInt(request.getParameter("M_NUMBER"));
+			String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+			
+			String dateString = request.getParameter("S_DATE");
+			String pattern = "yyyy-MM-dd HH:mm:ss";
+			
+		    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		    Date parsedDate = dateFormat.parse(dateString);
+			    
+		    Timestamp S_DATE = new Timestamp(parsedDate.getTime());
+	        
+		            
+			if(request.getParameter("PASSWORD").equals(request.getParameter("pw"))) {
+				buserDao.updateUser3(
+						request.getParameter("ID"), 
+						request.getParameter("NAME"), 
+						request.getParameter("ADDRESS"), 
+						request.getParameter("EMAIL"), 
+						PHONENUMBER, 
+						request.getParameter("NICKNAME"), 
+						request.getParameter("BBANG"), 
+						request.getParameter("S_COMMENT"), 
+						S_DATE, 
+						m_number
+					);
+			} else {
+				String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+				String password = encoded.substring(8);
+				
+				buserDao.updateUser4(
+						request.getParameter("ID"), 
+						password,
+						request.getParameter("NAME"), 
+						request.getParameter("ADDRESS"), 
+						request.getParameter("EMAIL"), 
+						PHONENUMBER, 
+						request.getParameter("NICKNAME"), 
+						request.getParameter("BBANG"), 
+						request.getParameter("S_COMMENT"), 
+						S_DATE, 
+						m_number
+					);
+				
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return "redirect:/admin/member?page=1";
 	}
-	
+
 	@RequestMapping("/joinView")
 	public String joinView() {
 		return "login/join_view";

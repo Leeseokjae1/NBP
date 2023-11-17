@@ -123,9 +123,7 @@ String password = login.getPASSWORD();
 	
 	</script>
 	<style>
-   .test1 {
    
-    }
     .carousel-inner > .carousel-item > img {
       /* width: 640px;
       height: 720px; */

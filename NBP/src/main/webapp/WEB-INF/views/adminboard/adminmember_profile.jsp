@@ -54,6 +54,16 @@
 			}
 		}).open();
 	}
+    
+    
+	function form_check() {
+		
+		var form = document.modify;
+	    form.submit();
+	    
+	}
+	
+	
     </script>
  	<style>
 
@@ -164,7 +174,6 @@
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
        <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
@@ -200,14 +209,15 @@
         </div>
     
      <div class="content">
-  		<form id="modify" name="modify" action="/1/profile/modify" method="post">
+  		<form id="modify" name="modify" action="/admin/member_modify" method="post">
   			<input type="hidden" id="M_NUMBER" name="M_NUMBER" value="${user.m_NUMBER}">
+  			<input type="hidden" id="pw2" name="pw2" value="${user.PASSWORD}">
   			<input type="hidden" id="test" name="test" value="${user.BBANG}">
 			<div class="form-group">
-				<input type="radio" name="BBANG" id ="ROLE_0" value="Role_0">&nbsp;<label class="form-control-label">빵아저씨</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_1" value="Role_1">&nbsp;<label class="form-control-label">니빵이</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_2" value="Role_2">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_3" value="Role_3">&nbsp;<label class="form-control-label">소셜빵</label>
+				<input type="radio" name="BBANG" id ="ROLE_0" value="ROLE_0">&nbsp;<label class="form-control-label">빵아저씨</label>&nbsp;
+				<input type="radio" name="BBANG" id ="ROLE_1" value="ROLE_1">&nbsp;<label class="form-control-label">니빵이</label>&nbsp;
+				<input type="radio" name="BBANG" id ="ROLE_2" value="ROLE_2">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+				<input type="radio" name="BBANG" id ="ROLE_3" value="ROLE_3">&nbsp;<label class="form-control-label">소셜빵</label>
 				
 			</div>
 			<div class="form-group">
@@ -217,10 +227,6 @@
 			<div class="form-group">
 				<label class="form-control-label">비밀번호</label>
 				<input type="password" id="PASSWORD" name="PASSWORD" class="form-control" value="${user.PASSWORD}">
-			</div>
-			<div class="form-group">
-				<label class="form-control-label">비밀번호 확인</label>
-				<input type="password" id ="pw_check" name="pw_check" class="form-control" value="${user.PASSWORD}">
 			</div>
             <div class="form-group">
                 <label class="form-control-label">이름</label>
