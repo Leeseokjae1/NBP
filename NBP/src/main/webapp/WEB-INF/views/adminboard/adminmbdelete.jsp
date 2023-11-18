@@ -153,8 +153,7 @@
             <a href="/adminbd" class="admintab">게시글관리</a>
             <a href="#" class="admintab">  게시글조회</a>
             <a href="#" class="admintab">  게시글삭제</a>
-            <a href="/adminshop" class="admintab">  결제관리</a>
-            <a href="#" class="admintab">  결제조회</a>
+            <a href="/adminshop" class="admintab">결제관리</a>
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>

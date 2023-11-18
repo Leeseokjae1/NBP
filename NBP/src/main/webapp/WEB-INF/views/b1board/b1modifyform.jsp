@@ -84,7 +84,7 @@
             <table class="table table-bordered">
                 <tr>
                     <td>작성자</td>
-                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td>
+                    <td>${dto.writer}</td>
                 </tr>
                 <tr>
                     <td>제목</td>
@@ -110,7 +110,7 @@
                     <td colspan="2">
                         <input type="hidden" name="b1_number" value="${dto.b1_number}">
                         <input type="submit" value="수정" class="btn btn-primary">
-                        <a href="list" class="btn btn-primary">목록보기</a>
+                        <a href="b1page?page=1" class="btn btn-primary">목록보기</a>
                         <a href="b1view?b1_number=${b1modify.b1_number}&check_b=1" class="btn btn-secondary">취소</a>
                     </td>
                 </tr>

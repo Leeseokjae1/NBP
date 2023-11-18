@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
             <option id="Writer" value="b2Writer">작성자</option>
             `;
             break;
-         case "Playboard":
+         case "playboard":
             searchField.innerHTML = `
             <option id="Title" value="pTitle">제목</option>
             <option id="Content" value="pContent">내용</option>
@@ -43,45 +43,59 @@ pageEncoding="UTF-8"%>
             `;
             break;
          default:
+             searchField.innerHTML += `
+             <option id="Default" value="Default">기본 옵션</option>
+             `;
+             break;
          break;
       }
    }
    function search_check() {
-      if($('#Searchdata').val().length == 0) {
+      var searchField = document.getElementById("Searchfield");
+      var searchdata = document.getElementById("Searchdata").value;
+
+      if (searchdata.length === 0) {
          alert("검색어를 입력해주세요.");
-         $('#Searchdata').focus();
+         document.getElementById("Searchdata").focus();
          return;
       }
-      
-      if($('#Searchfield').val() == "b1Title") {
-         document.Searchform.action = "/b1title";
-      }
-      if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1content";       
-      }
-      if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1writer";        
-      }
-      if($('#Searchfield').val() == "b2Title") {
-         document.Searchform.action = "/b2board/b2list";
-      }
-      if($('#Searchfield').val() == "b2Content") {
-         document.Searchform.action = "/b2board/b2list";       
-      }
-      if($('#Searchfield').val() == "b2Writer") {
-         document.Searchform.action = "/b2board/b2list";        
-      }
-      if($('#Searchfield').val() == "pTitle") {
-         document.Searchform.action = "/playboard/playlist";
-      }
-      if($('#Searchfield').val() == "pContent") {
-         document.Searchform.action = "/playboard/playlist";       
-      }
-      if($('#Searchfield').val() == "pWriter") {
-         document.Searchform.action = "/playboard/playlist";        
+    
+      // 선택된 검색 조건에 따라 액션 설정
+      switch (searchField.value) {
+         case "b1Title":
+            document.Searchform.action = "/b1title";
+            break;
+         case "b1Content":
+            document.Searchform.action = "/b1content";
+            break;
+         case "b1Writer":
+            document.Searchform.action = "/b1writer";
+            break;
+         case "b2Title":
+            document.Searchform.action = "/b2title";
+            break;
+         case "b2Content":
+            document.Searchform.action = "/b2content";
+            break;
+         case "b2Writer":
+            document.Searchform.action = "/b2writer";
+            break;
+         case "pTitle":
+            document.Searchform.action = "/playtitle";
+            break;
+         case "pContent":
+            document.Searchform.action = "/playcontent";
+            break;
+         case "pWriter":
+            document.Searchform.action = "/playwriter";
+            break;
+         default:
+            // 기본 처리 또는 다른 처리
+            break;
       }
       document.Searchform.submit();
-   }  
+   }
+   changeSearchOptions();
    </script>
    <style>
       .test1 {
@@ -173,12 +187,13 @@ nav {
    <nav id="nav2">
       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-     <ul>
+`		<ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/map">지도</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -186,10 +201,10 @@ nav {
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <% } %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
        </ul>
       
    </nav>
@@ -201,6 +216,7 @@ nav {
                     <div class="row">
                         <div class="col-md-6">
                             <select id="BoardSelection" name="BoardSelection" onchange="changeSearchOptions()" class="form-select">
+                                <option value="default">게시판 선택</option>
                                 <option value="B1board">니빵이게시판</option>
                                 <option value="B2board">내빵이게시판</option>
                                 <option value="playboard">놀이빵게시판</option>

@@ -40,11 +40,57 @@
 		select * from buytable where m_number=#{param1} order by buy_number desc
 	</select>
 	
+	
+	
 	<select id="listDao2" resultType="com.study.nbnb.dto.ShopDto">
 		select * from buser
 		left outer join buytable on buser.m_number = buytable.m_number
 		order by buytable.buy_number desc
 	</select>
+
 	
+	<select id ="listCountDao" resultType="com.study.nbnb.dto.ShopDto">
+       select * from buytable 
+   </select>
+	
+	<select id ="listCountDao1" resultType="com.study.nbnb.dto.ShopDto">
+       select * from buytable
+       <where>
+	       <if test="param1 == 'm_number'">
+	       		m_number like '%' || #{param1} || '%'
+	       </if>
+	       <if test="param1 == 'buy_number'">
+	       		buy_number like '%' || #{param1} || '%'
+	       </if>
+       </where>
+   </select>
+	
+	<select id ="buyCountDao" resultType="int" parameterType="String">
+		 select * from buytable where buy_number LIKE #{param1}
+	</select>
+	
+	<select id ="buysearchDao"  resultType="com.study.nbnb.dto.ShopDto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from buytable where buy_number LIKE #{param1} order by buy_number desc  ) A where rownum <= #{param2} ) B where B.num >= #{param3}
+	    ]]>
+	</select>
+	
+	<select id ="memberCountDao" resultType="int" parameterType="String">
+		 select * from buytable where m_number LIKE #{keyword}
+	</select>
+	
+	<select id ="membersearchDao"  resultType="com.study.nbnb.dto.ShopDto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from buytable where m_number LIKE #{param1} order by buy_number desc  ) A where rownum <= #{param2} ) B where B.num >= #{param3}
+	    ]]>
+	</select>
+	
+   <select id="pageDao"  resultType="com.study.nbnb.dto.ShopDto">
+       <![CDATA[
+       select * from ( select rownum num, A.* from ( select * from buytable order by buy_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+       ]]>
+   </select>
+   
+
 	
 </mapper>

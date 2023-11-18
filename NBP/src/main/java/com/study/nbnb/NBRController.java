@@ -30,7 +30,6 @@ public class NBRController {
 	@Autowired
 	BuserDao buserdao;
 	
-
 	@PostMapping("emailCheck")
     public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody Map<String, Object> requestData) throws MessagingException, UnsupportedEncodingException  {
     	System.out.println(1);
@@ -41,7 +40,6 @@ public class NBRController {
     	result.put("authCode", authCode);
         return ResponseEntity.ok(result);
     }
-	
 
 	@PostMapping("buy_number")
     public ResponseEntity<Map<String, Object>> buyPay(@RequestBody Map<String, Object> requestData) throws MessagingException, UnsupportedEncodingException  {

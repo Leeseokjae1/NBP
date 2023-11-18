@@ -2,10 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-  <%
-	 BuserDto a = (BuserDto)session.getAttribute("login");
-	 int m_number = a.getM_NUMBER();
-	%>
+<% 
+
+	BuserDto login=(BuserDto)session.getAttribute("login");
+	int m_number=login.getM_NUMBER();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -146,7 +147,7 @@
        </ul>
     </nav>
   <div class="empty-space"></div>
-    <div class="admintabs">
+  <div class="admintabs">
             <a href="#" class="tabname">회원관리</a>
             <a href="#" class="admintab">  회원조회</a>
             <a href="#" class="admintab">  회원정지</a>
@@ -154,8 +155,8 @@
             <a href="/adminbd" class="admintab">게시글관리</a>
             <a href="#" class="admintab">  게시글조회</a>
             <a href="#" class="admintab">  게시글삭제</a>
-            <a href="/adminshop" class="admintab">  결제관리</a>
-            <a href="#" class="admintab">   결제조회</a>
+             <a href="#" class="admintab">  게시글삭제</a>
+            <a href="/adminshop" class="admintab">결제관리</a>
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>

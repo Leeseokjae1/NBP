@@ -65,8 +65,8 @@
         paymentKey:"1",
         m_number:<%= m_number%>,
         buy_number:"${shopdto.buy_number}",
-        successUrl: 'http://localhost:8082/success?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}',        
-        failUrl: 'http://localhost:8082/fail?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}'
+        successUrl: 'http://localhost:8081/success?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}',        
+        failUrl: 'http://localhost:8081/fail?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}'
  		
       
     	  })

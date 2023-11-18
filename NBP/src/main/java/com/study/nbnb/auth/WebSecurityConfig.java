@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.study.nbnb.oauth2.CustomOAuth2UserService;
+
 import jakarta.servlet.DispatcherType;
 
 @Configuration
@@ -21,6 +23,8 @@ public class WebSecurityConfig {
 	public AuthenticationFailureHandler authenticationFailureHandler;
 	@Autowired
 	public AuthenticationSuccessHandler authenticationSuccessHandler;
+	@Autowired
+	public CustomOAuth2UserService customOAuth2UserService;
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,13 +32,15 @@ public class WebSecurityConfig {
 			.cors((cors) -> cors.disable())
 			.authorizeHttpRequests(request -> request
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-				.requestMatchers("/**").permitAll()
+				.requestMatchers("/").permitAll()
 				.requestMatchers("/css/**","/js/**","/img/**").permitAll()
 				.requestMatchers("/joinView").permitAll()
 				.requestMatchers("/userJoin").permitAll()
-				.requestMatchers("/b1page").permitAll()
-				.requestMatchers("/mypage").permitAll()
-				.requestMatchers("/api/emailCheck").permitAll()
+				.requestMatchers("/search_id").permitAll()
+				.requestMatchers("/search_pw").permitAll()
+				.requestMatchers("/pwUpdate").permitAll()
+				.requestMatchers("/api/**").permitAll()
+				.requestMatchers("/1/**").permitAll()
 				.requestMatchers("/member/**").hasAnyRole("0","1")
 				.requestMatchers("/admin/**").hasAnyRole("0")
 				.anyRequest().authenticated()	
@@ -53,6 +59,16 @@ public class WebSecurityConfig {
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/")
 			.permitAll());
+		
+		http.headers((headers) -> headers
+				.frameOptions(frameOptions -> frameOptions.disable())
+		);
+		
+		http.oauth2Login((oauth) -> oauth
+				.userInfoEndpoint(endPoint -> endPoint
+						.userService(customOAuth2UserService)
+				)
+		);
 		
 		return http.build();
 	}

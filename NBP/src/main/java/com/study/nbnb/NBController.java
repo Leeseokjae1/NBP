@@ -28,6 +28,7 @@ import com.study.nbnb.dao.ChatRoomDao;
 import com.study.nbnb.dao.CommentDao;
 import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
+import com.study.nbnb.dao.RDao;
 import com.study.nbnb.dao.SearchDao;
 import com.study.nbnb.dao.ShopDao;
 import com.study.nbnb.dto.B1Dto;
@@ -36,6 +37,7 @@ import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.ChatRoomDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
+import com.study.nbnb.dto.RankDto;
 import com.study.nbnb.dto.ShopDto;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,7 +66,10 @@ public class NBController {
 	@Autowired
 	AdDao addao;
 	@Autowired
+	RDao rdao;
+	@Autowired
 	ShopDao shopDao;
+
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -75,13 +80,21 @@ public class NBController {
 		return "redirect:main";
 	}
 	
+	@RequestMapping("/1234")
+	public String test1111(){
+		return "1234";
+	}
+	
 	
 	@RequestMapping("/mypage")
-	public String mypageview(){
+	public String mypageview(HttpServletRequest request, Model model){
+		HttpSession session = request.getSession();
+		BuserDto bdto = (BuserDto)session.getAttribute("login");
+		model.addAttribute("login", bdto);
 		return "mypage/mypage_view";
 	}
 	
-	@RequestMapping("/bbangrank")
+	@RequestMapping("/rpage/1")
 	public String bbangRankview(){
 		return "bbang_rank";
 	}
@@ -90,7 +103,7 @@ public class NBController {
 	public String mainview(){
 		return "main_view";
 	}
-
+	
 	@RequestMapping("/mpchat")
 	public String myPageChatview(HttpServletRequest request, Model model){
 		HttpSession session = request.getSession();
@@ -107,20 +120,32 @@ public class NBController {
 		return "mypage/realtime";
 	}
 	
-	@RequestMapping("/mapview")
-	public String maptview(){
+	@RequestMapping("/map")
+	public String mapview(){
 		return "map_view";
 	}
 	
-	@RequestMapping("/list")
-	public String userlistpage(Model model) {
-		model.addAttribute("list", b1dao.listDao());
-		return "b1board/b1list";
-	}
+	@RequestMapping("/rpage")
+    public String showb1Ranking(HttpServletRequest request, Model model) {
+        List<RankDto> b1rankingList = rdao.getb1Ranking();
+        List<RankDto> b2rankingList = rdao.getb2Ranking();
+        List<RankDto> plrankingList = rdao.getplRanking();
+        List<RankDto> userb1RankingList = rdao.getb1UserRanking();
+        List<RankDto> userb2RankingList = rdao.getb2UserRanking();
+        List<RankDto> userplRankingList = rdao.getplUserRanking();
+        List<RankDto> userRankingList = rdao.getUserRanking();
+        model.addAttribute("b1rankingList", b1rankingList);
+        model.addAttribute("b2rankingList", b2rankingList);
+        model.addAttribute("plrankingList", plrankingList);
+        model.addAttribute("userb1RankingList", userb1RankingList);
+        model.addAttribute("userb2RankingList", userb2RankingList);
+        model.addAttribute("userRankingList", userRankingList);
+        return "bbang_rank";
+    }
+	
 	
 /////////////////////////////////shop//////////////////////////////////////
 	
-
 	@RequestMapping("/mypage_shop")
 	public String mypageshopview(HttpSession session, HttpServletRequest request, Model model) {
 		BuserDto login=(BuserDto)session.getAttribute("login");
@@ -178,56 +203,130 @@ public class NBController {
 	}
 	
 	
-
-	
 ////////////////////////////////////LogIn////////////////////////////////////////////////////////////
-@RequestMapping("/sLogin_popup")
-public String sLogin_popup() {
-	return "login/search_login";
-}
-
-@RequestMapping("/joinView")
-public String joinView() {
-	return "login/join_view";
-}
-
-@RequestMapping("/userJoin")
-public String userJoin(HttpServletRequest request) {
-	String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+	@RequestMapping("/admin")
+	public String sLogin_popup() {
+		return "adminboard/adminbd";
+	}
+	@RequestMapping("/admin/member")
+	public String admin_member(HttpServletRequest request, Model model) {
 	
 	
-	String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
-	String password = encoded.substring(8);
 	
-	buserDao.writeDao(request.getParameter("NAME"),
-					 request.getParameter("ID"),
-					 password,
-					 request.getParameter("ADDRESS"),
-					 request.getParameter("EMAIL"),
-					 PHONENUMBER,
-					 request.getParameter("NICKNAME"),
-					 request.getParameter("BBANG"));
-	return "redirect:loginView";
-}
+		int total = buserDao.listDao().size();
+		int pageSize = 10;
+		
+		int totalPage = total / pageSize;
+		
+		if (total % pageSize > 0) {
+		totalPage++;
+		}
+	
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+		
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+		
+		List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
+		
+		System.out.println(nStart);
+		System.out.println(nEnd);
+		System.out.println(a.size());
+		
+		model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+		
+		return "adminboard/adminmember";
+	}
+	
+	@RequestMapping("/joinView")
+	public String joinView() {
+		return "login/join_view";
+	}
+	
+	@RequestMapping("/userJoin")
+	public String userJoin(HttpServletRequest request) {
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+		String password = encoded.substring(8);
+		String bbang = "ROLE_"+request.getParameter("BBANG");
+		buserDao.writeDao(request.getParameter("NAME"),
+						request.getParameter("ID"),
+						password,
+						request.getParameter("ADDRESS"),
+						request.getParameter("EMAIL"),
+						PHONENUMBER,
+						request.getParameter("NICKNAME"),
+						bbang);	
+		return "redirect:loginView";
+	}
+	
+	@RequestMapping("/loginView")
+	public String loginView() {
+		return "login/login_view";
+	}
+	
+	@RequestMapping("/mailView")
+	public String mailView() {
+		return "login/mail";
+	}
+	
+	@RequestMapping("/search_id")
+	public String search_id() {
+		return "login/search_id";
+	}
+	@RequestMapping("/search_pw")
+	public String search_pw() {
+		return "login/search_pw";
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	////////////////////////////////////mypage////////////////////////////////////////////////////////////
+	@RequestMapping("/1/profile")
+	public String profile(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("user", buserDao.selectUser(m_number));
+		return "mypage/mypage_profile";
+	}
+	
+	@RequestMapping("/1/profile/modify")
+	public String profile_modify(HttpServletRequest request) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		
+		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+		
+		String pw1 = request.getParameter("PASSWORD");
+		String pw2 = request.getParameter("pw2");
+		
+		if (pw1.equals(pw2)) {
+			buserDao.updateUser2(
+					request.getParameter("ID"), 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}else {
+			String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(pw1);
+			String password = encoded.substring(8);
+			buserDao.updateUser(
+					request.getParameter("ID"), 
+					password, 
+					request.getParameter("NAME"), 
+					request.getParameter("ADDRESS"), 
+					request.getParameter("EMAIL"), 
+					PHONENUMBER, 
+					request.getParameter("NICKNAME"), 
+					m_number);
+		}
+		return "redirect:/";
+	}
 
-@RequestMapping("/loginView")
-public String loginView() {
-	return "login/login_view";
-}
-
-@RequestMapping("/mailView")
-public String mailView() {
-	return "login/mail";
-}
-
-@RequestMapping("/search_id")
-public String search_id() {
-	return "login/search_id";
-}
-@RequestMapping("/search_pw")
-public String search_pw() {
-	return "login/search_pw";
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -236,7 +335,10 @@ public String search_pw() {
 	public String view(HttpServletRequest request, Model model) {
 		int b1_number = Integer.parseInt(request.getParameter("b1_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("b1dto", b1dao.viewDao(b1_number));
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
+		
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
 		return "b1board/b1view";
 		
@@ -268,7 +370,9 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/b1writeform")
-	public String writeForm() {
+	public String writeForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "b1board/b1writeform";
 	}
 	
@@ -277,8 +381,10 @@ public String search_pw() {
 	    @RequestParam("file1") MultipartFile file1,
 	    @RequestParam("file2") MultipartFile file2,
 	    @RequestParam("file3") MultipartFile file3,
+	    @RequestParam("m_number") int m_number,
 	    HttpServletRequest request, Model model,
 	    @Valid @ModelAttribute("b1Board") B1Dto b1Board, BindingResult bindingResult) {
+		
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
@@ -310,7 +416,7 @@ public String search_pw() {
 				imageURL3="http://localhost:8082/img/yb.png";
 			}
 
-			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
 		
 			int b1_number = b1dao.selectDao();
 			return "redirect:b1view?b1_number=" + b1_number + "&check_b=1";
@@ -347,7 +453,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -359,7 +464,6 @@ public String search_pw() {
 	            String b1_number1 = Integer.toString(b1_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -466,6 +570,8 @@ public String search_pw() {
 	public String b2view(HttpServletRequest request, Model model) {
 		int b2_number = Integer.parseInt(request.getParameter("b2_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("b2dto", b2dao.viewDao(b2_number));
 		model.addAttribute("dto", b2dao.viewDao(b2_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b2_number));
 		return "b2board/b2view";
@@ -497,7 +603,9 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/b2writeform")
-	public String b2writeForm() {
+	public String b2writeForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "b2board/b2writeform";
 	}
 	
@@ -505,6 +613,7 @@ public String search_pw() {
 	public String b2write(@RequestParam("file1") MultipartFile file1,
 						@RequestParam("file2") MultipartFile file2,
 						@RequestParam("file3") MultipartFile file3,
+						@RequestParam("m_number") int m_number,
 						HttpServletRequest request, Model model,
 						@Valid @ModelAttribute("b2Board") B2Dto b2Board, 
 						BindingResult bindingResult) {
@@ -540,7 +649,7 @@ public String search_pw() {
 			}
 
 
-			b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3);
+			b2dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
 			int b2_number = b2dao.selectDao();
 			
 			return "redirect:b2view?b2_number=" + b2_number + "&check_b=2";
@@ -578,7 +687,6 @@ public String search_pw() {
 	        @RequestParam("file3") MultipartFile file3,
 	        HttpServletRequest request, Model model) {
 	        try {
-	            String writer = request.getParameter("writer");
 	            String title = request.getParameter("title");
 	            String content = request.getParameter("content");
 
@@ -590,7 +698,6 @@ public String search_pw() {
 	            String b2_number1 = Integer.toString(b2_number);
 	            
 	            Map<String, String> parameters = new HashMap<>();
-	            parameters.put("writer", writer);
 	            parameters.put("title", title);
 	            parameters.put("content", content);
 	            parameters.put("imageurl1", imageURL1);
@@ -694,11 +801,16 @@ public String search_pw() {
 		model.addAttribute("playlist", playdao.plistDao());
 		return "playboard/playlist";
 	}
+	
+	
+
 
 	@RequestMapping("/playview")
 	public String playView(HttpServletRequest request, Model model) {
 		int f_number = Integer.parseInt(request.getParameter("f_number"));
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
+		HttpSession session = request.getSession();
+		session.setAttribute("playdto", playdao.viewDao(f_number));
 		model.addAttribute("playview", playdao.viewDao(f_number));
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, f_number));
 		return "playboard/playview";
@@ -732,15 +844,19 @@ public String search_pw() {
 	}
 
 	@RequestMapping("/playwriteform")
-	public String playWriteForm() {
+	public String playWriteForm(HttpServletRequest request, Model model) {
+		int m_number = Integer.parseInt(request.getParameter("m_number"));
+		model.addAttribute("member", buserDao.selectUser(m_number));
 		return "playboard/playwriteform";
 	}
 
 	@RequestMapping("/playwrite")
 	public String playWrite(@RequestParam("file") MultipartFile file,
+							@RequestParam("m_number") int m_number,
 							HttpServletRequest request, Model model,
 							@Valid @ModelAttribute("playBoard") PlayDto playBoard, BindingResult bindingResult) 
 		{
+		System.out.println(m_number);
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
@@ -758,7 +874,7 @@ public String search_pw() {
 				imageURL="http://localhost:8082/images/111.png";
 			}
 
-			playdao.writeDao(writer, title, content, imageURL);
+			playdao.writeDao(writer, title, content, imageURL, m_number);
 
 			int f_number = playdao.selectDao();
 			
@@ -774,7 +890,7 @@ public String search_pw() {
 	public String playModifyView(HttpServletRequest request, Model model) {
 		int pId = Integer.parseInt(request.getParameter("f_number"));
 		model.addAttribute("playmodify", playdao.viewDao(pId));
-		return "/playboard/playmodify";
+		return "playboard/playmodify";
 	}
 
 	@RequestMapping("/playmodify")
@@ -782,7 +898,6 @@ public String search_pw() {
 		
 		try {
 			
-			String writer = request.getParameter("writer");
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			int f_number = Integer.parseInt(request.getParameter("f_number"));
@@ -791,7 +906,7 @@ public String search_pw() {
 			String imageURL = file.isEmpty() ? existingDTO.getImageurl() : uploadFile(file);
 		
 
-			playdao.modifyDao(writer, title,content,imageURL,f_number);
+			playdao.modifyDao(title,content,imageURL,f_number);
 			return "redirect:playview?f_number=" + request.getParameter("f_number") + "&check_b=3";
 			
 			
@@ -864,18 +979,17 @@ public String search_pw() {
 			totalPage++;
 		}
 
-	
 		// 5. 현재 페이지 번호를 가져옵니다.
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
 		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
-		List<PlayDto> list = playdao.pageDao(page, pageSize);
+		
 
 		int nStart = (page - 1) * pageSize + 1;
 		int nEnd = (page - 1) * pageSize + pageSize;
 
-		list = playdao.pageDao(nEnd, nStart);
+		List<PlayDto> list = playdao.pageDao(nEnd, nStart);
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
@@ -884,106 +998,304 @@ public String search_pw() {
 		return "playboard/playlist";
 	}
 	
-	/////////////////////////search////////////////////////////////////////
+    /////////////////////////search////////////////////////////////////////
 
-	@RequestMapping("/b1title")
-	public String b1titlepage(HttpServletRequest request, Model model) {
+    @RequestMapping("/b1title")
+    public String b1titlepage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.titleCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.titleCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
-	
-	@RequestMapping("/b1writer")
-	public String b1writerpage(HttpServletRequest request, Model model) {
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b1writer")
+    public String b1writerpage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.writerCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.writerCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
-	
-	@RequestMapping("/b1content")
-	public String b1contentpage(HttpServletRequest request, Model model) {
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b1content")
+    public String b1contentpage(HttpServletRequest request, Model model) {
 
-		String kw1 = request.getParameter("Searchdata");
-		String kw = "%" +  kw1 + "%";
-		System.out.println(kw);
-		int total = b1dao.contentCountDao(kw).size();
-		int pageSize = 8;
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.contentCountDao(kw).size();
+       int pageSize = 8;
 
-		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
-		int totalPage = total / pageSize;
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
 
-		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
-		if (total % pageSize > 0) {
-			totalPage++;
-		}
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
 
-		// 5. 현재 페이지 번호를 가져옵니다.
-		String sPage = request.getParameter("page");
-		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
-		int nStart = (page - 1) * pageSize + 1;
-		int nEnd = (page - 1) * pageSize + pageSize;
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
 
-		List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
-		model.addAttribute("list", list);
-		model.addAttribute("totalPage", totalPage);
-		model.addAttribute("page", page);
-		
+       List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
 
-		return "b1board/b1list";
-	}
+       return "/b1board/b1list";
+    }
+    
+    @RequestMapping("/b2title")
+    public String b2titlepage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.titleCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.titlesearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    
+    @RequestMapping("/b2writer")
+    public String b2writerpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.writerCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    
+    @RequestMapping("/b2content")
+    public String b2contentpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b2dao.contentCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B2Dto> list = b2dao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/b2board/b2list";
+    }
+    @RequestMapping("/playtitle")
+    public String playtitlepage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       int total = playdao.titleCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.titlesearchDao(kw, nEnd, nStart);
+      // System.out.println("titleSearchDao 지남" + kw + " + " + nEnd + " + " + nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+    }
+    
+    @RequestMapping("/playwriter")
+    public String playwriterpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = playdao.writerCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.writersearchDao(kw, nEnd, nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+    }
+    
+    @RequestMapping("/playcontent")
+    public String playcontentpage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = playdao.contentCountDao(kw).size();
+       int pageSize = 8;
+
+       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+       int totalPage = total / pageSize;
+
+       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       // 5. 현재 페이지 번호를 가져옵니다.
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<PlayDto> list = playdao.contentsearchDao(kw, nEnd, nStart);
+       model.addAttribute("playlist", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "/playboard/playlist";
+       }
+    
 	
 	/////////////////////////////////////////////////////////////////////////////////////////
 
@@ -993,13 +1305,6 @@ public String search_pw() {
 	    model.addAttribute("allBoards", addao.adAllBoards());
 	    return "adminboard/adminbd";
 	}  
-	
-	// @GetMapping("/adminbd")
-	// public String adB1post(Model model) {
-	//     List<B1Dto> b1Posts = b1dao.adB1post();
-	//     model.addAttribute("b1Posts", b1Posts);
-	//     return "adminboard/adminbd";
-	// }
 	
 	@RequestMapping("/bddelete")
 	public String deletead(HttpServletRequest request, Model model) {
@@ -1019,10 +1324,61 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/adminshop")
-	public String adminshopView(HttpServletRequest request, Model model) {		
+	public String adminshopView(HttpServletRequest request, Model model) {				
+		String sPage = request.getParameter("page");
+		int page = sPage == null ? 1 : Integer.parseInt(sPage);
+		try {
+		
+			String field = request.getParameter("Searchfield");
+			String search =request.getParameter("Searchdata");
+			
+			
+			
+			
+			if(field.equals("buy_number")) {
+				System.out.println(11111);
+				System.out.println(page);
+				return "redirect:buysearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
+			} else if(field.equals("m_number")) {
+				System.out.println(22222);
+				return "redirect:membersearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
+			}
+	
+				
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		int total = shopDao.listCountDao().size();
+		int pageSize = 8;
+
+		// 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+		int totalPage = total / pageSize;
+		
+		// 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+		if (total % pageSize > 0) {
+			totalPage++;
+			
+		}
+
+		
+
+		// 6. 1단계에서 계산한 페이지 번호 범위 내에서 현재 페이지 번호에 해당하는 게시물을 조회합니다.
+		
+
+		int nStart = (page - 1) * pageSize + 1;
+		int nEnd = (page - 1) * pageSize + pageSize;
+		
+		List<ShopDto> list = shopDao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list);
+		model.addAttribute("totalPage", totalPage);
+		model.addAttribute("page", page);
+	
 		model.addAttribute("shoplist", shopDao.listDao2());
 		return "adminboard/adminshop";
-	}
+		}
+		
+	
+
 
 //	@RequestMapping("/adminShopSearch")
 //	public String adminshopSearch(HttpServletRequest request, Model model) {
@@ -1055,7 +1411,78 @@ public String search_pw() {
 		
 	}
 
+	@RequestMapping("/buysearch")
+	public String shopSearch(HttpServletRequest request, Model model) {
+	
+	       String kw1 = request.getParameter("Searchdata");
+	       String kw = "%" +  kw1 + "%";
+	       int total = shopDao.buyCountDao(kw).size();
+	       int pageSize = 8;
 
+	       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+	       int totalPage = total / pageSize;
+
+	       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+	       if (total % pageSize > 0) {
+	          totalPage++;
+	       }
+
+	       // 5. 현재 페이지 번호를 가져옵니다.
+	       String sPage = request.getParameter("page");
+	       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	       int nStart = (page - 1) * pageSize + 1;
+	       int nEnd = (page - 1) * pageSize + pageSize;
+
+	       List<ShopDto> list = shopDao.buysearchDao(kw, nEnd, nStart);
+	       model.addAttribute("list", list);
+	       model.addAttribute("totalPage", totalPage);
+	       model.addAttribute("page", page);
+	       
+
+	       return "adminboard/adminshop";
+			
+	}
+	
+	@RequestMapping("/membersearch")
+	public String shopSearch2(HttpServletRequest request, Model model) {
+
+	       String kw1 = request.getParameter("Searchdata");
+	       String kw = "%" +  kw1 + "%";
+	      
+	       int total = shopDao.memberCountDao(kw).size();
+	       int pageSize = 8;
+
+	       // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+	       int totalPage = total / pageSize;
+
+	       // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+	       if (total % pageSize > 0) {
+	          totalPage++;
+	       }
+
+	       // 5. 현재 페이지 번호를 가져옵니다.
+	       String sPage = request.getParameter("page");
+	       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	       int nStart = (page - 1) * pageSize + 1;
+	       int nEnd = (page - 1) * pageSize + pageSize;
+
+	       List<ShopDto> list = shopDao.membersearchDao(kw, nEnd, nStart);
+	       System.out.println(list);
+	
+	       
+	       model.addAttribute("list", list);
+	       model.addAttribute("totalPage", totalPage);
+	       model.addAttribute("page", page);
+
+	       return "adminboard/adminshop";
+			
+	}
+	
+	
+	
+	
 	
 
 }

@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%
+int m_number = 0;
+if(session.getAttribute("login") != null){
+BuserDto member = (BuserDto)session.getAttribute("login");
+m_number = member.getM_NUMBER();
+String writer = member.getNICKNAME();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +70,23 @@
         position: absolute;
       left: 50px;
       }
+      .pagination {
+    margin-bottom: 10px; 
+}
+
+.text-right.mt-2 {
+    margin-bottom: 30px; 
+}
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
     </style>
 
     <title>게시판</title>
@@ -99,8 +125,8 @@
                         <img src="${dto.imageurl1}" class="card-img-top" alt="Card Image" style="width: 100%; height: 200px; object-fit: contain;">
                         <div class="card-body">
                             <h5 class="card-title">${dto.title}</h5>
-                            <p class="card-text">${dto.b1_number} ${dto.writer}</p>
-                            <p class="card-text">따: ${dto.b_like} 언따: ${dto.b_dislike}</p>
+                            <p class="card-text">작성자&nbsp;:&nbsp;${dto.writer}</p>
+                            <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
                             <a href="/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
                         </div>
                     </div>
@@ -125,7 +151,9 @@
                 <li class="page-item"><a class="page-link" href="/b1page?page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
-        <p class="text-right mt-2"><a href="b1writeform" class="btn btn-primary">글작성</a></p>
+        <%if(session.getAttribute("login") != null){ %>
+        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a></p>
+        <%} %>
     </nav>
 
     

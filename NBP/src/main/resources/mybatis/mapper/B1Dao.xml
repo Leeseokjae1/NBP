@@ -18,9 +18,9 @@
 	</select>
 	
 	<insert id="writeDao">
-	    insert into b1board (b1_number, writer, title, content, imageurl1, imageurl2, imageurl3, b_like, b_dislike, time)
+	    insert into b1board (b1_number, writer, title, content, imageurl1, imageurl2, imageurl3, b_like, b_dislike, time, m_number)
 	    values (b1board_seq.nextval, #{param1}, #{param2}, #{param3},
-	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate)
+	     #{param4}, #{param5}, #{param6}, 0, 0, sysdate, #{param7})
 	</insert>
 	
 		<select id="selectDao">
@@ -29,7 +29,7 @@
 
 	<update id="modifyDao" parameterType="map">
 	    update b1board
-	    set writer=#{writer}, title=#{title}, content=#{content}, imageurl1=#{imageurl1},
+	    set title=#{title}, content=#{content}, imageurl1=#{imageurl1},
 	    imageurl2=#{imageurl2}, imageurl3=#{imageurl3}
 	    where b1_number=#{b1_number}
 	</update>
