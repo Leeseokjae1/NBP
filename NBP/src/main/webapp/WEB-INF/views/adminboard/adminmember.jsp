@@ -209,12 +209,12 @@
 		     <ul class="pagination justify-content-center">
 		        <c:if test="${page > 1}">
 		            <li class="page-item">
-		                <a class="page-link" href="/admin/member?page=1" aria-label="처음">
+		                <a class="page-link" href="/admin/member?page=1&Searchfield=${field}&Search=${search}" aria-label="처음">
 		                    <span aria-hidden="true">처음</span>
 		                </a>
 		            </li>
 		            <li class="page-item">
-		                <a class="page-link" href="/admin/member?page=${page - 1}" aria-label="이전">
+		                <a class="page-link" href="/admin/member?page=${page - 1}&Searchfield=${field}&Search=${search}" aria-label="이전">
 		                    <span aria-hidden="true">이전</span>
 		                </a>
 		            </li>
@@ -222,18 +222,18 @@
 		
 		        <c:forEach var="i" begin="1" end="${totalPage}">
 		            <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-		                <a class="page-link" href="/admin/member?page=${i}">${i}</a>
+		                <a class="page-link" href="/admin/member?page=${i}&Searchfield=${field}&Search=${search}">${i}</a>
 		            </li>
 		        </c:forEach>
 		
 		        <c:if test="${page < totalPage}">
 		            <li class="page-item">
-		                <a class="page-link" href="/admin/member?page=${page + 1}" aria-label="다음">
+		                <a class="page-link" href="/admin/member?page=${page + 1}&Searchfield=${field}&Search=${search}" aria-label="다음">
 		                    <span aria-hidden="true">다음</span>
 		                </a>
 		            </li>
 		            <li class="page-item">
-		                <a class="page-link" href="/admin/member?page=${totalPage}" aria-label="마지막">
+		                <a class="page-link" href="/admin/member?page=${totalPage}&Searchfield=${field}&Search=${search}" aria-label="마지막">
 		                    <span aria-hidden="true">마지막</span>
 		                </a>
 		            </li>

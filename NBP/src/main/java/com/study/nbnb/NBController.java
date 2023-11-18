@@ -104,7 +104,7 @@ public class NBController {
 		String field = request.getParameter("Searchfield");
 		String search = request.getParameter("Search");
 		int total=0;
-		if(field == null) {
+		if(search == null) {
 			total = buserDao.listDao().size();
 		} else {
 			total = buserDao.searchUser(field, search).size();
@@ -131,6 +131,8 @@ public class NBController {
 			list = buserDao.pSU(field, search, nEnd, nStart);
 		}
 	    
+	    model.addAttribute("field", field);
+	    model.addAttribute("search", search);
 	    model.addAttribute("userList", list);
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("page", page);

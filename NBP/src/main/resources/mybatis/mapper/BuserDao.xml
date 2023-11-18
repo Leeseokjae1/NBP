@@ -39,9 +39,12 @@
 		      EMAIL LIKE '%' || #{param2} || '%'
 		    </if>
 	  	</where>
-	</select>
+	</select>  
 	
 	<select id="pSU" resultType="com.study.nbnb.dto.BuserDto">
+
+9
+
 
 		select * from 
 		  ( select rownum num, A.* from
