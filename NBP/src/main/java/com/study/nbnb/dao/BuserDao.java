@@ -1,6 +1,5 @@
 package com.study.nbnb.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -19,6 +18,9 @@ public interface BuserDao {
 	public int updateUser3(String id , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG, String S_COMMENT, String S_DATE , int m_number);
 	public BuserDto emailDao(String EMAIL);
 	public int emailPwDao(String EMAIL, String PASSWORD);
-	
+	void updateAddress(String address, double latitude, double longitude);
 	public List<BuserDto> pageDao(int page, int pageSize);
+
+	List<BuserDto> selectMembers();
+	double[] addressToCoordinate(String address);
 }

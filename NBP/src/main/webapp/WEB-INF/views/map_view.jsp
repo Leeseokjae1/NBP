@@ -183,14 +183,15 @@
 
 <body>
 
-   <nav id="nav2">
-      <img src="/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-     <ul>
+     <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -203,7 +204,7 @@
         <!-- <li><a href="/logout">로그아웃</a></li>
          } %>-->
        </ul>
-   </nav>
+    </nav>
    <div id="mapwrap">
       <!-- 지도가 표시될 div -->
       <div id="map" style="width:100%;height:800px;"></div>
@@ -234,30 +235,29 @@
       
       var geocoder = new kakao.maps.services.Geocoder();
       
-      geocoder.addressSearch('${Buser.adresss}', function(result, status) {
-    	  
-      }
-	      if (status === kakao.maps.services.Status.OK) {
-	
-	          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	          for(i =0 ; i<bbangnumber.length(); i++){
-	  	        if (BBANG == ROLE_1) {
-	  	        	breadPositions
-	  	        }else if(BBANG == "ROLE_2") {
-	  	        	coffeePositions
-	  	        }  
-	  	    }      
-      var coffeePositions = [
-    	  
-           { title: '${Buser.name}', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' }
-		
-      ];
-	          	       
-      var breadPositions = [
-           { title: '${Buser.name}', latlng: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), link: 'http://localhost:8081/main' }
+      ggeocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+    	    if (status === kakao.maps.services.Status.OK) {
+    	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+    	        var markerImageSrc = 'https://i.ibb.co/qRP9F05/bbsprites.png';
+    	        var coffeeMarkers = [];
+    	        var breadMarkers = [];
 
-      ];
+    	        var bbang = /* ROLE_1 또는 ROLE_2의 값이여야 함 */;
 
+    	        var positions = (bbang === 'ROLE_1') ? coffeePositions : breadPositions;
+    	        createMarkers(positions, bbang);
+
+    	        changeMarker(bbang);
+
+    	        var infowindow = new kakao.maps.InfoWindow({
+    	            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+    	        });
+    	        infowindow.open(map, marker);
+
+    	        map.setCenter(coords);
+    	    } 
+    	});
+      
       var markerImageSrc = 'https://i.ibb.co/qRP9F05/bbsprites.png',
          coffeeMarkers = [],
          breadMarkers = [];
@@ -281,7 +281,7 @@
             category: category,
             title: title
          });
-		
+      
          marker.link = link;
          marker.markerTitle = title; 
          
@@ -299,25 +299,19 @@
       }
 
       function createMarkers(positions, category) {
-         for (var i = 0; i < positions.length; i++) {
-            var imageSize = new kakao.maps.Size(32, 41),
-               imageOptions = {
-                  spriteOrigin: new kakao.maps.Point(15, 0),
-                  spriteSize: new kakao.maps.Size(54, 80)
-               };
+    	    var markers = [];
 
-            var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),
-            marker = createMarker(positions[i].latlng, markerImage, category, positions[i].title, positions[i].link);
+    	    for (var i = 0; i < positions.length; i++) {
+    	        var marker = createMarker(positions[i].position, markerImageSrc, category, positions[i].title, positions[i].link);
+    	        markers.push(marker);
+    	    }
 
-
-            if (category === 'coffee') {
-               coffeeMarkers.push(marker);
-            } else if (category === 'bread') {
-               breadMarkers.push(marker);
-            }
-         }
-      }
-
+    	    if (category === 'ROLE_1') {
+    	        coffeeMarkers = markers;
+    	    } else if (category === 'ROLE_2') {
+    	        breadMarkers = markers;
+    	    }
+    	}
       var currentCustomOverlay = null;
 
       function createCustomOverlay(position, content) {
@@ -363,8 +357,8 @@
       
 
       function displayCustomOverlay(marker) {
-    	  console.log(marker.link);
-    	  console.log(marker.markerTitle);
+         console.log(marker.link);
+         console.log(marker.markerTitle);
          var content = '<div class="customoverlay">' +
             '  <a href="' + marker.link + '" target="_blank">' +
             '    <span class="title">' + marker.markerTitle + '</span>' +
@@ -382,8 +376,7 @@
       
 
       function changeMarker(type) {
-         var coffeeMenu = document.getElementById('coffeeMenu');
-         var breadMenu = document.getElementById('breadMenu');
+    	  var markers = (bbang === 'ROLE_1') ? coffeeMarkers : breadMarkers;
 
          if (type === 'coffee') {
             coffeeMenu.className = 'menu_selected';

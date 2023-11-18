@@ -15,6 +15,9 @@ public class BuserDto {
 	private String BBANG;
 	private String S_COMMENT;
 	private Timestamp S_DATE;
+	private double latitude;
+    private double longitude;
+	    
 	public int getM_NUMBER() {
 		return M_NUMBER;
 	}
@@ -25,7 +28,7 @@ public class BuserDto {
 		return NAME;
 	}
 	public void setNAME(String nAME) {
-		NAME = nAME;
+		this.NAME = nAME;
 	}
 	public String getID() {
 		return ID;
@@ -87,7 +90,16 @@ public class BuserDto {
 	public void setS_DATE(Timestamp s_DATE) {
 		S_DATE = s_DATE;
 	}
-	
-	
-	
+	 public double getLatitude() {
+	        return latitude;
+    }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+    public double getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

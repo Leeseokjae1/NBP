@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -48,6 +49,8 @@ import jakarta.validation.Valid;
 public class NBController {
 
 	@Autowired
+    private SqlSession sqlSession;	
+	@Autowired
 	B1Dao b1dao;
 	@Autowired
 	B2Dao b2dao;
@@ -69,6 +72,8 @@ public class NBController {
 	RDao rdao;
 	@Autowired
 	GoodDao gooddao;
+	@Autowired
+	AsyncService asyncService;
 
     @Value("${upload.directory}")
     private String uploadDirectory;
@@ -119,10 +124,6 @@ public class NBController {
 		return "mypage/realtime";
 	}
 	
-	@RequestMapping("/map")
-	public String mapview(){
-		return "map_view";
-	}
 	
 	@RequestMapping("/rpage")
     public String showb1Ranking(HttpServletRequest request, Model model) {
@@ -141,7 +142,31 @@ public class NBController {
         model.addAttribute("userRankingList", userRankingList);
         return "bbang_rank";
     }
-	
+
+//	@RequestMapping("/map")
+//	public String test(Model model){
+//	    List<BuserDto> members = buserDao.selectMembers();
+//	    for (BuserDto member : members) {
+//	        double[] coords = buserDao.addressToCoordinate(member.getADDRESS());
+//	        member.setLatitude(coords[0]);
+//	        member.setLongitude(coords[1]);
+//	    }
+//	    model.addAttribute("members", members);
+//	    return "map_view";
+//	}
+	  @RequestMapping("/map")
+	   public String test(Model model){
+	      List<BuserDto> myList = buserDao.selectMembers();
+	      model.addAttribute("myList", myList);
+	      
+	      return "map_view";
+	   }
+	  
+//	  @RequestMapping("/map")
+//		public String mapview(){
+//			return "map_view";
+//		}
+		
 	
 /////////////////////////////////shop//////////////////////////////////////
 	
@@ -223,7 +248,7 @@ public class NBController {
 		
 		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
 		String password = encoded.substring(8);
-		String bbang = "ROLE_"+request.getParameter("BBANG");
+		String bbang = request.getParameter("BBANG");
 		buserDao.writeDao(request.getParameter("NAME"),
 						request.getParameter("ID"),
 						password,
@@ -232,6 +257,7 @@ public class NBController {
 						PHONENUMBER,
 						request.getParameter("NICKNAME"),
 						bbang);
+		asyncService.convertAddressToCoordinates(request.getParameter("ADDRESS"));
 		return "redirect:loginView";
 	}
 	

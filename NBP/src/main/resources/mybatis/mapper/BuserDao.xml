@@ -53,6 +53,23 @@
 	<update id="emailPwDao" >
 		update buser set password = #{param2} where email = #{param1}
 	</update>
+	<select id="buser1map" resultType="com.study.nbnb.dto.BuserDto">
+		select NAME, ADDRESS, BBANG from buser where bbang = role_1
+	</select>
+	<select id="buser2map" resultType="com.study.nbnb.dto.BuserDto">
+		select NAME, ADDRESS, BBANG from buser where bbang = role2
+	</select>
 	
-	
+	  <resultMap id="memberMap" type="com.study.nbnb.dto.BuserDto">
+        <id property="id" column="id" />
+        <result property="NAME" column="NAME" />
+        <result property="ADDRESS" column="ADDRESS" />
+        <result property="BBANG" column="BBANG" />
+        <result property="latitude" column="latitude" />
+        <result property="longitude" column="longitude" />
+    </resultMap>
+
+    <select id="selectMembers" resultMap="memberMap">
+        SELECT NAME, ADDRESS, BBANG FROM buser
+    </select>
 </mapper>
