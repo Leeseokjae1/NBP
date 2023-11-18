@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nimbusds.jose.shaded.gson.Gson;
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
 import com.study.nbnb.dao.BuserDao;
@@ -66,7 +67,14 @@ public class NBController {
 		//MyBatis : SimpleBBS
 		return "redirect:main";
 	}
-	
+	@RequestMapping("/test")
+	public String test(Model model){
+		List<BuserDto> myList = buserDao.listDao();
+		String myListJson = new Gson().toJson(myList);
+		model.addAttribute("list", myListJson);
+		
+		return "test";
+	}
 	
 	@RequestMapping("1/mypage")
 	public String mypageview(){

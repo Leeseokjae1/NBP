@@ -43,7 +43,7 @@
 	
 	<select id="pSU" resultType="com.study.nbnb.dto.BuserDto">
 
-9
+
 
 
 		select * from 
