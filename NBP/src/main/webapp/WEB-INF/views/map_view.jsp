@@ -183,19 +183,28 @@
 
 <body>
 
-   <nav id="nav2">
-      <img src="/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-      <ul>
+     <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/map">로그아웃</a></li>
-      </ul>
-   </nav>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+        <!-- if (session.getAttribute("Admin") != null) { %> --> 
+         <li><a href="/adminbd">관리빵 페이지</a></li>
+        <!-- <li><a href="/logout">로그아웃</a></li>
+         } %>-->
+       </ul>
+    </nav>
    <div id="mapwrap">
       <!-- 지도가 표시될 div -->
       <div id="map" style="width:100%;height:800px;"></div>

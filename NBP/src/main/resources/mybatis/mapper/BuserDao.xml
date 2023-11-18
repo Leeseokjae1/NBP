@@ -54,5 +54,9 @@
 		update buser set password = #{param2} where email = #{param1}
 	</update>
 	
+	<update id="updateTicket" >
+		update buser set ticket= ticket+#{param1} where m_number = #{param2}
+	</update>
+	
 	
 </mapper>

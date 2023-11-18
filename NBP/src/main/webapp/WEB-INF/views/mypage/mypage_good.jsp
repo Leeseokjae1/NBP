@@ -159,19 +159,19 @@
 	         </div>
 	         <div class="icons">
 	       		<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
 		            <span class="icon-name">1:1대화</span>
 		        </div>
 	         </div>
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
+		            <a href="/mypage_shop"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
 		            <span class="icon-name">채팅권</span>
 		        </div>    
 	         </div>
 	         <div class="icons">
 	        	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+		            <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
 		            <span class="icon-name">회원정보수정</span>
 		        </div>
 	         </div>

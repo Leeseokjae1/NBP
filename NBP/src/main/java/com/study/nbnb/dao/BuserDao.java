@@ -20,5 +20,7 @@ public interface BuserDao {
 	public BuserDto emailDao(String EMAIL);
 	public int emailPwDao(String EMAIL, String PASSWORD);
 	
+	public int updateTicket(int TICKET, int M_NUMBER);
+	
 	public List<BuserDto> pageDao(int page, int pageSize);
 }

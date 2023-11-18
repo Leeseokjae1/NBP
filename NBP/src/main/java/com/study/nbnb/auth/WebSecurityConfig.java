@@ -42,10 +42,9 @@ public class WebSecurityConfig {
 				.requestMatchers("/api/**").permitAll()
 				.requestMatchers("/1/**").permitAll()
 				.requestMatchers("/main**").permitAll()
-				.requestMatchers("/b1**").permitAll()
 				.requestMatchers("/b2**").permitAll()
 				.requestMatchers("/play**").permitAll()
-				.requestMatchers("member/**").hasAnyRole("0","1","3")
+				.requestMatchers("member/**").hasAnyRole("0","1","2","3")
 				.requestMatchers("/admin/**").hasAnyRole("0")
 				.anyRequest().authenticated()	
 			);
