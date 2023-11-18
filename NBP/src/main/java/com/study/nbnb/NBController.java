@@ -219,7 +219,7 @@ public class NBController {
 		
 		String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
 		String password = encoded.substring(8);
-		String bbang = "ROLE_"+request.getParameter("BBANG");
+		String bbang = request.getParameter("BBANG");
 		buserDao.writeDao(request.getParameter("NAME"),
 						 request.getParameter("ID"),
 						 password,
