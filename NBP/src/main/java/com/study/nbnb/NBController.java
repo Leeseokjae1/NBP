@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.study.nbnb.dao.AdDao;
 import com.study.nbnb.dao.B1Dao;
 import com.study.nbnb.dao.B2Dao;
@@ -72,12 +73,11 @@ public class NBController {
 	RDao rdao;
 	@Autowired
 	GoodDao gooddao;
-	@Autowired
-	AsyncService asyncService;
-
+	
     @Value("${upload.directory}")
     private String uploadDirectory;
 	
+    
 	@RequestMapping("/")
 	public String root() throws Exception{
 		//MyBatis : SimpleBBS
@@ -154,14 +154,32 @@ public class NBController {
 //	    model.addAttribute("members", members);
 //	    return "map_view";
 //	}
-	  @RequestMapping("/map")
-	   public String test(Model model){
-	      List<BuserDto> myList = buserDao.selectMembers();
-	      model.addAttribute("myList", myList);
-	      
-	      return "map_view";
-	   }
+	
+//	@RequestMapping("/members")
+//    public List<BuserDto> getAllMembers() {
+//        return mapDao.getAllMembers();
+//    }	
+//	
+//	@RequestMapping("/map")
+//    public String mapview() {
+//        return "map_view";
+//    }		
 	  
+	@RequestMapping("/map")
+	public String mapview(Model model) {
+	    List<BuserDto> members = buserDao.getAllMembers();
+	    model.addAttribute("members", members);
+	    return "map_view";
+	}
+	
+	@RequestMapping("/map2")
+	public String mapview2(Model model) {
+      List<BuserDto> myList = buserDao.listDao();
+      String myListJson = new Gson().toJson(myList);
+      model.addAttribute("list", myListJson);
+	    return "map_view2";
+	}
+
 //	  @RequestMapping("/map")
 //		public String mapview(){
 //			return "map_view";
@@ -217,25 +235,7 @@ public class NBController {
 		return "adminboard/adminmember_profile";
 	}
 	
-	@RequestMapping("/admin/member_modify")
-	public String member_modify(HttpServletRequest request) {
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
-		
-		buserDao.updateUser3(
-				request.getParameter("ID"), 
-				request.getParameter("NAME"), 
-				request.getParameter("ADDRESS"), 
-				request.getParameter("EMAIL"), 
-				PHONENUMBER, 
-				request.getParameter("NICKNAME"), 
-				request.getParameter("BBANG"), 
-				request.getParameter("S_COMMENT"), 
-				request.getParameter("S_DATE"), 
-				m_number
-		);
-		return "redirect:/admin/member?page=1";
-	}
+
 	
 	@RequestMapping("/joinView")
 	public String joinView() {
@@ -257,7 +257,6 @@ public class NBController {
 						PHONENUMBER,
 						request.getParameter("NICKNAME"),
 						bbang);
-		asyncService.convertAddressToCoordinates(request.getParameter("ADDRESS"));
 		return "redirect:loginView";
 	}
 	

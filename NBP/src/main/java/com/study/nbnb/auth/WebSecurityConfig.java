@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 				.requestMatchers("/search_pw").permitAll()
 				.requestMatchers("/pwUpdate").permitAll()
 				.requestMatchers("/api/**").permitAll()
-				.requestMatchers("/1/**").permitAll()
+				.requestMatchers("/**").permitAll()
 				.requestMatchers("/member/**").hasAnyRole("0","1")
 				.requestMatchers("/admin/**").hasAnyRole("0")
 				.anyRequest().authenticated()	
