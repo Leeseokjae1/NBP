@@ -966,8 +966,8 @@ public class NBController {
 	}
 	
 	@RequestMapping("/playpage")
-	public String playlistpage(HttpServletRequest request, Model model) {
-
+	public String playlistpage(HttpServletRequest request, @ModelAttribute("playBoard") PlayDto playBoard, Model model) {
+	
 		int total = playdao.listCountDao().size();
 		int pageSize = 8;
 
@@ -1336,11 +1336,10 @@ public class NBController {
 			
 			
 			if(field.equals("buy_number")) {
-				System.out.println(11111);
-				System.out.println(page);
+				
 				return "redirect:buysearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
 			} else if(field.equals("m_number")) {
-				System.out.println(22222);
+				
 				return "redirect:membersearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
 			}
 	
@@ -1368,12 +1367,13 @@ public class NBController {
 		int nStart = (page - 1) * pageSize + 1;
 		int nEnd = (page - 1) * pageSize + pageSize;
 		
-		List<ShopDto> list = shopDao.pageDao(nEnd, nStart);
-		model.addAttribute("list", list);
+		List<ShopDto> list1 = shopDao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list1);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
 	
 		model.addAttribute("shoplist", shopDao.listDao2());
+
 		return "adminboard/adminshop";
 		}
 		

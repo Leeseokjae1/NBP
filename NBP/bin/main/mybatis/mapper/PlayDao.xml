@@ -15,12 +15,12 @@
    
    <insert id="writeDao">
       insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike, time, m_number)
-      values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0, sysdate, #{param5})
+      values (playboard_seq.nextval, #{param1},#{param2},#{param3},#{param4}, 0 ,0, to_char(sysdate, 'YYYY-MM-DD'), #{param5})
    </insert>
    
    <insert id="writeDao2">
       insert into playboard (f_number, writer, title, content, imageurl, b_like, b_dislike,time, m_number )
-      values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, sysdate, #{param4})
+      values (playboard_seq.nextval, #{param1},#{param2},#{param3},null, 0 ,0, to_char(sysdate, 'YYYY-MM-DD'), #{param4})
    </insert>
    
    <select id="selectDao">

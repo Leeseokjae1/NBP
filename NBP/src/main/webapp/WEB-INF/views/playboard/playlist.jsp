@@ -102,7 +102,7 @@ String writer = member.getNICKNAME();
             </tr>
         </thead>
 			<tbody>
-			    <c:forEach items="${playlist}" var="play">
+			    <c:forEach items="${list}" var="play">
 			        <tr>
 			            <th scope="row">${play.f_number}</th>
 			            <td>${play.writer}</td>
@@ -110,7 +110,13 @@ String writer = member.getNICKNAME();
 			                <a href="playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
 			            </td>
 			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
-			            <td>${play.time}</td>
+			            <td>
+						    <script>
+						        var originalDate = new Date('${play.time}');
+						        var formattedDate = originalDate.toLocaleDateString();
+						        document.write(formattedDate);
+						    </script>
+						</td>
 			        </tr>
 			    </c:forEach>
 			</tbody>

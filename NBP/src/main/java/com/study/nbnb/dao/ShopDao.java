@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.study.nbnb.dto.B1Dto;
-import com.study.nbnb.dto.PlayDto;
 import com.study.nbnb.dto.ShopDto;
 
 
@@ -45,4 +43,6 @@ public interface ShopDao {
              @Param("pageSize") int pageSize);
 
 	public int searchCountDao(@Param("keyword") String keyword);
+	
+	
 }
