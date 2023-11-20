@@ -1,3 +1,4 @@
+User
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
@@ -134,6 +135,24 @@ nav {
         #message {
             width: 400px;
         }
+            #chatArea {
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+        
+        .sent-message {
+    text-align: right;
+    color: #000000;
+    font-weight:bold; 
+}
+
+.received-message {
+    text-align: left;
+    color: #000000;
+    font-weight:bold; 
+}
 </style>  
 
 </head>
@@ -155,10 +174,9 @@ nav {
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
     </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
@@ -167,7 +185,7 @@ nav {
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
@@ -199,43 +217,37 @@ nav {
   	</div>
 
 <div class="container mt-5">
-    <!-- Chat Room Creation Form -->
     <div class="row">
         <div class="col-md-4">
             <form id="createRoomForm">
                 <div class="form-group">
-                    <label for="roomNumber">채팅방 입장:</label>
+                    <label for="roomNumber">채팅방 번호:</label>
                     <input type="text" class="form-control" id="roomName" name="roomName" placeholder="Enter Room Number">
                     <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
                 </div>
-                <button type="button" class="btn btn-success" id="createRoomBtn">Create Chat Room</button>
+                <button type="button" class="btn btn-success" id="createRoomBtn">입장</button>
             </form>
         </div>
-    </div>
-
-<div class="container mt-5">
-    <div class="row">
-        <!-- Room List (Left Side) -->
-        <div class="col-md-4">
+        <div class="col-md-8">
             <c:forEach items="${chat}" var="info">
                 <div class="chat-container mb-3">
                     <div>
                         <label for="roomName">방 번호: ${info.roomid}</label>
                         <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
-                        <label for="userName">대화인원: ${info.m_number}, ${info.another}</label>
+                        <label for="userName">대화상대: ${info.nickname1}, ${info.nickname2}</label>
                         <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
                         <button id="enterBtn" class="btn btn-primary">Enter Room</button>
                     </div>
                 </div>
             </c:forEach>
-        </div>
-
-        <!-- Chat Area (Right Side) -->
-        <div class="col-md-8">
             <div id="chatArea" class="border p-3">
                 <div id="chatMessageArea"></div>
-                <input type="text" id="message" class="form-control mb-2" placeholder="입력하세요...">
-                <button id="sendBtn" class="btn btn-secondary">Send</button>
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" id="message" class="form-control" placeholder="입력하세요...">
+                <div class="input-group-append">
+                    <button id="sendBtn" class="btn btn-secondary">Send</button>
+                </div>
             </div>
         </div>
     </div>
@@ -263,6 +275,7 @@ nav {
      var userName;
       
       var chatMessages = [];
+
       function connect() {
           roomName = $("#roomName").val();
           userName = $("#userName").val();
@@ -275,7 +288,7 @@ nav {
    		 var msg = data.val().chat_message;
 
    		 console.log("[1]" + name + ":" + msg);
-   		 appendMessage(name + ":" + msg);
+   		 appendMessage(msg, name);
 		});
 
 
@@ -300,14 +313,31 @@ function writeNewPost(roomName, name, msg) {
 function send() {
     var msg = $("#message").val();
     writeNewPost(roomName, userName, msg);
+
+	$("#message").val('');
+
+
+    var chatArea = $('#chatArea');
+    chatArea.scrollTop(chatArea[0].scrollHeight);
 }
 
-function appendMessage(msg) {
-    $("#chatMessageArea").append(msg + "<br>");
+function appendMessage(msg, sender) {
+    var messageClass = (sender === '<%=nickname%>') ? 'sent-message' : 'received-message';
+    var formattedMsg;
+
+    if (messageClass === 'sent-message') {
+        formattedMsg = '<div class="' + messageClass + '">' + msg + '</div>';
+    } else {
+        formattedMsg = '<div class="' + messageClass + '">' + sender + ' : ' + msg + '</div>';
+    }
+
+    $("#chatMessageArea").append(formattedMsg);
+
     var chatAreaHeight = $('#chatArea').height();
     var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
     $('#chatArea').scrollTop(maxScroll);
 }
+
 
 $(document).ready(function () {
     $('#sendBtn').click(function () { send(); });
@@ -317,9 +347,30 @@ $(document).ready(function () {
 		connect(); });
 
 	 $('#createRoomBtn').click(function () { 
+		$.ajax({
+                type: 'GET',
+                url: '/ticketuse', 
+                data: {
+                      roomName: $("#roomName").val(),
+                    userName: $("#userName").val()
+                },
+                success: function (data) {
+                    $("#chatMessageArea").html("");
+                    connect();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+	
 
 		$("#chatMessageArea").html("");
 		connect(); });
+	 $('#message').keypress(function (e) {
+            if (e.which === 13) {
+                send();
+            }
+        });
 });
 
 

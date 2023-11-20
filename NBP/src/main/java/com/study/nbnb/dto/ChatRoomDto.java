@@ -2,28 +2,29 @@ package com.study.nbnb.dto;
 
 public class ChatRoomDto {
 	
-	private int roomid;
-    private int m_number;
-    private int another;
+	private String roomid;
+    private String nickname1;
+    private String nickname2;
     
-	public int getRoomid() {
+	public String getRoomid() {
 		return roomid;
 	}
-	public void setRoomid(int roomid) {
+	public void setRoomid(String roomid) {
 		this.roomid = roomid;
 	}
-	public int getM_number() {
-		return m_number;
+	public String getNickname1() {
+		return nickname1;
 	}
-	public void setM_number(int m_number) {
-		this.m_number = m_number;
+	public void setNickname1(String nickname1) {
+		this.nickname1 = nickname1;
 	}
-	public int getAnother() {
-		return another;
+	public String getNickname2() {
+		return nickname2;
 	}
-	public void setAnother(int another) {
-		this.another = another;
+	public void setNickname2(String nickname2) {
+		this.nickname2 = nickname2;
 	}
     
+	
  
 }

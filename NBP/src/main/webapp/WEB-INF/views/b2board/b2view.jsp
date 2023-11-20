@@ -85,10 +85,9 @@ String writer = member.getNICKNAME();
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
       
    </nav>
@@ -134,11 +133,11 @@ String writer = member.getNICKNAME();
         </div>
 		<%if(session.getAttribute("login") != null){ %>
         <div class="mb-3">
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
+            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
                 <img src="/images/like.png" style="width:70px; height:70px;">
             </a>
 
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
+            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
                 <img src="/images/dislike.png" style="width:70px; height:70px;">
             </a>
         </div>

@@ -43,9 +43,8 @@
 	
 	
 	<select id="listDao2" resultType="com.study.nbnb.dto.ShopDto">
-		select * from buser
-		left outer join buytable on buser.m_number = buytable.m_number
-		order by buytable.buy_number desc
+		        SELECT ticket FROM buser INNER JOIN buytable ON buser.m_number = buytable.m_number 
+		        WHERE buytable.buy_number IS NOT NULL ORDER BY buytable.buy_number DESC
 	</select>
 
 	

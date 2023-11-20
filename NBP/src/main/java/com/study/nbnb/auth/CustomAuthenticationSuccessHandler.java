@@ -34,9 +34,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String username = authentication.getName();
         BuserDto login = buserDao.loginDao(username);
         
-        if(login.getNAME().equals("admin")) {
+        if(login.getBBANG().equals("ROLE_0")) {
         	HttpSession session = request.getSession();
-            session.setAttribute("admin", login);
+            session.setAttribute("admin", "check");
+            session.setAttribute("login", login);
         } else {
         	HttpSession session = request.getSession();
             session.setAttribute("login", login);

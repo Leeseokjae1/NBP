@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.AdDao;
@@ -43,6 +47,7 @@ import com.study.nbnb.dto.ShopDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.websocket.Session;
 
 @Controller
 public class NBController {
@@ -243,11 +248,25 @@ public class NBController {
 	public String myPageChatview(HttpServletRequest request, Model model){
 		HttpSession session = request.getSession();
 		BuserDto a = (BuserDto)session.getAttribute("login");
-		List<ChatRoomDto> cr = crdao.listroomDao(a.getM_NUMBER());
+		List<ChatRoomDto> cr = crdao.listroomDao(a.getNICKNAME());
 		System.out.println(a.getM_NUMBER());
 		model.addAttribute("chat", cr);
 		
 		return "mypage/mypage_talk";
+	}
+	
+	@RequestMapping("/ticketuse")
+	public void ticketuse(HttpServletRequest request, Model model){
+		HttpSession session = request.getSession();
+		BuserDto a = (BuserDto)session.getAttribute("login");
+		int useT = a.getM_NUMBER();
+		crdao.useTicket(useT);
+	}
+	
+	@RequestMapping("/getTicketCount")
+	public void getTicketCount(HttpServletRequest request) {
+	    BuserDto a = (BuserDto) request.getSession().getAttribute("login");
+	    buserDao.ticketCount(a.getTICKET());
 	}
 ////////////////////////////////////LogIn////////////////////////////////////////////////////////////
 
@@ -1327,42 +1346,74 @@ public String search_pw() {
 	
 	@RequestMapping("/admin/member_modify")
 	public String member_modify(HttpServletRequest request) {
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
-		
-		buserDao.updateUser3(
-			request.getParameter("ID"), 
-			request.getParameter("NAME"), 
-			request.getParameter("ADDRESS"), 
-			request.getParameter("EMAIL"), 
-			PHONENUMBER, 
-			request.getParameter("NICKNAME"), 
-			request.getParameter("BBANG"), 
-			request.getParameter("S_COMMENT"), 
-			request.getParameter("S_DATE"), 
-			m_number
-		);
+		try {
+			int m_number = Integer.parseInt(request.getParameter("M_NUMBER"));
+			String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
+			
+			String dateString = request.getParameter("S_DATE");
+			String pattern = "yyyy-MM-dd HH:mm:ss";
+			
+		    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+		    Date parsedDate = dateFormat.parse(dateString);
+			    
+		    Timestamp S_DATE = new Timestamp(parsedDate.getTime());
+	        
+		            
+			if(request.getParameter("PASSWORD").equals(request.getParameter("pw"))) {
+				buserDao.updateUser3(
+						request.getParameter("ID"), 
+						request.getParameter("NAME"), 
+						request.getParameter("ADDRESS"), 
+						request.getParameter("EMAIL"), 
+						PHONENUMBER, 
+						request.getParameter("NICKNAME"), 
+						request.getParameter("BBANG"), 
+						request.getParameter("S_COMMENT"), 
+						S_DATE, 
+						m_number
+					);
+			} else {
+				String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+				String password = encoded.substring(8);
+				
+				buserDao.updateUser4(
+						request.getParameter("ID"), 
+						password,
+						request.getParameter("NAME"), 
+						request.getParameter("ADDRESS"), 
+						request.getParameter("EMAIL"), 
+						PHONENUMBER, 
+						request.getParameter("NICKNAME"), 
+						request.getParameter("BBANG"), 
+						request.getParameter("S_COMMENT"), 
+						S_DATE, 
+						m_number
+					);
+				
+			}
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return "redirect:/admin/member?page=1";
 	}
 	
-	@RequestMapping("/adminshop")
+	@RequestMapping("/admin/adminshop")
 	public String adminshopView(HttpServletRequest request, Model model) {				
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 		try {
 		
 			String field = request.getParameter("Searchfield");
-			String search = request.getParameter("Searchdata");
+			String search =request.getParameter("Searchdata");
 			
 			
 			
 			
 			if(field.equals("buy_number")) {
-				System.out.println(11111);
-				System.out.println(page);
+				
 				return "redirect:buysearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
 			} else if(field.equals("m_number")) {
-				System.out.println(22222);
+				
 				return "redirect:membersearch?Searchdata="+search+"&Searchfield="+field+"&page="+page;
 			}
 	
@@ -1390,11 +1441,13 @@ public String search_pw() {
 		int nStart = (page - 1) * pageSize + 1;
 		int nEnd = (page - 1) * pageSize + pageSize;
 		
-		List<ShopDto> list = shopDao.pageDao(nEnd, nStart);
-		model.addAttribute("list", list);
+		List<ShopDto> list1 = shopDao.pageDao(nEnd, nStart);
+		model.addAttribute("list", list1);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
+	
 		model.addAttribute("shoplist", shopDao.listDao2());
+
 		return "adminboard/adminshop";
 		}
 		
@@ -1410,19 +1463,22 @@ public String search_pw() {
 	
 
 	
-	@RequestMapping("/approveCancel")
+	@RequestMapping("/admin/approveCancel")
 	public String approveCancel(HttpServletRequest request, Model model) {
 				
 		int buy_number = Integer.parseInt(request.getParameter("buy_number"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
+	    int t_count = Integer.parseInt(request.getParameter("t_count"));
+
 		shopDao.deleteDao(buy_number,m_number);
+		buserDao.minusTicket(t_count, m_number);
 		
 		return"redirect:adminshop?m_number="+m_number;
 		
 	}
 	
 	
-	@RequestMapping("/refuseCancel")
+	@RequestMapping("/admin/refuseCancel")
 	public String refuseCancel(HttpServletRequest request, Model model) {
 				
 		int buy_number = Integer.parseInt(request.getParameter("buy_number"));
@@ -1432,7 +1488,7 @@ public String search_pw() {
 		
 	}
 
-	@RequestMapping("/buysearch")
+	@RequestMapping("/admin/buysearch")
 	public String shopSearch(HttpServletRequest request, Model model) {
 	
 	       String kw1 = request.getParameter("Searchdata");
@@ -1465,7 +1521,7 @@ public String search_pw() {
 			
 	}
 	
-	@RequestMapping("/membersearch")
+	@RequestMapping("/admin/membersearch")
 	public String shopSearch2(HttpServletRequest request, Model model) {
 
 	       String kw1 = request.getParameter("Searchdata");

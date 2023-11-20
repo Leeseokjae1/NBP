@@ -135,10 +135,9 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
     </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
@@ -147,7 +146,7 @@
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >

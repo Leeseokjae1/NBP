@@ -29,6 +29,42 @@
 		select * from buser where email = #{param1}
 	</select>
 	
+	<select id="searchUser" resultType="com.study.nbnb.dto.BuserDto">
+		select * from buser 
+		<where>
+		    <if test="param1 == 'ID'">
+		      ID LIKE '%' || #{param2} || '%'
+		    </if>
+		    <if test="param1 == 'EMAIL'">
+		      EMAIL LIKE '%' || #{param2} || '%'
+		    </if>
+	  	</where>
+	</select>  
+	
+	<select id="pSU" resultType="com.study.nbnb.dto.BuserDto">
+
+
+
+
+		select * from 
+		  ( select rownum num, A.* from
+		    ( select * from buser 
+		      <where>
+		        <if test="param1 == 'ID'">
+		          ID LIKE '%' || #{param2} || '%'
+		        </if>
+		        <if test="param1 == 'EMAIL'">
+		          EMAIL LIKE '%' || #{param2} || '%'
+		        </if>
+		      </where>
+		      order by m_number desc
+		    ) A 
+		    where rownum &lt;= #{param3}
+		  ) B 
+		where B.num &gt;= #{param4}
+
+   </select>
+	
 	<insert id="writeDao">
 		insert into buser values 
 		(buser_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},0,#{param8},0,NULL)
@@ -50,6 +86,10 @@
 		update buser set id= #{param1}, name = #{param2}, address = #{param3}, email = #{param4}, PHONENUMBER = #{param5}, NICKNAME =  #{param6}, BBANG =  #{param7} , S_COMMENT =  #{param8} , S_DATE =  #{param9} where m_number = #{param10}
 	</update>
 	
+	<update id="updateUser4" >
+		update buser set id= #{param1}, password = #{param2},  name = #{param3}, address = #{param4}, email = #{param5}, PHONENUMBER = #{param6}, NICKNAME =  #{param7}, BBANG =  #{param8}, S_COMMENT =  #{param9} , S_DATE =  #{param10} where m_number lik #{param11}
+	</update>
+	
 	<update id="emailPwDao" >
 		update buser set password = #{param2} where email = #{param1}
 	</update>
@@ -57,6 +97,16 @@
 	<update id="updateTicket" >
 		update buser set ticket= ticket+#{param1} where m_number = #{param2}
 	</update>
+	
+		<update id="useTicket" >
+	    update buser
+	    set ticket = ticket - 1
+	    where m_number=#{param1}
+	</update>
+	
+	<update id="minusTicket" >
+      update buser set ticket= ticket-#{param1} where m_number = #{param2}
+   </update>
 	
 	
 </mapper>

@@ -151,13 +151,12 @@
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/adminbd">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -165,11 +164,9 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-         <% if (session.getAttribute("Admin") != null) { %>
-         <li><a href="#">관리빵 페이지</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <% } %>
-
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
@@ -190,7 +187,7 @@
 	         </div>
 	         <div class="icons">
 	       		<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
 		            <span class="icon-name">1:1대화</span>
 		        </div>
 	         </div>
