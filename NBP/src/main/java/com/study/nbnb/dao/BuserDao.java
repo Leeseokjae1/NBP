@@ -29,4 +29,7 @@ public interface BuserDao {
 	public List<BuserDto> pageDao(int page, int pageSize);
 	public List<BuserDto> pSU(String field, String search, int page, int pageSize);
 	public List<BuserDto> searchUser(String field, String search);
+	public List<BuserDto> getAllMembers();
+	
+	
 }

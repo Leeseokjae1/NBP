@@ -107,6 +107,24 @@
 	<update id="minusTicket" >
       update buser set ticket= ticket-#{param1} where m_number = #{param2}
    </update>
+   
+   <select id="getAllMembers" resultType="com.study.nbnb.dto.BuserDto">
+        SELECT * FROM buser
+    </select>
+    
+    <select id="buser1map" resultType="com.study.nbnb.dto.BuserDto">
+      select NICKNAME, ADDRESS, BBANG from buser where bbang = role_1
+   </select>
+   <select id="buser2map" resultType="com.study.nbnb.dto.BuserDto">
+      select NICKNAME, ADDRESS, BBANG from buser where bbang = role2
+   </select>
+   
+     <resultMap id="memberMap" type="com.study.nbnb.dto.BuserDto">
+        <id property="id" column="id" />
+        <result property="NICKNAME" column="NICKNAME" />
+        <result property="ADDRESS" column="ADDRESS" />
+        <result property="BBANG" column="BBANG" />
+    </resultMap>
 	
 	
 </mapper>

@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
-   <title>Hello, world!</title>
-   <meta charset="UTF-8">
+    <title>지도 뷰</title>
+      <meta charset="UTF-8">
    <!-- Required meta tags -->
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <!-- Bootstrap CSS -->
@@ -211,202 +213,161 @@
       <!-- 지도 위에 표시될 마커 카테고리 -->
       <div class="category">
          <ul>
-            <li id="coffeeMenu" onclick="changeMarker('coffee')">
+            <li id="coffeeMenu" onclick="changeMarker('ROLE_2')">
                <span class="ico_comm ico_coffee"></span>
                내빵이
             </li>
-            <li id="breadMenu" onclick="changeMarker('bread')">
+            <li id="breadMenu" onclick="changeMarker('ROLE_1')">
                <span class="ico_comm ico_bread"></span>
                니빵이
             </li>
          </ul>
       </div>
    </div>
+    
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3008bc264d07323c74ece29d779fde85&libraries=services"></script>
 
-   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3008bc264d07323c74ece29d779fde85&libraries=services"></script>
-   <script>
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-         mapOption = {
-            center: new kakao.maps.LatLng(37.498004414546934, 127.02770621963765), // 지도의 중심좌표 
-            level: 3 // 지도의 확대 레벨 
-         };
+<script>
+    var mapOptions = {
+        center: new kakao.maps.LatLng(37.566826, 126.9786567),
+        level: 3
+    };
+    var map = new kakao.maps.Map(document.getElementById('map'), mapOptions);
+    var coffeeMarkers = [], breadMarkers = [];
 
-      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-      
- 
-      
-      var coffeePositions = [
-           { title: '일하는내빵이', latlng: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), link: 'http://localhost:8081/main' },
-           { title: '이가는내빵이', latlng: new kakao.maps.LatLng(37.499427948430814, 127.02794423197847), link: 'http://localhost:8081/main' },
-           { title: '삼삼한내빵이', latlng: new kakao.maps.LatLng(37.498553760499505, 127.02882598822454), link: 'http://localhost:8081/main' },
-           { title: '사랑꾼내빵이', latlng: new kakao.maps.LatLng(37.497625593121384, 127.02935713582038), link: 'http://localhost:8081/main' },
-           { title: '오랑캐내빵이', latlng: new kakao.maps.LatLng(37.49646391248451, 127.02675574250912), link: 'http://localhost:8081/main' },
-           { title: '육중한내빵이', latlng: new kakao.maps.LatLng(37.49629291770947, 127.02587362608637), link: 'http://localhost:8081/main' },
-           { title: '칠칠한내빵이', latlng: new kakao.maps.LatLng(37.49754540521486, 127.02546694890695), link: 'http://localhost:8081/main' },
-           { title: '팔순인내빵이', latlng: new kakao.maps.LatLng(37.49640072567703, 127.02726459882308), link: 'http://localhost:8081/main' },
-           { title: '구렁내내빵이', latlng: new kakao.maps.LatLng(37.49640098874988, 127.02609983175294), link: 'http://localhost:8081/main' },
-           { title: '열심히내빵이', latlng: new kakao.maps.LatLng(37.49932849491523, 127.02935780247945), link: 'http://localhost:8081/main' },
-           { title: '영수증내빵이', latlng: new kakao.maps.LatLng(37.49996818951873, 127.02943721562295), link: 'http://localhost:8081/main' }
-		
-      ];
-
-      var breadPositions = [
-           { title: '일하는니빵이', latlng: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), link: 'http://localhost:8081/main' },
-           { title: '이가는니빵이', latlng: new kakao.maps.LatLng(37.49671536281186, 127.03020491448352), link: 'http://localhost:8081/main' },
-           { title: '삼삼한니빵이', latlng: new kakao.maps.LatLng(37.496201943633714, 127.02959405469642), link: 'http://localhost:8081/main' },
-           { title: '사랑꾼니빵이', latlng: new kakao.maps.LatLng(37.49966168796031, 127.03007039430118), link: 'http://localhost:8081/main' },
-           { title: '오랑캐니빵이', latlng: new kakao.maps.LatLng(37.499463762912974, 127.0288828824399), link: 'http://localhost:8081/main' },
-           { title: '육중한니빵이', latlng: new kakao.maps.LatLng(37.49896834100913, 127.02833986892401), link: 'http://localhost:8081/main' },
-           { title: '칠칠한니빵이', latlng: new kakao.maps.LatLng(37.49893267508434, 127.02673400572665), link: 'http://localhost:8081/main' },
-           { title: '팔순인니빵이', latlng: new kakao.maps.LatLng(37.49872543597439, 127.02676785815386), link: 'http://localhost:8081/main' },
-           { title: '구렁내니빵이', latlng: new kakao.maps.LatLng(37.49813096097184, 127.02591949495914), link: 'http://localhost:8081/main' },
-           { title: '열심히니빵이', latlng: new kakao.maps.LatLng(37.497680616783086, 127.02518427952202), link: 'http://localhost:8081/main' }
-
-      ];
-
-      var markerImageSrc = 'https://i.ibb.co/qRP9F05/bbsprites.png',
-         coffeeMarkers = [],
-         breadMarkers = [];
-
-      createMarkers(coffeePositions, 'coffee');
-      createMarkers(breadPositions, 'bread');
-
-      changeMarker('coffee');
-
-      
-      
-      function createMarkerImage(src, size, options) {
-         var markerImage = new kakao.maps.MarkerImage(src, size, options);
-         return markerImage;
-      }
-
-      function createMarker(position, image, category, title, link) {
-         var marker = new kakao.maps.Marker({
-            position: position,
-            image: image,
-            category: category,
-            title: title
-         });
-		
-         marker.link = link;
-         marker.markerTitle = title; 
-         
-         
-         console.log(marker.link +  "111111");
-         console.log(marker.markerTitle +  "2222222");
-         
-         kakao.maps.event.addListener(marker, 'click', function () {
-            displayCustomOverlay(marker);
-         });
-         
-
-         return marker;
-         
-      }
-
-      function createMarkers(positions, category) {
-         for (var i = 0; i < positions.length; i++) {
-            var imageSize = new kakao.maps.Size(32, 41),
-               imageOptions = {
-                  spriteOrigin: new kakao.maps.Point(15, 0),
-                  spriteSize: new kakao.maps.Size(54, 80)
-               };
-
-            var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),
-            marker = createMarker(positions[i].latlng, markerImage, category, positions[i].title, positions[i].link);
-
-
-            if (category === 'coffee') {
-               coffeeMarkers.push(marker);
-            } else if (category === 'bread') {
-               breadMarkers.push(marker);
+    // 각 마커 생성 및 카테고리별로 배열에 추가하는 부분
+    <c:forEach var="member" items="${members}">
+        var geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch('<c:out value="${member.ADDRESS}"/>', function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                var imageSize = new kakao.maps.Size(33, 41),
+                    imageOptions = {
+                        spriteOrigin: new kakao.maps.Point(15, 0),
+                        spriteSize: new kakao.maps.Size(53, 39)
+                    };
+                var markerImageSrc;
+                var nickname = '<c:out value="${member.NICKNAME}"/>';
+                var role = '<c:out value="${member.BBANG}"/>';
+                
+                if ('<c:out value="${member.BBANG}"/>' === 'ROLE_2') {
+                    markerImageSrc = 'https://i.ibb.co/vmWtnCc/MYBBANG.png';
+                    coffeeMarkers.push(createMarker(coords, markerImageSrc, nickname, role));
+                } else if ('<c:out value="${member.BBANG}"/>' === 'ROLE_1') {
+                    markerImageSrc = 'https://i.ibb.co/MRCwrWK/YOUBBANG.png';
+                    breadMarkers.push(createMarker(coords, markerImageSrc, nickname, role));
+                }
             }
-         }
-      }
+        });
+    </c:forEach>
 
-      var currentCustomOverlay = null;
+    function createMarker(position, markerImageSrc, nickname, role) {
+        var imageSize = new kakao.maps.Size(33, 41),
+            imageOptions = {
+                spriteOrigin: new kakao.maps.Point(15, 0),
+                spriteSize: new kakao.maps.Size(53, 39)
+            };
+        var markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize, imageOptions);
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: position,
+            image: markerImage
+        });
+        var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+ nickname + '</div>'
+        });
+        kakao.maps.event.addListener(marker, 'click', function () {
+           displayCustomOverlay(marker, nickname);
+        });
 
-      function createCustomOverlay(position, content) {
-         // 클로저를 사용하여 오버레이를 클릭했을 때 해당 오버레이 정보를 참조할 수 있도록 함
-         (function (customOverlayContent) {
-            var customOverlay = new kakao.maps.CustomOverlay({
-               position: position,
-               content: customOverlayContent,
-               yAnchor: 1
-            });
+        marker.role = role;
+        
+        
+        return marker;
+    }
+    var currentCustomOverlay = null;
 
-            // 오버레이를 지도에 표시
-            customOverlay.setMap(map);
+    function createCustomOverlay(position, content) {
+       // 클로저를 사용하여 오버레이를 클릭했을 때 해당 오버레이 정보를 참조할 수 있도록 함
+       (function (customOverlayContent) {
+          var customOverlay = new kakao.maps.CustomOverlay({
+             position: position,
+             content: customOverlayContent,
+             yAnchor: 1
+          });
 
-            // 커스텀 오버레이를 클릭했을 때 오버레이를 지도에서 제거
-            kakao.maps.event.addListener(customOverlay, 'click', function () {
-               customOverlay.setMap(null);
-            });
+          // 오버레이를 지도에 표시
+          customOverlay.setMap(map);
 
-            // 현재 표시된 customoverlay 업데이트
-            currentCustomOverlay = customOverlay;
-         })(content);
-      }
+          // 커스텀 오버레이를 클릭했을 때 오버레이를 지도에서 제거
+          kakao.maps.event.addListener(customOverlay, 'click', function () {
+             customOverlay.setMap(null);
+          });
 
-      function setMarkers(map, category) {
-         var markers;
-         if (category === 'coffee') {
+          // 현재 표시된 customoverlay 업데이트
+          currentCustomOverlay = customOverlay;
+       })(content);
+    }
+
+
+    function setMarkers(map, category) {
+        var markers;
+        if (category === 'ROLE_2') {
             markers = coffeeMarkers;
-         } else if (category === 'bread') {
+        } else if (category === 'ROLE_1') {
             markers = breadMarkers;
-         }
-
-         // 이전에 표시된 customoverlay가 있다면 제거
-         if (currentCustomOverlay) {
+        }
+        if (currentCustomOverlay) {
             currentCustomOverlay.setMap(null);
             currentCustomOverlay = null;
          }
 
-         for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
-         }
-      }
-      
+        
+        for (var i = 0; i < coffeeMarkers.length; i++) {
+            coffeeMarkers[i].setMap(null);
+        }
 
-      function displayCustomOverlay(marker) {
-    	  console.log(marker.link);
-    	  console.log(marker.markerTitle);
-         var content = '<div class="customoverlay">' +
-            '  <a href="' + marker.link + '" target="_blank">' +
-            '    <span class="title">' + marker.markerTitle + '</span>' +
-            '  </a>' +
-            '</div>';
+        for (var j = 0; j < breadMarkers.length; j++) {
+            breadMarkers[j].setMap(null);
+        }
 
-         // 현재 표시된 customoverlay가 있다면 제거
-         if (currentCustomOverlay) {
-            currentCustomOverlay.setMap(null);
-            currentCustomOverlay = null;
-         }
+        for (var k = 0; k < markers.length; k++) {
+            markers[k].setMap(map);
+        }
+    }
+    
+    function displayCustomOverlay(marker, nickname) {
+        console.log(marker.link);
+        console.log(marker.markerTitle);
+        var content = '<div class="customoverlay">' +
+           '  <a href="#">' +
+           '    <span class="title">' + nickname + '</span>' +
+           '  </a>' +
+           '</div>';
 
-         createCustomOverlay(marker.getPosition(), content);
-      }
-      
+        // 현재 표시된 customoverlay가 있다면 제거
+        if (currentCustomOverlay) {
+           currentCustomOverlay.setMap(null);
+           currentCustomOverlay = null;
+        }
 
-      function changeMarker(type) {
-         var coffeeMenu = document.getElementById('coffeeMenu');
-         var breadMenu = document.getElementById('breadMenu');
+        createCustomOverlay(marker.getPosition(), content);
+     }
 
-         if (type === 'coffee') {
-            coffeeMenu.className = 'menu_selected';
-            breadMenu.className = '';
-            setMarkers(map, 'coffee');
-            setMarkers(null, 'bread');
-         } else if (type === 'bread') {
-            coffeeMenu.className = '';
-            breadMenu.className = 'menu_selected';
-            setMarkers(null, 'coffee');
-            setMarkers(map, 'bread');
-         }
-      }
-   </script>
-   <!-- Optional JavaScript -->
-   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    function changeMarker(role) {
+        var coffeeMenu = document.getElementById('coffeeMenu');
+        var breadMenu = document.getElementById('breadMenu');
+
+        if (role === 'ROLE_2') {
+            coffeeMenu.classList.add('menu_selected');
+            breadMenu.classList.remove('menu_selected');
+            setMarkers(map, 'ROLE_2');
+        } else if (role === 'ROLE_1') {
+            coffeeMenu.classList.remove('menu_selected');
+            breadMenu.classList.add('menu_selected');
+            setMarkers(map, 'ROLE_1');
+        }
+    }
+</script>
 </body>
 </html>

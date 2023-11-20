@@ -115,9 +115,11 @@ public class NBController {
 	}
 	
 	@RequestMapping("/map")
-	public String mapview(){
-		return "map_view";
-	}
+	   public String mapview(Model model) {
+	       List<BuserDto> members = buserDao.getAllMembers();
+	       model.addAttribute("members", members);
+	       return "map_view";
+	   }
 	
 	@RequestMapping("/rpage")
     public String showb1Ranking(HttpServletRequest request, Model model) {
