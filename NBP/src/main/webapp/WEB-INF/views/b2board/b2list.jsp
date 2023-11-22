@@ -70,6 +70,9 @@ String writer = member.getNICKNAME();
         position: absolute;
       left: 50px;
       }
+      body {
+           background-color: #f8f9fa;
+       }
     </style>
 
     <title>게시판</title>

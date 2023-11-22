@@ -14,9 +14,7 @@ public class BuserDto {
 	private int TICKET;
 	private String BBANG;
 	private String S_COMMENT;
-	private Timestamp S_DATE;
-	
-	
+	private String S_DATE;
 	public int getM_NUMBER() {
 		return M_NUMBER;
 	}
@@ -83,12 +81,14 @@ public class BuserDto {
 	public void setS_COMMENT(String s_COMMENT) {
 		S_COMMENT = s_COMMENT;
 	}
-	public Timestamp getS_DATE() {
+	public String getS_DATE() {
 		return S_DATE;
 	}
-	public void setS_DATE(Timestamp s_DATE) {
+	public void setS_DATE(String s_DATE) {
 		S_DATE = s_DATE;
 	}
+	
+	
 	
 
 	

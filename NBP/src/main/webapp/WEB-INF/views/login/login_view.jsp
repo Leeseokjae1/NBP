@@ -13,6 +13,10 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
+
+function recaptchaCallback() {
+    document.getElementById("capok").disabled = false;
+}
 	function form_check() {
 		if ($('#id').val().length == 0) {
 			alert("아이디를 작성하세요");

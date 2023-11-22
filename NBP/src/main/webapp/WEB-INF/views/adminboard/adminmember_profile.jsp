@@ -13,59 +13,59 @@
     <!-- Bootstrap CSS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b38572f5de0a09cbaa96703ebb627d1&libraries=services"></script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <script>
     $(function selectedControl(){
-		const el = document.getElementById('phone1');
-		const len = el.options.length;
-		const str = ${fn:substring(user.PHONENUMBER, 1, 3)};
-		for (let i=0; i<len; i++){  
-			if(el.options[i].value == str){
-				el.options[i].selected = true;
-			}
-		}  
-		
-		const bbang = document.getElementById("test").value;
-		var radio0 = document.getElementById("ROLE_0");
-		var radio1 = document.getElementById("ROLE_1");
-		var radio2 = document.getElementById("ROLE_2");
-		var radio3 = document.getElementById("ROLE_3");
-		
-		if (bbang === "ROLE_0") {
-			radio0.checked = true;
-		} else if (bbang === "ROLE_1") {
-			radio1.checked = true;
-		} else if (bbang === "ROLE_2") {
-			radio2.checked = true;
-		} else {
-			radio3.checked = true;
-		} 
-		
-	})
-	
-	function execDaumPostcode() {
-		new daum.Postcode({
-			oncomplete : function(data) {
-				var addr = data.address;
-				document.getElementById("ADDRESS").value = addr;
-			}
-		}).open();
-	}
+      const el = document.getElementById('phone1');
+      const len = el.options.length;
+      const str = ${fn:substring(user.PHONENUMBER, 1, 3)};
+      for (let i=0; i<len; i++){  
+         if(el.options[i].value == str){
+            el.options[i].selected = true;
+         }
+      }  
+      
+      const bbang = document.getElementById("test").value;
+      var radio0 = document.getElementById("ROLE_0");
+      var radio1 = document.getElementById("ROLE_1");
+      var radio2 = document.getElementById("ROLE_2");
+      var radio3 = document.getElementById("ROLE_3");
+      
+      if (bbang === "ROLE_0") {
+         radio0.checked = true;
+      } else if (bbang === "ROLE_1") {
+         radio1.checked = true;
+      } else if (bbang === "ROLE_2") {
+         radio2.checked = true;
+      } else {
+         radio3.checked = true;
+      } 
+      
+   })
+   
+   function execDaumPostcode() {
+      new daum.Postcode({
+         oncomplete : function(data) {
+            var addr = data.address;
+            document.getElementById("ADDRESS").value = addr;
+         }
+      }).open();
+   }
     
     
-	function form_check() {
-		
-		var form = document.modify;
-	    form.submit();
-	    
-	}
-	
-	
+   function form_check() {
+      
+      var form = document.modify;
+       form.submit();
+       
+   }
+   
+   
     </script>
- 	<style>
+    <style>
 
      .image {
          text-align: center;
@@ -121,8 +121,8 @@
     margin-left: 200px; 
     margin-right: 200px;
 }
-	
-.admintabs {
+   
+   .admintabs {
        top: 120px;
        left: 200px;
        width: 200px;
@@ -130,22 +130,24 @@
        flex-direction: column;
        background-color: #e3dde1; 
        margin-left: 200px;
+       height: 100vh; 
+       
    }
-	
-	.admintab {
-	    text-decoration: none;
-	    color: #000;
-	    font-size: 15px;
-	    padding: 10px;
-	    border-bottom: 1px solid #ccc; 
-	    transition: background-color 0.3s;
-	}
-	
-	.admintabs:hover {
-	    background-color: #eee;
-	}
-	.content {
-        margin-left: 200px; 
+   
+   .admintab {
+       text-decoration: none;
+       color: #000;
+       font-size: 15px;
+       padding: 10px;
+       border-bottom: 1px solid #ccc;
+       transition: background-color 0.3s;
+   }
+   
+   .admintabs:hover {
+       background-color: #eee;
+   }
+   .content {
+        margin-left: 200px; /* 세로 탭 너비에 맞게 여백 조절 */
         padding: 20px;
     }
 
@@ -161,12 +163,57 @@
         background-color: #eee;
     }
     .content {
-        margin-left: 200px;
-        padding: 20px;
         position: absolute;
-        top: 150px; 
-        left: 20%; 
-        width: 60%;
+        top: 150px;
+        left: 20%;
+        margin-left: 120px;
+        padding: 20px;
+        width: 1130px;
+    }
+    @media (max-width: 1300px) {
+       .empty-space {
+           display: none;
+       }
+       .admintabs {
+           top: 70px;
+           left: 0;
+           width: 100%;
+           height: 45px;
+           overflow: auto;
+           flex-direction: row;
+           justify-content: space-around;
+           margin-left: 0;
+           position: static; 
+           z-index: 1;
+           flex-wrap: wrap; 
+       }
+   
+       .admintab {
+          width: calc(20% - 20px);
+          height: 45px;
+           border-bottom: 1px solid #ccc;
+           padding: 10px 0;
+           box-sizing: border-box;
+           text-align: center;
+       }
+   
+       .content {
+           position: relative;
+           top: 0;
+           left: 0;
+           margin-left: 0;
+           margin-top: 45px;
+           padding: 20px;
+           width: 100%;
+       }
+   }
+   nav[aria-label="Page navigation"] {
+       width: 1160px;
+       margin: 10px 0;
+   }
+   .pagination {
+       display: flex;
+       justify-content: center;
    }
     </style>
 </head>
@@ -201,31 +248,31 @@
             <a href="/admin/adminbd" class="admintab">게시글관리</a>
             <a href="#" class="admintab">  ㄴ게시글조회</a>
             <a href="#" class="admintab">  ㄴ게시글삭제</a>
-         	<a href="/admin/adminshop" class="admintab">결제관리</a>
+            <a href="/admin/adminshop" class="admintab">결제관리</a>
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>
     
      <div class="content">
-  		<form id="modify" name="modify" action="/admin/member_modify" method="post">
-  			<input type="hidden" id="M_NUMBER" name="M_NUMBER" value="${user.m_NUMBER}">
-  			<input type="hidden" id="pw2" name="pw2" value="${user.PASSWORD}">
-  			<input type="hidden" id="test" name="test" value="${user.BBANG}">
-			<div class="form-group">
-				<input type="radio" name="BBANG" id ="ROLE_0" value="ROLE_0">&nbsp;<label class="form-control-label">빵아저씨</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_1" value="ROLE_1">&nbsp;<label class="form-control-label">니빵이</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_2" value="ROLE_2">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-				<input type="radio" name="BBANG" id ="ROLE_3" value="ROLE_3">&nbsp;<label class="form-control-label">소셜빵</label>
-				
-			</div>
-			<div class="form-group">
-				<label class="form-control-label">아이디</label>
-				<input type="text" id="ID" name="ID" class="form-control" value="${user.ID}">
-			</div>
-			<div class="form-group">
-				<label class="form-control-label">비밀번호</label>
-				<input type="password" id="PASSWORD" name="PASSWORD" class="form-control" value="${user.PASSWORD}">
-			</div>
+        <form id="modify" name="modify" action="member_modify" method="post">
+           <input type="hidden" id="M_NUMBER" name="M_NUMBER" value="${user.m_NUMBER}">
+           <input type="hidden" id="pw2" name="pw2" value="${user.PASSWORD}">
+           <input type="hidden" id="test" name="test" value="${user.BBANG}">
+         <div class="form-group">
+            <input type="radio" name="BBANG" id ="ROLE_0" value="ROLE_0">&nbsp;<label class="form-control-label">빵아저씨</label>&nbsp;
+            <input type="radio" name="BBANG" id ="ROLE_1" value="ROLE_1">&nbsp;<label class="form-control-label">니빵이</label>&nbsp;
+            <input type="radio" name="BBANG" id ="ROLE_2" value="ROLE_2">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+            <input type="radio" name="BBANG" id ="ROLE_3" value="ROLE_3">&nbsp;<label class="form-control-label">소셜빵</label>
+            
+         </div>
+         <div class="form-group">
+            <label class="form-control-label">아이디</label>
+            <input type="text" id="ID" name="ID" class="form-control" value="${user.ID}">
+         </div>
+         <div class="form-group">
+            <label class="form-control-label">비밀번호</label>
+            <input type="password" id="PASSWORD" name="PASSWORD" class="form-control" value="${user.PASSWORD}">
+         </div>
             <div class="form-group">
                 <label class="form-control-label">이름</label>
                 <input type="text" id="NAME" name="NAME" size="20" class="form-control" value="${user.NAME}">
@@ -234,7 +281,7 @@
                 <label class="form-control-label">닉네임</label>
                 <input type="text" id="NICKNAME" name="NICKNAME" size="20" class="form-control" value="${user.NICKNAME}">
             </div>
-							
+                     
             <div class="form-group">
                 <select id="phone1" name="phone1" class="form-control" style="width:20%; display: inline-block; padding: 0px 10px;">
                     <option value="010">010</option>
@@ -269,14 +316,14 @@
             
                    
                <div class="col-lg-12 loginbttm">
-				<div class="col-lg-6 login-btm login-text">
-					
-				</div>
-				<div class="col-lg-6 login-btm login-button">
-					<input type="button" class="btn btn-outline-primary" value="수정" id="modify" onclick="form_check()">
-				</div>
-			</div>      
-		</form>
-  	</div>
+            <div class="col-lg-6 login-btm login-text">
+               
+            </div>
+            <div class="col-lg-6 login-btm login-button">
+               <input type="button" class="btn btn-outline-primary" value="수정" id="modify" onclick="form_check()">
+            </div>
+         </div>      
+      </form>
+     </div>
 </body>
 </html>

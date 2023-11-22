@@ -2,11 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
     <%
-	 BuserDto a = (BuserDto)session.getAttribute("login");
-	 int m_number = a.getM_NUMBER();
-	 
-	  
-	%>
+    BuserDto a = (BuserDto)session.getAttribute("login");
+    int m_number = a.getM_NUMBER();
+    
+     
+   %>
 <html>
 <head>
    <title>Hello, world!</title>
@@ -16,12 +16,11 @@
     <!-- Bootstrap CSS -->
      <script src="https://code.jquery.com/jquery.js" ></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-	<script src="https://js.tosspayments.com/v1/payment-widget"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+   <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 
 
 <style>
-
     * {
        padding:0;
        margin:0;
@@ -61,52 +60,52 @@
       left: 50px;
     }
     #topbox{
-    	padding: 40px 300px 40px 300px;
-    	display: flex;
-  		align-items: center;
+       padding: 40px 300px 40px 300px;
+       display: flex;
+        align-items: center;
     }
     #iconbox{
-    	padding: 0px 0px 0px 100px;
-    	height: 150px;
-    	display: flex;
-  		justify-content: space-between;
+       padding: 0px 0px 0px 100px;
+       height: 150px;
+       display: flex;
+        justify-content: space-between;
     }
     
     #icon{
-    	margin: 20px 50px 20px 50px;
-    	font-size:  110px;
+       margin: 20px 50px 20px 50px;
+       font-size:  110px;
     }
     .icons{
-    	margin: 0px 50px 0px 50px;
-    	width:120px; height:125px;
-    	float: left;
-    	text-align:center;
-    	flex-direction: column;
- 		align-items: center;
+       margin: 0px 50px 0px 50px;
+       width:120px; height:125px;
+       float: left;
+       text-align:center;
+       flex-direction: column;
+       align-items: center;
     }
-	  .icon-wrapper {
-	  display: flex;
-	  flex-direction: column;
-	  align-items: center;
-	}
+     .icon-wrapper {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+   }
     .box {
-	    width: 150px;
-	    height: 150px; 
-	    border-radius: 30%;
-	    overflow: hidden;
-	}
-	.profile {
-	    width: 100%;
-	    height: 100%;
-	    object-fit: cover;
-	}
-	.user-nickname {
+       width: 150px;
+       height: 150px; 
+       border-radius: 30%;
+       overflow: hidden;
+   }
+   .profile {
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
+   }
+   .user-nickname {
     font-size: 15px; 
     color: #ffffff; 
     text-align: left;
 
-	}
-	#probox {
+   }
+   #probox {
   display: flex;
   flex-direction: column; 
   align-items: center;
@@ -169,46 +168,46 @@
        </ul>
    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
-	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-		  <div class="box" style="background: #fcecde;">
-		    <img class="profile" src="/img/yb.png" id="profile">
-		  </div>
-		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
-		  </div>
-		</div>
-   		<div id="iconbox" >
-	         <div class="icons">
-	         	<div class="icon-wrapper">
-		            <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
-		            <span class="icon-name">좋아요 게시글</span>
-		        </div>
-	         </div>
-	         <div class="icons">
-	       		<div class="icon-wrapper">
-		            <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
-		            <span class="icon-name">1:1대화</span>
-		        </div>
-	         </div>
-	         <div class="icons">
-	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
-		            <span class="icon-name">채팅권</span>
-		        </div>    
-	         </div>
-	         <div class="icons">
-	        	<div class="icon-wrapper">
-		            <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
-		            <span class="icon-name">회원정보수정</span>
-		        </div>
-	         </div>
+         <div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="box" style="background: #fcecde;">
+          <img class="profile" src="/img/yb.png" id="profile">
         </div>
-  	</div>
+         <div class="user-info">
+          <span class="user-nickname" style="font-size: 15px; color: #ffffff;">${login.NICKNAME} 님</span>
+        </div>
+      </div>
+         <div id="iconbox" >
+            <div class="icons">
+               <div class="icon-wrapper">
+                  <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
+                  <span class="icon-name">좋아요 게시글</span>
+              </div>
+            </div>
+            <div class="icons">
+                <div class="icon-wrapper">
+                  <a href="/mpchat"><i class="bi bi-wechat" id="icon" style="color: #ffffff;"></i></a><br />
+                  <span class="icon-name">1:1대화</span>
+              </div>
+            </div>
+            <div class="icons">
+               <div class="icon-wrapper">
+                  <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
+                  <span class="icon-name">채팅권</span>
+              </div>    
+            </div>
+            <div class="icons">
+              <div class="icon-wrapper">
+                  <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+                  <span class="icon-name">회원정보수정</span>
+              </div>
+            </div>
+        </div>
+     </div>
    <div class="container">
-   	<br /><br /><br />
+      <br /><br /><br />
         <table class="table table-bordered">
             <tr>
-                <th class="text-center">보유개수</td>	
+                <th class="text-center">보유개수</td>   
                 <th rowspan="2" class="text-center align-middle">
                 <a href="shopping_list?m_number=<%=m_number %>">구매내역</a></td>
             </tr>

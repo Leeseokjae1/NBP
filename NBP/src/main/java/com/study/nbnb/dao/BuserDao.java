@@ -18,6 +18,8 @@ public interface BuserDao {
 	public int updateUser2(String id , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG , int m_number);
 	public int updateUser3(String id , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG, String S_COMMENT, Timestamp S_DATE , int m_number);
 	public int updateUser4(String id , String password , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG, String S_COMMENT, Timestamp S_DATE , int m_number);
+	public int updateUser5(String id , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG, String S_COMMENT, int m_number);
+	public int updateUser6(String id , String password , String name , String address , String email , String PHONENUMBER , String NICKNAME , String BBANG, String S_COMMENT, int m_number);
 	public BuserDto emailDao(String EMAIL);
 	public int emailPwDao(String EMAIL, String PASSWORD);
 	
