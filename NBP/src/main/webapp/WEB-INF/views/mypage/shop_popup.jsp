@@ -21,7 +21,7 @@
   <script>
   	const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
     const clientKey = "test_ck_ORzdMaqN3wPyyMy0WNlDV5AkYXQG"
-    const customerKey = generateRandomString(); // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+    const customerKey = generateRandomString(); 
     const button = document.getElementById("payment-button")
     
 

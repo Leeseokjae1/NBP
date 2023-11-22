@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <style>
+ <style>
 
         .image {
             text-align: center;
@@ -67,31 +67,30 @@
     margin-left: 200px; 
     margin-right: 200px;
 }
-	
-	.admintabs {
-	    position: fixed;
-	    top: 120px;
-	    left: 200px;
-	    width: 200px;
-	    display: flex;
-	    flex-direction: column;
-	    background-color: #e3dde1; 
-	    margin-top: 10px;
-	}
-	
-	.admintab {
-	    text-decoration: none;
-	    color: #000;
-	    font-size: 15px;
-	    padding: 10px;
-	    border-bottom: 1px solid #ccc; /* 탭 사이의 구분선을 추가할 수 있습니다. */
-	    transition: background-color 0.3s;
-	}
-	
-	.admintabs:hover {
-	    background-color: #eee;
-	}
-	.content {
+   
+   .admintabs {
+       top: 120px;
+       left: 200px;
+       width: 200px;
+       display: flex;
+       flex-direction: column;
+       background-color: #e3dde1; 
+       margin-left: 200px;
+   }
+   
+   .admintab {
+       text-decoration: none;
+       color: #000;
+       font-size: 15px;
+       padding: 10px;
+       border-bottom: 1px solid #ccc; /* 탭 사이의 구분선을 추가할 수 있습니다. */
+       transition: background-color 0.3s;
+   }
+   
+   .admintabs:hover {
+       background-color: #eee;
+   }
+   .content {
         margin-left: 200px; /* 세로 탭 너비에 맞게 여백 조절 */
         padding: 20px;
     }
@@ -108,12 +107,42 @@
         background-color: #eee;
     }
     .content {
-        margin-left: 200px;
-        padding: 20px;
         position: absolute;
-        top: 150px; /* 상단 여백 조절 */
-        left: 20%; /* 왼쪽 여백 조절 */
+        top: 150px;
+        left: 20%;
         width: 60%;
+        margin-left: 120px; /* 내가 추가한 부분: 원하는 만큼 좌측 여백 설정 */
+        padding: 20px;
+    }
+     th {
+        text-align: center;
+        padding: 10px;
+    }
+
+    th.no,  th.board-writer, th.delete {
+        width: 50px;
+    }
+
+     th.title {
+        width: 100px;
+    }
+    th.board-writer{
+    	width: 100px;	
+    }
+    th.contents {
+        width: 230px;
+    }
+
+    th.delete {
+        width: 30px;
+    }
+
+    th.title {
+        width: 350px;
+    }
+
+   td {
+   text-align : center;
    }
     </style>
 </head>
@@ -154,77 +183,93 @@
             <a href="#" class="admintab">문의조회</a>
         </div>
     
-     <div class="content">
+<div class="content">
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>게시판</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>작성자</th>
-            <th>좋아요</th>
-            <th>싫어요</th>
-            <th>작성일</th>
-            <th>삭제</th>
+           <th class="no">NO.</th>
+            <th class="board-writer">게시판</th>
+            <th class="title">제목</th>
+           <th class="contents">내용</th>
+           <th class="board-writer">작성자</th>
+           <th>좋아요</th>
+           <th>싫어요</th>
+           <th>작성일</th>
+           <th class="delete">삭제</th>
         </tr>
-        <c:forEach items="${allBoards}" var="post">
+        <c:forEach items="${list}" var="post">
             <tr>
-			    <td>
-			            ${post.NO}
-			    </td>
-			    <td>${post.BOARDNAME}</td>
-			    <td>${post.TITLE}</td>
-			    <td>
-			        <div class="content-preview" onclick="toggleDetails('Details${post.NO}')">
-			            ${post.CONTENT.substring(0, post.CONTENT.length() > 15 ? 15 : post.CONTENT.length())}${post.CONTENT.length() > 15 ? '...' : ''}
-			        </div>
-			    </td>
-			    <td>${post.WRITER}</td>
-			    <td>${post.GOOD}</td>
-			    <td>${post.BAD}</td>
-			    <td>${post.TIME}</td>
-			    <td class="no-click">
-			       <a href="/bddelete?boardname=${post.BOARDNAME}&boardno=${post.NO}">삭제</a>
-				</td>
-			</tr>
-	        <tr>
-	            <td colspan="8"style=" background-color:#e3dde1">
-	                <div id="Details${post.NO}" style="display: none; background-color:#e3dde1">
-	                    <p>${post.CONTENT}</p>
-	                    <span class="arrow" style="cursor: pointer;"></span>
-	                </div>
-	            </td>
-	            
-	        </tr>
-	    </c:forEach>
-	</table>
-	<script>
-	    document.querySelectorAll('.content table tr').forEach(row => {
-	    	row.addEventListener('click', event => {
-	            if (event.target.closest('.no-click')) {
-	                // 삭제 버튼이 있는 셀을 클릭한 경우 이벤트를 무시합니다.
-	                return;
-	            }
+             <td>
+                     ${post.no}
+             </td>
+             <td>${post.boardname}</td>
+             <td>${post.title}</td>
+             <td>
+                 <div class="content-preview" onclick="toggleDetails('Details${post.no}')">
+                     ${post.content.substring(0, post.content.length() > 15 ? 15 : post.content.length())}${post.content.length() > 15 ? '...' : ''}
+                 </div>
+             </td>
+             <td>${post.writer}</td>
+             <td>${post.b_like}</td>
+             <td>${post.b_dislike}</td>
+             <td>${post.time}</td>
+             <td class="no-click">
+                <a href="bddelete?boardname=${post.boardname}&boardno=${post.no}">삭제</a>
+            </td>
+         </tr>
+           <tr>
+               <td colspan="9"style=" background-color:#e3dde1">
+                   <div id="Details${post.no}" style="display: none; background-color:#e3dde1">
+                       <p>${post.content}</p>
+                       <span class="arrow" style="cursor: pointer;"></span>
+                   </div>
+               </td>
+               
+           </tr>
+       </c:forEach>
+   </table>
+   <script>
+       document.querySelectorAll('.content table tr').forEach(row => {
+          row.addEventListener('click', event => {
+               if (event.target.closest('.no-click')) {
+                   // 삭제 버튼이 있는 셀을 클릭한 경우 이벤트를 무시합니다.
+                   return;
+               }
 
-	            const detailsId = row.nextElementSibling.querySelector('div').id;
-	            toggleDetails(detailsId);
-	        });
-	    });
-	
-	    function toggleDetails(detailsId) {
-	        const details = document.getElementById(detailsId);
-	        const arrow = details.querySelector('.arrow');
-	
-	        if (details.style.display === 'none' || details.style.display === '') {
-	            details.style.display = 'block';
-	        } else {
-	            details.style.display = 'none';
-	        }
-	    }
-	   
-	    
-	</script>
-	    </div>
+               const detailsId = row.nextElementSibling.querySelector('div').id;
+               toggleDetails(detailsId);
+           });
+       });
+   
+       function toggleDetails(detailsId) {
+           const details = document.getElementById(detailsId);
+           const arrow = details.querySelector('.arrow');
+   
+           if (details.style.display === 'none' || details.style.display === '') {
+               details.style.display = 'block';
+           } else {
+               details.style.display = 'none';
+           }
+       }
+   </script>
+   <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <c:if test="${page > 1}">
+                <li class="page-item"><a class="page-link" href="adminbd?page=1">처음</a></li>
+                <li class="page-item"><a class="page-link" href="adminbd?page=${page - 1}">이전</a></li>
+            </c:if>
+            <c:forEach var="i" begin="1" end="${totalPage}">
+                <li class="page-item <c:if test='${i eq page}'>active</c:if>">
+                    <a class="page-link" href="adminbd?page=${i}">${i}</a>
+                </li>
+            </c:forEach>
+            <c:if test="${page < totalPage}">
+                <li class="page-item"><a class="page-link" href="adminbd?page=${page + 1}">다음</a></li>
+                <li class="page-item"><a class="page-link" href="adminbd?page=${totalPage}">마지막</a></li>
+            </c:if>
+        </ul>
+        
+    </nav>
+       </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

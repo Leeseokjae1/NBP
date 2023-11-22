@@ -152,7 +152,7 @@
    		<div id="iconbox" >
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
+		            <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
 		            <span class="icon-name">좋아요 게시글</span>
 		        </div>
 	         </div>

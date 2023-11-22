@@ -151,13 +151,13 @@ String writer = member.getNICKNAME();
         <%} %>
    		<%if(m_number == mn){ %>
 		<div class="mb-3 text-right">
-		    <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary ml-auto">수정하기</a>
-		    <a href="b2page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-outline-info ml-auto">수정하기</a>
+		    <a href="b2page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		    <a href="b2delete?b2_number=${dto.b2_number}" class="btn btn-danger ml-2">삭제</a>
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
-		    <a href="b1page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="b1page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		</div>
 		<%} %>
 		<hr>
@@ -175,13 +175,13 @@ String writer = member.getNICKNAME();
                     <tr>
                         <td>${comment.nickname}</td>
                         <td>${comment.cmt}</td>
-                        <td><a href="b1replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-danger">X</a></td>
+                        <td><a href="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
 
-		 <form method="post" action="b1replywrite" class="mb-3">
+		 <form method="post" action="b2replywrite" class="mb-3">
 		    <p>
 		        <label>댓글 작성자</label>
 		        <input type="text" name="nickname" value="${dto.writer}">
@@ -190,10 +190,10 @@ String writer = member.getNICKNAME();
 		        <textarea rows="5" cols="50" name="cmt"></textarea>
 		    </p>
 		    <p>
-		        <input type="hidden" name="check_b" value="1">
+		        <input type="hidden" name="check_b" value="2">
 		        <input type="hidden" name="m_number" value="1">
 		        <input type="hidden" name="t_number" value="${dto.b2_number}">
-		        <button type="submit" class="btn btn-primary">댓글 작성</button>
+		        <button type="submit" class="btn btn-outline-info">댓글 작성</button>
 		    </p>
 		</form>
     </div>

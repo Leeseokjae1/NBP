@@ -123,11 +123,11 @@ String writer = member.getNICKNAME();
     </div>
     <%if(session.getAttribute("login") != null){ %>
      <div class="mb-3">
-         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=1">
+         <a href="playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=1">
              <img src="/images/like.png" style="width:70px; height:70px;">
          </a>
 
-         <a href="../playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=-1">
+         <a href="playlike?check_b=3&t_number=${playview.f_number}&m_number=<%=m_number%>&l_or_dl=-1">
              <img src="/images/dislike.png" style="width:70px; height:70px;">
          </a>
       </div>
@@ -141,14 +141,14 @@ String writer = member.getNICKNAME();
         <%} %>
    		<%if(m_number == mn){ %>
 		<div class="mb-3 text-right">
-		    <a href="playmodifyview?f_number=${playview.f_number}" class="btn btn-primary ml-auto">수정하기</a>
-		    <a href="playpage?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="playmodifyview?f_number=${playview.f_number}" class="btn btn-outline-info ml-auto">수정하기</a>
+		    <a href="playpage?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		    <a href="playdelete?f_number=${playview.f_number}" class="btn btn-danger ml-2"
 		    onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
-		    <a href="playpage?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="playpage?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		</div>
 		<%} %>
     <hr>
@@ -165,7 +165,7 @@ String writer = member.getNICKNAME();
             <tr>
                 <td>${comment.nickname}</td>
                 <td>${comment.cmt}</td>
-                <td><a href="replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}">X</a></td>
+                <td><a href="replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -183,7 +183,7 @@ String writer = member.getNICKNAME();
         <input type="hidden" name="check_b" value=3>
         <input type="hidden" name="m_number" value=1>
         <input type="hidden" name="t_number" value="${playview.f_number}">
-        <button type="submit" class="btn btn-primary">댓글 작성</button>
+        <button type="submit" class="btn btn-outline-info">댓글 작성</button>
        
     </form>
 

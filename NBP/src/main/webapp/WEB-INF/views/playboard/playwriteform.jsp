@@ -98,7 +98,7 @@
 	        <td> <input type="file" name="file" class="form-control-file"> </td>
 	    </tr>
 		<tr>
-			<td colspan="2"> <input type="submit" value="입력" class="btn btn-primary">
+			<td colspan="2"> <input type="submit" value="입력" class="btn btn-outline-info">
 				&nbsp;&nbsp; <a href="/playpage?page=1"  class="btn btn-secondary">목록보기</a></td>
 		</tr>
 	</form>

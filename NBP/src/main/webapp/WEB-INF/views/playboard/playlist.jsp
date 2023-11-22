@@ -151,7 +151,7 @@ String writer = member.getNICKNAME();
 
     <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
     <%if(session.getAttribute("login") != null){ %>
-        <a href="playwriteform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a>
+        <a href="playwriteform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a>
         <%} %>
     </div>
 </div>

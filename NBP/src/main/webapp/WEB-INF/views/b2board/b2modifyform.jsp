@@ -109,9 +109,9 @@
                 <tr>
                     <td colspan="2">
                         <input type="hidden" name="b2_number" value="${dto.b2_number}">
-                        <input type="submit" value="수정" class="btn btn-primary">
+                        <input type="submit" value="수정" class="btn btn-outline-info">
                         <a href="b2view?b2_number=${dto.b2_number}&check_b=2" class="btn btn-secondary">취소</a>
-                        <a href="b2page?page=1" class="btn btn-primary">목록보기</a> 
+                        <a href="b2page?page=1" class="btn btn-outline-info">목록보기</a> 
                     </td>
                 </tr>
             </table>

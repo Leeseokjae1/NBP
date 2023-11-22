@@ -73,16 +73,15 @@
     margin-right: 200px;
 }
 	
-	.admintabs {
-	    position: fixed;
-	    top: 120px;
-	    left: 200px;
-	    width: 200px;
-	    display: flex;
-	    flex-direction: column;
-	    background-color: #e3dde1; 
-	    margin-top: 10px;
-	}
+.admintabs {
+       top: 120px;
+       left: 200px;
+       width: 200px;
+       display: flex;
+       flex-direction: column;
+       background-color: #e3dde1; 
+       margin-left: 200px;
+   }
 	
 	.admintab {
 	    text-decoration: none;

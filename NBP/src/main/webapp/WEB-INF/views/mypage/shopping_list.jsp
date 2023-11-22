@@ -186,7 +186,6 @@ function cancelBtn(a){
 	buyNumber=a;
 }
  
- // 모달 내에서 확인 버튼 클릭 시 취소 링크로 이동
 function confirmCancelBtn() {
   var mNumber = <%= m_number%>
   window.location.href = "../cancelPurchase?buy_number=" + buyNumber + "&m_number=" + mNumber;

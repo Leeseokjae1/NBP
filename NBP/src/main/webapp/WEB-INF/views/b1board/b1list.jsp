@@ -115,7 +115,7 @@ String writer = member.getNICKNAME();
       
    </nav>
     <h1 class="text-center mt-4">니빵이 게시판</h1>
-    <a href="/map" class="btn btn-primary mx-auto d-block mb-4">지도 보기</a>
+    <a href="/map" class="btn btn-outline-info mx-auto d-block mb-4">지도 보기</a>
     
     <div class="container">
         <div class="row">
@@ -127,7 +127,7 @@ String writer = member.getNICKNAME();
                             <h5 class="card-title">${dto.title}</h5>
                             <p class="card-text">작성자&nbsp;:&nbsp;${dto.writer}</p>
                             <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
-                            <a href="/member/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
+                            <a href="/member/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-outline-info">자세히 보기</a>
                         </div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@ String writer = member.getNICKNAME();
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>
-        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a></p>
+        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a></p>
         <%} %>
     </nav>
 

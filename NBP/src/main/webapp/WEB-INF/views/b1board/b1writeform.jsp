@@ -108,7 +108,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" value="입력" class="btn btn-primary">
+                        <input type="submit" value="입력" class="btn btn-outline-info">
                         <a href="b1page?page=1" class="btn btn-secondary">목록보기</a> 
                     </td>
                 </tr>

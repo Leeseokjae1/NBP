@@ -76,16 +76,15 @@
 	    margin-left: 200px; 
 	    margin-right: 200px;
 	}
-	.admintabs {
-	    position: fixed;
-	    top: 120px;
-	    left: 200px;
-	    width: 200px;
-	    display: flex;
-	    flex-direction: column;
-	    background-color: #e3dde1; 
-	    margin-top: 10px;
-	}
+.admintabs {
+       top: 120px;
+       left: 200px;
+       width: 200px;
+       display: flex;
+       flex-direction: column;
+       background-color: #e3dde1; 
+       margin-left: 200px;
+   }
 	
 	.admintab {
 	    text-decoration: none;
@@ -160,7 +159,7 @@
        </ul>
     </nav>
      <div class="empty-space"></div>
- <div class="admintabs">
+  <div class="admintabs">
             <a href="/admin/member?page=1" class="tabname">회원관리</a>
             <a href="#" class="admintab">  ㄴ회원조회</a>
             <a href="#" class="admintab">  ㄴ회원정지</a>
@@ -213,7 +212,7 @@
    changeSearchOptions();
    </script>
 
-
+     <div class="col-md-9">
 <div class="container mt-5">
     <table class="table table-bordered">
         <thead>

@@ -19,7 +19,6 @@ pageEncoding="UTF-8"%>
       var boardSelection = document.getElementById("BoardSelection").value;
       var searchField = document.getElementById("Searchfield");
       
-      // 선택된 게시판에 따라 검색 조건 옵션을 변경
       switch (boardSelection) {
          case "B1board":
             searchField.innerHTML = `
@@ -60,7 +59,6 @@ pageEncoding="UTF-8"%>
          return;
       }
     
-      // 선택된 검색 조건에 따라 액션 설정
       switch (searchField.value) {
          case "b1Title":
             document.Searchform.action = "/b1title";
@@ -90,7 +88,6 @@ pageEncoding="UTF-8"%>
             document.Searchform.action = "/playwriter";
             break;
          default:
-            // 기본 처리 또는 다른 처리
             break;
       }
       document.Searchform.submit();
@@ -168,7 +165,7 @@ nav {
          box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       }
       .search-container input {
-         flex: 1; /* 검색창과 버튼을 나란히 배치하기 위해 확장 */
+         flex: 1; 
          border: none;
          padding: 5px;
          border-radius: 5px;

@@ -115,7 +115,7 @@ function submit_ajax(){
 			<tr>
 				<td colspan="2"><input type="button" class="btn btn-secondary" value="수정"
 					onclick="form_check()">&nbsp;&nbsp;
-					<a href="playpage?page=1" class="btn btn-primary">목록보기</a>
+					<a href="playpage?page=1" class="btn btn-outline-info">목록보기</a>
 					<a href="/member/playview?f_number=${playmodify.f_number}&check_b=3" class="btn btn-danger">취소</a>&nbsp;&nbsp;
 
 				</td>

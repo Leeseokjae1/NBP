@@ -109,8 +109,8 @@
                 <tr>
                     <td colspan="2">
                         <input type="hidden" name="b1_number" value="${dto.b1_number}">
-                        <input type="submit" value="수정" class="btn btn-primary">
-                        <!-- <a href="b1page?page=1" class="btn btn-primary">목록보기</a>-->
+                        <input type="submit" value="수정" class="btn btn-outline-info">
+                        <!-- <a href="b1page?page=1" class="btn btn-outline-info">목록보기</a>-->
                         <a href="javascript:history.back(-1)" class="btn btn-secondary">취소</a>
                     </td>
                 </tr>

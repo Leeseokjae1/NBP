@@ -21,7 +21,6 @@
  <!-- 팝업 스크립트 -->
 <script type="text/javascript">
     window.addEventListener('beforeunload', function () {
-        // 팝업이 닫힐 때 부모 창의 함수 호출
         window.opener.reloadParent();
     });
 </script>
@@ -141,7 +140,7 @@
 			          type: "POST",
 			          contentType: "application/json",
 			          url: "/api/insertPay",
-			          data: JSON.stringify({"m_number":m_number,"t_price":t_price,"t_count":t_count}), // 보낼 데이터
+			          data: JSON.stringify({"m_number":m_number,"t_price":t_price,"t_count":t_count}), 
 			          dataType: 'json',
 			          success: function (response) {
 			              console.log("Success:", response.buy_number);
