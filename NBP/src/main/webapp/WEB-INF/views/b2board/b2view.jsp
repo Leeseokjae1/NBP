@@ -70,14 +70,14 @@ String writer = member.getNICKNAME();
 
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-      <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -85,12 +85,12 @@ String writer = member.getNICKNAME();
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-    </nav>
+      
+   </nav>
 
    <div class="container mt-5">
         <h1 class="mb-4 text-center">내용보기</h1>
@@ -133,11 +133,11 @@ String writer = member.getNICKNAME();
         </div>
 		<%if(session.getAttribute("login") != null){ %>
         <div class="mb-3">
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
+            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
                 <img src="/images/like.png" style="width:70px; height:70px;">
             </a>
 
-            <a href="../b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
+            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
                 <img src="/images/dislike.png" style="width:70px; height:70px;">
             </a>
         </div>
@@ -151,13 +151,13 @@ String writer = member.getNICKNAME();
         <%} %>
    		<%if(m_number == mn){ %>
 		<div class="mb-3 text-right">
-		    <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-primary ml-auto">수정하기</a>
-		    <a href="b2page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="b2modifyform?b2_number=${dto.b2_number}" class="btn btn-outline-info ml-auto">수정하기</a>
+		    <a href="b2page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		    <a href="b2delete?b2_number=${dto.b2_number}" class="btn btn-danger ml-2">삭제</a>
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
-		    <a href="b1page?page=1" class="btn btn-primary ml-2">목록보기</a>
+		    <a href="b1page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		</div>
 		<%} %>
 		<hr>
@@ -175,13 +175,13 @@ String writer = member.getNICKNAME();
                     <tr>
                         <td>${comment.nickname}</td>
                         <td>${comment.cmt}</td>
-                        <td><a href="b1replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-danger">X</a></td>
+                        <td><a href="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
 
-		 <form method="post" action="b1replywrite" class="mb-3">
+		 <form method="post" action="b2replywrite" class="mb-3">
 		    <p>
 		        <label>댓글 작성자</label>
 		        <input type="text" name="nickname" value="${dto.writer}">
@@ -190,10 +190,10 @@ String writer = member.getNICKNAME();
 		        <textarea rows="5" cols="50" name="cmt"></textarea>
 		    </p>
 		    <p>
-		        <input type="hidden" name="check_b" value="1">
+		        <input type="hidden" name="check_b" value="2">
 		        <input type="hidden" name="m_number" value="1">
 		        <input type="hidden" name="t_number" value="${dto.b2_number}">
-		        <button type="submit" class="btn btn-primary">댓글 작성</button>
+		        <button type="submit" class="btn btn-outline-info">댓글 작성</button>
 		    </p>
 		</form>
     </div>

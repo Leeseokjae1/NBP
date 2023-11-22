@@ -200,6 +200,12 @@ label {
 .yws {
     padding: 10px;
 }
+
+#getId{
+font-size:25px;
+font-weight:bold;
+color:#ffffff;
+}
 </style>
 </head>
 <body>

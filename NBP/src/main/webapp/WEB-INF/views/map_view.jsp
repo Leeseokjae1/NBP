@@ -201,16 +201,13 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
     </nav>
    <div id="mapwrap">
-      <!-- 지도가 표시될 div -->
       <div id="map" style="width:100%;height:800px;"></div>
-      <!-- 지도 위에 표시될 마커 카테고리 -->
       <div class="category">
          <ul>
             <li id="coffeeMenu" onclick="changeMarker('ROLE_2')">
@@ -235,7 +232,6 @@
     var map = new kakao.maps.Map(document.getElementById('map'), mapOptions);
     var coffeeMarkers = [], breadMarkers = [];
 
-    // 각 마커 생성 및 카테고리별로 배열에 추가하는 부분
     <c:forEach var="member" items="${members}">
         var geocoder = new kakao.maps.services.Geocoder();
         geocoder.addressSearch('<c:out value="${member.ADDRESS}"/>', function(result, status) {
@@ -277,7 +273,7 @@
             content: '<div style="width:150px;text-align:center;padding:6px 0;">'+ nickname + '</div>'
         });
         kakao.maps.event.addListener(marker, 'click', function () {
-        	displayCustomOverlay(marker, nickname);
+           displayCustomOverlay(marker, nickname);
         });
 
         marker.role = role;
@@ -288,7 +284,6 @@
     var currentCustomOverlay = null;
 
     function createCustomOverlay(position, content) {
-       // 클로저를 사용하여 오버레이를 클릭했을 때 해당 오버레이 정보를 참조할 수 있도록 함
        (function (customOverlayContent) {
           var customOverlay = new kakao.maps.CustomOverlay({
              position: position,
@@ -296,15 +291,12 @@
              yAnchor: 1
           });
 
-          // 오버레이를 지도에 표시
           customOverlay.setMap(map);
 
-          // 커스텀 오버레이를 클릭했을 때 오버레이를 지도에서 제거
           kakao.maps.event.addListener(customOverlay, 'click', function () {
              customOverlay.setMap(null);
           });
 
-          // 현재 표시된 customoverlay 업데이트
           currentCustomOverlay = customOverlay;
        })(content);
     }
@@ -345,7 +337,6 @@
            '  </a>' +
            '</div>';
 
-        // 현재 표시된 customoverlay가 있다면 제거
         if (currentCustomOverlay) {
            currentCustomOverlay.setMap(null);
            currentCustomOverlay = null;

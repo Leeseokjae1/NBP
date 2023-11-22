@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.ShopDao">
+
+	<insert id="insertDao">
+		insert into buytable
+		values (buytable_seq.nextval, #{param1}, #{param2}, #{param3}, sysdate, null)
+	</insert>
+	
+	
+	<select id ="selectDao" resultType="com.study.nbnb.dto.ShopDto">
+		 select * from buytable where buy_number=(select max(buy_number) from buytable where m_number=${param1})
+	</select>
+	
+	<select id ="selectDao2" resultType="com.study.nbnb.dto.ShopDto">
+		select max(buy_number) as buy_number from buytable where m_number=${param1}
+	</select>
+	
+	<select id ="selectDao3" resultType="com.study.nbnb.dto.ShopDto">
+		select max(buy_number)+1 as buy_number from buytable
+	</select>
+		
+	<update id="deleteDao">
+		update buytable set t_cancel='approve' where buy_number = #{param1} and m_number = #{param2}
+	</update>
+	
+	<update id="refuseDao">
+		update buytable set t_cancel= 'refuse' where buy_number= #{param1} and m_number=#{param2}
+	</update>
+	
+	
+	<update id="approveDao">
+		update buytable set t_cancel= 'cancel' where buy_number= #{param1} and m_number=#{param2}
+	</update>	
+	
+	<select id="listDao" resultType="com.study.nbnb.dto.ShopDto">
+		select * from buytable where m_number=#{param1} order by buy_number desc
+	</select>
+	
+	
+	
+	<select id="listDao2" resultType="com.study.nbnb.dto.ShopDto">
+		        SELECT ticket FROM buser INNER JOIN buytable ON buser.m_number = buytable.m_number 
+		        WHERE buytable.buy_number IS NOT NULL ORDER BY buytable.buy_number DESC
+	</select>
+
+	
+	<select id ="listCountDao" resultType="com.study.nbnb.dto.ShopDto">
+       select * from buytable 
+   </select>
+	
+	<select id ="listCountDao1" resultType="com.study.nbnb.dto.ShopDto">
+       select * from buytable
+       <where>
+	       <if test="param1 == 'm_number'">
+	       		m_number like '%' || #{param1} || '%'
+	       </if>
+	       <if test="param1 == 'buy_number'">
+	       		buy_number like '%' || #{param1} || '%'
+	       </if>
+       </where>
+   </select>
+	
+	<select id ="buyCountDao" resultType="int" parameterType="String">
+		 select * from buytable where buy_number LIKE #{param1}
+	</select>
+	
+	<select id ="buysearchDao"  resultType="com.study.nbnb.dto.ShopDto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from buytable where buy_number LIKE #{param1} order by buy_number desc  ) A where rownum <= #{param2} ) B where B.num >= #{param3}
+	    ]]>
+	</select>
+	
+	<select id ="memberCountDao" resultType="int" parameterType="String">
+		 select * from buytable where m_number LIKE #{keyword}
+	</select>
+	
+	<select id ="membersearchDao"  resultType="com.study.nbnb.dto.ShopDto">
+	    <![CDATA[
+	    select * from ( select rownum num, A.* from ( select * from buytable where m_number LIKE #{param1} order by buy_number desc  ) A where rownum <= #{param2} ) B where B.num >= #{param3}
+	    ]]>
+	</select>
+	
+   <select id="pageDao"  resultType="com.study.nbnb.dto.ShopDto">
+       <![CDATA[
+       select * from ( select rownum num, A.* from ( select * from buytable order by buy_number desc ) A where rownum <= #{param1} ) B where B.num >= #{param2}
+       ]]>
+   </select>
+   
+
+	
+</mapper>

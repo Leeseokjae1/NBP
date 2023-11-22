@@ -12,12 +12,20 @@
 	</insert>
 	
 	<select id="listroomDao" resultType="com.study.nbnb.dto.ChatRoomDto">
-		select * from chatroom where m_number=#{m_number} or another =#{m_number}
+		select * from chatroom where nickname1=#{nickname} or nickname2 =#{nickname}
 	</select>
 	
 	<delete id="exitroomDao">
 		delete from chatroom where c_number =#{param1}
 	</delete>
+	
+			<update id="useTicket" >
+	    update buser
+	    set ticket = ticket - 1
+	    where m_number=#{param1}
+	</update>
+	
+	
 	
 
 </mapper>

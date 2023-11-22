@@ -93,14 +93,14 @@ String writer = member.getNICKNAME();
 </head>
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -108,14 +108,15 @@ String writer = member.getNICKNAME();
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-    </nav>
+      
+   </nav>
     <h1 class="text-center mt-4">니빵이 게시판</h1>
-	<a href="/map" class="btn btn-primary mx-auto d-block mb-4">지도 보기</a>    
+    <a href="/map" class="btn btn-outline-info mx-auto d-block mb-4">지도 보기</a>
+    
     <div class="container">
         <div class="row">
             <c:forEach items="${list}" var="dto">
@@ -126,7 +127,7 @@ String writer = member.getNICKNAME();
                             <h5 class="card-title">${dto.title}</h5>
                             <p class="card-text">작성자&nbsp;:&nbsp;${dto.writer}</p>
                             <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
-                            <a href="/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
+                            <a href="/member/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-outline-info">자세히 보기</a>
                         </div>
                     </div>
                 </div>
@@ -151,7 +152,7 @@ String writer = member.getNICKNAME();
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>
-        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-primary">글작성</a></p>
+        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a></p>
         <%} %>
     </nav>
 

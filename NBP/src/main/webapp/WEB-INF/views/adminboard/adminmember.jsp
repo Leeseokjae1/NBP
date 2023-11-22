@@ -1,6 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page import="com.study.nbnb.dto.BuserDto"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%
+	BuserDto a = (BuserDto)session.getAttribute("login");
+	int m_number = a.getM_NUMBER();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,23 +13,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <style>
 
-        .image {
-            text-align: center;
-        }
+     .image {
+        text-align: center;
+     }
 
-        .image img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-            * {
-       padding:0;
-       margin:0;
+     .image img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+     }
+   	* {
+	    padding:0;
+	    margin:0;
     }
    ul,ol {
       list-style:none
@@ -33,8 +38,8 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-nav {
-      width:1720px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+   nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -62,31 +67,29 @@ nav {
       left: 50px;
    }
    .empty-space {
-    margin-top: 10px; 
-    background-color:#FFC1B5;
+    margin-top: 10px;
+    background-color: #FFC1B5;
     height: 30px;
-    left: 200px;
-    overflow:hidden;
-    text-align: center;
+    margin-left: 200px; 
+    margin-right: 200px;
 	}
-	
-	.admintabs {
-	    position: fixed;
-	    top: 120px;
-	    left: 200px;
-	    width: 200px;
-	    display: flex;
-	    flex-direction: column;
-	    background-color: #e3dde1; 
-	    margin-top: 10px;
-	}
+
+.admintabs {
+       top: 120px;
+       left: 200px;
+       width: 200px;
+       display: flex;
+       flex-direction: column;
+       background-color: #e3dde1; 
+       margin-left: 200px;
+   }
 	
 	.admintab {
 	    text-decoration: none;
 	    color: #000;
 	    font-size: 15px;
 	    padding: 10px;
-	    border-bottom: 1px solid #ccc; /* 탭 사이의 구분선을 추가할 수 있습니다. */
+	    border-bottom: 1px solid #ccc;
 	    transition: background-color 0.3s;
 	}
 	
@@ -109,6 +112,14 @@ nav {
     .subtab:hover {
         background-color: #eee;
     }
+    .content {
+        margin-left: 200px;
+        padding: 20px;
+        position: absolute;
+        top: 150px; /* 상단 여백 조절 */
+        left: 20%; /* 왼쪽 여백 조절 */
+        width: 60%;
+   }
     </style>
 </head>
 <body>
@@ -119,7 +130,7 @@ nav {
          <li><a href="/main">HOME</a></li>
          <li><a href="/b1page?page=1">니빵이</a></li>
          <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
          <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
@@ -128,32 +139,106 @@ nav {
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("Admin") != null) { %>
+         <li><a href="#">관리빵 페이지</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <% } %>
        </ul>
     </nav>
+  <div class="empty-space"></div>
   <div class="admintabs">
-            <a href="#" class="tabname">회원관리</a>
-            <a href="#" class="admintab">회원조회</a>
-            <a href="#" class="admintab">회원정지</a>
-            <a href="#" class="admintab">회원정지해제</a>
-            <a href="#" class="tabname">게시글관리</a>
-            <a href="#" class="admintab">게시글조회</a>
-            <a href="#" class="admintab">게시글삭제</a>
-            <a href="#" class="tabname">결제관리</a>
-            <a href="#" class="admintab">결제조회</a>
+            <a href="/admin/member?page=1" class="tabname">회원관리</a>
+            <a href="#" class="admintab">  ㄴ회원조회</a>
+            <a href="#" class="admintab">  ㄴ회원정지</a>
+            <a href="#" class="admintab">  ㄴ회원정지해제</a>
+            <a href="/admin/adminbd" class="admintab">게시글관리</a>
+            <a href="#" class="admintab">  ㄴ게시글조회</a>
+            <a href="#" class="admintab">  ㄴ게시글삭제</a>
+         	<a href="/admin/adminshop" class="admintab">결제관리</a>
             <a href="#" class="tabname">문의접수</a>
             <a href="#" class="admintab">문의조회</a>
         </div>
-     <div class="empty-space">
-      
+    
+     <div class="content">
+     
+     	<form id="search_form" name="search_form" action="member" method="post">
+	        <select id="Searchfield" name="Searchfield" class="form-select">
+	            <option id="SID" value="ID">ID</option>
+	            <option id="SEMAIL" value="EMAIL">Email</option>
+	        </select>
+	        <input type="text" id="Search" name="Search" placeholder="검색">
+	        <input type="submit" class="btn btn-primary" value="검색">
+     	</form>
+     
+	    <table border="1">
+	        <tr>
+	            <th>no</th>
+		        <th>NAME</th>
+		        <th>ID</th>
+		        <th>ADDR</th>
+		        <th>EMAIL</th>
+		        <th>PH</th>
+		        <th>NN</th>
+		        <th>TC</th>
+		        <th>BB</th>
+		        <th>S_C</th>
+		        <th>S_D</th>
+	        </tr>
+	        <c:forEach items="${userList}" var="list">
+                <tr>
+				    <td><a href="../admin/member_profile?m_number=${list.m_NUMBER}">${list.m_NUMBER}</a></td>
+			        <td>${list.NAME}</td>
+			        <td>${list.ID}</td>
+			        <td>${list.ADDRESS}</td>
+			        <td>${list.EMAIL}</td>
+			        <td>${list.PHONENUMBER}</td>
+			        <td>${list.NICKNAME}</td>
+			        <td>${list.TICKET}</td>
+			        <td>${list.BBANG}</td>
+			        <td>${list.s_COMMENT}</td>
+			        <td>${list.s_DATE}</td>
+				</tr>
+		    </c:forEach>
+		    
+		</table>
+		
+		<table>
+			<tr>
+		     <ul class="pagination justify-content-center">
+		        <c:if test="${page > 1}">
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=1&Searchfield=${field}&Search=${search}" aria-label="처음">
+		                    <span aria-hidden="true">처음</span>
+		                </a>
+		            </li>
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${page - 1}&Searchfield=${field}&Search=${search}" aria-label="이전">
+		                    <span aria-hidden="true">이전</span>
+		                </a>
+		            </li>
+		        </c:if>
+		
+		        <c:forEach var="i" begin="1" end="${totalPage}">
+		            <li class="page-item <c:if test='${i eq page}'>active</c:if>">
+		                <a class="page-link" href="/admin/member?page=${i}&Searchfield=${field}&Search=${search}">${i}</a>
+		            </li>
+		        </c:forEach>
+		
+		        <c:if test="${page < totalPage}">
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${page + 1}&Searchfield=${field}&Search=${search}" aria-label="다음">
+		                    <span aria-hidden="true">다음</span>
+		                </a>
+		            </li>
+		            <li class="page-item">
+		                <a class="page-link" href="/admin/member?page=${totalPage}&Searchfield=${field}&Search=${search}" aria-label="마지막">
+		                    <span aria-hidden="true">마지막</span>
+		                </a>
+		            </li>
+		        </c:if>
+		    </ul>
+		    </tr>
+		</table>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

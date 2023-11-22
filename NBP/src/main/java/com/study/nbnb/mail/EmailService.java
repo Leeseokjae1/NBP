@@ -20,6 +20,7 @@ public class EmailService {
 
     // 인증번호 8자리 무작위 생성
     public void createCode() {
+    	System.out.println(3);
         Random random = new Random();
         StringBuffer key = new StringBuffer();
 
@@ -55,7 +56,7 @@ public class EmailService {
         // 메일 내용
         String msgOfEmail="";
         msgOfEmail += "<div style='margin:20px;'>";
-        msgOfEmail += "<h1> 안녕하세요 test 입니다. </h1>";
+        msgOfEmail += "<h1> 안녕하세요 니빵내빵 입니다. </h1>";
         msgOfEmail += "<br>";
         msgOfEmail += "<p>아래 코드를 입력해주세요<p>";
         msgOfEmail += "<br>";

@@ -1,3 +1,4 @@
+User
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
@@ -18,9 +19,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-   
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	
 
 <style>
    .test1 {
@@ -41,7 +42,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
 nav {
-      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+      width:1720px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -69,52 +70,52 @@ nav {
       left: 50px;
     }
     #topbox{
-       padding: 40px 300px 40px 300px;
-       display: flex;
-        align-items: center;
+    	padding: 40px 300px 40px 300px;
+    	display: flex;
+  		align-items: center;
     }
     #iconbox{
-       padding: 0px 0px 0px 100px;
-       height: 150px;
-       display: flex;
-        justify-content: space-between;
+    	padding: 0px 0px 0px 100px;
+    	height: 150px;
+    	display: flex;
+  		justify-content: space-between;
     }
     
     #icon{
-       margin: 20px 50px 20px 50px;
-       font-size:  110px;
+    	margin: 20px 50px 20px 50px;
+    	font-size:  110px;
     }
     .icons{
-       margin: 0px 50px 0px 50px;
-       width:120px; height:125px;
-       float: left;
-       text-align:center;
-       flex-direction: column;
-       align-items: center;
+    	margin: 0px 50px 0px 50px;
+    	width:120px; height:125px;
+    	float: left;
+    	text-align:center;
+    	flex-direction: column;
+ 		align-items: center;
     }
-     .icon-wrapper {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-   }
+	  .icon-wrapper {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
     .box {
-       width: 150px;
-       height: 150px; 
-       border-radius: 30%;
-       overflow: hidden;
-   }
-   .profile {
-       width: 100%;
-       height: 100%;
-       object-fit: cover;
-   }
-   .user-nickname {
+	    width: 150px;
+	    height: 150px; 
+	    border-radius: 30%;
+	    overflow: hidden;
+	}
+	.profile {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	}
+	.user-nickname {
     font-size: 15px; 
     color: #ffffff; 
     text-align: left;
 
-   }
-   #probox {
+	}
+	#probox {
   display: flex;
   flex-direction: column; 
   align-items: center;
@@ -134,20 +135,38 @@ nav {
         #message {
             width: 400px;
         }
+            #chatArea {
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+        
+        .sent-message {
+    text-align: right;
+    color: #000000;
+    font-weight:bold; 
+}
+
+.received-message {
+    text-align: left;
+    color: #000000;
+    font-weight:bold; 
+}
 </style>  
 
 </head>
 <body>
     
-   <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+    <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -155,13 +174,11 @@ nav {
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-      
-   </nav>
+    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
 	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 		  <div class="box" style="background: #fcecde;">
@@ -198,44 +215,39 @@ nav {
 	         </div>
         </div>
   	</div>
+
 <div class="container mt-5">
-    <!-- Chat Room Creation Form -->
     <div class="row">
         <div class="col-md-4">
             <form id="createRoomForm">
                 <div class="form-group">
-                    <label for="roomNumber">채팅방 생성:</label>
-                    <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Number">
+                    <label for="roomNumber">채팅방 번호:</label>
+                    <input type="text" class="form-control" id="roomName" name="roomName" placeholder="Enter Room Number">
                     <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
                 </div>
-                <button type="button" class="btn btn-success" id="createRoomBtn">Create Chat Room</button>
+                <button type="button" class="btn btn-success" id="createRoomBtn">입장</button>
             </form>
         </div>
-    </div>
-
-<div class="container mt-5">
-    <div class="row">
-        <!-- Room List (Left Side) -->
-        <div class="col-md-4">
+        <div class="col-md-8">
             <c:forEach items="${chat}" var="info">
                 <div class="chat-container mb-3">
                     <div>
                         <label for="roomName">방 번호: ${info.roomid}</label>
                         <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
-                        <label for="userName">대화인원: ${info.m_number}, ${info.another}</label>
+                        <label for="userName">대화상대: ${info.nickname1}, ${info.nickname2}</label>
                         <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
                         <button id="enterBtn" class="btn btn-primary">Enter Room</button>
                     </div>
                 </div>
             </c:forEach>
-        </div>
-
-        <!-- Chat Area (Right Side) -->
-        <div class="col-md-8">
             <div id="chatArea" class="border p-3">
                 <div id="chatMessageArea"></div>
-                <input type="text" id="message" class="form-control mb-2" placeholder="입력하세요...">
-                <button id="sendBtn" class="btn btn-secondary">Send</button>
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" id="message" class="form-control" placeholder="입력하세요...">
+                <div class="input-group-append">
+                    <button id="sendBtn" class="btn btn-secondary">Send</button>
+                </div>
             </div>
         </div>
     </div>
@@ -257,26 +269,27 @@ nav {
   };
 
     const app = initializeApp(firebaseConfig);
-   const database = getDatabase(app);
+	const database = getDatabase(app);
 
      var roomName;
      var userName;
       
       var chatMessages = [];
+
       function connect() {
           roomName = $("#roomName").val();
           userName = $("#userName").val();
-        
+		  
 
        var dbRef = ref(database, 'chat/' + roomName);
 
       onChildAdded(dbRef, (data) => {
-          var name = data.val().nickname;
-          var msg = data.val().chat_message;
+   		 var name = data.val().nickname;
+   		 var msg = data.val().chat_message;
 
-          console.log("[1]" + name + ":" + msg);
-          appendMessage(name + ":" + msg);
-      });
+   		 console.log("[1]" + name + ":" + msg);
+   		 appendMessage(msg, name);
+		});
 
 
    }
@@ -300,22 +313,67 @@ function writeNewPost(roomName, name, msg) {
 function send() {
     var msg = $("#message").val();
     writeNewPost(roomName, userName, msg);
+
+	$("#message").val('');
+
+
+    var chatArea = $('#chatArea');
+    chatArea.scrollTop(chatArea[0].scrollHeight);
 }
 
-function appendMessage(msg) {
-    $("#chatMessageArea").append(msg + "<br>");
+function appendMessage(msg, sender) {
+    var messageClass = (sender === '<%=nickname%>') ? 'sent-message' : 'received-message';
+    var formattedMsg;
+
+    if (messageClass === 'sent-message') {
+        formattedMsg = '<div class="' + messageClass + '">' + msg + '</div>';
+    } else {
+        formattedMsg = '<div class="' + messageClass + '">' + sender + ' : ' + msg + '</div>';
+    }
+
+    $("#chatMessageArea").append(formattedMsg);
+
     var chatAreaHeight = $('#chatArea').height();
     var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
     $('#chatArea').scrollTop(maxScroll);
 }
 
+
 $(document).ready(function () {
     $('#sendBtn').click(function () { send(); });
     $('#enterBtn').click(function () { 
 
-      $("#chatMessageArea").html("");
-      connect(); });
+		$("#chatMessageArea").html("");
+		connect(); });
+
+	 $('#createRoomBtn').click(function () { 
+		$.ajax({
+                type: 'GET',
+                url: '/ticketuse', 
+                data: {
+                      roomName: $("#roomName").val(),
+                    userName: $("#userName").val()
+                },
+                success: function (data) {
+                    $("#chatMessageArea").html("");
+                    connect();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+	
+
+		$("#chatMessageArea").html("");
+		connect(); });
+	 $('#message').keypress(function (e) {
+            if (e.which === 13) {
+                send();
+            }
+        });
 });
+
+
 
 
 </script>

@@ -45,7 +45,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		BuserDto user = buserDao.emailDao(email);
 		
 		if(user == null) {
-			buserDao.writeDao(name,email, "","",email," ",name,ROLE);
+			buserDao.writeDao(name,email, "","",email," ",name,"ROLE_3");
 			
 			user = buserDao.emailDao(email);
 		} else {

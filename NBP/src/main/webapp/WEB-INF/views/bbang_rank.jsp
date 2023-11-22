@@ -15,10 +15,7 @@
    .test1 {
    
     }
-    .carousel-inner > .carousel-item > img {
-      /* width: 640px;
-      height: 720px; */
-    }
+
     * {
        padding:0;
        margin:0;
@@ -83,7 +80,7 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
     .search-container input {
-        flex: 1; /* 검색창과 버튼을 나란히 배치하기 위해 확장 */
+        flex: 1;
         border: none;
         padding: 5px;
         border-radius: 5px;
@@ -108,8 +105,8 @@
             background-color: #ffffff;
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            margin-bottom: 50px; /* 떨어져 있는 정도를 조절합니다. */
-            padding: 50px; /* 박스 높이를 2배로 늘리기 위해 수정합니다. */
+            margin-bottom: 50px; 
+            padding: 50px; 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
        .ranking-item h3 {
@@ -125,13 +122,13 @@
            margin-left: 5px;
        }
        .ranking-button {
-          background-color: #007bff;  /* 버튼 배경색을 파란색으로 변경 */
-          color: #fff;  /* 버튼 텍스트 색상을 흰색으로 변경 */
+          background-color: #007bff;  
+          color: #fff;  /
           padding: 10px;
           cursor: pointer;
           border: none;
-          border-radius: 5px;  /* 버튼 모서리를 둥글게 만듭니다 */
-          margin-right: 10px;  /* 버튼 사이에 간격을 추가합니다 */
+          border-radius: 5px; 
+          margin-right: 10px;  
       }
 
 </style>  
@@ -139,15 +136,15 @@
 </head>
 <body>
 
-   <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+    <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-        <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -155,12 +152,10 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-        <!-- if (session.getAttribute("Admin") != null) { %> --> 
-         <li><a href="/adminbd">관리빵 페이지</a></li>
-        <!-- <li><a href="/logout">로그아웃</a></li>
-         } %>-->
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-      
     </nav>
       <div class="container">
          <div class="ranking-types">
@@ -213,7 +208,7 @@
                               <td style="height: 100px;">${plrank.rank}</td>
                                 <td style="height: 100px;">${plrank.title}</td>
                                 <td style="height: 100px;"><img src="${plrank.imageurl}" style="width:50px; max-height:50px; height:auto;"></td>
-                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;$${plrank.writer}</td>
+                                <td style="height: 100px;">닉네임 &nbsp;:&nbsp;${plrank.writer}</td>
                                 <td style="height: 100px;">&nbsp;Score&nbsp;:&nbsp;${plrank.score}</td>
                            </tr>
                         <tr style="height: 10px;"></tr>
@@ -278,19 +273,15 @@
 
     <script>
         function showRanking(page) {
-            // 숨겨진 테이블 숨기기
             document.querySelectorAll('.ranking-table').forEach(table => {
                 table.style.display = 'none';
             });
 
-            // 선택한 페이지에 해당하는 테이블 보이기
             document.querySelector('.page' + page).style.display = 'table';
 
-            // 버튼 스타일 변경
             document.querySelectorAll('.ranking-button').forEach(button => {
                 button.style.backgroundColor = '';
             });
-           //document.querySelector('.page' + page).style;
         }
     </script>
 

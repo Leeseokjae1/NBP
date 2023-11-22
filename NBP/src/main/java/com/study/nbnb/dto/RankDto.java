@@ -77,12 +77,12 @@ public class RankDto {
    }
    
    public String getImageurl() {
-	      return imageurl;
-	   }
+         return imageurl;
+      }
 
-	   public void setImageurl(String imageurl) {
-	      this.imageurl = imageurl;
-	   }
+      public void setImageurl(String imageurl) {
+         this.imageurl = imageurl;
+      }
 
    public int getRank() {
       return rank;
@@ -91,7 +91,7 @@ public class RankDto {
    public void setRank(int rank) {
       this.rank = rank;
    }
-   	
+      
    public int getUserScore() {
        return userScore;
    }

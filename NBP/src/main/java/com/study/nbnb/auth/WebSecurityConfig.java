@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 			.cors((cors) -> cors.disable())
 			.authorizeHttpRequests(request -> request
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-				.requestMatchers("/").permitAll()
+				.requestMatchers("/**").permitAll()
 				.requestMatchers("/css/**","/js/**","/img/**").permitAll()
 				.requestMatchers("/joinView").permitAll()
 				.requestMatchers("/userJoin").permitAll()
@@ -40,8 +40,11 @@ public class WebSecurityConfig {
 				.requestMatchers("/search_pw").permitAll()
 				.requestMatchers("/pwUpdate").permitAll()
 				.requestMatchers("/api/**").permitAll()
-				.requestMatchers("/**").permitAll()
-				.requestMatchers("/member/**").hasAnyRole("0","1")
+				.requestMatchers("/1/**").permitAll()
+				.requestMatchers("/main**").permitAll()
+				.requestMatchers("/b2**").permitAll()
+				.requestMatchers("/play**").permitAll()
+				.requestMatchers("member/**").hasAnyRole("0","1","2","3")
 				.requestMatchers("/admin/**").hasAnyRole("0")
 				.anyRequest().authenticated()	
 			);

@@ -6,55 +6,55 @@
 <mapper namespace="com.study.nbnb.dao.GoodDao">
     <select id="getgoodpost" resultType="com.study.nbnb.dto.GoodDto">
         SELECT 
-		    combined_table.boardname,
-		    combined_table.title,
-		    combined_table.content,
-		    combined_table.image
-		FROM (
-		    SELECT 
-		        b1_number AS no,
-		        'b1board' AS boardname,
-		        title,
-		        content,
-		        IMAGEURL1 as image,
-		        writer,
-		        b_like AS good,
-		        b_dislike AS bad,
-		        time
-		    FROM b1board
-		
-		    UNION ALL
-		
-		    SELECT 
-		        b2_number AS no,
-		        'b2board' AS boardname,
-		        title,
-		        content,
-		        IMAGEURL1 as image,
-		        writer,
-		        b_like AS good,
-		        b_dislike AS bad,
-		        time
-		    FROM b2board
-		
-		    UNION ALL
-		
-		    SELECT 
-		        f_number AS no,
-		        'playboard' AS boardname,
-		        title,
-		        content,
-		        IMAGEURL as image,
-		        writer,
-		        b_like AS good,
-		        b_dislike AS bad,
-		        time
-		    FROM playboard
-		) combined_table
-		
-		JOIN liketable ON combined_table.no = liketable.t_number
-		WHERE combined_table.boardname IN ('b1board', 'b2board', 'playboard')
-		    AND liketable.m_number = ${param1}
-		    AND liketable.l_or_dl = 1
+          combined_table.boardname,
+          combined_table.title,
+          combined_table.content,
+          combined_table.image
+      FROM (
+          SELECT 
+              b1_number AS no,
+              'b1board' AS boardname,
+              title,
+              content,
+              IMAGEURL1 as image,
+              writer,
+              b_like AS good,
+              b_dislike AS bad,
+              time
+          FROM b1board
+      
+          UNION ALL
+      
+          SELECT 
+              b2_number AS no,
+              'b2board' AS boardname,
+              title,
+              content,
+              IMAGEURL1 as image,
+              writer,
+              b_like AS good,
+              b_dislike AS bad,
+              time
+          FROM b2board
+      
+          UNION ALL
+      
+          SELECT 
+              f_number AS no,
+              'playboard' AS boardname,
+              title,
+              content,
+              IMAGEURL as image,
+              writer,
+              b_like AS good,
+              b_dislike AS bad,
+              time
+          FROM playboard
+      ) combined_table
+      
+      JOIN liketable ON combined_table.no = liketable.t_number
+      WHERE combined_table.boardname IN ('b1board', 'b2board', 'playboard')
+          AND liketable.m_number = ${param1}
+          AND liketable.l_or_dl = 1
     </select>
 </mapper>

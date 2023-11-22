@@ -1,15 +1,12 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<%@ page import="com.study.nbnb.dto.BuserDto" %>
-<%
-int m_number = 0;
-if(session.getAttribute("login") != null){
-BuserDto member = (BuserDto)session.getAttribute("login");
-m_number = member.getM_NUMBER();
-String writer = member.getNICKNAME();
-}
-%>
+ <%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+ int m_number = a.getM_NUMBER();
+ 
+ %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +33,7 @@ String writer = member.getNICKNAME();
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+      width:80%;overflow:hidden;height:80px;margin:10px auto;
    }
    div img.absolute { 
         position: absolute;
@@ -66,25 +63,18 @@ String writer = member.getNICKNAME();
 </style>
 </head>
 <body>
-    <nav id="nav2">
-      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+   <nav id="nav2">
+       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-<ul>
+       <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
-         <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
-         <li><a href="/loginView">로그인</a></li>
-         <%}else { %>
-         <li>${login.NICKNAME} 님</li>
+         <li><a href="/list">니빵이</a></li>
+         <li><a href="/b2list">내빵이</a></li>
+         <li><a href="#">랭킹빵</a></li>
+         <li><a href="/playlist">놀이빵</a></li>
+         <li><a href="#">로그인</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="/logout">로그아웃</a></li>
-         <%} %>
-         <% if (session.getAttribute("admin") != null) { %> 
-         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
-             <%}%>
+         <li><a href="#">로그아웃</a></li>
        </ul>
     </nav>
 
@@ -93,37 +83,53 @@ String writer = member.getNICKNAME();
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">번호</th>
-                <th scope="col">작성자</th>
-                <th scope="col">제목</th>
-                <th scope="col">좋아요 / 싫어요</th>
-                <th scope="col">작성 날짜</th>
+                <th scope="col">결제번호</th>
+                <th scope="col">채팅권 개수</th>
+                <th scope="col">가격</th>
+                <th scopte="col">결제날짜</th>
+                <th scope="col">결제취소</th>
             </tr>
         </thead>
-			<tbody>
-			    <c:forEach items="${list}" var="play">
-			        <tr>
-			            <th scope="row">${play.f_number}</th>
-			            <td>${play.writer}</td>
-			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-			                <a href="/member/playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
-			            </td>
-			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
-			            <td>${play.time}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
+        <tbody>
+            <c:forEach items="${shoplist}" var="list">
+                <tr>
+                    <th scope="row">${list.buy_number}</th>
+                    <td>${list.t_count}</td>
+                    <td>${list.t_price}</td>
+                    <td>${list.b_date}</td>
+                    <td>
+                    
+					    <c:choose>
+					        <c:when test="${list.t_cancel eq 'cancel'}">
+					            취소 접수
+					        </c:when>
+					        <c:when test="${list.t_cancel eq 'approve'}">
+					            취소 완료
+					        </c:when>
+					         <c:when test="${list.t_cancel eq 'refuse'}">
+					            취소 거부
+					        </c:when>
+					        <c:otherwise>
+					                <button type="button"  onclick="cancelBtn(${list.buy_number})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
+        취소</button>
+					        </c:otherwise>
+					    </c:choose>
+
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
     </table>
 
     <ul class="pagination justify-content-center">
         <c:if test="${page > 1}">
             <li class="page-item">
-                <a class="page-link" href="playpage?page=1" aria-label="처음">
+                <a class="page-link" href="/playpage?page=1" aria-label="처음">
                     <span aria-hidden="true">처음</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="playpage?page=${page - 1}" aria-label="이전">
+                <a class="page-link" href="/playpage?page=${page - 1}" aria-label="이전">
                     <span aria-hidden="true">이전</span>
                 </a>
             </li>
@@ -131,13 +137,13 @@ String writer = member.getNICKNAME();
 
         <c:forEach var="i" begin="1" end="${totalPage}">
             <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-                <a class="page-link" href="playpage?page=${i}">${i}</a>
+                <a class="page-link" href="/playpage?page=${i}">${i}</a>
             </li>
         </c:forEach>
 
         <c:if test="${page < totalPage}">
             <li class="page-item">
-                <a class="page-link" href="playpage?page=${page + 1}" aria-label="다음">
+                <a class="page-link" href="/playpage?page=${page + 1}" aria-label="다음">
                     <span aria-hidden="true">다음</span>
                 </a>
             </li>
@@ -148,13 +154,44 @@ String writer = member.getNICKNAME();
             </li>
         </c:if>
     </ul>
-
-    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-    <%if(session.getAttribute("login") != null){ %>
-        <a href="playwriteform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a>
-        <%} %>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">취소 확인</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                취소하시겠습니까?
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" onclick="confirmCancelBtn()">확인</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+             
+             
+            </div>
+        </div>
     </div>
 </div>
+
+
+<script>
+
+var buyNumber;
+
+function cancelBtn(a){
+	buyNumber=a;
+}
+ 
+function confirmCancelBtn() {
+  var mNumber = <%= m_number%>
+  window.location.href = "../cancelPurchase?buy_number=" + buyNumber + "&m_number=" + mNumber;
+
+}
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
