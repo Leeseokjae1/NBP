@@ -138,6 +138,7 @@ public class NBController {
         model.addAttribute("plrankingList", plrankingList);
         model.addAttribute("userb1RankingList", userb1RankingList);
         model.addAttribute("userb2RankingList", userb2RankingList);
+        model.addAttribute("userplRankingList", userplRankingList);
         model.addAttribute("userRankingList", userRankingList);
         return "bbang_rank";
     }
