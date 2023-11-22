@@ -888,7 +888,7 @@ public String search_pw() {
 			if (file != null && !file.isEmpty()) {
 				imageURL = uploadFile(file);
 			}else {
-				imageURL="http://localhost:8081/images/111.png";
+				imageURL="http://localhost:8081/images/play.png";
 			}
 
 			playdao.writeDao(writer, title, content, imageURL, m_number);
@@ -1596,7 +1596,7 @@ public String search_pw() {
 	       String kw = "%" +  kw1 + "%";
 	      
 	       int total = shopDao.memberCountDao(kw).size();
-	       int pageSize = 8;
+	       int pageSize = 16;
 
 	       int totalPage = total / pageSize;
 

@@ -256,7 +256,7 @@ nav {
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #fff;">배고픈빵빵이 페이지</span>
+		       <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
