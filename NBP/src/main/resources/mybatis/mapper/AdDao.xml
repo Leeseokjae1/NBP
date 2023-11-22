@@ -12,8 +12,8 @@
 		    title,
 		    content,
 		    writer,
-		    b_like AS good,
-		    b_dislike AS bad,
+		    b_like,
+		    b_dislike,
 		    time
 		FROM b1board
 		
@@ -25,8 +25,8 @@
 		    title,
 		    content,
 		    writer,
-		    b_like AS good,
-		    b_dislike AS bad,
+		    b_like,
+		    b_dislike,
 		    time
 		FROM b2board
 		
@@ -38,8 +38,8 @@
 		    title,
 		    content,
 		    writer,
-		    b_like AS good,
-		    b_dislike AS bad,
+		    b_like,
+		    b_dislike,
 		    time
 		FROM playboard
 		order by time desc
@@ -52,4 +52,35 @@
     <select id="adB1Detail" resultType="com.study.nbnb.dto.B1Dto">
         SELECT * FROM b1board WHERE b1_number = #{b1_number}
     </select>
+    
+    <select id="pageDao" resultType="com.study.nbnb.dto.AdDto">
+	 <![CDATA[
+	    SELECT * FROM (
+			SELECT rownum num, A.* FROM (
+				SELECT 'b1board' AS boardname, b1_number AS no, writer, title, content, b_like, b_dislike, time
+				FROM b1board
+				UNION ALL
+				SELECT 'b2board' AS boardname,b2_number AS no, writer, title, content, b_like, b_dislike, time
+				FROM b2board
+				UNION ALL
+				SELECT 'playboard' AS boardname,f_number AS no, writer, title, content, b_like, b_dislike, time
+				FROM playboard
+				order by time desc
+			) A 
+			) B WHERE B.num between #{pagesize} and #{page}
+      ]]> 
+	</select>
+	<select id ="listCountDao">
+		  SELECT *
+			FROM (
+			    SELECT 'b1board' AS boardname, b1_number AS no, writer, title, content, b_like, b_dislike, time 
+                FROM b1board
+			    UNION ALL
+			    SELECT 'b2board' AS boardname, b2_number AS no, writer, title, content, b_like, b_dislike, time
+                FROM b2board
+			    UNION ALL
+			    SELECT 'playboard' AS boardname, f_number AS no, writer, title, content, b_like, b_dislike, time
+                FROM playboard
+			) counts
+	</select>
 </mapper>

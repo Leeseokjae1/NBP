@@ -127,12 +127,12 @@
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-   			padding: 20px; /* 내부 간격 추가 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+   			padding: 20px 80px 20px 80px; 
         }
 
         .liked-post-box {
-             width: calc(20% - 20px);
+             width: 260px;
             box-sizing: border-box;
             background-color: #f0f0f0;
             padding: 10px;
@@ -171,6 +171,10 @@
             font-size: 10px;
             color: #777;
         }
+        .post-separator {
+		    border-top: 1px solid #ccc; /* 선의 스타일 정의 */
+		    margin: 10px 0; /* 필요에 따라 여백을 조절하세요 */
+		}
 
 </style>  
 
@@ -239,15 +243,20 @@
   	<div class="liked-posts-container">
 		
 
-            <c:forEach items="${getgoodpost}" var="post">
+            <c:forEach items="${getgoodpost}" var="post" varStatus="loop">
+           	  <div class="liked-post-box">
                 <img src="${post.image}" alt="Post Image" class="post-image">
-                <div class="post-info">
+               	<div class="post-info">
                     <div class="board-name">${post.boardname}</div>
                     <div class="post-title">${post.title}</div>
                     <div class="post-content">${post.content}</div>
                 </div>
-                </c:forEach>
-  
+               </div>
+ 
+ 			  <c:if test="${not loop.last}">
+            <hr class="post-separator">
+        </c:if>
+    </c:forEach>
 
     </div>
 </script>

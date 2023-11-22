@@ -33,6 +33,7 @@ import com.study.nbnb.dao.LikeDao;
 import com.study.nbnb.dao.PlayDao;
 import com.study.nbnb.dao.RDao;
 import com.study.nbnb.dao.SearchDao;
+import com.study.nbnb.dto.AdDto;
 import com.study.nbnb.dto.B1Dto;
 import com.study.nbnb.dto.B2Dto;
 import com.study.nbnb.dto.BuserDto;
@@ -334,7 +335,7 @@ public class NBController {
 	    	int t_number = m_number;
 	    	System.out.println(t_number);
 	        List<GoodDto> getgoodpost = gooddao.getgoodpost(t_number);
-	        System.out.println("여기가 넘어갔나요?");
+	
 	        model.addAttribute("getgoodpost", getgoodpost);
 	        return "mypage/mypage_good"; 
 	}
@@ -1312,11 +1313,44 @@ public class NBController {
 	/////////////////////////////////////////////////////////////////////////////////////////
 
 	   
-	@GetMapping("/adminbd")
-	public String adAllBoards(HttpServletRequest request, Model model) {
-	    model.addAttribute("allBoards", addao.adAllBoards());
-	    return "adminboard/adminbd";
-	}  
+//	@GetMapping("/adminbd")
+//	public String adAllBoards(HttpServletRequest request, Model model) {
+//	    model.addAttribute("allBoards", addao.adAllBoards());
+//	    return "adminboard/";
+//	}  
+	
+    @RequestMapping("/adminbd")
+	   public String adAllBoards(HttpServletRequest request, Model model) {
+
+	      int total = addao.listCountDao().size();
+	      int pageSize = 16;
+
+	      int totalPage = total / pageSize;
+	      
+	      if (total % pageSize > 0) {
+	         totalPage++;
+	      }
+	      
+    	  String sPage = request.getParameter("page");
+	      int page = sPage == null ? 1 : Integer.parseInt(sPage);
+	      
+
+	      int nStart = (page - 1) * pageSize + 1;
+	      int nEnd = (page - 1) * pageSize + pageSize;
+	      
+	      List<AdDto>list = addao.pageDao(nEnd, nStart);
+	      
+	      model.addAttribute("list", list);
+	      model.addAttribute("totalPage", totalPage);
+	      model.addAttribute("page", page);
+	      
+	       return "adminboard/adminbd";
+	   
+	   }  
+	   
+
+
+
 	
 	@RequestMapping("/bddelete")
 	public String deletead(HttpServletRequest request, Model model) {
