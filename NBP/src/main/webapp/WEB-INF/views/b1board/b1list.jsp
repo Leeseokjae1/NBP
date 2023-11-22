@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%
+int m_number = 0;
+if(session.getAttribute("login") != null){
+BuserDto member = (BuserDto)session.getAttribute("login");
+m_number = member.getM_NUMBER();
+String writer = member.getNICKNAME();
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +43,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -61,27 +70,55 @@
         position: absolute;
       left: 50px;
       }
+      .pagination {
+    margin-bottom: 10px; 
+}
+
+.text-right.mt-2 {
+    margin-bottom: 30px; 
+}
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+body {
+           background-color: #f8f9fa;
+       }
     </style>
 
     <title>게시판</title>
 </head>
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-    </nav>
+      
+   </nav>
     <h1 class="text-center mt-4">니빵이 게시판</h1>
-    <input type="button" class="btn btn-primary mx-auto d-block mb-4" onclick="" value="지도로 보기">
+    <a href="/map" class="btn btn-outline-info mx-auto d-block mb-4">지도 보기</a>
     
     <div class="container">
         <div class="row">
@@ -91,9 +128,9 @@
                         <img src="${dto.imageurl1}" class="card-img-top" alt="Card Image" style="width: 100%; height: 200px; object-fit: contain;">
                         <div class="card-body">
                             <h5 class="card-title">${dto.title}</h5>
-                            <p class="card-text">${dto.b1_number} ${dto.writer}</p>
-                            <p class="card-text">따: ${dto.b_like} 언따: ${dto.b_dislike}</p>
-                            <a href="/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-primary">자세히 보기</a>
+                            <p class="card-text">작성자&nbsp;:&nbsp;${dto.writer}</p>
+                            <p class="card-text">👍🏻: ${dto.b_like} 👎: ${dto.b_dislike}</p>
+                            <a href="/member/b1view?b1_number=${dto.b1_number}&check_b=1" class="btn btn-outline-info">자세히 보기</a>
                         </div>
                     </div>
                 </div>
@@ -117,7 +154,9 @@
                 <li class="page-item"><a class="page-link" href="/b1page?page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
-        <p class="text-right mt-2"><a href="b1writeform" class="btn btn-primary">글작성</a></p>
+        <%if(session.getAttribute("login") != null){ %>
+        <p class="text-right mt-2"><a href="b1writeform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a></p>
+        <%} %>
     </nav>
 
     

@@ -20,6 +20,13 @@
 		select * from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3} and l_or_dl=1
 	</select>
 	
+	<select id="likecountDao" resultType="com.study.nbnb.dto.LikeDto">
+		select * from liketable where check_b=#{param1} and t_number=#{param2} and l_or_dl=1
+	</select>
+	
+		<select id="dislikecountDao" resultType="com.study.nbnb.dto.LikeDto">
+		select * from liketable where check_b=#{param1} and t_number=#{param2} and l_or_dl=-1
+	</select>
 	
 	<delete id="deleteDao">
 		delete from liketable where check_b=#{param1} and t_number=#{param2} and m_number=#{param3}

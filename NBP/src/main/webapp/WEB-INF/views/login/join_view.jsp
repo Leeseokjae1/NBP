@@ -15,18 +15,6 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-	window.onload = function () {
-	    google.accounts.id.initialize({
-	        client_id: "615818042922-22l9icaqq7gb6tvomvu6p5474t0ffbqu.apps.googleusercontent.com",
-	        callback: handleCredentialResponse
-	    });
-	    google.accounts.id.renderButton(
-	        document.getElementById("buttonDiv"),
-	        { theme: "outline", text: "signin", width: 250 },
-	    );
-	 //google.accounts.id.prompt();
-	}
-	
 	function handleCredentialResponse(response) {
 	    var profile = jwt_decode(response.credential);
 
@@ -336,7 +324,9 @@ label {
     border-radius: 10px;
 }
 
-
+.yws {
+    padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -354,7 +344,7 @@ label {
                         <form id="join_form" name="join_form" action="userJoin" method="post">
                         	<div class="form-group">
                                 <input type="radio" name="BBANG" value="Role_1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-								<input type="radio" name="BBANG" value="Role_2"><span style="color:#fff">&nbsp;<label class="form-control-label">니빵이</label>
+								<input type="radio" name="BBANG" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">아이디</label>
@@ -413,20 +403,13 @@ label {
                            
                             <div class="col-lg-12 loginbttm">
 								<div class="col-lg-6 login-btm login-text">
-									<div id="login">
-									    <div id="buttonDiv"></div> 
-									</div>
+									<a href="/oauth2/authorization/google">Google Login</a>
 								</div>
 								<div class="col-lg-6 login-btm login-button">
                                     <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()" disabled>
-                                    <input type="button" class="btn btn-outline-primary" value="로그인" onclick="javascript:window.location='loginView'" >
                                 </div>
 								
 							</div>
-
-                            
-
-                            
                         </form>
                     </div>
                 </div>
@@ -434,5 +417,11 @@ label {
             </div>
         </div>
     </div>
+    
+    <div class="col-lg-12" style="text-align: center; margin: 10px auto">
+		<a href="../loginView"><label class="form-control-label yws" >로그인</label></a> &nbsp;
+		<a href="../search_id"><label class="form-control-label yws">아이디 찾기</label></a> &nbsp;
+		<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
+	</div>
 </body>
 </html>

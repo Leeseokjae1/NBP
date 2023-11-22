@@ -1,10 +1,14 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script src="https://js.tosspayments.com/v1/payment-widget"></script>
-
+ <%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+ int m_number = a.getM_NUMBER();
+ %>
 <title>Insert title here</title>
 </head>
 <body>
@@ -15,9 +19,11 @@
   <!-- 결제하기 버튼 -->
   <button id="payment-button">결제하기</button>
   <script>
+  	const generateRandomString = () => window.btoa(Math.random()).slice(0, 20);
     const clientKey = "test_ck_ORzdMaqN3wPyyMy0WNlDV5AkYXQG"
-    const customerKey = "BjR5RDd3oXpV8Ql1-bVXQ" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+    const customerKey = generateRandomString(); 
     const button = document.getElementById("payment-button")
+    
 
 
     // ------  결제위젯 초기화 ------ 
@@ -54,15 +60,15 @@
     // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
     button.addEventListener("click", function () {
       paymentWidget.requestPayment({
-        orderId: "${shopdto.buy_number}"+"${shopdto.m_number}",            
-        orderName: "토스 티셔츠 외 2건",
+        orderId: "${shopdto.buy_number}"+<%= m_number%>,            
+        orderName: "채팅권",
         paymentKey:"1",
-        m_number:"${shopdto.m_number}",
+        m_number:<%= m_number%>,
         buy_number:"${shopdto.buy_number}",
-        successUrl: 'http://localhost:8082/success?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}',        
-        failUrl: 'http://localhost:8082/fail?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}'
+        successUrl: 'http://localhost:8081/success?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}',        
+        failUrl: 'http://localhost:8081/fail?m_number=${shopdto.m_number}&buy_number=${shopdto.buy_number}'
  		
-        
+      
     	  })
  	  })
   </script>

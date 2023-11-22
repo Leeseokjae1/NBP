@@ -23,7 +23,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -50,6 +50,9 @@
         position: absolute;
       left: 50px;
       }
+      body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 <script>
@@ -65,18 +68,25 @@ function submit_ajax(){
 </script>
 
 <body>
-   <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+    <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
     </nav>
 	<div class="container mt-5">
@@ -108,7 +118,8 @@ function submit_ajax(){
 			<tr>
 				<td colspan="2"><input type="button" class="btn btn-secondary" value="수정"
 					onclick="form_check()">&nbsp;&nbsp;
-					<a href="playview?f_number=${playmodify.f_number}&check_b=3" class="btn btn-danger">취소</a>&nbsp;&nbsp;
+					<a href="playpage?page=1" class="btn btn-outline-info">목록보기</a>
+					<a href="/member/playview?f_number=${playmodify.f_number}&check_b=3" class="btn btn-danger">취소</a>&nbsp;&nbsp;
 
 				</td>
 			</tr>

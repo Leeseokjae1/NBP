@@ -26,6 +26,7 @@ public class B1Dto {
 	private int b_like;
 	private int b_dislike;
 	private Timestamp time;
+	private int m_number;
 	
 	
 	public int getB1_number() {
@@ -87,6 +88,12 @@ public class B1Dto {
 	}
 	public void setTime(Timestamp time) {
 		this.time = time;
+	}
+	public int getM_number() {
+		return m_number;
+	}
+	public void setM_number(int m_number) {
+		this.m_number = m_number;
 	}
 	
 	

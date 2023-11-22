@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.study.nbnb.dao.ChatRoomDao">
+
+
+	<insert id="createChatRoomDao">
+		insert into chatroom
+			values (#{param1}, #{param2})
+	</insert>
+	
+	<select id="listroomDao" resultType="com.study.nbnb.dto.ChatRoomDto">
+		select * from chatroom where nickname1=#{nickname} or nickname2 =#{nickname}
+	</select>
+	
+	<delete id="exitroomDao">
+		delete from chatroom where c_number =#{param1}
+	</delete>
+	
+			<update id="useTicket" >
+	    update buser
+	    set ticket = ticket - 1
+	    where m_number=#{param1}
+	</update>
+	
+	
+	
+
+</mapper>

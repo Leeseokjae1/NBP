@@ -26,7 +26,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -53,30 +53,41 @@
         position: absolute;
       left: 50px;
       }
+      body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-    </nav>
+      
+   </nav>
  <br>
     <div class="container mt-5">
         <form action="b2modify" method="post" enctype="multipart/form-data">
             <table class="table table-bordered">
                 <tr>
                     <td>작성자</td>
-                    <td><input type="text" name="writer" class="form-control" value="${dto.writer}"></td> 
+                    <td> ${dto.writer}</td> 
                 </tr>
                 <tr>
                     <td>제목</td>
@@ -101,9 +112,9 @@
                 <tr>
                     <td colspan="2">
                         <input type="hidden" name="b2_number" value="${dto.b2_number}">
-                        <input type="submit" value="수정" class="btn btn-primary">
+                        <input type="submit" value="수정" class="btn btn-outline-info">
                         <a href="b2view?b2_number=${dto.b2_number}&check_b=2" class="btn btn-secondary">취소</a>
-                        <a href="b2page?page=1" class="btn btn-primary">목록보기</a> 
+                        <a href="b2page?page=1" class="btn btn-outline-info">목록보기</a> 
                     </td>
                 </tr>
             </table>

@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
- <%
- String nickname = (String)session.getAttribute("nickname");
+<%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%@ page import="com.study.nbnb.dto.ChatRoomDto" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+ ChatRoomDto crdto = (ChatRoomDto)session.getAttribute("chat");
+ 
+ String nickname = a.getNICKNAME();
+ int m_number = a.getM_NUMBER();
  %>
 <html>
 <head>
@@ -11,8 +18,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	
 
 <style>
    .test1 {
@@ -32,9 +40,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
+nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+      }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -126,38 +134,63 @@
         #message {
             width: 400px;
         }
+            #chatArea {
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+        
+        .sent-message {
+    text-align: right;
+    color: #000000;
+    font-weight:bold; 
+}
+
+.received-message {
+    text-align: left;
+    color: #000000;
+    font-weight:bold; 
+}
 </style>  
 
 </head>
 <body>
     
-   <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+    <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="#">니빵이</a></li>
-         <li><a href="#">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="#">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-   </nav>
+    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
 	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 		  <div class="box" style="background: #fcecde;">
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
+		            <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
 		            <span class="icon-name">좋아요 게시글</span>
 		        </div>
 	         </div>
@@ -169,101 +202,181 @@
 	         </div>
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
+		            <a href="/mypage_shop"><i class="bi bi-coin" id="icon" style="color: #e5b06c;"></i></a><br />
 		            <span class="icon-name">채팅권</span>
 		        </div>    
 	         </div>
 	         <div class="icons">
 	        	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+		            <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
 		            <span class="icon-name">회원정보수정</span>
 		        </div>
 	         </div>
         </div>
   	</div>
-  	
-<!-- 채팅방 목록을 위한 부트스트랩 패널 -->
-<div class="panel panel-default">
-    <div class="panel-heading">채팅방 목록</div>
-    <div class="panel-body">
-        <ul id="chatRoomList" class="list-group">
-            <!-- 채팅방 목록이 여기에 표시됩니다 -->
-        </ul>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <form id="createRoomForm">
+                <div class="form-group">
+                    <label for="roomNumber">채팅방 번호:</label>
+                    <input type="text" class="form-control" id="roomName" name="roomName" placeholder="Enter Room Number">
+                    <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
+                </div>
+                <button type="button" class="btn btn-success" id="createRoomBtn">입장</button>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <c:forEach items="${chat}" var="info">
+                <div class="chat-container mb-3">
+                    <div>
+                        <label for="roomName">방 번호: ${info.roomid}</label>
+                        <input type="hidden" id="roomName" name="roomName" size="10" value="${info.roomid}"><br />
+                        <label for="userName">대화상대: ${info.nickname1}, ${info.nickname2}</label>
+                        <input type="hidden" id="userName" name="userName" size="10" value="<%=nickname%>"><br />
+                        <button id="enterBtn" class="btn btn-primary">Enter Room</button>
+                    </div>
+                </div>
+            </c:forEach>
+            <div id="chatArea" class="border p-3">
+                <div id="chatMessageArea"></div>
+            </div>
+            <div class="input-group mt-3">
+                <input type="text" id="message" class="form-control" placeholder="입력하세요...">
+                <div class="input-group-append">
+                    <button id="sendBtn" class="btn btn-secondary">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- 채팅방 -->
-<div id="chat"></div>
-<input type="text" id="message" placeholder="메시지를 입력하세요...">
-<button onclick="sendMessage()">전송</button>
+<script type="module">
 
-<!-- Firebase JavaScript SDK 불러오기 -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDj-FadmTsfnEWAIU4B2V0rplr4bym5Oec",
-        authDomain: "nbproject-3ea90.firebaseapp.com",
-        databaseURL: "https://nbproject-3ea90-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "nbproject-3ea90",
-        storageBucket: "nbproject-3ea90.appspot.com",
-        messagingSenderId: "661952931653",
-        appId: "1:661952931653:web:8dd8e21b011050bfb9802c"
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+  import { getDatabase, ref, onChildAdded, update, orderByChild , limitToLast, set, child, push } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-database.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDj-FadmTsfnEWAIU4B2V0rplr4bym5Oec",
+    authDomain: "nbproject-3ea90.firebaseapp.com",
+    databaseURL: "https://nbproject-3ea90-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "nbproject-3ea90",
+    storageBucket: "nbproject-3ea90.appspot.com",
+    messagingSenderId: "661952931653",
+    appId: "1:661952931653:web:8dd8e21b011050bfb9802c"
+  };
+
+    const app = initializeApp(firebaseConfig);
+	const database = getDatabase(app);
+
+     var roomName;
+     var userName;
+      
+      var chatMessages = [];
+
+      function connect() {
+          roomName = $("#roomName").val();
+          userName = $("#userName").val();
+		  
+
+       var dbRef = ref(database, 'chat/' + roomName);
+
+      onChildAdded(dbRef, (data) => {
+   		 var name = data.val().nickname;
+   		 var msg = data.val().chat_message;
+
+   		 console.log("[1]" + name + ":" + msg);
+   		 appendMessage(msg, name);
+		});
+
+
+   }
+
+
+function writeNewPost(roomName, name, msg) {
+    var postData = {
+      chat_room: roomName,
+        nickname: name,
+        chat_message: msg,
+      chat_at: new Date().getTime()
     };
 
-    firebase.initializeApp(firebaseConfig);
 
-    var db;
-    var chat;
-    var message;
-    var chatRoomId;
+    var newPostKey = push(child(ref(database), 'chat/' + roomName)).key;
+    var newRef = ref(database, 'chat/' + roomName + '/' + newPostKey);
 
-    window.onload = function() {
-        db = firebase.database();
-        chat = document.getElementById('chat');
-        message = document.getElementById('message');
-        
+    set(newRef, postData);
+}
 
-        chatRoomId = new Date().getTime().toString();
-        var xhr = new XMLHttpRequest();
-			xhr.open("POST", "SaveChatRoomId", true);
-			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			xhr.send("chatRoomId=" + chatRoomId);
-			
-			xhr.onreadystatechange = function () {
-			    if (xhr.readyState === 4 && xhr.status === 200) {
-			        console.log(xhr.responseText);
-			    }
-			};
+function send() {
+    var msg = $("#message").val();
+    writeNewPost(roomName, userName, msg);
 
-        db.ref('chats/' + chatRoomId).on('value', function(snapshot) {
-            var messages = snapshot.val();
-            chat.innerHTML = '';
+	$("#message").val('');
 
-            for (var msg in messages) {
-                var chatMessage = messages[msg];
-                var p = document.createElement('p');
 
-                p.textContent = chatMessage.userId + ": " + chatMessage.message;
-                chat.appendChild(p);
+    var chatArea = $('#chatArea');
+    chatArea.scrollTop(chatArea[0].scrollHeight);
+}
+
+function appendMessage(msg, sender) {
+    var messageClass = (sender === '<%=nickname%>') ? 'sent-message' : 'received-message';
+    var formattedMsg;
+
+    if (messageClass === 'sent-message') {
+        formattedMsg = '<div class="' + messageClass + '">' + msg + '</div>';
+    } else {
+        formattedMsg = '<div class="' + messageClass + '">' + sender + ' : ' + msg + '</div>';
+    }
+
+    $("#chatMessageArea").append(formattedMsg);
+
+    var chatAreaHeight = $('#chatArea').height();
+    var maxScroll = $('#chatMessageArea').height() - chatAreaHeight;
+    $('#chatArea').scrollTop(maxScroll);
+}
+
+
+$(document).ready(function () {
+    $('#sendBtn').click(function () { send(); });
+    $('#enterBtn').click(function () { 
+
+		$("#chatMessageArea").html("");
+		connect(); });
+
+	 $('#createRoomBtn').click(function () { 
+		$.ajax({
+                type: 'GET',
+                url: '/ticketuse', 
+                data: {
+                      roomName: $("#roomName").val(),
+                    userName: $("#userName").val()
+                },
+                success: function (data) {
+                    $("#chatMessageArea").html("");
+                    connect();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+	
+
+		$("#chatMessageArea").html("");
+		connect(); });
+	 $('#message').keypress(function (e) {
+            if (e.which === 13) {
+                send();
             }
-
-            chat.scrollTop = chat.scrollHeight;
         });
-    }
+});
 
-    function sendMessage() {
-        var userId = "<% if(session.getAttribute("nickname") != null){ out.print(nickname);} else { %> "Guest <% } %>";
 
-        db.ref('chats/' + chatRoomId).push().set({
-            'userId': userId,
-            'message': message.value,
-            'timestamp': firebase.database.ServerValue.TIMESTAMP
-        });
 
-        message.value = '';
-    }
+
 </script>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

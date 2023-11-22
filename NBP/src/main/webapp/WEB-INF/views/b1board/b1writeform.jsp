@@ -23,7 +23,7 @@
       text-decoration:none;color:#000;font-size:15px;
    }
    nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
    }
    div img.absolute { 
         position: absolute;
@@ -50,30 +50,43 @@
         position: absolute;
       left: 50px;
       }
+      body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/list">니빵이</a></li>
-         <li><a href="/b2list">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playlist">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-    </nav>
+      
+   </nav>
  <br>
     <div class="container mt-5">
         <form action="b1write" method="post" enctype="multipart/form-data">
             <table class="table table-bordered"> 
                 <tr>
                     <td>작성자</td>
-                    <td><input type="text" name="writer" class="form-control" size="100"></td>
+                    <td>${member.NICKNAME}</td>
+                    <input type="hidden" name="writer" value="${member.NICKNAME}">
+         			<input type="hidden" name="m_number" value="${member.m_NUMBER}">
                 </tr>
                 <tr>
                     <td>제목</td>
@@ -98,7 +111,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" value="입력" class="btn btn-primary">
+                        <input type="submit" value="입력" class="btn btn-outline-info">
                         <a href="b1page?page=1" class="btn btn-secondary">목록보기</a> 
                     </td>
                 </tr>

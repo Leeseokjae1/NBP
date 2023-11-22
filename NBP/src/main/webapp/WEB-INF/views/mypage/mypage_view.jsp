@@ -28,9 +28,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
-      width:80%;overflow:hidden;height:80px;margin:10px auto;
-   }
+nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
+      }
    div img.absolute { 
         position: absolute;
         left: 50px;
@@ -119,33 +119,40 @@
 </head>
 <body>
 
-   <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
+    <nav id="nav2">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="#">니빵이</a></li>
-         <li><a href="#">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="#">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
-   </nav>
+    </nav>
    <div id="topbox" style="background: #ffdcb8; height:250px;">
 	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 		  <div class="box" style="background: #fcecde;">
 		    <img class="profile" src="/img/yb.png" id="profile">
 		  </div>
 		   <div class="user-info">
-		    <span class="user-nickname" style="font-size: 15px; color: #ffffff;">배고픈빵빵이 페이지</span>
+		    <span class="user-nickname" style="font-size: 22px; color: #000000;">${login.NICKNAME} 님</span>
 		  </div>
 		</div>
    		<div id="iconbox" >
 	         <div class="icons">
 	         	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
+		            <a href="/goodpost"><i class="bi bi-suit-heart-fill" id="icon" style="color: #ff5c5c;"></i></a><br />
 		            <span class="icon-name">좋아요 게시글</span>
 		        </div>
 	         </div>
@@ -163,7 +170,7 @@
 	         </div>
 	         <div class="icons">
 	        	<div class="icon-wrapper">
-		            <a href="#"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
+		            <a href="/1/profile"><i class="bi bi-gear" id="icon" style="color: #aaa5a2;"></i></a><br />
 		            <span class="icon-name">회원정보수정</span>
 		        </div>
 	         </div>

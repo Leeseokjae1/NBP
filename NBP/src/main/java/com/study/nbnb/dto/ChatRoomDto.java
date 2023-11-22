@@ -1,8 +1,10 @@
 package com.study.nbnb.dto;
 
 public class ChatRoomDto {
+	
 	private String roomid;
-    private int m_number;
+    private String nickname1;
+    private String nickname2;
     
 	public String getRoomid() {
 		return roomid;
@@ -10,10 +12,19 @@ public class ChatRoomDto {
 	public void setRoomid(String roomid) {
 		this.roomid = roomid;
 	}
-	public int getM_number() {
-		return m_number;
+	public String getNickname1() {
+		return nickname1;
 	}
-	public void setM_number(int m_number) {
-		this.m_number = m_number;
+	public void setNickname1(String nickname1) {
+		this.nickname1 = nickname1;
 	}
+	public String getNickname2() {
+		return nickname2;
+	}
+	public void setNickname2(String nickname2) {
+		this.nickname2 = nickname2;
+	}
+    
+	
+ 
 }

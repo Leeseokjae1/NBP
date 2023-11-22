@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <% 
    session.removeAttribute("Searchdata");
-   session.removeAttribute("Searchfield");   
+   session.removeAttribute("Searchfield");
 %>
 <html>
 <head>
@@ -19,7 +19,6 @@ pageEncoding="UTF-8"%>
       var boardSelection = document.getElementById("BoardSelection").value;
       var searchField = document.getElementById("Searchfield");
       
-      // 선택된 게시판에 따라 검색 조건 옵션을 변경
       switch (boardSelection) {
          case "B1board":
             searchField.innerHTML = `
@@ -35,7 +34,7 @@ pageEncoding="UTF-8"%>
             <option id="Writer" value="b2Writer">작성자</option>
             `;
             break;
-         case "Playboard":
+         case "playboard":
             searchField.innerHTML = `
             <option id="Title" value="pTitle">제목</option>
             <option id="Content" value="pContent">내용</option>
@@ -43,45 +42,57 @@ pageEncoding="UTF-8"%>
             `;
             break;
          default:
+             searchField.innerHTML += `
+             <option id="Default" value="Default">기본 옵션</option>
+             `;
+             break;
          break;
       }
    }
    function search_check() {
-      if($('#Searchdata').val().length == 0) {
+      var searchField = document.getElementById("Searchfield");
+      var searchdata = document.getElementById("Searchdata").value;
+
+      if (searchdata.length === 0) {
          alert("검색어를 입력해주세요.");
-         $('#Searchdata').focus();
+         document.getElementById("Searchdata").focus();
          return;
       }
-      
-      if($('#Searchfield').val() == "b1Title") {
-         document.Searchform.action = "/b1title";
-      }
-      if($('#Searchfield').val() == "b1Content") {
-         document.Searchform.action = "/b1board/b1list";       
-      }
-      if($('#Searchfield').val() == "b1Writer") {
-         document.Searchform.action = "/b1board/b1list";        
-      }
-      if($('#Searchfield').val() == "b2Title") {
-         document.Searchform.action = "/b2board/b2list";
-      }
-      if($('#Searchfield').val() == "b2Content") {
-         document.Searchform.action = "/b2board/b2list";       
-      }
-      if($('#Searchfield').val() == "b2Writer") {
-         document.Searchform.action = "/b2board/b2list";        
-      }
-      if($('#Searchfield').val() == "pTitle") {
-         document.Searchform.action = "/playboard/playlist";
-      }
-      if($('#Searchfield').val() == "pContent") {
-         document.Searchform.action = "/playboard/playlist";       
-      }
-      if($('#Searchfield').val() == "pWriter") {
-         document.Searchform.action = "/playboard/playlist";        
+    
+      switch (searchField.value) {
+         case "b1Title":
+            document.Searchform.action = "/b1title";
+            break;
+         case "b1Content":
+            document.Searchform.action = "/b1content";
+            break;
+         case "b1Writer":
+            document.Searchform.action = "/b1writer";
+            break;
+         case "b2Title":
+            document.Searchform.action = "/b2title";
+            break;
+         case "b2Content":
+            document.Searchform.action = "/b2content";
+            break;
+         case "b2Writer":
+            document.Searchform.action = "/b2writer";
+            break;
+         case "pTitle":
+            document.Searchform.action = "/playtitle";
+            break;
+         case "pContent":
+            document.Searchform.action = "/playcontent";
+            break;
+         case "pWriter":
+            document.Searchform.action = "/playwriter";
+            break;
+         default:
+            break;
       }
       document.Searchform.submit();
-   }  
+   }
+   changeSearchOptions();
    </script>
    <style>
       .test1 {
@@ -101,8 +112,8 @@ pageEncoding="UTF-8"%>
       a {
          text-decoration:none;color:#000;font-size:15px;
       }
-      nav {
-         width:80%;overflow:hidden;height:80px;margin:10px auto;   
+nav {
+      width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
       }
       div img.absolute { 
          position: absolute;
@@ -154,7 +165,7 @@ pageEncoding="UTF-8"%>
          box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
       }
       .search-container input {
-         flex: 1; /* 검색창과 버튼을 나란히 배치하기 위해 확장 */
+         flex: 1; 
          border: none;
          padding: 5px;
          border-radius: 5px;
@@ -173,15 +184,22 @@ pageEncoding="UTF-8"%>
    <nav id="nav2">
       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-      <ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/b1page?page=1">니빵이</a></li>
-         <li><a href="/b2page?page=1">내빵이</a></li>
-         <li><a href="#">랭킹빵</a></li>
-         <li><a href="/playpage?page=1">놀이빵</a></li>
-         <li><a href="#">로그인</a></li>
+         <li><a href="/member/b1page?page=1">니빵이</a></li>
+         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
          <li><a href="/mypage">MYPAGE</a></li>
-         <li><a href="#">로그아웃</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
        </ul>
       
    </nav>
@@ -193,6 +211,7 @@ pageEncoding="UTF-8"%>
                     <div class="row">
                         <div class="col-md-6">
                             <select id="BoardSelection" name="BoardSelection" onchange="changeSearchOptions()" class="form-select">
+                                <option value="default">게시판 선택</option>
                                 <option value="B1board">니빵이게시판</option>
                                 <option value="B2board">내빵이게시판</option>
                                 <option value="playboard">놀이빵게시판</option>
@@ -202,7 +221,7 @@ pageEncoding="UTF-8"%>
                             <select id="Searchfield" name="Searchfield" class="form-select">
                                 <option id="Title" value="b1Title">제목</option>
                                 <option id="Content" value="b1Content">내용</option>
-                                <option id="Writer" value="bWriter">작성자</option>
+                                <option id="Writer" value="b1Writer">작성자</option>
                             </select>
                         </div>
                      </div>

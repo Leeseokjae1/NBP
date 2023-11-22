@@ -1,6 +1,12 @@
+<%@page import="com.study.nbnb.dto.BuserDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+ <%
+ BuserDto a = (BuserDto)session.getAttribute("login");
+ int m_number = a.getM_NUMBER();
+ 
+ %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +86,7 @@
                 <th scope="col">결제번호</th>
                 <th scope="col">채팅권 개수</th>
                 <th scope="col">가격</th>
+                <th scopte="col">결제날짜</th>
                 <th scope="col">결제취소</th>
             </tr>
         </thead>
@@ -89,7 +96,26 @@
                     <th scope="row">${list.buy_number}</th>
                     <td>${list.t_count}</td>
                     <td>${list.t_price}</td>
-                    <td><a href="cancelPurchase?buy_number=${list.buy_number}&m_number=${list.m_number}">취소</a></td>
+                    <td>${list.b_date}</td>
+                    <td>
+                    
+					    <c:choose>
+					        <c:when test="${list.t_cancel eq 'cancel'}">
+					            취소 접수
+					        </c:when>
+					        <c:when test="${list.t_cancel eq 'approve'}">
+					            취소 완료
+					        </c:when>
+					         <c:when test="${list.t_cancel eq 'refuse'}">
+					            취소 거부
+					        </c:when>
+					        <c:otherwise>
+					                <button type="button"  onclick="cancelBtn(${list.buy_number})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
+        취소</button>
+					        </c:otherwise>
+					    </c:choose>
+
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -128,11 +154,44 @@
             </li>
         </c:if>
     </ul>
-
-    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
-        <a href="playwriteform" class="btn btn-primary">글작성</a>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">취소 확인</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                취소하시겠습니까?
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" onclick="confirmCancelBtn()">확인</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+             
+             
+            </div>
+        </div>
     </div>
 </div>
+
+
+<script>
+
+var buyNumber;
+
+function cancelBtn(a){
+	buyNumber=a;
+}
+ 
+function confirmCancelBtn() {
+  var mNumber = <%= m_number%>
+  window.location.href = "../cancelPurchase?buy_number=" + buyNumber + "&m_number=" + mNumber;
+
+}
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -26,7 +26,7 @@ public class B2Dto {
 	private int b_like;
 	private int b_dislike;
 	private Timestamp time;
-	
+	private int m_number;
 	
 	public int getB2_number() {
 		return b2_number;
@@ -88,7 +88,12 @@ public class B2Dto {
 	public void setTime(Timestamp time) {
 		this.time = time;
 	}
-	
+	public int getM_number() {
+		return m_number;
+	}
+	public void setM_number(int m_number) {
+		this.m_number = m_number;
+	}
 	
 
 }

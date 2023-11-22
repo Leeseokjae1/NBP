@@ -14,5 +14,7 @@ public interface LikeDao {
 	public int likeClickDao(int check_b, int t_number, int m_number, int l_or_dl);
 	public int deleteDao(int check_b, int t_number, int m_number);
 	public int dislikeClickDao(int check_b, int t_number, int m_number, int l_or_dl);
+	public List<LikeDto> likecountDao(int check_b, int t_number);
+	public List<LikeDto> dislikecountDao(int check_b, int t_number);
 	
 }

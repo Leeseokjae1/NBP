@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.study.nbnb.dao.RDao">
+    <select id="getb1Ranking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT b1.b1_number AS bNumber,
+            b1.writer,
+            b1.title,
+            b1.b_like - b1.b_dislike AS score,
+            b1.imageurl1,
+            b1.imageurl2,
+            b1.imageurl3,
+            ROW_NUMBER() OVER (ORDER BY (b1.b_like - b1.b_dislike) DESC) AS rank
+        FROM b1board b1
+        ORDER BY (b1.b_like - b1.b_dislike) DESC
+    </select>
+    
+   <select id="getb2Ranking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT b2.b2_number AS bNumber,
+            b2.writer,
+            b2.title,
+            b2.b_like - b2.b_dislike AS score,
+            b2.imageurl1,
+            b2.imageurl2,
+            b2.imageurl3,
+            ROW_NUMBER() OVER (ORDER BY (b2.b_like - b2.b_dislike) DESC) AS rank
+        FROM b2board b2
+        ORDER BY (b2.b_like - b2.b_dislike) DESC
+    </select>
+    
+    <select id="getplRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT pl.f_number AS bNumber,
+            pl.writer,
+            pl.title,
+            pl.b_like - pl.b_dislike AS score,
+            pl.imageurl,
+            ROW_NUMBER() OVER (ORDER BY (pl.b_like - pl.b_dislike) DESC) AS rank
+        FROM playboard pl
+        ORDER BY (pl.b_like - pl.b_dislike) DESC  
+    </select>  
+    
+    <select id="getb1UserRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT b1.writer,
+            SUM(b1.b_like - b1.b_dislike) AS userScore
+        FROM b1board b1
+        GROUP BY b1.writer
+        ORDER BY userScore DESC
+    </select>
+    
+    <select id="getb2UserRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT b2.writer,
+            SUM(b2.b_like - b2.b_dislike) AS userScore
+        FROM b2board b2
+        GROUP BY b2.writer
+        ORDER BY userScore DESC
+    </select>
+    
+    <select id="getplUserRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT pl.writer,
+            SUM(pl.b_like - pl.b_dislike) AS userScore
+        FROM playboard pl
+        GROUP BY pl.writer
+        ORDER BY userScore DESC
+    </select>
+    
+    <select id="getUserRanking" resultType="com.study.nbnb.dto.RankDto">
+        SELECT
+           u.m_number AS m_number,
+           u.name AS writer,
+           SUM(COALESCE(b1.b_like, 0) - COALESCE(b1.b_dislike, 0) +
+               COALESCE(b2.b_like, 0) - COALESCE(b2.b_dislike, 0) +
+               COALESCE(pl.b_like, 0) - COALESCE(pl.b_dislike, 0)) AS userScore,
+           ROW_NUMBER() OVER (ORDER BY
+               SUM(COALESCE(b1.b_like, 0) - COALESCE(b1.b_dislike, 0) +
+                   COALESCE(b2.b_like, 0) - COALESCE(b2.b_dislike, 0) +
+                   COALESCE(pl.b_like, 0) - COALESCE(pl.b_dislike, 0)) DESC) AS rank
+       FROM buser u
+       LEFT JOIN b1board b1 ON u.m_number = b1.b1_number
+       LEFT JOIN b2board b2 ON u.m_number = b2.b2_number
+       LEFT JOIN playboard pl ON u.m_number = pl.f_number
+       GROUP BY u.m_number, u.name
+       ORDER BY userScore DESC
+    </select>
+</mapper>
