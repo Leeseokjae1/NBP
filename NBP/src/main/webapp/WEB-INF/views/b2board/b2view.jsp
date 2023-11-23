@@ -6,6 +6,7 @@
 <%@ page import="com.study.nbnb.dto.B2Dto" %>
 <%
 B2Dto view = (B2Dto)session.getAttribute("b2dto");
+int b2_number = view.getB2_number();
 int mn = view.getM_number();
 int m_number = 0;
 if(session.getAttribute("login") != null){
@@ -23,8 +24,7 @@ String writer = member.getNICKNAME();
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <title>Insert title here</title>
 <style>
     * {
@@ -65,6 +65,24 @@ String writer = member.getNICKNAME();
         position: absolute;
       left: 50px;
       }
+      
+  	 .like-button {
+        border: none; 
+        background-color: transparent; 
+        cursor: pointer;
+    }
+
+
+    .like-button img {
+        width: 70px;
+        height: 70px;
+    }
+    .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+    body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 
@@ -129,18 +147,21 @@ String writer = member.getNICKNAME();
 
 
         <div class="mb-3">
-            <strong>좋아요:</strong> ${dto.b_like} &nbsp;&nbsp; <strong>싫어요:</strong> ${dto.b_dislike}
+                <strong>좋아요:</strong> <span class="like-count">${dto.b_like}</span> &nbsp;&nbsp;
+			    <strong>싫어요:</strong> <span class="dislike-count">${dto.b_dislike}</span>
         </div>
-		<%if(session.getAttribute("login") != null){ %>
+		<%
+		
+		if(session.getAttribute("login") != null){ %>
         <div class="mb-3">
-            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=1">
-                <img src="/images/like.png" style="width:70px; height:70px;">
-            </a>
-
-            <a href="b2like?check_b=2&t_number=${dto.b2_number}&m_number=<%=m_number%>&l_or_dl=-1">
-                <img src="/images/dislike.png" style="width:70px; height:70px;">
-            </a>
-        </div>
+		    <button class="like-button" data-value="1">
+		        <img src="/images/like.png" style="width:70px; height:70px;"/>
+		    </button>
+		
+		    <button class="like-button" data-value="-1">
+		        <img src="/images/dislike.png" style="width:70px; height:70px;">
+		    </button>
+		</div>
 		<%}else{ %>
                 <div class="mb-3">
                 <img src="/images/like.png" style="width:70px; height:70px;">
@@ -157,7 +178,7 @@ String writer = member.getNICKNAME();
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
-		    <a href="b1page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
+		    <a href="b2page?page=1" class="btn btn-outline-info ml-2">목록보기</a>
 		</div>
 		<%} %>
 		<hr>
@@ -197,6 +218,42 @@ String writer = member.getNICKNAME();
 		    </p>
 		</form>
     </div>
+    
+    <script>
+    var likeCount = ${dto.b_like};
+    var dislikeCount = ${dto.b_dislike};
+
+    $(document).ready(function () {
+        $(".like-button").click(function () {
+            var check_b = 2;
+            var t_number = <%= b2_number %>;
+            var m_number = <%= m_number %>;
+            var l_or_dl = $(this).data("value");
+
+            $.ajax({
+                type: "GET",
+                url: "/member/b2like",
+                data: {
+                    check_b: check_b,
+                    t_number: t_number,
+                    m_number: m_number,
+                    l_or_dl: l_or_dl
+                },
+                success: function (data) {
+                    console.log(data);
+                    var likeCount = data.b2_like;
+                    var dislikeCount = data.b2_dislike;
+
+                    $(".like-count").text(likeCount);
+                    $(".dislike-count").text(dislikeCount);
+                },
+                error: function () {
+                    alert("에러가 발생했습니다.");
+                }
+            });
+        });
+    });
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

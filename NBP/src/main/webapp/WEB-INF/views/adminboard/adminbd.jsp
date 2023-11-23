@@ -11,18 +11,23 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <style>
 
-        .image {
-            text-align: center;
-        }
+   body {
+        min-height: calc(100vh - 50px); 
+        margin: 0; 
+    }
+    .image {
+        text-align: center;
+    }
 
-        .image img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
-        }
-            * {
+    .image img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+    }
+    * {
        padding:0;
        margin:0;
     }
@@ -76,6 +81,8 @@
        flex-direction: column;
        background-color: #e3dde1; 
        margin-left: 200px;
+       height: 100vh; 
+       
    }
    
    .admintab {
@@ -83,7 +90,7 @@
        color: #000;
        font-size: 15px;
        padding: 10px;
-       border-bottom: 1px solid #ccc; /* 탭 사이의 구분선을 추가할 수 있습니다. */
+       border-bottom: 1px solid #ccc;
        transition: background-color 0.3s;
    }
    
@@ -110,9 +117,9 @@
         position: absolute;
         top: 150px;
         left: 20%;
-        width: 60%;
-        margin-left: 120px; /* 내가 추가한 부분: 원하는 만큼 좌측 여백 설정 */
+        margin-left: 120px;
         padding: 20px;
+        width: 1130px;
     }
      th {
         text-align: center;
@@ -127,7 +134,7 @@
         width: 100px;
     }
     th.board-writer{
-    	width: 100px;	
+       width: 100px;   
     }
     th.contents {
         width: 230px;
@@ -142,9 +149,64 @@
     }
 
    td {
+   
    text-align : center;
    }
-    </style>
+   table {
+        table-layout: fixed;
+    }
+
+    th, td {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    @media (max-width: 1300px) {
+       .empty-space {
+           display: none;
+       }
+       .admintabs {
+           top: 70px;
+           left: 0;
+           width: 100%;
+           height: 45px;
+           overflow: auto;
+           flex-direction: row;
+           justify-content: space-around;
+           margin-left: 0;
+           position: static; 
+           z-index: 1;
+           flex-wrap: wrap; 
+       }
+   
+       .admintab {
+          width: calc(20% - 20px);
+          height: 45px;
+           border-bottom: 1px solid #ccc;
+           padding: 10px 0;
+           box-sizing: border-box;
+           text-align: center;
+       }
+   
+       .content {
+           position: relative;
+           top: 0;
+           left: 0;
+           margin-left: 0;
+           margin-top: 45px;
+           padding: 20px;
+           width: 100%;
+       }
+   }
+   nav[aria-label="Page navigation"] {
+       width: 1160px;
+       margin: 10px 0;
+   }
+   .pagination {
+       display: flex;
+       justify-content: center;
+   }
+ </style>
 </head>
 <body>
    <nav id="nav2">
@@ -167,23 +229,17 @@
          <li><a href="/admin/adminbd">관리빵 페이지</a></li>
              <%}%>
        </ul>
-      
-   </nav>
-  <div class="empty-space"></div>
-  <div class="admintabs">
-            <a href="/admin/member?page=1" class="tabname">회원관리</a>
-            <a href="#" class="admintab">  ㄴ회원조회</a>
-            <a href="#" class="admintab">  ㄴ회원정지</a>
-            <a href="#" class="admintab">  ㄴ회원정지해제</a>
-            <a href="/admin/adminbd" class="admintab">게시글관리</a>
-            <a href="#" class="admintab">  ㄴ게시글조회</a>
-            <a href="#" class="admintab">  ㄴ게시글삭제</a>
-         	<a href="/admin/adminshop" class="admintab">결제관리</a>
-            <a href="#" class="tabname">문의접수</a>
-            <a href="#" class="admintab">문의조회</a>
-        </div>
     
-<div class="content">
+    </nav>
+   <div class="empty-space"></div>
+   <div class="admintabs">
+       <a href="/admin/member?page=1" class="tabname">회원관리</a>
+       <a href="/admin/adminbd" class="admintab">게시글관리</a>
+       <a href="/admin/adminshop" class="admintab">결제관리</a>
+       <a href="#" class="tabname">문의접수</a>
+       <a href="#" class="admintab">문의조회</a>
+   </div>
+   <div class="content">
     <table border="1">
         <tr>
            <th class="no">NO.</th>
@@ -213,7 +269,7 @@
              <td>${post.b_dislike}</td>
              <td>${post.time}</td>
              <td class="no-click">
-                <a href="bddelete?boardname=${post.boardname}&boardno=${post.no}">삭제</a>
+                 <a href="bddelete?boardname=${post.boardname}&boardno=${post.no}" >삭제</a>
             </td>
          </tr>
            <tr>
@@ -228,11 +284,12 @@
        </c:forEach>
    </table>
    <script>
+         
        document.querySelectorAll('.content table tr').forEach(row => {
           row.addEventListener('click', event => {
                if (event.target.closest('.no-click')) {
-                   // 삭제 버튼이 있는 셀을 클릭한 경우 이벤트를 무시합니다.
-                   return;
+                  const detailsId = row.nextElementSibling.querySelector('div').id;
+                   toggleDetails(detailsId);
                }
 
                const detailsId = row.nextElementSibling.querySelector('div').id;
@@ -251,6 +308,25 @@
            }
        }
    </script>
+   <script>
+    function deletePost(boardname, no) {
+       console.log('Deleting post:', boardname, no);
+        $.ajax({
+            url: '/bddelete',
+            type: 'POST',
+            data: {
+                boardname: boardname,
+                boardno: no
+            },
+            success: function(response) {
+                location.reload();
+            },
+            error: function(error) {
+                alert('게시글 삭제에 실패했습니다.');
+            }
+        });
+    }
+    </script>
    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <c:if test="${page > 1}">

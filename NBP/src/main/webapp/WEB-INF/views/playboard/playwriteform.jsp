@@ -49,6 +49,13 @@
         position: absolute;
       left: 50px;
       }
+      
+   .container-mt-5 {
+        margin-top: 5rem;
+    }
+    body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 <body>
@@ -99,7 +106,7 @@
 	    </tr>
 		<tr>
 			<td colspan="2"> <input type="submit" value="입력" class="btn btn-outline-info">
-				&nbsp;&nbsp; <a href="/playpage?page=1"  class="btn btn-secondary">목록보기</a></td>
+				&nbsp;&nbsp; <a href="playpage?page=1"  class="btn btn-secondary">목록보기</a></td>
 		</tr>
 	</form>
 </table>

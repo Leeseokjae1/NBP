@@ -50,6 +50,9 @@
         position: absolute;
       left: 50px;
       }
+      body {
+           background-color: #f8f9fa;
+       }
 </style>
 </head>
 <body>

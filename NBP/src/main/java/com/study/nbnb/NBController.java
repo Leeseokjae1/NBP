@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.AdDao;
@@ -404,21 +406,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8081/img/yb.png";
+				imageURL1="/img/yb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8081/img/yb.png";
+				imageURL2="/img/yb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8081/img/yb.png";
+				imageURL3="/img/yb.png";
 			}
 
 			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
@@ -492,11 +494,12 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/member/b1like")
-	public String b1Like(HttpServletRequest request, Model model) {
-		int check_b = Integer.parseInt(request.getParameter("check_b"));
-		int t_number = Integer.parseInt(request.getParameter("t_number"));
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		int l_or_dl = Integer.parseInt(request.getParameter("l_or_dl"));
+	@ResponseBody
+	public ResponseEntity<?> b1Like(
+	    @RequestParam("check_b") int check_b,
+	    @RequestParam("t_number") int t_number,
+	    @RequestParam("m_number") int m_number,
+	    @RequestParam("l_or_dl") int l_or_dl) {
 		List<LikeDto> list = likedao.listDao(check_b, t_number, m_number);
 		List<LikeDto> list2 = likedao.listDao2(check_b, t_number, m_number, l_or_dl);
 
@@ -528,8 +531,14 @@ public String search_pw() {
 				}
 			}
 		}
-	
-		return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+		int likeCount = likedao.likecountDao(check_b, t_number).size();
+		int dislikeCount = likedao.dislikecountDao(check_b, t_number).size();
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("b1_like", likeCount);
+	    response.put("b1_dislike", dislikeCount);
+
+	    return ResponseEntity.ok(response);
+		//return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
 	
 	@RequestMapping("/member/b1page")
@@ -633,21 +642,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8081/img/nb.png";
+				imageURL1="/img/nb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8081/img/nb.png";
+				imageURL2="/img/nb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8081/img/nb.png";
+				imageURL3="/img/nb.png";
 			}
 
 
@@ -723,11 +732,12 @@ public String search_pw() {
 	}
 	
 	@RequestMapping("/member/b2like")
-	public String b2Like(HttpServletRequest request, Model model) {
-		int check_b = Integer.parseInt(request.getParameter("check_b"));
-		int t_number = Integer.parseInt(request.getParameter("t_number"));
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		int l_or_dl = Integer.parseInt(request.getParameter("l_or_dl"));
+	@ResponseBody
+	public ResponseEntity<?> b2Like(
+	    @RequestParam("check_b") int check_b,
+	    @RequestParam("t_number") int t_number,
+	    @RequestParam("m_number") int m_number,
+	    @RequestParam("l_or_dl") int l_or_dl) {
 		List<LikeDto> list = likedao.listDao(check_b, t_number, m_number);
 		List<LikeDto> list2 = likedao.listDao2(check_b, t_number, m_number, l_or_dl);
 
@@ -759,8 +769,14 @@ public String search_pw() {
 				}
 			}
 		}
-	
-		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
+		int likeCount = likedao.likecountDao(check_b, t_number).size();
+		int dislikeCount = likedao.dislikecountDao(check_b, t_number).size();
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("b2_like", likeCount);
+	    response.put("b2_dislike", dislikeCount);
+
+	    return ResponseEntity.ok(response);
+		//return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
 	
 	@RequestMapping("/member/b2page")
@@ -872,7 +888,7 @@ public String search_pw() {
 			if (file != null && !file.isEmpty()) {
 				imageURL = uploadFile(file);
 			}else {
-				imageURL="http://localhost:8081/images/111.png";
+				imageURL="/images/play.png";
 			}
 
 			playdao.writeDao(writer, title, content, imageURL, m_number);
@@ -926,11 +942,12 @@ public String search_pw() {
 	}
 
 	@RequestMapping("/member/playlike")
-	public String playLike(HttpServletRequest request, Model model) {
-		int check_b = Integer.parseInt(request.getParameter("check_b"));
-		int t_number = Integer.parseInt(request.getParameter("t_number"));
-		int m_number = Integer.parseInt(request.getParameter("m_number"));
-		int l_or_dl = Integer.parseInt(request.getParameter("l_or_dl"));
+	@ResponseBody
+	public ResponseEntity<?> playLike(
+	    @RequestParam("check_b") int check_b,
+	    @RequestParam("t_number") int t_number,
+	    @RequestParam("m_number") int m_number,
+	    @RequestParam("l_or_dl") int l_or_dl) {
 		List<LikeDto> list = likedao.listDao(check_b, t_number, m_number);
 		List<LikeDto> list2 = likedao.listDao2(check_b, t_number, m_number, l_or_dl);
 
@@ -962,8 +979,14 @@ public String search_pw() {
 				}
 			}
 		}
-	
-		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
+		int likeCount = likedao.likecountDao(check_b, t_number).size();
+		int dislikeCount = likedao.dislikecountDao(check_b, t_number).size();
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("p_like", likeCount);
+	    response.put("p_dislike", dislikeCount);
+
+	    return ResponseEntity.ok(response);
+		//return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
 	}
 	
 	@RequestMapping("/member/playpage")
@@ -1288,7 +1311,6 @@ public String search_pw() {
 
        int nStart = (page - 1) * pageSize + 1;
        int nEnd = (page - 1) * pageSize + pageSize;
-       System.out.println("스타트" + nStart + " 그리고 엔드" + nEnd);
        
        
        List<AdDto>list = addao.pageDao(nEnd, nStart);
@@ -1305,54 +1327,66 @@ public String search_pw() {
 
 
  
- @RequestMapping("/bddelete")
- public String deletead(HttpServletRequest request, Model model) {
-    String bn = (String)request.getParameter("boardname");
-    String no = (String)request.getParameter("boardno");
-    String wb = "";
-    System.out.println(bn + " : " + no);
-    if(bn.equals("playboard")) {
-       addao.adDelete(bn,wb = "f_number", no);
-    } else if(bn.equals("b1board")) {
-       addao.adDelete(bn, wb = "b1_number", no);
-    } else if(bn.equals("b2board")) {
-       addao.adDelete(bn, wb = "b2_number", no);
+    @RequestMapping("/admin/bddelete")
+    public String deletead(HttpServletRequest request, Model model) {
+       String bn = (String)request.getParameter("boardname");
+       String no = (String)request.getParameter("boardno");
+       String wb = "";
+       System.out.println(bn + " : " + no);
+       if(bn.equals("playboard")) {
+          addao.adDelete(bn,wb = "f_number", no);
+       } else if(bn.equals("b1board")) {
+          addao.adDelete(bn, wb = "b1_number", no);
+       } else if(bn.equals("b2board")) {
+          addao.adDelete(bn, wb = "b2_number", no);
+       }
+    
+       return "redirect:adminbd";
     }
- 
-    return "redirect:adminbd";
- }
 
 	@RequestMapping("/admin/member")
 	public String admin_member(HttpServletRequest request, Model model) {
-		
-		
-		
-		  int total = buserDao.listDao().size();
-	      int pageSize = 10;
+		String field = request.getParameter("Searchfield");
+		String search = request.getParameter("Search");
+		int total=0;
+		if(search == null) {
+			total = buserDao.listDao().size();
+		} else {
+			total = buserDao.searchUser(field, search).size();
+		}
+		 
+	    int pageSize = 10;
 
-	      int totalPage = total / pageSize;
+	    int totalPage = total / pageSize;
 
-	      if (total % pageSize > 0) {
+	    if (total % pageSize > 0) {
 	         totalPage++;
-	      }
-	      
-	      String sPage = request.getParameter("page");
-	      int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-	      int nStart = (page - 1) * pageSize + 1;
-	      int nEnd = (page - 1) * pageSize + pageSize;
-	     
-	      List<BuserDto> a = buserDao.pageDao(nEnd, nStart);
-	      
-	      model.addAttribute("userList", buserDao.pageDao(nEnd, nStart));
-	      model.addAttribute("totalPage", totalPage);
-	      model.addAttribute("page", page);
+	    }
+	    
+	    String sPage = request.getParameter("page");
+	    int page = sPage == null ? 1 : Integer.parseInt(sPage);
+	    int nStart = (page - 1) * pageSize + 1;
+	    int nEnd = (page - 1) * pageSize + pageSize;
+	    
+	    List<BuserDto> list;
+	    
+	    if(field == null) {
+	    	list = buserDao.pageDao(nEnd, nStart);
+		} else {
+			list = buserDao.pSU(field, search, nEnd, nStart);
+		}
+	    
+	    model.addAttribute("field", field);
+	    model.addAttribute("search", search);
+	    model.addAttribute("userList", list);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("page", page);
 
 		return "adminboard/adminmember";
 	}
 	
 	@RequestMapping("/admin/member_profile")
-	public String member_modify(HttpServletRequest request, Model model) {
+	public String member_modify1(HttpServletRequest request, Model model) {
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		model.addAttribute("user", buserDao.selectUser(m_number));
 		return "adminboard/adminmember_profile";
@@ -1365,48 +1399,86 @@ public String search_pw() {
 			String PHONENUMBER = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
 			
 			String dateString = request.getParameter("S_DATE");
-			String pattern = "yyyy-MM-dd HH:mm:ss";
-			
-		    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
-		    Date parsedDate = dateFormat.parse(dateString);
-			    
-		    Timestamp S_DATE = new Timestamp(parsedDate.getTime());
-	        
-		            
-			if(request.getParameter("PASSWORD").equals(request.getParameter("pw"))) {
-				buserDao.updateUser3(
-						request.getParameter("ID"), 
-						request.getParameter("NAME"), 
-						request.getParameter("ADDRESS"), 
-						request.getParameter("EMAIL"), 
-						PHONENUMBER, 
-						request.getParameter("NICKNAME"), 
-						request.getParameter("BBANG"), 
-						request.getParameter("S_COMMENT"), 
-						S_DATE, 
-						m_number
-					);
+			Timestamp S_DATE = null;
+			if(dateString.equals("")) {
+				if(request.getParameter("PASSWORD").equals(request.getParameter("pw2"))) {
+					buserDao.updateUser5(
+							request.getParameter("ID"), 
+							request.getParameter("NAME"), 
+							request.getParameter("ADDRESS"), 
+							request.getParameter("EMAIL"), 
+							PHONENUMBER, 
+							request.getParameter("NICKNAME"), 
+							request.getParameter("BBANG"), 
+							request.getParameter("S_COMMENT"), 
+							m_number
+						);
+				} else {
+					String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+					String password = encoded.substring(8);
+					
+					buserDao.updateUser6(
+							request.getParameter("ID"), 
+							password,
+							request.getParameter("NAME"), 
+							request.getParameter("ADDRESS"), 
+							request.getParameter("EMAIL"), 
+							PHONENUMBER, 
+							request.getParameter("NICKNAME"), 
+							request.getParameter("BBANG"), 
+							request.getParameter("S_COMMENT"), 
+							m_number
+						);
+					
+				}
 			} else {
-				String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
-				String password = encoded.substring(8);
+				String pattern = "yyyy-MM-dd";
 				
-				buserDao.updateUser4(
-						request.getParameter("ID"), 
-						password,
-						request.getParameter("NAME"), 
-						request.getParameter("ADDRESS"), 
-						request.getParameter("EMAIL"), 
-						PHONENUMBER, 
-						request.getParameter("NICKNAME"), 
-						request.getParameter("BBANG"), 
-						request.getParameter("S_COMMENT"), 
-						S_DATE, 
-						m_number
-					);
-				
+			    SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+			    Date parsedDate = dateFormat.parse(dateString);
+				    
+			    S_DATE = new Timestamp(parsedDate.getTime());
+			    
+			    if(request.getParameter("PASSWORD").equals(request.getParameter("pw2"))) {
+					buserDao.updateUser3(
+							request.getParameter("ID"), 
+							request.getParameter("NAME"), 
+							request.getParameter("ADDRESS"), 
+							request.getParameter("EMAIL"), 
+							PHONENUMBER, 
+							request.getParameter("NICKNAME"), 
+							request.getParameter("BBANG"), 
+							request.getParameter("S_COMMENT"), 
+							S_DATE, 
+							m_number
+						);
+				} else {
+					String encoded=PasswordEncoderFactories.createDelegatingPasswordEncoder().encode(request.getParameter("PASSWORD"));
+					String password = encoded.substring(8);
+					
+					buserDao.updateUser4(
+							request.getParameter("ID"), 
+							password,
+							request.getParameter("NAME"), 
+							request.getParameter("ADDRESS"), 
+							request.getParameter("EMAIL"), 
+							PHONENUMBER, 
+							request.getParameter("NICKNAME"), 
+							request.getParameter("BBANG"), 
+							request.getParameter("S_COMMENT"), 
+							S_DATE, 
+							m_number
+						);
+					
+				}
+			    
 			}
+			
+			
+		       
+			
 		} catch(Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()+"아무말"+e);
 		}
 		return "redirect:/admin/member?page=1";
 	}
@@ -1524,7 +1596,7 @@ public String search_pw() {
 	       String kw = "%" +  kw1 + "%";
 	      
 	       int total = shopDao.memberCountDao(kw).size();
-	       int pageSize = 8;
+	       int pageSize = 16;
 
 	       int totalPage = total / pageSize;
 

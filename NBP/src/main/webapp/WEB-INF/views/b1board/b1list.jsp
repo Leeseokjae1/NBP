@@ -87,6 +87,9 @@ String writer = member.getNICKNAME();
     overflow: hidden;
     text-overflow: ellipsis;
 }
+body {
+           background-color: #f8f9fa;
+       }
     </style>
 
     <title>게시판</title>

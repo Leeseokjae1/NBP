@@ -28,9 +28,9 @@
    a {
       text-decoration:none;color:#000;font-size:15px;
    }
-   nav {
+nav {
       width:1520px;overflow:hidden;height:80px;margin:10px 10px 10px 210px;
-   }
+      }
    div img.absolute { 
         position: absolute;
         left: 50px;

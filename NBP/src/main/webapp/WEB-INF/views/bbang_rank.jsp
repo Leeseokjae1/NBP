@@ -133,9 +133,9 @@
            display: inline-block;
       }
       .ranking-types {
-	    text-align: center; 
-	    margin-bottom: 20px; 
-	}
+       text-align: center; 
+       margin-bottom: 20px; 
+   }
       .ranking-button:hover {
         background-color: #d5a99b;
     }
@@ -154,7 +154,9 @@
         padding: 10px;
         text-align: center;
     }
-
+body {
+           background-color: #f8f9fa;
+       }
 </style>  
 
 </head>
@@ -194,9 +196,9 @@
 
 
         <div class="ranking-container">
-	        <div class="ranking-scroll-wrapper">
-	            <table class="ranking-table page1">
-	         	   <c:forEach items="${b1rankingList.subList(0, (b1rankingList.size() > 10) ? 10 : b1rankingList.size())}" var="b1rank" varStatus="loop">
+           <div class="ranking-scroll-wrapper">
+               <table class="ranking-table page1">
+                  <c:forEach items="${b1rankingList.subList(0, (b1rankingList.size() > 10) ? 10 : b1rankingList.size())}" var="b1rank" varStatus="loop">
                        <tr class="ranking-item">
                           <td style="height: 100px; width: 80px">${b1rank.rank}</td>
                           <td style="height: 100px; width: 350px">${b1rank.title}</td>
@@ -204,12 +206,12 @@
                           <td style="height: 100px; width: 300px">닉네임 &nbsp;:&nbsp;${b1rank.writer}</td>
                           <td style="height: 100px; width: 200px">&nbsp;Score&nbsp;:&nbsp;${b1rank.score}</td>
                        </tr>
-	                   <tr style="height: 10px;"></tr>
-	                </c:forEach>
-	            </table>
-	            <table class="ranking-table page2">
-	                <c:forEach items="${b2rankingList.subList(0, (b2rankingList.size() > 10) ? 10 : b2rankingList.size())}" var="b2rank" varStatus="loop">
-	                    <tr class="ranking-item">
+                      <tr style="height: 10px;"></tr>
+                   </c:forEach>
+               </table>
+               <table class="ranking-table page2">
+                   <c:forEach items="${b2rankingList.subList(0, (b2rankingList.size() > 10) ? 10 : b2rankingList.size())}" var="b2rank" varStatus="loop">
+                       <tr class="ranking-item">
                            <td style="height: 100px; width: 80px">${b2rank.rank}</td>
                            <td style="height: 100px; width: 350px">${b2rank.title}</td>
                            <td style="height: 100px; width: 150px"><img src="${b2rank.imageurl1}" style="width:50px; max-height:50px; height:auto;"></td>
@@ -218,9 +220,9 @@
                         </tr>
                         <tr style="height: 10px;"></tr>
                     </c:forEach>
-       		    </table>
-	            <table class="ranking-table page3">
-	                <c:forEach items="${plrankingList.subList(0, (plrankingList.size() > 10) ? 10 : plrankingList.size())}" var="plrank" varStatus="loop">
+                 </table>
+               <table class="ranking-table page3">
+                   <c:forEach items="${plrankingList.subList(0, (plrankingList.size() > 10) ? 10 : plrankingList.size())}" var="plrank" varStatus="loop">
                         <tr class="ranking-item">
                             <td style="height: 100px; width: 80px">${plrank.rank}</td>
                             <td style="height: 100px; width: 350px">${plrank.title}</td>
@@ -228,57 +230,57 @@
                             <td style="height: 100px; width: 300px">닉네임 &nbsp;:&nbsp;${plrank.writer}</td>
                             <td style="height: 100px; width: 200px">&nbsp;Score&nbsp;:&nbsp;${plrank.score}</td>
                         </tr>
-                     	<tr style="height: 10px;"></tr>
-	                </c:forEach>
-	            </table>
-	            <table class="ranking-table page4">       
-		            <c:forEach items="${userb1RankingList.subList(0, (userb1RankingList.size() > 10) ? 10 : userb1RankingList.size())}" var="b1userRank" varStatus="loop">    
-	                    <tr class="ranking-item">
+                        <tr style="height: 10px;"></tr>
+                   </c:forEach>
+               </table>
+               <table class="ranking-table page4">       
+                  <c:forEach items="${userb1RankingList.subList(0, (userb1RankingList.size() > 10) ? 10 : userb1RankingList.size())}" var="b1userRank" varStatus="loop">    
+                       <tr class="ranking-item">
                             <td style="height: 100px; width: 200px">${loop.index + 1}등 &nbsp;</td>
                             <td style="height: 100px; width: 580px">회원닉네임&nbsp;:&nbsp;${b1userRank.writer}&nbsp;</td>
                             <td style="height: 100px; width: 300px">스코어&nbsp;:&nbsp;${b1userRank.userScore}</td>
                         </tr>
-	                    <tr style="height: 10px;"></tr>
-		            </c:forEach>
-	            </table>
-	            <table class="ranking-table page5">    
-	            	<c:forEach items="${userb2RankingList.subList(0, (userb2RankingList.size() > 10) ? 10 : userb2RankingList.size())}" var="b2userRank" varStatus="loop">        
-	                    <tr class="ranking-item">
-	                        <td style="height: 100px; width: 200px">${loop.index + 1}등 &nbsp;</td>
-	                        <td style="height: 100px; width: 580px">회원닉네임&nbsp;:&nbsp;${b2userRank.writer}&nbsp;</td>
-	                        <td style="height: 100px; width: 300px">스코어&nbsp;:&nbsp;${b2userRank.userScore}</td>
-	                    </tr>
-	                    <tr style="height: 10px;"></tr>
-	                </c:forEach>
-	            </table>
-	            <table class="ranking-table page6">          
-	            	<c:forEach items="${userplRankingList.subList(0, (userplRankingList.size() > 10) ? 10 : userplRankingList.size())}" var="pluserRank" varStatus="loop">  
-	                    <tr class="ranking-item">
-	                        <td style="height: 100px; width: 200px">${loop.index + 1}등 &nbsp;</td>
-	                        <td style="height: 100px; width: 580px">회원닉네임&nbsp;:&nbsp;${pluserRank.writer}&nbsp;</td>
-	                        <td style="height: 100px; width: 300px">스코어&nbsp;:&nbsp;${pluserRank.userScore}</td>
-	                    </tr>
-	                    <tr style="height: 10px;"></tr>
-	                </c:forEach>
-	            </table>
-	       		<table class="ranking-table page7">     
-	       			<c:forEach items="${userRankingList.subList(0, (userRankingList.size() > 10) ? 10 : userRankingList.size())}" var="userRank" varStatus="loop">        
-	                    <tr class="ranking-item">
-	                        <td style="height: 100px; width: 200px">${loop.index + 1}등 </td> 
-	                        <td style="height: 100px; width: 880px">회원닉네임&nbsp;:&nbsp;${userRank.writer}&nbsp;</td>
-	                        <!-- <td style="height: 100px;">${userRank.userScore}</td> -->
-	                    </tr>
-	                    <tr style="height: 10px;"></tr>
-	                </c:forEach>
-	            </table>
+                       <tr style="height: 10px;"></tr>
+                  </c:forEach>
+               </table>
+               <table class="ranking-table page5">    
+                  <c:forEach items="${userb2RankingList.subList(0, (userb2RankingList.size() > 10) ? 10 : userb2RankingList.size())}" var="b2userRank" varStatus="loop">        
+                       <tr class="ranking-item">
+                           <td style="height: 100px; width: 200px">${loop.index + 1}등 &nbsp;</td>
+                           <td style="height: 100px; width: 580px">회원닉네임&nbsp;:&nbsp;${b2userRank.writer}&nbsp;</td>
+                           <td style="height: 100px; width: 300px">스코어&nbsp;:&nbsp;${b2userRank.userScore}</td>
+                       </tr>
+                       <tr style="height: 10px;"></tr>
+                   </c:forEach>
+               </table>
+               <table class="ranking-table page6">          
+                  <c:forEach items="${userplRankingList.subList(0, (userplRankingList.size() > 10) ? 10 : userplRankingList.size())}" var="pluserRank" varStatus="loop">  
+                       <tr class="ranking-item">
+                           <td style="height: 100px; width: 200px">${loop.index + 1}등 &nbsp;</td>
+                           <td style="height: 100px; width: 580px">회원닉네임&nbsp;:&nbsp;${pluserRank.writer}&nbsp;</td>
+                           <td style="height: 100px; width: 300px">스코어&nbsp;:&nbsp;${pluserRank.userScore}</td>
+                       </tr>
+                       <tr style="height: 10px;"></tr>
+                   </c:forEach>
+               </table>
+                <table class="ranking-table page7">     
+                   <c:forEach items="${userRankingList.subList(0, (userRankingList.size() > 10) ? 10 : userRankingList.size())}" var="userRank" varStatus="loop">        
+                       <tr class="ranking-item">
+                           <td style="height: 100px; width: 200px">${loop.index + 1}등 </td> 
+                           <td style="height: 100px; width: 880px">회원닉네임&nbsp;:&nbsp;${userRank.writer}&nbsp;</td>
+                           <!-- <td style="height: 100px;">${userRank.userScore}</td> -->
+                       </tr>
+                       <tr style="height: 10px;"></tr>
+                   </c:forEach>
+               </table>
             </div>
         </div>
     </div>
 
     <script>
-	    $(document).ready(function () {
-	    	 $("#rb1").click();
-	    });
+       $(document).ready(function () {
+           $("#rb1").click();
+       });
         function showRanking(page) {
             document.querySelectorAll('.ranking-table').forEach(table => {
                 table.style.display = 'none';
@@ -287,7 +289,7 @@
             document.querySelector('.page' + page).style.display = 'table';
 
             document.querySelectorAll('.ranking-button').forEach(button => {
-            	button.classList.remove('active');
+               button.classList.remove('active');
             });
             
             document.querySelector('#rb' + page).classList.add('active');
