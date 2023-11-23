@@ -406,21 +406,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8081/img/yb.png";
+				imageURL1="/img/yb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8081/img/yb.png";
+				imageURL2="/img/yb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8081/img/yb.png";
+				imageURL3="/img/yb.png";
 			}
 
 			b1dao.writeDao(writer, title, content, imageURL1, imageURL2, imageURL3, m_number);
@@ -642,21 +642,21 @@ public String search_pw() {
 			if (file1 != null && !file1.isEmpty()) {
 				imageURL1 = uploadFile(file1);
 			}else {
-				imageURL1="http://localhost:8081/img/nb.png";
+				imageURL1="/img/nb.png";
 			}
 
 			String imageURL2 = "";
 			if (file2 != null && !file2.isEmpty()) {
 				imageURL2 = uploadFile(file2);
 			}else {
-				imageURL2="http://localhost:8081/img/nb.png";
+				imageURL2="/img/nb.png";
 			}
 
 			String imageURL3 = "";
 			if (file3 != null && !file3.isEmpty()) {
 				imageURL3 = uploadFile(file3);
 			}else {
-				imageURL3="http://localhost:8081/img/nb.png";
+				imageURL3="/img/nb.png";
 			}
 
 
@@ -888,7 +888,7 @@ public String search_pw() {
 			if (file != null && !file.isEmpty()) {
 				imageURL = uploadFile(file);
 			}else {
-				imageURL="http://localhost:8081/images/play.png";
+				imageURL="/images/play.png";
 			}
 
 			playdao.writeDao(writer, title, content, imageURL, m_number);
