@@ -2,11 +2,18 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="com.study.nbnb.dto.BuserDto"%>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+
 <%
 BuserDto login = (BuserDto)session.getAttribute("login");
 int M_NUMBER = login.getM_NUMBER();
 String password = login.getPASSWORD();
+Map<String, Object> responseData = new HashMap<>();
+responseData.put("message", "Profile modification successful.");
+String jsonResponse = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(responseData);
 %>
+<%= jsonResponse %>
 
 <html>
 <head>

@@ -216,7 +216,9 @@ String writer = member.getNICKNAME();
     var dislikeCount = ${playview.b_dislike};
 
     $(document).ready(function () {
-        
+    	
+
+   
         $(".like-button").click(function () {
             var check_b = 3;
             var t_number = <%= f_number %>;
