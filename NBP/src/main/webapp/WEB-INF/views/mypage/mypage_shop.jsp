@@ -3,8 +3,7 @@
    pageEncoding="UTF-8"%>
     <%
     BuserDto a = (BuserDto)session.getAttribute("login");
-    int m_number = a.getM_NUMBER();
-    
+    int m_number = a.getM_NUMBER(); 
      
    %>
 <html>
@@ -14,11 +13,10 @@
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-     <script src="https://code.jquery.com/jquery.js" ></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
-
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <style>
     * {
@@ -240,7 +238,24 @@
             </tr>
         </table>
     </div>
+	<script>
+    $(document).ready(function () {
+    	console.log("aaaa");
+        $.ajax({
+            type: "GET",
+            url: "/api/mshop",
+            success: function (data) {
+                console.log(data);
+                var newWindow = window.open("", "_blank");
+	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+            },
+            error: function (error) {
+                console.error('Error during AJAX request:', error);
+            }
+        });
+    });
 
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

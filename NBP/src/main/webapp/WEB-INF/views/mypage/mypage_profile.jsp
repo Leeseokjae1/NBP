@@ -10,7 +10,6 @@ BuserDto login = (BuserDto)session.getAttribute("login");
 int M_NUMBER = login.getM_NUMBER();
 String password = login.getPASSWORD();
 Map<String, Object> responseData = new HashMap<>();
-responseData.put("message", "Profile modification successful.");
 String jsonResponse = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(responseData);
 %>
 <%= jsonResponse %>
@@ -22,11 +21,12 @@ String jsonResponse = new com.fasterxml.jackson.databind.ObjectMapper().writeVal
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b38572f5de0a09cbaa96703ebb627d1&libraries=services"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 	
 	$(function selectedControl(){
@@ -359,7 +359,24 @@ nav {
 			</form>
  		</div>
   	</div>
-  	
+  	<script>
+	$(document).ready(function () {
+	    $.ajax({
+	    	type: "GET",
+            url: "/api/1/profile",
+            dataType: "json",
+            success: function (data) {
+	            console.log(data);
+	            var newWindow = window.open("", "_blank");
+	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+	        },
+	        error: function (error) {
+		        console.error('Error during AJAX request:', error);
+	        }
+	    });
+    });
+
+</script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" ></script>

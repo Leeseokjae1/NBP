@@ -176,10 +176,7 @@ nav {
 	         </div>
         </div>
   	</div>
-  	<div>
-  		<h3>기본정보</h3>
-  		
-  	</div>
+
   	<script>
   	$(document).ready(function () {
   		$.ajax({

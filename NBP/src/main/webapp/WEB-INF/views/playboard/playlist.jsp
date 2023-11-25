@@ -108,9 +108,11 @@ String writer = member.getNICKNAME();
 			            <th scope="row">${play.f_number}</th>
 			            <td>${play.writer}</td>
 			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-			                <a href="/member/playview?f_number=${play.f_number}&check_b=3">${play.title}</a>
+			                <a href="#" class="post-b" 
+                            data-f_number="${play.f_number}" data-checkb="3">${play.title}</a>
 			            </td>
 			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
+			            
 			            <td>${play.time}</td>
 			        </tr>
 			    </c:forEach>
@@ -158,54 +160,29 @@ String writer = member.getNICKNAME();
     </div>
 </div>
 <script>
-
 $(document).ready(function () {
-	$.ajax({
-		type: 'GET',
-		url: '/api/playview',
-	    contentType: "application/json",
-	    data: JSON.stringify({
-	    	"f_number" : f_number,
-	    	"check_b" : check_b
-	    	}),
-	    dataType: 'json',
-	    success: function (data) {
-	        console.log(data);
-            var newWindow = window.open("", "_blank");
-            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
-          
-	    },
-	    error: function (error) {
-	        console.error('Error during AJAX request:', error);
-	    }
+    $(".post-b").click(function () {
+       var f_number = $(this).data("f_number");
+         var checkb = $(this).data("checkb");
+	    $.ajax({
+	        type: "POST",
+	        contentType: "application/json",
+	        url: "/api/playview",
+	        data: JSON.stringify({ "f_number": f_number, "check_b": checkb }),
+	        dataType: "json",
+	        success: function (data) {
+	            console.log(data);
+	            var newWindow = window.open("", "_blank");
+	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+	         
+	        },
+	        error: function (error) {
+		        console.error('Error during AJAX request:', error);
+	        }
+	    });
 	});
 });
 
-<script>
-$(document).ready(function () {
-    $(".post-b").click(function () {
-       var b1Number = $(this).data("b1number");
-         var checkB = $(this).data("checkb");
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/api/b1view",
-        data: JSON.stringify({ "b1_number": b1Number, "check_b": checkB }),
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-            var newWindow = window.open("", "_blank");
-            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
-         
-        },
-        error: function (err) {
-            alert("에러가 발생했습니다." + err);
-        }
-    });
-});
-});
-
-</script>
 </script>
 
     <!-- Optional JavaScript -->
