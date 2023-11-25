@@ -186,12 +186,12 @@ body {
       <div class="container">
          <div class="ranking-types">
             <button class="ranking-button" id="rb1" onclick="showRanking(1)">니빵글 좋아요 랭킹 </button>
-            <button class="ranking-button" onclick="showRanking(2)">내빵글 게시글 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(3)">놀빵글 게시글 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(4)">니빵이 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(5)">내빵이 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(6)">놀빵이 랭킹</button>
-            <button class="ranking-button" onclick="showRanking(7)">전체 좋아요 랭킹</button>
+            <button class="ranking-button" id="rb2" onclick="showRanking(2)">내빵글 게시글 랭킹</button>
+            <button class="ranking-button" id="rb3" onclick="showRanking(3)">놀빵글 게시글 랭킹</button>
+            <button class="ranking-button" id="rb4" onclick="showRanking(4)">니빵이 랭킹</button>
+            <button class="ranking-button" id="rb5" onclick="showRanking(5)">내빵이 랭킹</button>
+            <button class="ranking-button" id="rb6" onclick="showRanking(6)">놀빵이 랭킹</button>
+            <button class="ranking-button" id="rb7" onclick="showRanking(7)">전체 좋아요 랭킹</button>
         </div>
 
 
@@ -277,9 +277,24 @@ body {
         </div>
     </div>
 
-    <script>
+<script>
        $(document).ready(function () {
            $("#rb1").click();
+               $.ajax({
+                   url: '/api/rpage',
+                   type: 'GET',
+                   dataType: 'json',
+                   success: function (response) {
+                      var top10UserRankingList = response.userRankingList.slice(0, 10);
+                       console.log(response);
+                       
+                       var newWindow = window.open("", "_blank");
+                       newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(response, null, 2) + "</pre></body></html>");
+                   },
+                   error: function (error) {
+                       console.error('Error during AJAX request:', error);
+                   }
+               });
        });
         function showRanking(page) {
             document.querySelectorAll('.ranking-table').forEach(table => {
@@ -294,6 +309,7 @@ body {
             
             document.querySelector('#rb' + page).classList.add('active');
         }
+        
     </script>
 
     <!-- Optional JavaScript -->

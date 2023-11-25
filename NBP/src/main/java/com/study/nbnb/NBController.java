@@ -438,6 +438,7 @@ public String search_pw() {
 	    if (!file.isEmpty()) {
 	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 	        String filePath = Paths.get(uploadDirectory, fileName).toString();
+	        System.out.println("파일이름 : " + fileName + "파일패스 : " + filePath);
 	        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 	        return "/uploads/" + fileName;
 	    }

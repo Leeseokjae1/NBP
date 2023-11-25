@@ -236,6 +236,9 @@ String writer = member.getNICKNAME();
     var dislikeCount = ${dto.b_dislike};
 
     $(document).ready(function () {
+    	
+    	
+    	
         console.log("aaa");
         $(".like-button").click(function () {
             var check_b = 1;
