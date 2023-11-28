@@ -75,17 +75,16 @@
        height: 30px;
        margin-left: 200px; 
        margin-right: 200px;
-      }
-    .admintabs {
+   }
+   .admintabs {
+       position: fixed;
        top: 120px;
        left: 200px;
        width: 200px;
        display: flex;
        flex-direction: column;
        background-color: #e3dde1; 
-       margin-left: 200px;
-       height: 100vh; 
-       
+       margin-top: 10px;
    }
    
    .admintab {
@@ -93,7 +92,7 @@
        color: #000;
        font-size: 15px;
        padding: 10px;
-       border-bottom: 1px solid #ccc;
+       border-bottom: 1px solid #ccc; /* 탭 사이의 구분선을 추가할 수 있습니다. */
        transition: background-color 0.3s;
    }
    
@@ -101,7 +100,7 @@
        background-color: #eee;
    }
    .content {
-        margin-left: 200px;
+        margin-left: 200px; /* 세로 탭 너비에 맞게 여백 조절 */
         padding: 20px;
     }
 
@@ -116,18 +115,9 @@
     .subtab:hover {
         background-color: #eee;
     }
-    .content {
-        position: absolute;
-        top: 150px;
-        left: 20%;
-        margin-left: 120px;
-        padding: 20px;
-        width: 1130px;
-    }
     .container {
     text-align: center;
     margin-right: 3px;
-    margin-left: 25%;
    }
    
    .table {
@@ -144,64 +134,18 @@
        display: inline-block;
        vertical-align: middle;
    }
-   
-    @media (max-width: 1300px) {
-       .empty-space {
-           display: none;
-       }
-       .admintabs {
-           top: 70px;
-           left: 0;
-           width: 100%;
-           height: 45px;
-           overflow: auto;
-           flex-direction: row;
-           justify-content: space-around;
-           margin-left: 0;
-           position: static; 
-           z-index: 1;
-           flex-wrap: wrap; 
-       }
-   
-       .admintab {
-          width: calc(20% - 20px);
-          height: 45px;
-           border-bottom: 1px solid #ccc;
-           padding: 10px 0;
-           box-sizing: border-box;
-           text-align: center;
-       }
-   
-       .content {
-           position: relative;
-           top: 0;
-           left: 0;
-           margin-left: 0;
-           margin-top: 45px;
-           padding: 20px;
-           width: 100%;
-       }
-   }
-   nav[aria-label="Page navigation"] {
-    width: 1160px;
-    margin: 10px 0;
-   }
-   .pagination {
-       display: flex;
-       justify-content: center;
-   }
     </style>
 </head>
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-<ul>
+       <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
-         <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/b1page?page=1">니빵이</a></li>
+         <li><a href="/b2page?page=1">내빵이</a></li>
+         <li><a href="/adminbd">랭킹빵</a></li>
+         <li><a href="/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -209,19 +153,25 @@
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
-         <% if (session.getAttribute("admin") != null) { %> 
-         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
-             <%}%>
+         <% if (session.getAttribute("Admin") != null) { %>
+         <li><a href="#">관리빵 페이지</a></li>
+         <% } %>
        </ul>
     </nav>
      <div class="empty-space"></div>
-   <div class="admintabs">
-       <a href="/admin/member?page=1" class="tabname">회원관리</a>
-       <a href="/admin/adminbd" class="admintab">게시글관리</a>
-       <a href="/admin/adminshop" class="admintab">결제관리</a>
-       <a href="#" class="tabname">문의접수</a>
-       <a href="#" class="admintab">문의조회</a>
-   </div>
+  <div class="admintabs">
+            <a href="#" class="tabname">회원관리</a>
+            <a href="#" class="admintab">  회원조회</a>
+            <a href="#" class="admintab">  회원정지</a>
+            <a href="#" class="admintab">  회원정지해제</a>
+            <a href="/adminbd" class="admintab">게시글관리</a>
+            <a href="#" class="admintab">  게시글조회</a>
+            <a href="#" class="admintab">  게시글삭제</a>
+             <a href="/adminshop" class="admintab">결제관리</a>
+            <a href="#" class="tabname">문의접수</a>
+            <a href="#" class="admintab">문의조회</a>
+        </div>
+
    <script>
    function changeSearchOptions() {
      var boardSelection = document.getElementById("BoardSelection").value;
@@ -263,28 +213,38 @@
    </script>
 
 
-<div class="content">
-    <div class="row justify-content-center">
-        <div class="col-md-2" style="text-align:center">
-            <select id="Searchfield" name="Searchfield" class="form-select">
-                <option id="buy_number" value="buy_number" style="margin:5px">결제번호</option>
-                <option id="m_number" value="m_number">회원번호</option>
-            </select>
-        </div>
-        <div class="col-md-8">
-            <input type="text" id="Searchdata" name="Searchdata" placeholder="게시판 검색" class="form-control">
-        </div>
-        <div class="col-md-2">
-            <button type="button" onclick="search_check()" class="btn btn-primary">검색</button>
-        </div>
-    </div>
-    <br /><br /><br />
-            <table class="table table-bordered">
-              <thead>
-               <tr>
+
+
+
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+        
+         <div class="search-container">
+            <form id="Searchform" name="Searchform" method="post">
+           
+                 <div class="row justify-content-center">
+                      
+                        <div class="col-md-2" style="text-align:center">
+                            <select id="Searchfield" name="Searchfield" class="form-select">
+                                <option id="buy_number" value="buy_number" style="margin:5px">결제번호</option>
+                                <option id="m_number" value="m_number">회원번호</option>
+                            </select>
+                     </div>
+                   <div class="col-md-8"> 
+                       <input type="text" id="Searchdata" name="Searchdata" placeholder="게시판 검색" class="form-control">
+                   </div>
+                   <div class="col-md-2"> 
+                       <button type="button" onclick="search_check()" class="btn btn-primary">검색</button>
+                   </div>
+               </div>
+             </form>
+            </div>
+            <br /><br /><br />
+            <tr>
                 <th scope="col">결제번호</th>
                 <th scope="col">회원번호</th>                
-              <th scope="col">보유 채팅권 개수</th>
+            	<th scope="col">보유 채팅권 개수</th>
                 <th scope="col">구매 채팅권 개수</th>
                 <th scope="col">가격</th>
                 <th scope="col">결제날짜</th>
@@ -293,34 +253,33 @@
             </tr>
         </thead>
         <tbody>
-         <c:forEach items="${list}" var="item" varStatus="status">
-          <tr>
-              <th scope="row">${item.buy_number}</th>
-              <td>${item.m_number}</td>
-              <td>${shoplist[(status.index)+(page-1)*8].ticket}</td>
-              <td>${item.t_count}</td>
-              <td>${item.t_price}</td>
-              <td>${item.b_date}</td>
-              <td>${item.t_cancel}</td>
-              <td>
-                  <c:choose>
-                          <c:when test="${item.t_cancel eq 'approve'}">
-                              취소 완료
-                          </c:when>
-                          <c:when test="${item.t_cancel eq 'refuse'}">
-                              취소 거절
-                          </c:when>
-                          <c:otherwise>
-                              <a href="approveCancel?buy_number=${item.buy_number}&m_number=${item.m_number}&t_count=${item.t_count}">취소 </a>
-                               <a href="refuseCancel?buy_number=${item.buy_number}&m_number=${item.m_number}">취소 거부</a>
-                          </c:otherwise>
-                      </c:choose>
+            <c:forEach items="${list}" var="list">
+                <tr>
+                    <th scope="row">${list.buy_number}</th>                    
+                    <td>${list.m_number}</td>
+                    <td>${list.ticket}</td>
+                    <td>${list.t_count}</td>
+                    <td>${list.t_price}</td>
+                    <td>${list.b_date}</td>
+                    <td>${list.t_cancel}</td>
+                    <td>
+                       <c:choose>
+                       <c:when test="${list.t_cancel eq 'approve'}">
+                           취소 완료
+                       </c:when>
+                        <c:when test="${list.t_cancel eq 'refuse'}">
+                           취소 거절
+                       </c:when>
+                       <c:otherwise>
+                           <a href="../approveCancel?buy_number=${list.buy_number}&m_number=${list.m_number}">취소 </a>/
+                           <a href="../refuseCancel?buy_number=${list.buy_number}&m_number=${list.m_number}">취소 거부</a>
+                       </c:otherwise>
+                   </c:choose>
                   </td>
-              </tr>
-          </c:forEach>
+                </tr>
+            </c:forEach>
         </tbody>
-    </table>
-    <ul class="pagination justify-content-center">
+    </table><ul class="pagination justify-content-center">
     <c:if test="${page > 1}">
         <li class="page-item">
             <a class="page-link" href="adminshop?page=1&Searchfield=${param.Searchfield}&Searchdata=${param.Searchdata}" aria-label="처음">
@@ -354,6 +313,24 @@
     </c:if>
 </ul>
 </div>
+<script>
+    $(document).ready(function () {
+       console.log("aaaa");
+        $.ajax({
+            type: "GET",
+            url: "/api/mshop",
+            success: function (data) {
+                console.log(data);
+                var newWindow = window.open("", "_blank");
+               newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+            },
+            error: function (error) {
+                console.error('Error during AJAX request:', error);
+            }
+        });
+    });
+
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

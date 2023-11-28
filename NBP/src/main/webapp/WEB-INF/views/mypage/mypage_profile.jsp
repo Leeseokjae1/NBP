@@ -367,8 +367,8 @@ nav {
             dataType: "json",
             success: function (data) {
 	            console.log(data);
-	            var newWindow = window.open("", "_blank");
-	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+	            //var newWindow = window.open("", "_blank");
+	           // newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
 	        },
 	        error: function (error) {
 		        console.error('Error during AJAX request:', error);

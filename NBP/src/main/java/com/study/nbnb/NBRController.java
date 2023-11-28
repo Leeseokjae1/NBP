@@ -152,21 +152,6 @@ public class NBRController {
     	result.put("authCode", a);
         return ResponseEntity.ok(result);
     }
-	
-	 @RequestMapping("/goodpost")
-	 @ResponseBody
-     public ResponseEntity<Map<String, Object>> getgoodpost(HttpServletRequest request, @RequestBody Map<String, Object> requestData) {
-         HttpSession session = request.getSession();
-         BuserDto bdto = (BuserDto)session.getAttribute("login");
-         int m_number = bdto.getM_NUMBER();
-         int t_number = m_number;
-         List<GoodDto> getgoodpost = gooddao.getgoodpost(t_number);
-
-         Map<String, Object> response = new HashMap<>();
-         response.put("getgoodpost", getgoodpost);
-         
-         return ResponseEntity.ok(response);
-	 }
 	 
 //////////////////////////////////////////////////Main//////////////////////////////////////////////////	 	 
 	 
@@ -396,20 +381,17 @@ public class NBRController {
 	 }
 	 @GetMapping("/goodpost")
 	 @ResponseBody
-	 public ResponseEntity<Map<String, Object>>getgoodpost(HttpSession session, @RequestBody Map<String, String> requestBody) {
-		 Map<String, Object> responseData = new HashMap<>();	
-		 
-         BuserDto bdto = (BuserDto)session.getAttribute("login");
-         int m_number = bdto.getM_NUMBER();
-         
-         int t_number = m_number;
-         List<GoodDto> getgoodpost = gooddao.getgoodpost(t_number);
-  
-         responseData.put("getgoodpost", getgoodpost);
-         return new ResponseEntity<>(responseData, HttpStatus.OK);
-         //"mypage/mypage_good"; 
-	 }
+	 public ResponseEntity<List<GoodDto>>getgoodpost(HttpServletRequest request, Model model) {
+		    HttpSession session = request.getSession();
+		    BuserDto bdto = (BuserDto)session.getAttribute("login");
+		    int m_number = bdto.getM_NUMBER();
+		    int t_number = m_number;
+
+		    List<GoodDto> getgoodpost = gooddao.getgoodpost(t_number);
+
+		    return new ResponseEntity<>(getgoodpost, HttpStatus.OK);
 		
+	 }
 	@RequestMapping("/mypage_popup")
 	@ResponseBody
 	 public ResponseEntity<Map<String, Object>> shopPopup(HttpSession session, @RequestBody Map<String, String> requestBody) {

@@ -141,17 +141,17 @@ body {
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <c:if test="${page > 1}">
-                <li class="page-item"><a class="page-link" href="b1page?page=1">처음</a></li>
-                <li class="page-item"><a class="page-link" href="b1page?page=${page - 1}">이전</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?page=1&Searchdata=${Searchdata}">처음</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?page=${page - 1}&Searchdata=${Searchdata}">이전</a></li>
             </c:if>
             <c:forEach var="i" begin="1" end="${totalPage}">
                 <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-                    <a class="page-link" href="b1page?page=${i}">${i}</a>
+                    <a class="page-link" href="b1page?page=${i}&Searchdata=${Searchdata}">${i}</a>
                 </li>
             </c:forEach>
             <c:if test="${page < totalPage}">
-                <li class="page-item"><a class="page-link" href="b1page?page=${page + 1}">다음</a></li>
-                <li class="page-item"><a class="page-link" href="b1page?page=${totalPage}">마지막</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?page=${page + 1}&Searchdata=${Searchdata}">다음</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?page=${totalPage}&Searchdata=${Searchdata}">마지막</a></li>
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>

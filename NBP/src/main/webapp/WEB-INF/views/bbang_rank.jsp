@@ -288,8 +288,8 @@ body {
                    	var top10UserRankingList = response.userRankingList.slice(0, 10);
                        console.log(response);
                        
-                       var newWindow = window.open("", "_blank");
-                       newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(response, null, 2) + "</pre></body></html>");
+                      // var newWindow = window.open("", "_blank");
+                       //newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(response, null, 2) + "</pre></body></html>");
                    },
                    error: function (error) {
                        console.error('Error during AJAX request:', error);

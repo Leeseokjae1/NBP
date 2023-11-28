@@ -84,7 +84,7 @@ String writer = member.getNICKNAME();
 <ul>
          <li><a href="/main">HOME</a></li>
          <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
@@ -123,17 +123,17 @@ String writer = member.getNICKNAME();
    <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <c:if test="${page > 1}">
-                <li class="page-item"><a class="page-link" href="b2page?page=1">처음</a></li>
-                <li class="page-item"><a class="page-link" href="b2page?page=${page - 1}">이전</a></li>
+                <li class="page-item"><a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=1">처음</a></li>
+                <li class="page-item"><a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=${page - 1}">이전</a></li>
             </c:if>
             <c:forEach var="i" begin="1" end="${totalPage}">
                 <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-                    <a class="page-link" href="b2page?page=${i}">${i}</a>
+                    <a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=${i}">${i}</a>
                 </li>
             </c:forEach>
             <c:if test="${page < totalPage}">
-                <li class="page-item"><a class="page-link" href="b2page?page=${page + 1}">다음</a></li>
-                <li class="page-item"><a class="page-link" href="b2page?page=${totalPage}">마지막</a></li>
+                <li class="page-item"><a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=${page + 1}">다음</a></li>
+                <li class="page-item"><a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>

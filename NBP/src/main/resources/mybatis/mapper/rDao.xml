@@ -66,21 +66,23 @@
     </select>
     
     <select id="getUserRanking" resultType="com.study.nbnb.dto.RankDto">
-        SELECT
-           u.m_number AS m_number,
-           u.name AS writer,
-           SUM(COALESCE(b1.b_like, 0) - COALESCE(b1.b_dislike, 0) +
-               COALESCE(b2.b_like, 0) - COALESCE(b2.b_dislike, 0) +
-               COALESCE(pl.b_like, 0) - COALESCE(pl.b_dislike, 0)) AS userScore,
-           ROW_NUMBER() OVER (ORDER BY
-               SUM(COALESCE(b1.b_like, 0) - COALESCE(b1.b_dislike, 0) +
-                   COALESCE(b2.b_like, 0) - COALESCE(b2.b_dislike, 0) +
-                   COALESCE(pl.b_like, 0) - COALESCE(pl.b_dislike, 0)) DESC) AS rank
-       FROM buser u
-       LEFT JOIN b1board b1 ON u.m_number = b1.b1_number
-       LEFT JOIN b2board b2 ON u.m_number = b2.b2_number
-       LEFT JOIN playboard pl ON u.m_number = pl.f_number
-       GROUP BY u.m_number, u.name
-       ORDER BY userScore DESC
+        SELECT writer,
+       SUM(userScore) AS totalScore
+		FROM (
+		    SELECT writer, (b_like - b_dislike) AS userScore
+		    FROM b1board
+		
+		    UNION ALL
+		
+		    SELECT writer, (b_like - b_dislike) AS userScore
+		    FROM b2board
+		
+		    UNION ALL
+		
+		    SELECT writer, (b_like - b_dislike) AS userScore
+		    FROM playboard
+		)combined
+		GROUP BY writer
+		ORDER BY totalScore DESC
     </select>
 </mapper>

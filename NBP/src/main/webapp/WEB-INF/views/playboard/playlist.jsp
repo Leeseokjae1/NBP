@@ -108,7 +108,7 @@ String writer = member.getNICKNAME();
 			            <th scope="row">${play.f_number}</th>
 			            <td>${play.writer}</td>
 			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-			                <a href="#" class="post-b" 
+			                <a href="playview?f_number=${play.f_number}&check_b=3" class="post-b" 
                             data-f_number="${play.f_number}" data-checkb="3">${play.title}</a>
 			            </td>
 			            <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
@@ -172,8 +172,8 @@ $(document).ready(function () {
 	        dataType: "json",
 	        success: function (data) {
 	            console.log(data);
-	            var newWindow = window.open("", "_blank");
-	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+//	            var newWindow = window.open("", "_blank");
+//	            newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
 	         
 	        },
 	        error: function (error) {

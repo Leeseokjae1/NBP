@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
    .test1 {
    
@@ -256,8 +256,25 @@ nav {
             <hr class="post-separator">
         </c:if>
     </c:forEach>
-
     </div>
+</script>
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: '/api/goodpost',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            
+            //var newWindow = window.open("", "_blank");
+            //newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(response, null, 2) + "</pre></body></html>");
+        },
+        error: function (error) {
+        	console.error('Error during AJAX request:', error);
+        }
+    });
+});
 </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
