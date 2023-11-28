@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
    .test1 {
    
@@ -186,10 +186,10 @@ nav {
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>

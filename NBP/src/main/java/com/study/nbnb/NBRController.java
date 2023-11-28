@@ -1,23 +1,32 @@
 package com.study.nbnb;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.study.nbnb.dao.AdDao;
 import com.study.nbnb.dao.B1Dao;
@@ -45,6 +54,7 @@ import com.study.nbnb.mail.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -78,6 +88,10 @@ public class NBRController {
 	ShopDao shopDao;
 	@Autowired
 	GoodDao gooddao;
+	
+    @Value("${upload.directory}")
+    private String uploadDirectory;
+	
 	
     @PostMapping("/b1view")
     public ResponseEntity<Map<String, Object>> getB1ViewData(@RequestBody Map<String, String> requestBody) {
@@ -166,13 +180,43 @@ public class NBRController {
     @ResponseBody
     public ResponseEntity<List<PlayDto>> getPlList() {
         try {
-            List<PlayDto> list = playdao.plistDao(); // 모든 데이터를 가져옵니다.
+            List<PlayDto> list = playdao.plistDao();
 
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    
+    @RequestMapping("/b1title")
+    public String b1titlepage(HttpServletRequest request, Model model) {
+
+       String kw1 = request.getParameter("Searchdata");
+       String kw = "%" +  kw1 + "%";
+       System.out.println(kw);
+       int total = b1dao.titleCountDao(kw).size();
+       int pageSize = 8;
+
+       int totalPage = total / pageSize;
+
+       if (total % pageSize > 0) {
+          totalPage++;
+       }
+
+       String sPage = request.getParameter("page");
+       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+       int nStart = (page - 1) * pageSize + 1;
+       int nEnd = (page - 1) * pageSize + pageSize;
+
+       List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
+       model.addAttribute("list", list);
+       model.addAttribute("totalPage", totalPage);
+       model.addAttribute("page", page);
+       
+
+       return "b1board/b1list";
     }
 
 

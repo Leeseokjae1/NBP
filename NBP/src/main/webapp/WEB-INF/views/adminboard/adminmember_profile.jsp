@@ -220,12 +220,12 @@
 <body>
    <nav id="nav2">
        <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-		<ul>
+<ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -238,19 +238,14 @@
              <%}%>
        </ul>
     </nav>
-  <div class="empty-space"></div>
-  <div class="admintabs">
-            <a href="/admin/member?page=1" class="tabname">회원관리</a>
-            <a href="#" class="admintab">  ㄴ회원조회</a>
-            <a href="#" class="admintab">  ㄴ회원정지</a>
-            <a href="#" class="admintab">  ㄴ회원정지해제</a>
-            <a href="/admin/adminbd" class="admintab">게시글관리</a>
-            <a href="#" class="admintab">  ㄴ게시글조회</a>
-            <a href="#" class="admintab">  ㄴ게시글삭제</a>
-            <a href="/admin/adminshop" class="admintab">결제관리</a>
-            <a href="#" class="tabname">문의접수</a>
-            <a href="#" class="admintab">문의조회</a>
-        </div>
+   <div class="empty-space"></div>
+   <div class="admintabs">
+       <a href="/admin/member?page=1" class="tabname">회원관리</a>
+       <a href="/admin/adminbd" class="admintab">게시글관리</a>
+       <a href="/admin/adminshop" class="admintab">결제관리</a>
+       <a href="#" class="tabname">문의접수</a>
+       <a href="#" class="admintab">문의조회</a>
+   </div>
     
      <div class="content">
         <form id="modify" name="modify" action="member_modify" method="post">

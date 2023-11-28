@@ -175,10 +175,10 @@
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -191,7 +191,7 @@
              <%}%>
        </ul>
     </nav>
-  <div class="empty-space"></div>
+   <div class="empty-space"></div>
    <div class="admintabs">
        <a href="/admin/member?page=1" class="tabname">회원관리</a>
        <a href="/admin/adminbd" class="admintab">게시글관리</a>

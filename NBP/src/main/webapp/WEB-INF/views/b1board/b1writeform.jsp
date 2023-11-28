@@ -60,10 +60,10 @@
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -111,7 +111,7 @@
                 <tr>
                     <td colspan="2">
                         <input type="submit" value="입력" class="btn btn-outline-info upload">
-                        <a href="b1page?page=1" class="btn btn-secondary">목록보기</a> 
+                        <a href="/member/b1page?page=1&Searchdata=&Searchfield=" class="btn btn-secondary">목록보기</a> 
                     </td>
                 </tr>
             </table>

@@ -60,31 +60,31 @@ pageEncoding="UTF-8"%>
     
       switch (searchField.value) {
          case "b1Title":
-            document.Searchform.action = "/b1title";
+            document.Searchform.action = "member/b1page";
             break;
          case "b1Content":
-            document.Searchform.action = "/b1content";
+            document.Searchform.action = "member/b1page";
             break;
          case "b1Writer":
-            document.Searchform.action = "/b1writer";
+            document.Searchform.action = "member/b1page";
             break;
          case "b2Title":
-            document.Searchform.action = "/b2title";
+            document.Searchform.action = "member/b2page";
             break;
          case "b2Content":
-            document.Searchform.action = "/b2content";
+            document.Searchform.action = "member/b2page";
             break;
          case "b2Writer":
-            document.Searchform.action = "/b2writer";
+            document.Searchform.action = "member/b2page";
             break;
          case "pTitle":
-            document.Searchform.action = "/playtitle";
+            document.Searchform.action = "member/playpage";
             break;
          case "pContent":
-            document.Searchform.action = "/playcontent";
+            document.Searchform.action = "member/playpage";
             break;
          case "pWriter":
-            document.Searchform.action = "/playwriter";
+            document.Searchform.action = "member/playpage";
             break;
          default:
             break;
@@ -185,8 +185,8 @@ nav {
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/member/playpage?page=1">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
@@ -206,7 +206,7 @@ nav {
       <div class="left-content"style="display: flex; align-items: center;">
          <img src="/img/hhhhh.png" style="max-width: 100%; height: auto; margin: 0 auto;">
          <div class="search-container">
-            <form id="Searchform" name="Searchform" method="post">
+            <form id="Searchform" name="Searchform" method="get">
                     <div class="row">
                         <div class="col-md-6">
                             <select id="BoardSelection" name="BoardSelection" onchange="changeSearchOptions()" class="form-select">

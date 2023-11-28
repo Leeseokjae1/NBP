@@ -99,10 +99,10 @@ body {
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -138,20 +138,20 @@ body {
         </div>
     </div>
 
-    <nav aria-label="Page navigation">
+   <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <c:if test="${page > 1}">
-                <li class="page-item"><a class="page-link" href="b1page?page=1">처음</a></li>
-                <li class="page-item"><a class="page-link" href="b1page?page=${page - 1}">이전</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?Searchdata=${kw}&Searchfield=${bd}&page=1">처음</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?Searchdata=${kw}&Searchfield=${bd}&page=${page - 1}">이전</a></li>
             </c:if>
             <c:forEach var="i" begin="1" end="${totalPage}">
                 <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-                    <a class="page-link" href="/b1page?page=${i}">${i}</a>
+                    <a class="page-link" href="b1page?Searchdata=${kw}&Searchfield=${bd}&page=${i}">${i}</a>
                 </li>
             </c:forEach>
             <c:if test="${page < totalPage}">
-                <li class="page-item"><a class="page-link" href="b1page?page=${page + 1}">다음</a></li>
-                <li class="page-item"><a class="page-link" href="b1page?page=${totalPage}">마지막</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?Searchdata=${kw}&Searchfield=${bd}&page=${page + 1}">다음</a></li>
+                <li class="page-item"><a class="page-link" href="b1page?Searchdata=${kw}&Searchfield=${bd}&page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
         <%if(session.getAttribute("login") != null){ %>
@@ -171,8 +171,8 @@ body {
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                var newWindow = window.open("", "_blank");
-                newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+                //var newWindow = window.open("", "_blank");
+                //newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
              
             },
             error: function (err) {

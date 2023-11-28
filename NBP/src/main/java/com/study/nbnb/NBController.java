@@ -544,7 +544,85 @@ public String search_pw() {
 	
 	@RequestMapping("/member/b1page")
 	public String b1listpage(HttpServletRequest request, Model model) {
+		
+		String kw1 = request.getParameter("Searchdata");
+		String bd = request.getParameter("Searchfield");
+		if(bd.equals(null)) {
+			bd = "";
+			kw1 = "";
+		}
+		String kw = "%" +  kw1 + "%";
+		if(bd.equals("b1Title")) {
+			 int total = b1dao.titleCountDao(kw).size();
+		       int pageSize = 8;
 
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+			
+		}
+		else if(bd.equals("b1Content")) {
+			 int total = b1dao.contentCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else if(bd.equals("b1Writer")) {
+			 int total = b1dao.writerCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else {
 		int total = b1dao.listCountDao().size();
 		int pageSize = 8;
 
@@ -566,7 +644,9 @@ public String search_pw() {
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
-		
+		model.addAttribute("kw", kw1);
+	    model.addAttribute("bd", bd);
+		}
 
 		return "b1board/b1list";
 	}
@@ -782,7 +862,85 @@ public String search_pw() {
 	
 	@RequestMapping("/member/b2page")
 	public String b2listpage(HttpServletRequest request, Model model) {
+		
+		String kw1 = request.getParameter("Searchdata");
+		String bd = request.getParameter("Searchfield");
+		if(bd.equals(null)) {
+			bd = "";
+			kw1 = "";
+		}
+		String kw = "%" +  kw1 + "%";
+		if(bd.equals("b2Title")) {
+			 int total = b2dao.titleCountDao(kw).size();
+		       int pageSize = 8;
 
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B2Dto> list = b2dao.titlesearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+			
+		}
+		else if(bd.equals("b2Content")) {
+			 int total = b2dao.contentCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B2Dto> list = b2dao.contentsearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else if(bd.equals("b2Writer")) {
+			 int total = b2dao.writerCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<B2Dto> list = b2dao.writersearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else {
 		int total = b2dao.listCountDao().size();
 		int pageSize = 8;
 
@@ -804,6 +962,9 @@ public String search_pw() {
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
+		model.addAttribute("kw", kw1);
+	    model.addAttribute("bd", bd);
+		}
 
 		return "b2board/b2list";
 	}
@@ -992,9 +1153,87 @@ public String search_pw() {
 	
 	@RequestMapping("/member/playpage")
 	public String playlistpage(HttpServletRequest request, Model model) {
+		
+		String kw1 = request.getParameter("Searchdata");
+		String bd = request.getParameter("Searchfield");
+		if(bd.equals(null)) {
+			bd = "";
+			kw1 = "";
+		}
+		String kw = "%" +  kw1 + "%";
+		if(bd.equals("pTitle")) {
+			 int total = playdao.titleCountDao(kw).size();
+		       int pageSize = 8;
 
-		int total = playdao.listCountDao().size();
-		int pageSize = 15;
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<PlayDto> list = playdao.titlesearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+			
+		}
+		else if(bd.equals("pContent")) {
+			 int total = playdao.contentCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<PlayDto> list = playdao.contentsearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else if(bd.equals("pWriter")) {
+			 int total = playdao.writerCountDao(kw).size();
+		       int pageSize = 8;
+
+		       int totalPage = total / pageSize;
+
+		       if (total % pageSize > 0) {
+		          totalPage++;
+		       }
+
+		       String sPage = request.getParameter("page");
+		       int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+		       int nStart = (page - 1) * pageSize + 1;
+		       int nEnd = (page - 1) * pageSize + pageSize;
+
+		       List<PlayDto> list = playdao.writersearchDao(kw, nEnd, nStart);
+		       model.addAttribute("list", list);
+		       model.addAttribute("totalPage", totalPage);
+		       model.addAttribute("page", page);
+		       model.addAttribute("kw", kw1);
+		       model.addAttribute("bd", bd);
+		}
+		else {
+		int total = b2dao.listCountDao().size();
+		int pageSize = 8;
 
 		int totalPage = total / pageSize;
 
@@ -1002,7 +1241,6 @@ public String search_pw() {
 			totalPage++;
 		}
 
-	
 		String sPage = request.getParameter("page");
 		int page = sPage == null ? 1 : Integer.parseInt(sPage);
 
@@ -1015,193 +1253,16 @@ public String search_pw() {
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
-		model.addAttribute("playlist", playdao.plistDao());
+		model.addAttribute("kw", kw1);
+	    model.addAttribute("bd", bd);
+		}
 
 		return "playboard/playlist";
 	}
 	
-    /////////////////////////search////////////////////////////////////////
-
-    @RequestMapping("/b1title")
-    public String b1titlepage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b1dao.titleCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B1Dto> list = b1dao.titlesearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b1board/b1list";
-    }
-    
-    @RequestMapping("/b1writer")
-    public String b1writerpage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b1dao.writerCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B1Dto> list = b1dao.writersearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b1board/b1list";
-    }
-    
-    @RequestMapping("/b1content")
-    public String b1contentpage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b1dao.contentCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B1Dto> list = b1dao.contentsearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b1board/b1list";
-    }
-    
-    @RequestMapping("/b2title")
-    public String b2titlepage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b2dao.titleCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B2Dto> list = b2dao.titlesearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b2board/b2list";
-    }
-    
-    @RequestMapping("/b2writer")
-    public String b2writerpage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b2dao.writerCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B2Dto> list = b2dao.writersearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b2board/b2list";
-    }
-    
-    @RequestMapping("/b2content")
-    public String b2contentpage(HttpServletRequest request, Model model) {
-
-       String kw1 = request.getParameter("Searchdata");
-       String kw = "%" +  kw1 + "%";
-       System.out.println(kw);
-       int total = b2dao.contentCountDao(kw).size();
-       int pageSize = 8;
-
-       int totalPage = total / pageSize;
-
-       if (total % pageSize > 0) {
-          totalPage++;
-       }
-
-       String sPage = request.getParameter("page");
-       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-       int nStart = (page - 1) * pageSize + 1;
-       int nEnd = (page - 1) * pageSize + pageSize;
-
-       List<B2Dto> list = b2dao.contentsearchDao(kw, nEnd, nStart);
-       model.addAttribute("list", list);
-       model.addAttribute("totalPage", totalPage);
-       model.addAttribute("page", page);
-       
-
-       return "b2board/b2list";
-    }
-    @RequestMapping("/playtitle")
+	////////////////////////////////////////////////////////////////////
+	
+    @RequestMapping("/member/playtitle")
     public String playtitlepage(HttpServletRequest request, Model model) {
 
        String kw1 = request.getParameter("Searchdata");
@@ -1230,7 +1291,7 @@ public String search_pw() {
        return "playboard/playlist";
     }
     
-    @RequestMapping("/playwriter")
+    @RequestMapping("/member/playwriter")
     public String playwriterpage(HttpServletRequest request, Model model) {
 
        String kw1 = request.getParameter("Searchdata");
@@ -1260,7 +1321,7 @@ public String search_pw() {
        return "playboard/playlist";
     }
     
-    @RequestMapping("/playcontent")
+    @RequestMapping("/member/playcontent")
     public String playcontentpage(HttpServletRequest request, Model model) {
 
        String kw1 = request.getParameter("Searchdata");
@@ -1560,67 +1621,76 @@ public String search_pw() {
 		
 	}
 
-	@RequestMapping("/admin/buysearch")
-	public String shopSearch(HttpServletRequest request, Model model) {
+
+	   @RequestMapping("/admin/buysearch")
+	   public String shopSearch(HttpServletRequest request, Model model) {
+	   
+	          String kw1 = request.getParameter("Searchdata");
+	          String kw = "%" +  kw1 + "%";
+	          int total = shopDao.buyCountDao(kw).size();
+	          int pageSize = 8;
+
+	          // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+	          int totalPage = total / pageSize;
+
+	          // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+	          if (total % pageSize > 0) {
+	             totalPage++;
+	          }
+
+	          // 5. 현재 페이지 번호를 가져옵니다.
+	          String sPage = request.getParameter("page");
+	          int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	          int nStart = (page - 1) * pageSize + 1;
+	          int nEnd = (page - 1) * pageSize + pageSize;
+
+	          List<ShopDto> list = shopDao.buysearchDao(kw, nEnd, nStart);
+	          model.addAttribute("list", list);
+	          model.addAttribute("totalPage", totalPage);
+	          model.addAttribute("page", page);
+	          
+
+	          return "adminboard/adminshop";
+	         
+	   }
+	   
+	   @RequestMapping("/admin/membersearch")
+	   public String shopSearch2(HttpServletRequest request, Model model) {
+
+	          String kw1 = request.getParameter("Searchdata");
+	          String kw = "%" +  kw1 + "%";
+	         
+	          int total = shopDao.memberCountDao(kw).size();
+	          int pageSize = 8;
+
+	          // 3. 전체 게시물 수를 한 페이지에 표시할 게시물 수로 나눕니다.
+	          int totalPage = total / pageSize;
+
+	          // 4. 나머지가 있으면 다음 페이지가 있다는 의미이므로 해당 페이지 번호를 계산합니다.
+	          if (total % pageSize > 0) {
+	             totalPage++;
+	          }
+
+	          // 5. 현재 페이지 번호를 가져옵니다.
+	          String sPage = request.getParameter("page");
+	          int page = sPage == null ? 1 : Integer.parseInt(sPage);
+
+	          int nStart = (page - 1) * pageSize + 1;
+	          int nEnd = (page - 1) * pageSize + pageSize;
+
+	          List<ShopDto> list = shopDao.membersearchDao(kw, nEnd, nStart);
+	          System.out.println(list);
+	   
+	          
+	          model.addAttribute("list", list);
+	          model.addAttribute("totalPage", totalPage);
+	          model.addAttribute("page", page);
+
+	          return "adminboard/adminshop";
+	         
+	   }
+	   
+
 	
-	       String kw1 = request.getParameter("Searchdata");
-	       String kw = "%" +  kw1 + "%";
-	       int total = shopDao.buyCountDao(kw).size();
-	       int pageSize = 8;
-
-	       int totalPage = total / pageSize;
-
-	       if (total % pageSize > 0) {
-	          totalPage++;
-	       }
-
-	       String sPage = request.getParameter("page");
-	       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-	       int nStart = (page - 1) * pageSize + 1;
-	       int nEnd = (page - 1) * pageSize + pageSize;
-
-	       List<ShopDto> list = shopDao.buysearchDao(kw, nEnd, nStart);
-	       model.addAttribute("list", list);
-	       model.addAttribute("totalPage", totalPage);
-	       model.addAttribute("page", page);
-	       
-
-	       return "adminboard/adminshop";
-			
-	}
-	
-	@RequestMapping("/admin/membersearch")
-	public String shopSearch2(HttpServletRequest request, Model model) {
-
-	       String kw1 = request.getParameter("Searchdata");
-	       String kw = "%" +  kw1 + "%";
-	      
-	       int total = shopDao.memberCountDao(kw).size();
-	       int pageSize = 16;
-
-	       int totalPage = total / pageSize;
-
-	       if (total % pageSize > 0) {
-	          totalPage++;
-	       }
-
-	       String sPage = request.getParameter("page");
-	       int page = sPage == null ? 1 : Integer.parseInt(sPage);
-
-	       int nStart = (page - 1) * pageSize + 1;
-	       int nEnd = (page - 1) * pageSize + pageSize;
-
-	       List<ShopDto> list = shopDao.membersearchDao(kw, nEnd, nStart);
-	       System.out.println(list);
-	
-	       
-	       model.addAttribute("list", list);
-	       model.addAttribute("totalPage", totalPage);
-	       model.addAttribute("page", page);
-
-	       return "adminboard/adminshop";
-			
-	}
-
 }

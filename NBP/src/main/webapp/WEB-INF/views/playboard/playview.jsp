@@ -90,10 +90,10 @@ String writer = member.getNICKNAME();
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -163,13 +163,13 @@ String writer = member.getNICKNAME();
    		<%if(m_number == mn){ %>
 		<div class="mb-3 text-right">
 		    <a href="playmodifyview?f_number=${playview.f_number}" class="btn btn-outline-info ml-auto">수정하기</a>
-		    <a href="playpage?page=1" class="btn btn-outline-info ml-2">목록보기</a>
+		    <a href="/member/playpage?page=1&Searchdata=&Searchfield=" class="btn btn-outline-info ml-2">목록보기</a>
 		    <a href="playdelete?f_number=${playview.f_number}" class="btn btn-danger ml-2"
 		    onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 		</div>
 		<%}else{ %>
 		<div class="mb-3 text-right">
-		    <a href="playpage?page=1" class="btn btn-outline-info ml-2">목록보기</a>
+		    <a href="/member/playpage?page=1&Searchdata=&Searchfield=" class="btn btn-outline-info ml-2">목록보기</a>
 		</div>
 		<%} %>
     <hr>

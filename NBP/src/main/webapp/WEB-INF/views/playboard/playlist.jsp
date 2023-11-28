@@ -73,10 +73,10 @@ String writer = member.getNICKNAME();
 <!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
 <ul>
          <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
@@ -108,7 +108,7 @@ String writer = member.getNICKNAME();
 			            <th scope="row">${play.f_number}</th>
 			            <td>${play.writer}</td>
 			            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                         <a href="#" class="post-b" 
+                         <a href="playview?f_number=${play.f_number}&check_b=3" class="post-b" 
                             data-f_number="${play.f_number}" data-checkb="3">${play.title}</a>
                      </td>
                      <td>👍🏻: ${play.b_like} / 👎 : ${play.b_dislike}</td>
@@ -121,12 +121,12 @@ String writer = member.getNICKNAME();
     <ul class="pagination justify-content-center">
         <c:if test="${page > 1}">
             <li class="page-item">
-                <a class="page-link" href="playpage?page=1" aria-label="처음">
+                <a class="page-link" href="playpage?Searchdata=${kw}&Searchfield=${bd}&page=1" aria-label="처음">
                     <span aria-hidden="true">처음</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="playpage?page=${page - 1}" aria-label="이전">
+                <a class="page-link" href="playpage?Searchdata=${kw}&Searchfield=${bd}&page=${page - 1}" aria-label="이전">
                     <span aria-hidden="true">이전</span>
                 </a>
             </li>
@@ -134,18 +134,18 @@ String writer = member.getNICKNAME();
 
         <c:forEach var="i" begin="1" end="${totalPage}">
             <li class="page-item <c:if test='${i eq page}'>active</c:if>">
-                <a class="page-link" href="playpage?page=${i}">${i}</a>
+                <a class="page-link" href="playpage?Searchdata=${kw}&Searchfield=${bd}&page=${i}">${i}</a>
             </li>
         </c:forEach>
 
         <c:if test="${page < totalPage}">
             <li class="page-item">
-                <a class="page-link" href="playpage?page=${page + 1}" aria-label="다음">
+                <a class="page-link" href="playpage?Searchdata=${kw}&Searchfield=${bd}&page=${page + 1}" aria-label="다음">
                     <span aria-hidden="true">다음</span>
                 </a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="/playpage?page=${totalPage}" aria-label="마지막">
+                <a class="page-link" href="playpage?Searchdata=${kw}&Searchfield=${bd}&page=${totalPage}" aria-label="마지막">
                     <span aria-hidden="true">마지막</span>
                 </a>
             </li>
@@ -172,8 +172,8 @@ $(document).ready(function () {
            dataType: "json",
            success: function (data) {
                console.log(data);
-               var newWindow = window.open("", "_blank");
-               newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
+               //var newWindow = window.open("", "_blank");
+               //newWindow.document.write("<html><head><title>Response Body</title></head><body><pre>" + JSON.stringify(data, null, 2) + "</pre></body></html>");
             
            },
            error: function (error) {
