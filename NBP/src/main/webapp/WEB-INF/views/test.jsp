@@ -220,27 +220,10 @@
          </ul>
       </div>
    </div>
-
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgL1vzGUOPO56VY5J-y_aECyotp26dAho&libraries=places"></script>
    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3008bc264d07323c74ece29d779fde85"></script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgL1vzGUOPO56VY5J-y_aECyotp26dAho&libraries=places"></script>
    <script>
-   
-   function initMap(a) {
-	    var address = a;
-	    var geocoder = new google.maps.Geocoder();
-	    geocoder.geocode({ 'address': address }, function (results, status) {
-	      if (status === 'OK') {
-	        var latitude = results[0].geometry.location.lat();
-	        var longitude = results[0].geometry.location.lng();
-	        console.log()
-	        new kakao.maps.LatLng(latitude, longitude)
-	        
-	      } else {
-	        console.error('지오코딩에 실패했습니다. 이유: ' + status);
-	      }
-	    });
-	  }
-   
+
       var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
          mapOption = {
             center: new kakao.maps.LatLng(37.498004414546934, 127.02770621963765), // 지도의 중심좌표 
@@ -252,14 +235,31 @@
       var myList = ${list}; // myList는 서버에서 전달된 데이터를 나타냅니다.
       var coffeePositions = [];
 
-      myList.forEach(function(item) {
-          coffeePositions.push({
-              title: item.NAME,
-              latlng: initMap(item.ADDRESS),
-              link: 'http://localhost:8081/main'
-          });
-      });
 
+      $(function a() {
+    	  myList.forEach(function(item) {
+    		  initMap(item.ADDRESS, item.NAME);
+          });
+  	  });
+      console.log(coffeePositions);
+      function initMap(a, b) {
+        var address = a;
+        var name = b;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address }, function (results, status) {
+          if (status === 'OK') {
+            // 변환된 결과에서 위도와 경도를 추출합니다.
+            var latitude = results[0].geometry.location.lat();
+            var longitude = results[0].geometry.location.lng();
+			console.log(latitude,":",longitude);
+            coffeePositions.push({ title: name, latlng: new kakao.maps.LatLng(latitude, longitude), link: 'http://localhost:8081/main' });
+          } else {
+            // 변환에 실패한 경우 에러를 출력합니다.
+            console.error('지오코딩에 실패했습니다. 이유: ' + status);
+          }
+        });
+      }
+      
       var breadPositions = [
            { title: '일하는니빵이', latlng: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), link: 'http://localhost:8081/main' },
            { title: '이가는니빵이', latlng: new kakao.maps.LatLng(37.49671536281186, 127.03020491448352), link: 'http://localhost:8081/main' },
@@ -271,7 +271,6 @@
            { title: '팔순인니빵이', latlng: new kakao.maps.LatLng(37.49872543597439, 127.02676785815386), link: 'http://localhost:8081/main' },
            { title: '구렁내니빵이', latlng: new kakao.maps.LatLng(37.49813096097184, 127.02591949495914), link: 'http://localhost:8081/main' },
            { title: '열심히니빵이', latlng: new kakao.maps.LatLng(37.497680616783086, 127.02518427952202), link: 'http://localhost:8081/main' }
-
       ];
 
       var markerImageSrc = 'https://i.ibb.co/qRP9F05/bbsprites.png',

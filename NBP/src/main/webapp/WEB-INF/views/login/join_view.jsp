@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"crossorigin="anonymous">
 

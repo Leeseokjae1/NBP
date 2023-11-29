@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -199,7 +199,7 @@ label {
 							</div>
 							<div class="col-lg-12 loginbutton">
 								<div class="col-lg-6 login-btm login-text">
-									<a href="/oauth2/authorization/google">Google Login</a>
+									<a href="../oauth2/authorization/google">Google Login</a>
 								</div>
 								<div class="col-lg-6 login-btm login-button">
 									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />

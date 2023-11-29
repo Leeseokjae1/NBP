@@ -1,6 +1,5 @@
 package com.study.nbnb;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -14,14 +13,11 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +35,6 @@ import com.study.nbnb.dto.BuserDto;
 import com.study.nbnb.dto.LikeDto;
 import com.study.nbnb.dto.PlayDto;
 
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -67,14 +62,15 @@ public class NBController {
 		//MyBatis : SimpleBBS
 		return "redirect:main";
 	}
-	@RequestMapping("/test")
-	public String test(Model model){
-		List<BuserDto> myList = buserDao.listDao();
-		String myListJson = new Gson().toJson(myList);
-		model.addAttribute("list", myListJson);
-		
-		return "test";
-	}
+	
+   @RequestMapping("/test")
+   public String test(Model model){
+      List<BuserDto> myList = buserDao.listDao();
+      String myListJson = new Gson().toJson(myList);
+      model.addAttribute("list", myListJson);
+      
+      return "test";
+   }
 	
 	@RequestMapping("1/mypage")
 	public String mypageview(){
