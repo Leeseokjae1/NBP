@@ -66,23 +66,19 @@
     </select>
     
     <select id="getUserRanking" resultType="com.study.nbnb.dto.RankDto">
-        SELECT writer,
-       SUM(userScore) AS totalScore
-		FROM (
-		    SELECT writer, (b_like - b_dislike) AS userScore
-		    FROM b1board
-		
-		    UNION ALL
-		
-		    SELECT writer, (b_like - b_dislike) AS userScore
-		    FROM b2board
-		
-		    UNION ALL
-		
-		    SELECT writer, (b_like - b_dislike) AS userScore
-		    FROM playboard
-		)combined
-		GROUP BY writer
-		ORDER BY totalScore DESC
+               SELECT writer,
+      			 SUM(userScore) AS totalScore
+				FROM (
+				    SELECT writer, (b_like - b_dislike) AS userScore
+				    FROM b1board
+				    UNION ALL
+				    SELECT writer, (b_like - b_dislike) AS userScore
+				    FROM b2board
+				    UNION ALL
+				    SELECT writer, (b_like - b_dislike) AS userScore
+				    FROM playboard
+				) combined
+				GROUP BY writer
+				ORDER BY totalScore DESC
     </select>
 </mapper>

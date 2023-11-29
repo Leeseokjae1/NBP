@@ -6,13 +6,13 @@ pageEncoding="UTF-8"%>
 %>
 <html>
 <head>
-   <title>Hello, world!</title>
+   <title>니빵내빵</title>
    <meta charset="UTF-8">
    <!-- Required meta tags -->
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-   <script src="http://code.jquery.com/jquery.js"></script>
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
    <script>
    function changeSearchOptions() {
       var boardSelection = document.getElementById("BoardSelection").value;
@@ -59,51 +59,44 @@ pageEncoding="UTF-8"%>
       }
     
       switch (searchField.value) {
-      case "b1Title":
-         document.Searchform.action = "member/b1title";
-         break;
-      case "b1Content":
-         document.Searchform.action = "member/b1content";
-         break;
-      case "b1Writer":
-         document.Searchform.action = "member/b1writer";
-         break;
-      case "b2Title":
-         document.Searchform.action = "member/b2page";
-         break;
-      case "b2Content":
-         document.Searchform.action = "member/b2page";
-         break;
-      case "b2Writer":
-         document.Searchform.action = "member/b2page";
-         break;
-      case "pTitle":
-         document.Searchform.action = "member/playtitle";
-         break;
-      case "pContent":
-         document.Searchform.action = "member/playcontent";
-         break;
-      case "pWriter":
-         document.Searchform.action = "member/playwriter";
-         break;
-      default:
-         break;
-   }
+         case "b1Title":
+            document.Searchform.action = "member/b1page";
+            break;
+         case "b1Content":
+            document.Searchform.action = "member/b1page";
+            break;
+         case "b1Writer":
+            document.Searchform.action = "member/b1page";
+            break;
+         case "b2Title":
+            document.Searchform.action = "member/b2page";
+            break;
+         case "b2Content":
+            document.Searchform.action = "member/b2page";
+            break;
+         case "b2Writer":
+            document.Searchform.action = "member/b2page";
+            break;
+         case "pTitle":
+            document.Searchform.action = "member/playpage";
+            break;
+         case "pContent":
+            document.Searchform.action = "member/playpage";
+            break;
+         case "pWriter":
+            document.Searchform.action = "member/playpage";
+            break;
+         default:
+            break;
+      }
       document.Searchform.submit();
    }
    changeSearchOptions();
    </script>
    <style>
-   .test1 {
+      .test1 {
       
-   }
-   #nav2 > a,
-   #nav2 > ul > li,
-   #nav2 > ul > li > a {
-	  color: #000; 
-	  font-size: 18px; 
-	  font-weight: bold;
-	}
+      }
       .carousel-inner > .carousel-item > img {
       /* width: 640px;
       height: 720px; */
@@ -164,7 +157,7 @@ nav {
          bottom: 10px;
          left: 50%;
          transform: translateX(-50%);
-          display: flex;
+         display: flex;
          background: rgba(255, 255, 255, 0.7);
          padding: 10px;
          border-radius: 5px;
@@ -177,24 +170,27 @@ nav {
          border-radius: 5px;
       }
       .search-container button {
-         background: none;
          border: none;
          padding: 5px;
       }
       .right-content {
          flex: 1;   
       }
+      
       .menu-toggle {
-	    position: absolute;
-	    right: 0;
-	    top: 0;
-	    cursor: pointer;
-	  }
-@media screen and (max-width: 1400px) {
-  nav {
-      width:100%;
-      margin:10px 0px 10px 0px;
-  }
+       position: absolute;
+       right: 0;
+       top: 0;
+       cursor: pointer;
+     }
+     #nav2 > a,
+	#nav2 > ul > li,
+	#nav2 > ul > li > a {
+	  color: #000; 
+	  font-size: 18px; 
+	  font-weight: bold;
+	}
+      @media screen and (max-width: 1400px) {
   #nav2 img {
     position: absolute;
     left: 0;
@@ -226,73 +222,55 @@ nav {
   #nav2 ul li ul {
     display: none;
   }
-   #iconbox {
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 0px 0px 0px 0px;
-  }
-  .icons{
-   margin: 50px 50px 50px 50px; 
-  }
   #topbox {
-    display: block;
     flex-direction: column;
-    height: 500px;
-    padding: 40px 0px 40px 0px;
+    align-items: center;
   }
-  #probox, #iconbox {
-	  align-self: flex-start;
-	}
-	@media screen and (max-width: 880px) {
-	 #iconbox {
-	    flex-wrap: wrap;
-	    justify-content: space-around;
-	    padding: 0px 0px 0px 0px;
-	  }
-	  .icons{
-	   margin: 30px 30px 30px 30px; 
-	  }
-	  #topbox {
-	    display: block;
-	    flex-direction: column;
-	    height: 660px;
-	    padding: 40px 0px 40px 0px;
-	  }
-	}
+  #iconbox {
+    flex-direction: column;
+    align-items: center;
+  }
+  .icons {
+    margin-bottom: 20px;
+  }
 }
+      
+      
    </style>  
 </head>
 <body>
-	<nav id="nav2">
-	    <a href="/main">
-	    	<img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;"></a>
-	    <div class="menu-toggle">☰</div>       
-		<ul>
-	    <%if(session.getAttribute("login") == null) {%>
-	    	<li><a href="/member/b1page?page=1">니빵이</a></li>
-	        <li><a href="/member/b2page?page=1">내빵이</a></li>
-	        <li><a href="/rpage">랭킹빵</a></li>
-	        <li><a href="/member/playpage?page=1">놀이빵</a></li>
-	        <li><a href="/loginView">로그인</a></li>
-	     <%}else { %>
-	        <li>${login.NICKNAME} 님</li>
-	        <li><a href="/member/b1page?page=1">니빵이</a></li>
-	        <li><a href="/member/b2page?page=1">내빵이</a></li>
-	        <li><a href="/rpage">랭킹빵</a></li>
-	        <li><a href="/member/playpage?page=1">놀이빵</a></li>
-	        <li><a href="/mypage">MYPAGE</a></li>
-	        <li><a href="/logout">로그아웃</a></li>
-	     <%} %>
-	     <% if (session.getAttribute("admin") != null) { %> 
-	        <li><a href="/admin/adminbd">관리빵 페이지</a></li>
-	     <%}%>
-	     </ul>
-	</nav>
+   <nav id="nav2">
+   <a href="/main">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;"></a>
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> --> 
+<div class="menu-toggle">☰</div>            
+<ul>
+		<%if(session.getAttribute("login") == null) {%>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
+         <li><a href="/loginView">로그인</a></li>
+         <%}else { %>
+         <li>${login.NICKNAME} 님</li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
+         <li><a href="/mypage">MYPAGE</a></li>
+         <li><a href="/logout">로그아웃</a></li>
+         <%} %>
+         <% if (session.getAttribute("admin") != null) { %> 
+         <li><a href="/admin/adminbd">관리빵 페이지</a></li>
+             <%}%>
+       </ul>
+      
+   </nav>
    <div class="content">
       <div class="left-content"style="display: flex; align-items: center;">
          <img src="/img/hhhhh.png" style="max-width: 100%; height: auto; margin: 0 auto;">
          <div class="search-container">
-            <form id="Searchform" name="Searchform" method="post">
+            <form id="Searchform" name="Searchform" method="get">
                     <div class="row">
                         <div class="col-md-6">
                             <select id="BoardSelection" name="BoardSelection" onchange="changeSearchOptions()" class="form-select">
@@ -357,9 +335,10 @@ nav {
           setTimeout(showSlides, 3000); 
       }
    </script>
-   <script>
-   $(document).ready(function () {
-       function getB1ListData() {
+   
+  <script>
+    $(document).ready(function () {
+        function getB1ListData() {
             $.ajax({
                 type: "GET",
                 url: "/api/b1page",
@@ -374,9 +353,6 @@ nav {
                 }
             });
         }
-
-        getB1ListData();
-        
         function getB2ListData() {
             $.ajax({
                 type: "GET",
@@ -392,9 +368,6 @@ nav {
                 }
             });
         }
-
-        getB2ListData();
-        
         function getPlListData() {
             $.ajax({
                 type: "GET",
@@ -410,29 +383,36 @@ nav {
                 }
             });
         }
-
+        
+        
+        getB1ListData();
+        getB2ListData();
         getPlListData();
+        
     });
-</script>
-	<script>
-	document.querySelector('.menu-toggle').addEventListener('click', function() {
-		  var nav = document.querySelector('#nav2 ul');
-		  if (nav.style.display === 'none') {
-		    nav.style.display = 'block';
-		  } else {
-		    nav.style.display = 'none';
-		  }
-		});
 
-		document.querySelector('#nav2 ul li.board').addEventListener('click', function() {
-		  var submenu = document.querySelector('#nav2 ul li ul');
-		  if (submenu.style.display === 'none') {
-		    submenu.style.display = 'block';
-		  } else {
-		    submenu.style.display = 'none';
-		  }
-		});
-	</script>
+</script>
+
+<script>
+   document.querySelector('.menu-toggle').addEventListener('click', function() {
+        var nav = document.querySelector('#nav2 ul');
+        if (nav.style.display === 'none') {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+
+      document.querySelector('#nav2 ul li.board').addEventListener('click', function() {
+        var submenu = document.querySelector('#nav2 ul li ul');
+        if (submenu.style.display === 'none') {
+          submenu.style.display = 'block';
+        } else {
+          submenu.style.display = 'none';
+        }
+      });
+</script>
+   
     <!-- Optional JavaScript -->
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

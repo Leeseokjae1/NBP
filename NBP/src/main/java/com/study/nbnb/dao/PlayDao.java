@@ -47,6 +47,10 @@ public interface PlayDao {
                              @Param("pageSize") int pageSize);
 
     public int searchCountDao(@Param("keyword") String keyword);
+    
+    public List<PlayDto> apiwritersearchDao(@Param("writer") String keyword);  
+    public List<PlayDto> apititlesearchDao(@Param("title") String keyword);  
+    public List<PlayDto> apicontentsearchDao(@Param("content") String keyword);  
 	
 	
 	

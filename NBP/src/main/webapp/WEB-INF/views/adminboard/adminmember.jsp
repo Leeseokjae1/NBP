@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Required meta tags -->
+    <title>관리자 페이지</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,7 +18,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
     <style>
-
+	     #nav2 > a,
+	#nav2 > ul > li,
+	#nav2 > ul > li > a {
+	  color: #000; 
+	  font-size: 18px; 
+	  font-weight: bold;
+	}
      .image {
         text-align: center;
      }
@@ -99,7 +105,7 @@
        background-color: #eee;
    }
    .content {
-        margin-left: 200px; /* 세로 탭 너비에 맞게 여백 조절 */
+        margin-left: 200px;
         padding: 20px;
     }
 
@@ -167,22 +173,79 @@
        display: flex;
        justify-content: center;
    }
-    </style>
+      .menu-toggle {
+       position: absolute;
+       right: 0;
+       top: 0;
+       cursor: pointer;
+     }
+      @media screen and (max-width: 1400px) {
+  #nav2 img {
+    position: absolute;
+    left: 0;
+    top: 0; 
+  }
+  #nav2 ul {
+    flex-direction: column;
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 0; 
+    width: 100%;  
+    background: linear-gradient(to right, #ffffff, #e3dde1);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  #nav2 ul::before { 
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffffff;
+  }
+  #nav2 ul li a {
+    color: #000000;
+  }
+  #nav2 ul li ul {
+    display: none;
+  }
+  #topbox {
+    flex-direction: column;
+    align-items: center;
+  }
+  #iconbox {
+    flex-direction: column;
+    align-items: center;
+  }
+  .icons {
+    margin-bottom: 20px;
+  }
+}
+      
+      
+   </style>  
 </head>
 <body>
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
-       <ul>
-         <li><a href="/main">HOME</a></li>
-         <li><a href="/member/b1page?page=1">니빵이</a></li>
-         <li><a href="/member/b2page?page=1">내빵이</a></li>
+   <a href="/main">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;"></a>
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> --> 
+<div class="menu-toggle">☰</div>            
+<ul>
+		<%if(session.getAttribute("login") == null) {%>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
-         <li><a href="/member/playpage?page=1">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
          <li>${login.NICKNAME} 님</li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
@@ -191,7 +254,7 @@
              <%}%>
        </ul>
     </nav>
-  <div class="empty-space"></div>
+   <div class="empty-space"></div>
    <div class="admintabs">
        <a href="/admin/member?page=1" class="tabname">회원관리</a>
        <a href="/admin/adminbd" class="admintab">게시글관리</a>
@@ -280,5 +343,24 @@
           </tr>
       </table>
     </div>
+    <script>
+   document.querySelector('.menu-toggle').addEventListener('click', function() {
+        var nav = document.querySelector('#nav2 ul');
+        if (nav.style.display === 'none') {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+
+      document.querySelector('#nav2 ul li.board').addEventListener('click', function() {
+        var submenu = document.querySelector('#nav2 ul li ul');
+        if (submenu.style.display === 'none') {
+          submenu.style.display = 'block';
+        } else {
+          submenu.style.display = 'none';
+        }
+      });
+   </script>
 </body>
 </html>
