@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<script src="http://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -131,14 +131,15 @@ function check2() {
 
 <style>
 body {
-    background: #222D32;
-    font-family: 'Roboto', sans-serif;
+     background-image:url('/image/pw.png');
+     background-size: cover;
+     font-family: 'Roboto', sans-serif;
 }
 
 .login-box {
     margin-top: 75px;
     height: auto;
-    background: #1A2226;
+    background: #cfcfcf;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
@@ -159,7 +160,7 @@ body {
     letter-spacing: 2px;
     margin-top: 15px;
     font-weight: bold;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 .login-form {
@@ -168,29 +169,29 @@ body {
 }
 
 input[type=text] {
-    background-color: #1A2226;
+    background-color: #dbdbdb;
     border: none;
-    border-bottom: 2px solid #0DB8DE;
+    border-bottom: 2px solid #ffffff;
     border-top: 0px;
     border-radius: 0px;
     font-weight: bold;
     outline: 0;
     margin-bottom: 20px;
     padding-left: 0px;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 input[type=password] {
-    background-color: #1A2226;
+    background-color: #dbdbdb;
     border: none;
-    border-bottom: 2px solid #0DB8DE;
+    border-bottom: 2px solid #ffffff;
     border-top: 0px;
     border-radius: 0px;
     font-weight: bold;
     outline: 0;
     padding-left: 0px;
     margin-bottom: 20px;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 .form-group {
@@ -202,10 +203,10 @@ input[type=password] {
     border-color: inherit;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border-bottom: 2px solid #0DB8DE;
+    border-bottom: 2px solid #ffffff;
     outline: 0;
-    background-color: #1A2226;
-    color: #ECF0F5;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 input:focus {
@@ -218,8 +219,8 @@ label {
 }
 
 .form-control-label {
-    font-size: 10px;
-    color: #6C6C6C;
+    font-size: 12px;
+    color: #000000;
     font-weight: bold;
     letter-spacing: 1px;
 }
@@ -260,6 +261,9 @@ label {
 
 .yws {
     padding: 10px;
+    font-size:15px;
+    font-weight:5px bold;
+    color:#000000;
 }
 
 </style>
@@ -286,7 +290,7 @@ label {
 								
 								<div class="form-group">
 	                                <label class="form-control-label">인증번호</label>
-	                                <input type="text" style="background-color: #1A2226;" id="e_check" name="e_check" class="form-control">
+	                                <input type="text" id="e_check" name="e_check" class="form-control">
 	                                <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
 	                            </div>
 							</div>

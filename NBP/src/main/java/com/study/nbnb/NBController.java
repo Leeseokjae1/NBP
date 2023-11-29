@@ -307,6 +307,7 @@ public class NBController {
 		model.addAttribute("dto", b1dao.viewDao(b1_number));
 
 		model.addAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
+		session.setAttribute("commentview", cmtdao.viewDao(check_b, b1_number));
 		return "b1board/b1view";
 
 	}
@@ -323,13 +324,13 @@ public class NBController {
 		String cmt = request.getParameter("cmt");
 		
 		if (cmt == null || cmt.isEmpty()) {
-			return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+			return "redirect:b1view?b1_number=" + t_number + "&check_b=1";
 
 		}
 		
 		cmtdao.writeDao(check_b, m_number, nickname, cmt, t_number);
 
-		return "redirect:/member/b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+		return "redirect:b1view?b1_number=" + t_number + "&check_b=1";
 	}
 
 	@RequestMapping("/member/b1replydelete")
@@ -337,7 +338,7 @@ public class NBController {
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
 		int c_number = Integer.parseInt(request.getParameter("c_number"));
 		cmtdao.deleteDao(c_number);
-		return "redirect:b1view?b1_number=" + request.getParameter("t_number") + "&check_b=1";
+		return "redirect:b1view?b1_number=" + t_number + "&check_b=1";
 
 	}
 
@@ -393,7 +394,7 @@ public class NBController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:b1page?page=1";
+		return "redirect:member/b1page?page=1&Searchdata=&Searchfield=";
 	}
 
 	private String uploadFile(MultipartFile file) throws IOException {
@@ -624,15 +625,16 @@ public class NBController {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
+		String nickname = request.getParameter("nickname");
 		HttpSession session = request.getSession();
 		session.setAttribute("b2dto", b2dao.viewDao(t_number));
 		model.addAttribute("dto", b2dao.viewDao(t_number));
 		String cmt = request.getParameter("cmt");
 		if (cmt == null || cmt.isEmpty()) {
-			return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
+			return "redirect:b2view?b2_number=" + t_number + "&check_b=2";
 		}
-		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
-		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
+		cmtdao.writeDao(check_b, m_number, nickname, cmt, t_number);
+		return "redirect:b2view?b2_number=" + t_number + "&check_b=2";
 	}
 
 	@RequestMapping("/member/b2replydelete")
@@ -640,7 +642,7 @@ public class NBController {
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
 		int c_number = Integer.parseInt(request.getParameter("c_number"));
 		cmtdao.deleteDao(c_number);
-		return "redirect:b2view?b2_number=" + request.getParameter("t_number") + "&check_b=2";
+		return "redirect:b2view?b2_number=" + t_number + "&check_b=2";
 
 	}
 
@@ -694,7 +696,7 @@ public class NBController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:b2page?page=1";
+		return "redirect:member/b2page?page=1&Searchdata=&Searchfield=";
 	}
 
 	private String b2uploadFile(MultipartFile file) throws IOException {
@@ -740,7 +742,7 @@ public class NBController {
 
 			b2dao.modifyDao(parameters);
 
-			return "redirect:b2page?b2_number=" + request.getParameter("b2_number") + "&check_b=2";
+			return "redirect:b2view?b2_number=" + request.getParameter("b2_number") + "&check_b=2";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:b2page?b2_number=" + request.getParameter("b2_number") + "&check_b=2";
@@ -905,7 +907,7 @@ public class NBController {
 	}
 
 	////////////////////////////////// play board
-	////////////////////////////////// ///////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////
 
 	@RequestMapping("/playlist")
 	public String playListPage(Model model) {
@@ -930,17 +932,19 @@ public class NBController {
 		int check_b = Integer.parseInt(request.getParameter("check_b"));
 		int m_number = Integer.parseInt(request.getParameter("m_number"));
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
+		String nickname = request.getParameter("nickname");
 		HttpSession session = request.getSession();
 		session.setAttribute("playdto", playdao.viewDao(t_number));
 		model.addAttribute("playview", playdao.viewDao(t_number));
+		
 		String cmt = request.getParameter("cmt");
 		if (cmt == null || cmt.isEmpty()) {
 			return "redirect:playview?f_number=" + t_number + "&check_b=3";
 		}
 
-		cmtdao.writeDao(check_b, m_number, request.getParameter("nickname"), cmt, t_number);
+		cmtdao.writeDao(check_b, m_number, nickname, cmt, t_number);
 
-		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
+		return "redirect:playview?f_number=" + t_number + "&check_b=3";
 	}
 
 	@RequestMapping("/member/replydelete")
@@ -948,7 +952,7 @@ public class NBController {
 		int t_number = Integer.parseInt(request.getParameter("t_number"));
 		int c_number = Integer.parseInt(request.getParameter("c_number"));
 		cmtdao.deleteDao(c_number);
-		return "redirect:playview?f_number=" + request.getParameter("t_number") + "&check_b=3";
+		return "redirect:playview?f_number=" + t_number + "&check_b=3";
 
 	}
 
@@ -989,7 +993,7 @@ public class NBController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:playpage?page=1";
+		return "redirect:member/playpage?page=1&Searchdata=&Searchfield=";
 	}
 
 	@RequestMapping("/member/playmodifyview")

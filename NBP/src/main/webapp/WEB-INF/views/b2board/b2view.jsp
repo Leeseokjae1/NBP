@@ -266,7 +266,7 @@ writer = member.getNICKNAME();
             </tbody>
         </table>
 
-		 <form method="post" action="b2replywrite" class="mb-3">
+		 <form id="b2reply" method="get" action="b2replywrite" class="mb-3">
 		    <p>
 		        <label>댓글 작성자 :</label>
 		        <input type="text" class="form-control" value="<%=writer%>" disabled />

@@ -40,14 +40,15 @@ function recaptchaCallback() {
 
 <style>
 body {
-    background: #222D32;
-    font-family: 'Roboto', sans-serif;
+     background-image:url('/image/lb.png');
+     background-size: cover;
+     font-family: 'Roboto', sans-serif;
 }
 
 .login-box {
-    margin-top: 75px;
+    margin-top: 60px;
     height: auto;
-    background: #1A2226;
+    background: #ededed;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
@@ -68,7 +69,7 @@ body {
     letter-spacing: 2px;
     margin-top: 15px;
     font-weight: bold;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 .login-form {
@@ -77,29 +78,29 @@ body {
 }
 
 input[type=text] {
-    background-color: #1A2226;
+    background-color: #dbdbdb;
     border: none;
-    border-bottom: 2px solid #0DB8DE;
+    border-bottom: 2px solid #7c7c7c;
     border-top: 0px;
     border-radius: 0px;
     font-weight: bold;
     outline: 0;
     margin-bottom: 20px;
     padding-left: 0px;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 input[type=password] {
-    background-color: #1A2226;
+    background-color: #dbdbdb;
     border: none;
-    border-bottom: 2px solid #0DB8DE;
+    border-bottom: 2px solid #7c7c7c;
     border-top: 0px;
     border-radius: 0px;
     font-weight: bold;
     outline: 0;
     padding-left: 0px;
     margin-bottom: 20px;
-    color: #ECF0F5;
+    color: #000000;
 }
 
 .form-group {
@@ -107,20 +108,7 @@ input[type=password] {
     outline: 0px;
 }
 
-.form-control:focus {
-    border-color: inherit;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    border-bottom: 2px solid #0DB8DE;
-    outline: 0;
-    background-color: #1A2226;
-    color: #ECF0F5;
-}
 
-input:focus {
-    outline: none;
-    box-shadow: 0 0 0;
-}
 
 label {
     margin-bottom: 0px;
@@ -168,6 +156,9 @@ label {
 }
 .yws {
     padding: 10px;
+    font-size:15px;
+    font-weight:5px bold;
+    color:#000000;
 }
 </style>
 </head>
@@ -199,7 +190,7 @@ label {
 								<input type="password" class="form-control" id="password" name="password">
 							</div>
 							<div class="col-lg-12" style="margin-bottom:40px;">
-							<div class="g-recaptcha" id="gcap" data-sitekey="6LeXk5gnAAAAAJeHIAAbgifA4BtinsAOpitvUKra" data-callback="recaptchaCallback"></div>
+							<div class="g-recaptcha" id="gcap" data-sitekey="AIzaSyBgL1vzGUOPO56VY5J-y_aECyotp26dAho" data-callback="recaptchaCallback"></div>
 							</div>
 							<div class="col-lg-12 loginbutton">
 								<div class="col-lg-6 login-btm login-text">

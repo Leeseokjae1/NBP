@@ -240,8 +240,33 @@ nav {
     height: 500px;
     padding: 40px 0px 40px 0px;
   }
+  .liked-posts-container {
+      width: 100%;
+      display: flex;
+      padding: 10px 10px 10px 10px; 
+      margin:0px;
+      gap: 0px;
+    }
   #probox, #iconbox {
      align-self: flex-start;
+   }
+  .liked-post-box {
+      height: 160px;
+      display: flex;
+      width: 100%; 
+      margin: 0 0 20px 0 !important;
+   }
+   .post-image {
+       width: 150px;
+       height: 150px;
+       object-fit: cover;
+       margin-right: 5px; 
+       gap
+   }
+
+   .post-info {
+       flex: 1; 
+       text-align: left; 
    }
    @media screen and (max-width: 880px) {
     #iconbox {

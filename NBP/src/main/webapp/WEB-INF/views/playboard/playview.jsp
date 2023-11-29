@@ -256,7 +256,7 @@ writer = member.getNICKNAME();
         </tbody>
     </table>
 
-    <form method="post" action="plreplywrite">
+    <form id="playreply" method="get" action="plreplywrite" class="mb-3">
         <div class="form-group">
             <label for="nickname">댓글 작성자</label>
             <input type="text" class="form-control" value="${login.NICKNAME}" disabled />

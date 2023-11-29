@@ -5,10 +5,12 @@
 <%
 int m_number = 0;
 String writer = "";
+String role = "";
 if(session.getAttribute("login") != null){
 BuserDto member = (BuserDto)session.getAttribute("login");
 m_number = member.getM_NUMBER();
 writer = member.getNICKNAME();
+role = member.getBBANG();
 }
 %>
 <!DOCTYPE html>
@@ -101,6 +103,7 @@ writer = member.getNICKNAME();
     background: linear-gradient(to right, #ffffff, #e3dde1);
     border-radius: 0 0 10px 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    z-index:10;
   }
   #nav2 ul::before { 
     content: "";
@@ -198,7 +201,7 @@ writer = member.getNICKNAME();
                 <li class="page-item"><a class="page-link" href="b2page?Searchdata=${kw}&Searchfield=${bd}&page=${totalPage}">마지막</a></li>
             </c:if>
         </ul>
-        <%if(session.getAttribute("login") != null){ %>
+        <%if(session.getAttribute("login") != null && role.equals("ROLE_2")){ %>
         <p class="text-right mt-2"><a href="b2writeform?m_number=<%=m_number%>" class="btn btn-outline-info">글작성</a></p>
         <%} %>
     </nav>
