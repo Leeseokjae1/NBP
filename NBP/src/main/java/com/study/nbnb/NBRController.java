@@ -150,7 +150,7 @@ public class NBRController {
     @ResponseBody
     public ResponseEntity<List<B2Dto>> getB2List() {
         try {
-            List<B2Dto> list = b2dao.listDao(); // 모든 데이터를 가져옵니다.
+            List<B2Dto> list = b2dao.listDao(); 
 
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
@@ -303,76 +303,7 @@ public class NBRController {
     }
    
 //////////////////////////////////////////////////View//////////////////////////////////////////////////        
-
-
-//////////////////////////////////////////////////write//////////////////////////////////////////////////    
-//    
-//       @Value("${upload.directory}")
-//       private String uploadDirectory;
-//       
-//      private String uploadFile(MultipartFile file) throws IOException {
-//          if (!file.isEmpty()) {
-//              String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-//              String filePath = Paths.get(uploadDirectory, fileName).toString();
-//              Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
-//              return "/uploads/" + fileName;
-//          }
-//          return null;
-//      }
-//    
-//    @RequestMapping("/member/playwriteform")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>>playWriteForm(HttpServletRequest request, Model model) {
-//       Map<String, Object> response = new HashMap<>();   
-//       int m_number = Integer.parseInt(request.getParameter("m_number"));
-//       response.put("member", buserDao.selectUser(m_number));
-//       return ResponseEntity.ok(response);
-//       //"playboard/playwriteform";
-//    }
-//    
-//    
-//    @RequestMapping("/member/playwrite")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>>playWrite(@RequestParam("file") MultipartFile file,
-//                                           @RequestParam("m_number") int m_number,
-//                                           HttpServletRequest request,
-//                                           @Valid @ModelAttribute("playBoard") PlayDto playBoard, 
-//                                           BindingResult bindingResult) {
-//       Map<String, Object> response = new HashMap<>();    
-//       if (bindingResult.hasErrors()) {
-//          response.put("success", false);
-//            response.put("message", "Validation failed");
-//            return ResponseEntity.badRequest().body(response);
-//        }
-//      try {
-//         String writer = playBoard.getWriter();
-//         String title = playBoard.getTitle();
-//         String content = playBoard.getContent();
-//   
-//         String imageURL = "";
-//         if (file != null && !file.isEmpty()) {
-//            imageURL = uploadFile(file);
-//         }else {
-//            imageURL="/images/play.png";
-//         }
-//   
-//         playdao.writeDao(writer, title, content, imageURL, m_number);
-//   
-//         int f_number = playdao.selectDao();
-//         
-//         response.put("success", true);
-//           response.put("message", "Play written successfully");
-//           response.put("f_number", f_number);
-//           
-//       } catch (Exception e) {
-//              e.printStackTrace();
-//              response.put("success", false);
-//              response.put("message", "An error occurred");
-//       }
-//       return ResponseEntity.ok(response);
-//   }
-//    
-//    
+ 
 //////////////////////////////////////////////////delete//////////////////////////////////////////////////
     
 //////////////////////////////////////////////////list//////////////////////////////////////////////////
@@ -425,7 +356,6 @@ public class NBRController {
             HttpSession session = request.getSession();
 
             BuserDto bdto = (BuserDto) session.getAttribute("login");
-            System.out.println(bdto.getID());
 
             responseData.put("login", bdto);
             return new ResponseEntity<>(responseData, HttpStatus.OK);

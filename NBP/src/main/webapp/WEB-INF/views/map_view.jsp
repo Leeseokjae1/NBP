@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>지도 뷰</title>
+    <title>니빵내빵 지도 뷰</title>
       <meta charset="UTF-8">
    <!-- Required meta tags -->
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -361,4 +361,5 @@
     }
 </script>
 </body>
+
 </html>

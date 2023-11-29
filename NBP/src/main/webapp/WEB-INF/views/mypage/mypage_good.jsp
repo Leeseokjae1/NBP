@@ -3,15 +3,21 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <html>
 <head>
-   <title>Hello, world!</title>
+   <title>마이페이지 - 좋아요페이지</title>
      <meta charset="UTF-8">
-    <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <style>
+     #nav2 > a,
+	#nav2 > ul > li,
+	#nav2 > ul > li > a {
+	  color: #000; 
+	  font-size: 18px; 
+	  font-weight: bold;
+	}
    .test1 {
    
     }
@@ -61,7 +67,9 @@ nav {
        padding: 40px 300px 40px 300px;
        display: flex;
         align-items: center;
+        height:250px;
     }
+    
     #iconbox{
        padding: 0px 0px 0px 100px;
        height: 150px;
@@ -172,28 +180,107 @@ nav {
             color: #777;
         }
         .post-separator {
-          border-top: 1px solid #ccc; /* 선의 스타일 정의 */
-          margin: 10px 0; /* 필요에 따라 여백을 조절하세요 */
+          border-top: 1px solid #ccc;
+          margin: 10px 0;
       }
 
-</style>  
-
+      .menu-toggle {
+       position: absolute;
+       right: 0;
+       top: 0;
+       cursor: pointer;
+     }
+@media screen and (max-width: 1400px) {
+  nav {
+      width:100%;
+      margin:10px 0px 10px 0px;
+  }
+  #nav2 img {
+    position: absolute;
+    left: 0;
+    top: 0; 
+  }
+  #nav2 ul {
+    flex-direction: column;
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 0; 
+    width: 100%;  
+    background: linear-gradient(to right, #ffffff, #e3dde1);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  #nav2 ul::before { 
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffffff;
+  }
+  #nav2 ul li a {
+    color: #000000;
+  }
+  #nav2 ul li ul {
+    display: none;
+  }
+   #iconbox {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0px 0px 0px 0px;
+  }
+  .icons{
+   margin: 50px 50px 50px 50px; 
+  }
+  #topbox {
+    display: block;
+    flex-direction: column;
+    height: 500px;
+    padding: 40px 0px 40px 0px;
+  }
+  #probox, #iconbox {
+     align-self: flex-start;
+   }
+   @media screen and (max-width: 880px) {
+    #iconbox {
+       flex-wrap: wrap;
+       justify-content: space-around;
+       padding: 0px 0px 0px 0px;
+     }
+     .icons{
+      margin: 30px 30px 30px 30px; 
+     }
+     #topbox {
+       display: block;
+       flex-direction: column;
+       height: 660px;
+       padding: 40px 0px 40px 0px;
+     }
+   }
+}
+   </style>   
 </head>
 <body>
-
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+   <a href="/main">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;"></a>
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> --> 
+<div class="menu-toggle">☰</div>            
 <ul>
-         <li><a href="/main">HOME</a></li>
+		<%if(session.getAttribute("login") == null) {%>
          <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
          <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
          <li>${login.NICKNAME} 님</li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
@@ -203,7 +290,7 @@ nav {
        </ul>
       
    </nav>
-   <div id="topbox" style="background: #ffdcb8; height:250px;">
+   <div id="topbox" style="background: #ffdcb8;">
          <div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
         <div class="box" style="background: #fcecde;">
           <img class="profile" src="/img/yb.png" id="profile">
@@ -259,6 +346,25 @@ nav {
 
     </div>
 </script>
+<script>
+   document.querySelector('.menu-toggle').addEventListener('click', function() {
+        var nav = document.querySelector('#nav2 ul');
+        if (nav.style.display === 'none') {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+
+      document.querySelector('#nav2 ul li.board').addEventListener('click', function() {
+        var submenu = document.querySelector('#nav2 ul li ul');
+        if (submenu.style.display === 'none') {
+          submenu.style.display = 'block';
+        } else {
+          submenu.style.display = 'none';
+        }
+      });
+   </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

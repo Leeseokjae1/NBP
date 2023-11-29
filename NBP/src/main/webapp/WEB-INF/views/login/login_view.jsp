@@ -7,10 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client"></script>
 
 <script>
 

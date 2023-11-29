@@ -15,7 +15,7 @@
 	
 	<insert id="writeDao">
 		insert into commenttable
-		values (#{param1} ,playboard_seq.nextval, #{param2},#{param3}, sysdate, #{param4}, #{param5})
+		values (#{check_b}, comment_seq.nextval, #{m_number}, #{nickname}, sysdate, #{cmt}, #{t_number})
 	</insert>
 	
 	<update id ="modifyDao">

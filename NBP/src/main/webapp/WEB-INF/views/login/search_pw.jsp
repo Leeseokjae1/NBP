@@ -14,7 +14,6 @@
 
 <script>
 $(document).ready(function() {
-    // div_ck 변수를 다시 선언할 필요가 없습니다.
     $("#pw_group").css("display", "none");
     $("#id_group").css("display", "block");
 });

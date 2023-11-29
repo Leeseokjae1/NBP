@@ -34,6 +34,7 @@ public class WebSecurityConfig {
 				.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 				.requestMatchers("/").permitAll()
 				.requestMatchers("/css/**","/js/**","/img/**").permitAll()
+				.requestMatchers("/uploads/**","/upload/**","/image/**").permitAll()
 				.requestMatchers("/joinView").permitAll()
 				.requestMatchers("/userJoin").permitAll()
 				.requestMatchers("/search_id").permitAll()

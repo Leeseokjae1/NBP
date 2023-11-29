@@ -11,12 +11,10 @@ String password = login.getPASSWORD();
 Map<String, Object> responseData = new HashMap<>();
 String jsonResponse = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(responseData);
 %>
-<%= jsonResponse %>
 <html>
 <head>
-   <title>회원정보수정</title>
+   <title>마이페이지 - 회원정보수정</title>
      <meta charset="UTF-8">
-    <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     
@@ -129,7 +127,13 @@ String jsonResponse = new com.fasterxml.jackson.databind.ObjectMapper().writeVal
 	
 	</script>
 	<style>
-   
+	     #nav2 > a,
+	#nav2 > ul > li,
+	#nav2 > ul > li > a {
+	  color: #000; 
+	  font-size: 18px; 
+	  font-weight: bold;
+	}
     .carousel-inner > .carousel-item > img {
       /* width: 640px;
       height: 720px; */
@@ -176,7 +180,9 @@ nav {
     	padding: 40px 300px 40px 300px;
     	display: flex;
   		align-items: center;
+  		height:250px;
     }
+    
     #iconbox{
     	padding: 0px 0px 0px 100px;
     	height: 150px;
@@ -230,24 +236,103 @@ nav {
   justify-content: center;
 }
 
-</style>  
-
+      .menu-toggle {
+       position: absolute;
+       right: 0;
+       top: 0;
+       cursor: pointer;
+     }
+@media screen and (max-width: 1400px) {
+  nav {
+      width:100%;
+      margin:10px 0px 10px 0px;
+  }
+  #nav2 img {
+    position: absolute;
+    left: 0;
+    top: 0; 
+  }
+  #nav2 ul {
+    flex-direction: column;
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 0; 
+    width: 100%;  
+    background: linear-gradient(to right, #ffffff, #e3dde1);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  #nav2 ul::before { 
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 30px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffffff;
+  }
+  #nav2 ul li a {
+    color: #000000;
+  }
+  #nav2 ul li ul {
+    display: none;
+  }
+   #iconbox {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0px 0px 0px 0px;
+  }
+  .icons{
+   margin: 50px 50px 50px 50px; 
+  }
+  #topbox {
+    display: block;
+    flex-direction: column;
+    height: 500px;
+    padding: 40px 0px 40px 0px;
+  }
+  #probox, #iconbox {
+     align-self: flex-start;
+   }
+   @media screen and (max-width: 880px) {
+    #iconbox {
+       flex-wrap: wrap;
+       justify-content: space-around;
+       padding: 0px 0px 0px 0px;
+     }
+     .icons{
+      margin: 30px 30px 30px 30px; 
+     }
+     #topbox {
+       display: block;
+       flex-direction: column;
+       height: 660px;
+       padding: 40px 0px 40px 0px;
+     }
+   }
+}
+   </style>  
 </head>
 <body>
-
    <nav id="nav2">
-       <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;">
-<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> -->       
+   <a href="/main">
+      <img src= "/img/nblogo.png" style="width:190px; height:80px;float: left; margin-right: 10px;"></a>
+<!-- <a href="#" style="float: right; margin-top: 10px;margin-right: 10px;">로그인</a> --> 
+<div class="menu-toggle">☰</div>            
 <ul>
-         <li><a href="/main">HOME</a></li>
+		<%if(session.getAttribute("login") == null) {%>
          <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
          <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
          <li><a href="/rpage">랭킹빵</a></li>
          <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
-         <%if(session.getAttribute("login") == null) {%>
          <li><a href="/loginView">로그인</a></li>
          <%}else { %>
          <li>${login.NICKNAME} 님</li>
+         <li><a href="/member/b1page?page=1&Searchdata=&Searchfield=">니빵이</a></li>
+         <li><a href="/member/b2page?page=1&Searchdata=&Searchfield=">내빵이</a></li>
+         <li><a href="/rpage">랭킹빵</a></li>
+         <li><a href="/member/playpage?page=1&Searchdata=&Searchfield=">놀이빵</a></li>
          <li><a href="/mypage">MYPAGE</a></li>
          <li><a href="/logout">로그아웃</a></li>
          <%} %>
@@ -256,7 +341,7 @@ nav {
              <%}%>
        </ul>
    </nav>
-   <div id="topbox" style="background: #ffdcb8; height:250px;">
+   <div id="topbox" style="background: #ffdcb8;">
 	   	<div id="probox" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 		  <div class="box" style="background: #fcecde;">
 		    <img class="profile" src="/img/yb.png" id="profile">
@@ -299,8 +384,8 @@ nav {
 	  			<input type="hidden" id="pw2" name="pw2" value="<%= password %>">
 	  			<input type="hidden" id="test" name="test" value="${user.BBANG}">
 				<div class="form-group">
-					<input type="radio" name="BBANG" id ="ROLE_1" value="Role_1">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-					<input type="radio" name="BBANG" id ="ROLE_2" value="Role_2">&nbsp;<label class="form-control-label">니빵이</label>
+					<input type="radio" name="BBANG" id ="ROLE_1" value="ROLE_1">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
+					<input type="radio" name="BBANG" id ="ROLE_2" value="ROLE_2">&nbsp;<label class="form-control-label">니빵이</label>
 				</div>
 				<div class="form-group">
 					<label class="form-control-label">아이디</label>
@@ -374,6 +459,25 @@ nav {
            }
        });
     });
+   </script>
+   <script>
+   document.querySelector('.menu-toggle').addEventListener('click', function() {
+        var nav = document.querySelector('#nav2 ul');
+        if (nav.style.display === 'none') {
+          nav.style.display = 'block';
+        } else {
+          nav.style.display = 'none';
+        }
+      });
+
+      document.querySelector('#nav2 ul li.board').addEventListener('click', function() {
+        var submenu = document.querySelector('#nav2 ul li ul');
+        if (submenu.style.display === 'none') {
+          submenu.style.display = 'block';
+        } else {
+          submenu.style.display = 'none';
+        }
+      });
    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
