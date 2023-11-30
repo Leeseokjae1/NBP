@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Les5h8pAAAAAE3rpx19KV_omuiqG_1NMyAKnMan" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" >
 <script src="https://accounts.google.com/gsi/client"></script>
 
@@ -162,55 +162,24 @@ label {
 }
 </style>
 </head>
-<body>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-3 col-md-2"></div>
-			<div class="col-lg-6 col-md-8 login-box">
-				<div class="col-lg-12 login-title">Login</div>
 
-				<div class="col-lg-12 login-form">
-					<div class="col-lg-12 login-form">
-						<c:url value="j_spring_security_check" var="loginUrl"/>
-						<form id="login_form" name="login_form" action="${loginUrl}" method="post">
-							<div class="form-group">
-								<c:if test="${param.error!=null}">
-									<p style="color:#FFF">
-										Login Error! <br/>
-										${error_message}
-									</p>
-								</c:if>
-							</div>
-							<div class="form-group">
-								<label class="form-control-label">ID</label> 
-								<input type="text" class="form-control" id="id" name="id" value="${username}">
-							</div>
-							<div class="form-group">
-								<label class="form-control-label">PASSWORD</label> 
-								<input type="password" class="form-control" id="password" name="password">
-							</div>
-							<div class="col-lg-12" style="margin-bottom:40px;">
-							</div>
-							<div class="col-lg-12 loginbutton">
-								<div class="col-lg-6 login-btm login-text">
-									<a href="/oauth2/authorization/google">Google Login</a>
-								</div>
-								<div class="col-lg-6 login-btm login-button">
-									<input type="button" class="btn btn-outline-primary" value="로그인" id="capok" onclick="form_check()" />
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				
-				<div class="col-lg-3 col-md-2"></div>
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-12" style="text-align: center; margin: 10px auto">
-		<a href="../joinView"><label class="form-control-label yws" >회원가입</label></a> &nbsp;
-		<a href="../search_id"><label class="form-control-label yws">아이디 찾기</label></a> &nbsp;
-		<a href="../search_pw"><label class="form-control-label yws">패스워드 찾기</label></a>
-	</div>
+
+<body>
+
+<div>
+	<input type = "text" id="loginId" name="memberId" placeholder="a@b.c" style="width:250px; height:30px;">
+</div>
+<div>
+	<input type = "password" id="loginPw" name="memberPw" placeholder="비밀번호" style="width:250px; height:30px;">
+</div>
+
+<!-- reCAPTCHA 등록 -->
+<div id="g-recaptcha"></div>
+<br>
+
+<div>
+	<input type="button" class="disabled-btn" id="loginBtn" value="로그인" disabled>
+</div>
+
 </body>
 </html>

@@ -6,55 +6,25 @@
 <mapper namespace="com.study.nbnb.dao.GoodDao">
     <select id="getgoodpost" resultType="com.study.nbnb.dto.GoodDto">
         SELECT 
-          combined_table.boardname,
-          combined_table.title,
-          combined_table.content,
-          combined_table.image
-      FROM (
-          SELECT 
-              b1_number AS no,
-              'b1board' AS boardname,
-              title,
-              content,
-              IMAGEURL1 as image,
-              writer,
-              b_like AS good,
-              b_dislike AS bad,
-              time
-          FROM b1board
-      
-          UNION ALL
-      
-          SELECT 
-              b2_number AS no,
-              'b2board' AS boardname,
-              title,
-              content,
-              IMAGEURL1 as image,
-              writer,
-              b_like AS good,
-              b_dislike AS bad,
-              time
-          FROM b2board
-      
-          UNION ALL
-      
-          SELECT 
-              f_number AS no,
-              'playboard' AS boardname,
-              title,
-              content,
-              IMAGEURL as image,
-              writer,
-              b_like AS good,
-              b_dislike AS bad,
-              time
-          FROM playboard
-      ) combined_table
-      
-      JOIN liketable ON combined_table.no = liketable.t_number
-      WHERE combined_table.boardname IN ('b1board', 'b2board', 'playboard')
-          AND liketable.m_number = ${param1}
-          AND liketable.l_or_dl = 1
+    CASE
+        WHEN liketable.check_b = 1 THEN b1board.title
+        WHEN liketable.check_b = 2 THEN b2board.title
+        WHEN liketable.check_b = 3 THEN playboard.title
+    END AS title,
+    CASE
+        WHEN liketable.check_b = 1 THEN b1board.content
+        WHEN liketable.check_b = 2 THEN b2board.content
+        WHEN liketable.check_b = 3 THEN playboard.content
+    END AS content,
+    CASE
+        WHEN liketable.check_b = 1 THEN b1board.IMAGEURL1
+        WHEN liketable.check_b = 2 THEN b2board.IMAGEURL1
+        WHEN liketable.check_b = 3 THEN playboard.IMAGEURL
+    END AS image
+		FROM liketable
+		LEFT JOIN b1board ON liketable.t_number = b1board.b1_number AND liketable.check_b = 1
+		LEFT JOIN b2board ON liketable.t_number = b2board.b2_number AND liketable.check_b = 2
+		LEFT JOIN playboard ON liketable.t_number = playboard.f_number AND liketable.check_b = 3
+		WHERE liketable.m_number = ${param} AND liketable.l_or_dl = 1
     </select>
 </mapper>

@@ -265,8 +265,7 @@
         }
          document.Searchform.submit();
    }
-
-       
+     
    changeSearchOptions();
    </script>
 
@@ -311,26 +310,26 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach items="${list}" var="list">
+            <c:forEach items="${list}" var="item" varStatus="status">
                 <tr>
-                    <th scope="row">${list.buy_number}</th>                    
-                    <td>${list.m_number}</td>
-                    <td>${list.ticket}</td>
-                    <td>${list.t_count}</td>
-                    <td>${list.t_price}</td>
-                    <td>${list.b_date}</td>
-                    <td>${list.t_cancel}</td>
+                    <th scope="row">${item.buy_number}</th>                    
+                    <td>${item.m_number}</td>
+                    <td>${shoplist[(status.index)+(page-1)*8].ticket}</td>
+                    <td>${item.t_count}</td>
+                    <td>${item.t_price}</td>
+                    <td>${item.b_date}</td>
+                    <td>${item.t_cancel}</td>
                     <td>
                        <c:choose>
-                       <c:when test="${list.t_cancel eq 'approve'}">
+                       <c:when test="${item.t_cancel eq 'approve'}">
                            취소 완료
                        </c:when>
-                        <c:when test="${list.t_cancel eq 'refuse'}">
+                        <c:when test="${item.t_cancel eq 'refuse'}">
                            취소 거절
                        </c:when>
                        <c:otherwise>
-                           <a href="approveCancel?buy_number=${list.buy_number}&m_number=${list.m_number}">취소 </a>/
-                           <a href="refuseCancel?buy_number=${list.buy_number}&m_number=${list.m_number}">취소 거부</a>
+                           <a href="approveCancel?buy_number=${item.buy_number}&m_number=${item.m_number}">취소 </a>/
+                           <a href="refuseCancel?buy_number=${item.buy_number}&m_number=${item.m_number}">취소 거부</a>
                        </c:otherwise>
                    </c:choose>
                   </td>

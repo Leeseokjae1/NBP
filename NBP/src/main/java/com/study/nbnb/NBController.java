@@ -358,7 +358,7 @@ public class NBController {
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
-			return "b1board/b1writeform";
+			return "redirect:b1page?page=1&Searchdata=&Searchfield=";
 		}
 		try {
 			String writer = b1Board.getWriter();
@@ -661,7 +661,7 @@ public class NBController {
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
-			return "b2board/b2writeform";
+			return "redirect:b2page?page=1&Searchdata=&Searchfield=";
 		}
 		try {
 			String writer = request.getParameter("writer");
@@ -970,7 +970,7 @@ public class NBController {
 		if (bindingResult.hasErrors()) {
 			// validation 실패
 			System.out.println("validation에 실패했습니다.");
-			return "b1board/b1writeform";
+			return "redirect:playpage?page=1&Searchdata=&Searchfield=";
 		}
 		try {
 			String writer = playBoard.getWriter();

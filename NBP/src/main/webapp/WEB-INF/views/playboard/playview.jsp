@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@ page import="com.study.nbnb.dto.BuserDto" %>
+<%@ page import="com.study.nbnb.dto.CommentDto" %>
 <%@ page import="com.study.nbnb.dto.PlayDto" %>
 <%
 PlayDto view = (PlayDto)session.getAttribute("playdto");
@@ -250,13 +251,20 @@ writer = member.getNICKNAME();
             <tr>
                 <td>${comment.nickname}</td>
                 <td>${comment.cmt}</td>
-                <td><a href="replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
-            </tr>
+                 <c:choose>
+		            <c:when test="${login.m_NUMBER eq comment.m_number}">
+		                <td><a href="replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
+		            </c:when>
+		            <c:otherwise>
+		                <td></td>
+		            </c:otherwise>
+		        </c:choose>
+           </tr>
         </c:forEach>
         </tbody>
     </table>
 
-    <form id="playreply" method="get" action="plreplywrite" class="mb-3">
+    <form id="playreply" method="post" action="plreplywrite" class="mb-3">
         <div class="form-group">
             <label for="nickname">댓글 작성자</label>
             <input type="text" class="form-control" value="${login.NICKNAME}" disabled />

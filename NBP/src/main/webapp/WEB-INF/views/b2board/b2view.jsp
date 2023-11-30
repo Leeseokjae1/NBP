@@ -260,13 +260,20 @@ writer = member.getNICKNAME();
                     <tr>
                         <td>${comment.nickname}</td>
                         <td>${comment.cmt}</td>
-                        <td><a href="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
+                        <c:choose>
+		            <c:when test="${login.m_NUMBER eq comment.m_number}">
+		                <td><a href="b2replydelete?c_number=${comment.c_number}&t_number=${comment.t_number}" class="btn btn-outline-danger">X</a></td>
+		            </c:when>
+		            <c:otherwise>
+		                <td></td>
+		            </c:otherwise>
+		        </c:choose>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
 
-		 <form id="b2reply" method="get" action="b2replywrite" class="mb-3">
+		 <form id="b2reply" method="post" action="b2replywrite" class="mb-3">
 		    <p>
 		        <label>댓글 작성자 :</label>
 		        <input type="text" class="form-control" value="<%=writer%>" disabled />

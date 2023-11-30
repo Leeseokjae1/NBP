@@ -302,28 +302,6 @@ nav {
         }
       });
    </script>
-   
-      <script>
-      $(document).ready(function () {
-         // Function to toggle middlebox visibility
-         function toggleMiddlebox() {
-            var middlebox = $("#middlebox");
-            if ($(window).width() <= 1100) {
-               middlebox.show();
-            } else {
-               middlebox.hide();
-            }
-         }
-
-         // Initial toggle
-         toggleMiddlebox();
-
-         // Toggle middlebox on window resize
-         $(window).resize(function () {
-            toggleMiddlebox();
-         });
-      });
-   </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

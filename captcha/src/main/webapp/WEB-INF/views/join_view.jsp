@@ -7,11 +7,12 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"crossorigin="anonymous">
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b38572f5de0a09cbaa96703ebb627d1&libraries=services"></script>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Les5h8pAAAAAE3rpx19KV_omuiqG_1NMyAKnMan" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 	function handleCredentialResponse(response) {
@@ -345,13 +346,13 @@ label {
                 <div class="col-lg-12 login-form">
                     <div class="col-lg-12 login-form">
                         <form id="join_form" name="join_form" action="userJoin" method="post">
-                           <div class="form-group">
+                        	<div class="form-group">
                                 <input type="radio" name="BBANG" value="1" checked="checked">&nbsp;<label class="form-control-label">내빵이</label>&nbsp;
-                        <input type="radio" name="BBANG" value="2">&nbsp;<label class="form-control-label">니빵이</label>
+								<input type="radio" name="BBANG" value="2">&nbsp;<label class="form-control-label">니빵이</label>
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">아이디</label>
-                                <input type="text" id="ID" name="ID" class="form-control" autocomplete='off'>
+                                <input type="text" id="ID" name="ID" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">비밀번호</label>
@@ -363,13 +364,13 @@ label {
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">이름</label>
-                                <input type="text" id="NAME" name="NAME" size="20" class="form-control" autocomplete='off'>
+                                <input type="text" id="NAME" name="NAME" size="20" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">닉네임</label>
-                                <input type="text" id="NICKNAME" name="NICKNAME" size="20" class="form-control" autocomplete='off'>
+                                <input type="text" id="NICKNAME" name="NICKNAME" size="20" class="form-control">
                             </div>
-                     
+							
                             <div class="form-group">
                                 <select id="phone1" name="phone1" class="form-control" style="width:20%; display: inline-block; padding: 0px 10px;">
                                     <option value="010">010</option>
@@ -380,38 +381,39 @@ label {
                                     <option value="011">011</option>
                                     </select>
                                     -
-                                    <input type="text" style="width:35%; display: inline-block;" autocomplete='off' class="form-control" id="phone2" name="phone2" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" style="width:35%; display: inline-block;" class="form-control" id="phone2" name="phone2" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                                     - 
-                                    <input type="text" style="width:35%; display: inline-block;" autocomplete='off' class="form-control" id="phone3" name="phone3" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    <input type="text" style="width:35%; display: inline-block;" class="form-control" id="phone3" name="phone3" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">이메일</label>
-                                <input type="text" style="background-color: #1A2226;" autocomplete='off' id="EMAIL_check" name="EMAIL_check" class="form-control">
+                                <input type="text" id="EMAIL_check" name="EMAIL_check" class="form-control">
                                 <input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()">
                                 <input type="hidden" id="EMAIL" name="EMAIL"> 
                             </div>
                              <div class="form-group">
                                 <label class="form-control-label">인증번호</label>
-                                <input type="text" style="background-color: #1A2226;" autocomplete='off' id="e_check" name="e_check" class="form-control">
+                                <input type="text" id="e_check" name="e_check" class="form-control">
                                 <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">주소</label>
-                                <input type="text" class="form-control" id="ADDRESS" autocomplete='off' name="ADDRESS" size="50"> 
+                                <input type="text" class="form-control" id="ADDRESS" name="ADDRESS" size="50"> 
                                 <input type="button" class="btn btn-outline-primary" onclick="execDaumPostcode()" value="주소 검색">
                             </div>
                             <div class="col-lg-12" style="margin-bottom:40px;">
+                                <div class="g-recaptcha" id="gcap" data-sitekey="AIzaSyAF4s4oslwIdwzKK7eQeiIWdwIdT6aLdj0" data-callback="recaptchaCallback"></div>
                                 </div>
                            
                             <div class="col-lg-12 loginbttm">
-                        <div class="col-lg-6 login-btm login-text">
-                           <a href="/oauth2/authorization/google">Google Login</a>
-                        </div>
-                        <div class="col-lg-6 login-btm login-button">
+								<div class="col-lg-6 login-btm login-text">
+									<a href="/oauth2/authorization/google">Google Login</a>
+								</div>
+								<div class="col-lg-6 login-btm login-button">
                                     <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()" disabled>
                                 </div>
-                        
-                     </div>
+								
+							</div>
                         </form>
                     </div>
                 </div>
