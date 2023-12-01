@@ -319,7 +319,10 @@
                     <td>${item.t_price}</td>
                     <td>${item.b_date}</td>
                     <td>${item.t_cancel}</td>
+                    
                     <td>
+                    
+                    
                        <c:choose>
                        <c:when test="${item.t_cancel eq 'approve'}">
                            취소 완료
@@ -330,6 +333,7 @@
                        <c:otherwise>
                            <a href="approveCancel?buy_number=${item.buy_number}&m_number=${item.m_number}">취소 </a>/
                            <a href="refuseCancel?buy_number=${item.buy_number}&m_number=${item.m_number}">취소 거부</a>
+                           
                        </c:otherwise>
                    </c:choose>
                   </td>

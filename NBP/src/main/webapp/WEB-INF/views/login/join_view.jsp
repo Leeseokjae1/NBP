@@ -386,13 +386,13 @@ label {
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label">이메일</label>
-                                <input type="text" style="background-color: #1A2226;" autocomplete='off' id="EMAIL_check" name="EMAIL_check" class="form-control">
+                                <input type="text" autocomplete='off' id="EMAIL_check" name="EMAIL_check" class="form-control">
                                 <input type="button" id="check_id" name="check_id" value="전송" onclick="email_check()">
                                 <input type="hidden" id="EMAIL" name="EMAIL"> 
                             </div>
                              <div class="form-group">
                                 <label class="form-control-label">인증번호</label>
-                                <input type="text" style="background-color: #1A2226;" autocomplete='off' id="e_check" name="e_check" class="form-control">
+                                <input type="text"  autocomplete='off' id="e_check" name="e_check" class="form-control">
                                 <input type="button" id="e_check2" name="e_check2" value="확인" onclick="check2()">
                             </div>
                             <div class="form-group">
@@ -408,7 +408,7 @@ label {
                            <a href="/oauth2/authorization/google">Google Login</a>
                         </div>
                         <div class="col-lg-6 login-btm login-button">
-                                    <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()" disabled>
+                                    <input type="button" class="btn btn-outline-primary" value="회원가입" id="capok"onclick="form_check()"/>
                                 </div>
                         
                      </div>

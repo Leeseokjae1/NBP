@@ -1425,7 +1425,8 @@ public class NBController {
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
-
+		model.addAttribute("shoplist", shopDao.listDao2());
+		
 		return "adminboard/adminshop";
 
 	}
@@ -1456,6 +1457,7 @@ public class NBController {
 		model.addAttribute("list", list);
 		model.addAttribute("totalPage", totalPage);
 		model.addAttribute("page", page);
+		model.addAttribute("shoplist", shopDao.listDao2());
 
 		return "adminboard/adminshop";
 	}
